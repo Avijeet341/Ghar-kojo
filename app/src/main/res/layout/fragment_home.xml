@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:elevation="8dp"
         android:padding="10dp"
-        android:text="Find your dream home"
+        android:text="@string/find_your_dream_home"
         android:textSize="24sp"
         android:textColor="@color/black"
         android:background="@drawable/rounded_bottom_corners"

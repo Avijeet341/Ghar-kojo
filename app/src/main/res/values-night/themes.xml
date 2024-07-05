@@ -3,5 +3,19 @@
     <style name="Base.Theme.GharKhojo" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:statusBarColor">@color/your_status_bar_color</item>
+        <item name="colorPrimary">@color/your_status_bar_color</item>  </style>
+
+
+    <style name="InfinityWallsAvi" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:statusBarColor">@color/your_status_bar_color</item>
+        <item name="colorPrimary">@color/your_status_bar_color</item>   <!-- color for action bars-->
+    </style>
+
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <item name="android:statusBarColor">@color/your_status_bar_color</item>
     </style>
 </resources>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "267557886464",
+    "project_id": "gharkhojo-61e80",
+    "storage_bucket": "gharkhojo-61e80.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:267557886464:android:847baf4530742e778dd6e5",
+        "android_client_info": {
+          "package_name": "com.avi.gharkhojo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgFHN-lPVaDOMKjfYdertopu3zhIZvS4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

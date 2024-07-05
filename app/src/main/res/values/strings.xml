@@ -1,8 +1,11 @@
 <resources>
+    <string name="default_web_client_id" translatable="false">267557886464-iiunpsvao8ugtqf6e5lrh6cpodif91cl.apps.googleusercontent.com</string>
     <string name="app_name">GharKhojo</string>
     <string name="home">Home</string>
     <string name="search">search</string>
     <string name="Cart">Cart</string>
+    <string name="account">Don\'t you have a account yet?<font color="@color/black"><b><u><i>Sign Up</i></u></b></font></string>
+    <string name="forgot_password"><u>I forgot my password</u></string>
     <string name="Profile">Profile</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -13,4 +16,15 @@
     <string name="_2_bhk">2 BHK</string>
     <string name="rent_10000">Rent: 10000</string>
     <string name="are_you_sure_you_want_to_exit_the_app">Are you sure you want to exit the app?</string>
+    <string name="find_your_dream_home">Find your dream home</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="please_log_in">Please, Log In.</string>
+    <string name="email">Email</string>
+    <string name="or">Or</string>
+    <string name="continue_with">Continue With</string>
+    <string name="google">Google</string>
+    <string name="password">Password</string>
+    <string name="facebook">Facebook</string>
+    <string name="login">Login</string>
+    <string name="sign_out">Sign Out</string>
 </resources>

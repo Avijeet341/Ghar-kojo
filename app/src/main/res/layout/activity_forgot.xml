@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradiant_list"
+    tools:context=".ForgotActivity">
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/shapeableImageskullView"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="10dp"
+        android:elevation="40dp"
+        android:padding="5dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/cry_women"
+        app:contentPaddingTop="230dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/foxbiro"
+        app:strokeColor="@color/white"
+        app:strokeWidth="4dp" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:fontFamily="@font/lato_bold"
+        android:text="Don't Worry!"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/shapeableImageskullView"
+        app:layout_constraintStart_toStartOf="@+id/shapeableImageskullView"
+        app:layout_constraintTop_toBottomOf="@+id/shapeableImageskullView" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:elevation="5dp"
+        android:fontFamily="@font/lato_extra_bold"
+        android:text="Forgot your password?"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:elevation="10dp"
+        android:fontFamily="@font/lato_bold"
+        android:text="Enter your email address to \n   retrieve your password."
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_email"
+        android:layout_width="325dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/edittextshape"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintStart_toStartOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/TextInputLayoutNoBorder"
+            android:layout_width="325dp"
+            android:layout_height="57dp"
+            android:background="@drawable/edittextshape"
+            app:boxBackgroundMode="none"
+            app:startIconDrawable="@drawable/mail"
+            app:startIconTint="@color/black">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextViewEmailResetPassword"
+                android:layout_width="325dp"
+                android:layout_height="57dp"
+                android:fontFamily="@font/lato_regular"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/black"
+                android:textColorHint="@android:color/darker_gray" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonResetPassword"
+        android:layout_width="280dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/gradiant_btn_login"
+        android:elevation="5dp"
+        android:fontFamily="@font/lato_bold"
+        android:text="Reset My Password"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv_email" />
+
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_circularSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:indicatorColor="#2196f3"
+        app:indicatorSize="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonResetPassword"
+        app:trackCornerRadius="10dp"
+        app:trackThickness="7dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

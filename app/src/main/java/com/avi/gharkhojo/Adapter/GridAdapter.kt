@@ -22,7 +22,7 @@ class GridAdapter(
 
             // Load the display picture
             Glide.with(gridItemBinding.displayPicture.context)
-                .load(R.drawable.kk) // Replace with the appropriate drawable resource
+                .load(R.drawable.kk)
                 .into(gridItemBinding.displayPicture)
 
             // Set the rent text with the fixed prefix "Rent: "

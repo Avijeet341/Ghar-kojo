@@ -27,6 +27,9 @@ class Home : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupStaggeredGridView()
+        binding.textViewHeader.apply {
+
+        }
     }
 
     private fun setupStaggeredGridView() {

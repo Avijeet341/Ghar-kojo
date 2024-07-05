@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.avi.gharkhojo" />
+                  <option name="mobileSdkAppId" value="1:267557886464:android:847baf4530742e778dd6e5" />
+                  <option name="projectId" value="gharkhojo-61e80" />
+                  <option name="projectNumber" value="267557886464" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
