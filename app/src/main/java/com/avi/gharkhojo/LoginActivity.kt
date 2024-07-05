@@ -140,7 +140,7 @@ class LoginActivity : AppCompatActivity() {
     private fun navigateTo(activityClass: Class<*>) {
         val intent = Intent(this, activityClass)
         startActivity(intent)
-        //finish()
+        finish()
     }
 
     private fun showToast(message: String) {
