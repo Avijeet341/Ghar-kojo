@@ -22,10 +22,14 @@
 
     <Button
         android:id="@+id/buttonSignOut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="152dp"
+        android:layout_height="57dp"
         android:layout_marginTop="32dp"
+        android:background="@drawable/gradiant_btn_login"
+        android:fontFamily="@font/montserrat_bold"
         android:text="@string/sign_out"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
