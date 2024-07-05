@@ -8,7 +8,23 @@
     android:background="@color/white"
     tools:context=".Fragments.Profile">
 
-    <!-- TODO: Update blank fragment layout -->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ProfilePic"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:elevation="40dp"
+        android:padding="5dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fox3"
+        app:contentPaddingTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:shapeAppearanceOverlay="@style/foxbiro"
+        app:strokeColor="@color/white"
+        app:strokeWidth="4dp" />
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
@@ -22,18 +38,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/textViewUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ProfilePic"
+        android:layout_centerHorizontal="true"
+        android:text="Username"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/ProfilePic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        tools:ignore="RelativeOverlap"/>
+
+    <TextView
+        android:id="@+id/textViewUserId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewUsername"
+        android:layout_centerHorizontal="true"
+
+        android:text="User ID"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/textViewUsername"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        tools:ignore="RelativeOverlap"/>
+
     <Button
         android:id="@+id/buttonSignOut"
         android:layout_width="152dp"
         android:layout_height="57dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/gradiant_btn_login"
         android:fontFamily="@font/montserrat_bold"
         android:text="@string/sign_out"
         android:textColor="@color/white"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

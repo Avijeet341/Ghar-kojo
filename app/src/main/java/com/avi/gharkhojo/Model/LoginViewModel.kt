@@ -1,4 +1,5 @@
 package com.avi.gharkhojo.Model
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,7 +20,11 @@ class LoginViewModel : ViewModel() {
         if (email.isNotEmpty() && pass.isNotEmpty()) {
             firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    _loginState.value = LoginState.Success
+                    val user = firebaseAuth.currentUser
+                    val userData = user?.let {
+                        UserData(it.uid, it.displayName, it.photoUrl?.toString())
+                    }
+                    _loginState.value = LoginState.Success(userData)
                 } else {
                     _loginState.value = LoginState.Error(task.exception?.message ?: "Login failed.")
                 }
@@ -33,7 +38,11 @@ class LoginViewModel : ViewModel() {
         val authCredential = GoogleAuthProvider.getCredential(account.idToken, null)
         firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                _loginState.value = LoginState.Success
+                val user = firebaseAuth.currentUser
+                val userData = user?.let {
+                    UserData(it.uid, it.displayName, it.photoUrl?.toString())
+                }
+                _loginState.value = LoginState.Success(userData)
             } else {
                 _loginState.value = LoginState.Error("Google sign-in failed.")
             }
@@ -45,7 +54,7 @@ class LoginViewModel : ViewModel() {
     }
 
     sealed class LoginState {
-        object Success : LoginState()
+        data class Success(val userData: UserData?) : LoginState()
         data class Error(val message: String) : LoginState()
         object Idle : LoginState()
     }

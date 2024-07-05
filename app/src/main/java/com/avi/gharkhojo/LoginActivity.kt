@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.avi.gharkhojo.Model.LoginViewModel
+import com.avi.gharkhojo.Model.SharedViewModel
 import com.avi.gharkhojo.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -30,6 +31,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var viewModel: LoginViewModel
+    private lateinit var sharedViewModel: SharedViewModel
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +40,8 @@ class LoginActivity : AppCompatActivity() {
         setContentView(loginBinding.root)
 
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
+
         setupWindowInsets()
         setupUI()
         observeViewModel()
@@ -62,7 +66,6 @@ class LoginActivity : AppCompatActivity() {
         animationDrawable.start()
     }
 
-
     private fun setupWindowInsets() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.your_status_bar_color)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -86,10 +89,10 @@ class LoginActivity : AppCompatActivity() {
                 // Add Facebook login logic here
             }
             SignUptextView.setOnClickListener {
-                 navigateTo(SignUpActivity::class.java)
+                navigateTo(SignUpActivity::class.java)
             }
             forgetMyPasstextView.setOnClickListener {
-                 navigateTo(ForgotActivity::class.java)
+                navigateTo(ForgotActivity::class.java)
             }
         }
     }
@@ -99,6 +102,7 @@ class LoginActivity : AppCompatActivity() {
             when (state) {
                 is LoginViewModel.LoginState.Success -> {
                     showToast("Welcome Guys 💕🎇🎉🎊")
+                    state.userData?.let { sharedViewModel.setUserData(it) }
                     navigateTo(MainActivity::class.java)
                 }
                 is LoginViewModel.LoginState.Error -> {

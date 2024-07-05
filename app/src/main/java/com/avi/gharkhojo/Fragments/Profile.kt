@@ -7,26 +7,53 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.avi.gharkhojo.LoginActivity
+import com.avi.gharkhojo.Model.SharedViewModel
+import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentProfileBinding
+import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 
 class Profile : Fragment() {
-    private lateinit var profileBinding: FragmentProfileBinding
+
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        profileBinding = FragmentProfileBinding.inflate(inflater, container, false)
+    ): View {
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        profileBinding.buttonSignOut.setOnClickListener {
-            signOut()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        sharedViewModel.userData.observe(viewLifecycleOwner) { userData ->
+            if (userData == null) {
+                Toast.makeText(requireContext(), "User data is null.", Toast.LENGTH_SHORT).show()
+                return@observe
+            }
+
+            binding.textViewUsername.text = userData.username ?: "No username available"
+            binding.textViewUserId.text = userData.userId
+            if (userData.profilePictureUrl != null) {
+                Glide.with(this)
+                    .load(userData.profilePictureUrl)
+                    .into(binding.ProfilePic)
+            } else {
+                binding.ProfilePic.setImageResource(R.drawable.kk)
+            }
         }
 
-        return profileBinding.root
+        binding.buttonSignOut.setOnClickListener {
+            signOut()
+        }
     }
 
     private fun signOut() {
@@ -49,5 +76,10 @@ class Profile : Fragment() {
                 Toast.makeText(requireContext(), "Sign Out failed. Please try again.", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
