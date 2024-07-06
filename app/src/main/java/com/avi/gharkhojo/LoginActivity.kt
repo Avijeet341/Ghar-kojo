@@ -1,5 +1,4 @@
 package com.avi.gharkhojo
-
 import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
 import android.os.Build
@@ -8,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.OptIn
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -15,6 +15,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
 import com.avi.gharkhojo.Model.LoginViewModel
 import com.avi.gharkhojo.Model.SharedViewModel
 import com.avi.gharkhojo.databinding.ActivityLoginBinding
@@ -31,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var viewModel: LoginViewModel
-    private lateinit var sharedViewModel: SharedViewModel
+
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +42,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(loginBinding.root)
 
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-        sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
 
         setupWindowInsets()
         setupUI()
@@ -97,12 +98,13 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    @OptIn(UnstableApi::class)
     private fun observeViewModel() {
         viewModel.loginState.observe(this) { state ->
             when (state) {
                 is LoginViewModel.LoginState.Success -> {
                     showToast("Welcome Guys 💕🎇🎉🎊")
-                    state.userData?.let { sharedViewModel.setUserData(it) }
+
                     navigateTo(MainActivity::class.java)
                 }
                 is LoginViewModel.LoginState.Error -> {

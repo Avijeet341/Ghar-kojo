@@ -2,6 +2,7 @@ package com.avi.gharkhojo.Fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ class Profile : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val firebaseAuth:FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,26 +36,24 @@ class Profile : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedViewModel.userData.observe(viewLifecycleOwner) { userData ->
-            if (userData == null) {
-                Toast.makeText(requireContext(), "User data is null.", Toast.LENGTH_SHORT).show()
-                return@observe
-            }
-
-            binding.textViewUsername.text = userData.username ?: "No username available"
-            binding.textViewUserId.text = userData.userId
-            if (userData.profilePictureUrl != null) {
-                Glide.with(this)
-                    .load(userData.profilePictureUrl)
-                    .into(binding.ProfilePic)
-            } else {
-                binding.ProfilePic.setImageResource(R.drawable.kk)
-            }
-        }
+        Glide.with(this)
+            .load(firebaseAuth.currentUser?.photoUrl)
+            .placeholder(R.drawable.india)
+            .error(R.drawable.background2)
+            .into(binding.ProfilePic)
 
         binding.buttonSignOut.setOnClickListener {
             signOut()
         }
+
+        binding.textViewUsername.text = firebaseAuth.currentUser?.let {
+            if(it.displayName.isNullOrEmpty()) {
+                "UserName"
+            }
+            else{
+                it.displayName
+            }
+         }.toString()
     }
 
     private fun signOut() {

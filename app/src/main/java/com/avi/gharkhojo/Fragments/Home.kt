@@ -43,6 +43,16 @@ class Home : Fragment() {
 
     private fun createGridList(): ArrayList<GridItem> {
         return arrayListOf(
+            GridItem(R.drawable.house,"5000","3"),
+            GridItem(R.drawable.hall,"5000","3"),
+            GridItem(R.drawable.bedroom,"5000","3"),
+            GridItem(R.drawable.entry,"5000","3"),
+            GridItem(R.drawable.base,"5000","3"),
+            GridItem(R.drawable.living,"5000","3"),
+            GridItem(R.drawable.bath,"5000","3"),
+            GridItem(R.drawable.shoe,"5000","3"),
+            GridItem(R.drawable.room_view_2,"5000","3"),
+            GridItem(R.drawable.room_view_3,"5000","3"),
             GridItem(R.drawable.spider3, "10000", "2"),
             GridItem(R.drawable.hashira, "12000", "3"),
             GridItem(R.drawable.india, "9000", "2"),

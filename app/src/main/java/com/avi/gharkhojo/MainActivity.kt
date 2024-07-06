@@ -2,14 +2,18 @@ package com.avi.gharkhojo
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.avi.gharkhojo.Model.SharedViewModel
 import com.avi.gharkhojo.databinding.ActivityMainBinding
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
@@ -21,9 +25,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
-        val view = mainBinding.root
-        setContentView(view)
+        setContentView(mainBinding.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        Log.d("MainActivity", "User data updated:")
+
+        // Log user data changes in SharedViewModel
+
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
@@ -101,6 +108,4 @@ class MainActivity : AppCompatActivity() {
             dialog.dismiss()
         }
     }
-
-
 }

@@ -22,7 +22,7 @@ class LoginViewModel : ViewModel() {
                 if (task.isSuccessful) {
                     val user = firebaseAuth.currentUser
                     val userData = user?.let {
-                        UserData(it.uid, it.displayName, it.photoUrl?.toString())
+                        UserData(it.uid, it.displayName ?: "No username", it.photoUrl?.toString() ?: "")
                     }
                     _loginState.value = LoginState.Success(userData)
                 } else {
@@ -40,7 +40,7 @@ class LoginViewModel : ViewModel() {
             if (task.isSuccessful) {
                 val user = firebaseAuth.currentUser
                 val userData = user?.let {
-                    UserData(it.uid, it.displayName, it.photoUrl?.toString())
+                    UserData(it.uid, it.displayName ?: "No username", it.photoUrl?.toString() ?: "")
                 }
                 _loginState.value = LoginState.Success(userData)
             } else {
