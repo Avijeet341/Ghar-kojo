@@ -118,6 +118,7 @@ class MainActivity : AppCompatActivity() {
             .setView(dialogView)
 
         val dialog = dialogBuilder.create()
+        dialog.setCancelable(false)
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.show()
 
@@ -134,7 +135,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         buttonNo.setOnClickListener {
+
             dialog.dismiss()
         }
     }
+
+
 }
