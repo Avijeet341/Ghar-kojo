@@ -43,9 +43,9 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun setupUI() {
         signUpBinding.buttonSignUp.setOnClickListener {
-            val email = signUpBinding.editTextViewEmailSignUP.text.toString()
-            val pass = signUpBinding.editTextViewPasswordSignUP.text.toString()
-            val confirmPass = signUpBinding.editTextViewConfirmPasswordSignUP.text.toString()
+            val email = signUpBinding.editTextViewEmailSignUP.text.toString().trim()
+            val pass = signUpBinding.editTextViewPasswordSignUP.text.toString().trim()
+            val confirmPass = signUpBinding.editTextViewConfirmPasswordSignUP.text.toString().trim()
             viewModel.signUpWithFirebase(email, pass, confirmPass)
         }
     }

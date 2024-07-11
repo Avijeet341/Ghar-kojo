@@ -23,6 +23,7 @@ class SignUpViewModel : ViewModel() {
                 firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         _signUpState.value = SignUpState.Success
+
                     } else {
                         _signUpState.value = SignUpState.Error(task.exception?.message ?: "Sign-up failed.")
                     }

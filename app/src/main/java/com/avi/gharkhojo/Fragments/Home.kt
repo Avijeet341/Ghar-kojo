@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.avi.gharkhojo.Adapter.GridAdapter
 import com.avi.gharkhojo.Model.GridItem
 import com.avi.gharkhojo.R
@@ -26,15 +26,12 @@ class Home : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupStaggeredGridView()
-        binding.textViewHeader.apply {
-
-        }
+        setupGridView()
     }
 
-    private fun setupStaggeredGridView() {
+    private fun setupGridView() {
         binding.recyclerView.apply {
-            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = GridAdapter(createGridList()) { gridItem, position ->
                 Toast.makeText(requireContext(), "Clicked on GridItem: ${gridItem.rent}", Toast.LENGTH_SHORT).show()
             }
@@ -43,16 +40,16 @@ class Home : Fragment() {
 
     private fun createGridList(): ArrayList<GridItem> {
         return arrayListOf(
-            GridItem(R.drawable.house,"5000","3"),
-            GridItem(R.drawable.hall,"5000","3"),
-            GridItem(R.drawable.bedroom,"5000","3"),
-            GridItem(R.drawable.entry,"5000","3"),
-            GridItem(R.drawable.base,"5000","3"),
-            GridItem(R.drawable.living,"5000","3"),
-            GridItem(R.drawable.bath,"5000","3"),
-            GridItem(R.drawable.shoe,"5000","3"),
-            GridItem(R.drawable.room_view_2,"5000","3"),
-            GridItem(R.drawable.room_view_3,"5000","3"),
+            GridItem(R.drawable.house, "5000", "3"),
+            GridItem(R.drawable.hall, "5000", "3"),
+            GridItem(R.drawable.bedroom, "5000", "3"),
+            GridItem(R.drawable.entry, "5000", "3"),
+            GridItem(R.drawable.base, "5000", "3"),
+            GridItem(R.drawable.living, "5000", "3"),
+            GridItem(R.drawable.bath, "5000", "3"),
+            GridItem(R.drawable.shoe, "5000", "3"),
+            GridItem(R.drawable.room_view_2, "5000", "3"),
+            GridItem(R.drawable.room_view_3, "5000", "3"),
             GridItem(R.drawable.spider3, "10000", "2"),
             GridItem(R.drawable.hashira, "12000", "3"),
             GridItem(R.drawable.india, "9000", "2"),

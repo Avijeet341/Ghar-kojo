@@ -6,22 +6,30 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.OptIn
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.avi.gharkhojo.Model.SharedViewModel
+import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.databinding.ActivityMainBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mainBinding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var bottomNavigation: ChipNavigationBar
+    private val firestore: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
+
+    @OptIn(UnstableApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
@@ -39,6 +47,27 @@ class MainActivity : AppCompatActivity() {
         bottomNavigation.setMenuResource(R.menu.nav_menu) // Set the menu resource
         setUpTabBar()
         onBackPressedAvi()
+
+        UserData.email = FirebaseAuth.getInstance().currentUser?.email
+        UserData.profilePictureUrl = FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
+        UserData.username = FirebaseAuth.getInstance().currentUser?.displayName
+        androidx.media3.common.util.Log.d("detail", UserData.email.toString())
+        firestore.collection("users").document(
+            FirebaseAuth.getInstance().currentUser?.uid
+            ?: "").get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    if(document.getString("name")!=null){
+                        UserData.username = document.getString("name")
+                    }
+                    UserData.address = document.getString("address") ?: getString(R.string.default_address)
+                    UserData.phn_no = document.getString("phone") ?: getString(R.string.default_phone)
+                }
+            }
+            .addOnFailureListener {
+                UserData.address = getString(R.string.default_address)
+                UserData.phn_no = getString(R.string.default_phone)
+            }
     }
 
     private fun onBackPressedAvi() {

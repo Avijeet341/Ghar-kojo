@@ -27,4 +27,18 @@
     <string name="facebook">Facebook</string>
     <string name="login">Login</string>
     <string name="sign_out">Sign Out</string>
+    <string name="user_id">User ID</string>
+    <string name="profile">Profile</string>
+    <string name="username">Username</string>
+    <string name="abc_gmail_com">abc@gmail.com</string>
+    <string name="_11111111">No phone number provided</string>
+    <string name="flat_home_country">No address provided</string>
+    <string name="default_username">UserName</string>
+    <string name="default_email">Email not available</string>
+    <string name="default_address">Address not available</string>
+    <string name="default_phone">Phone not available</string>
+    <string name="sign_out_success">Sign Out is successful ✅💕👍</string>
+    <string name="sign_out_failed">Sign Out failed. Please try again.</string>
+    <string name="edit_profile">Edit Profile</string>
+
 </resources>

@@ -3,6 +3,7 @@ package com.avi.gharkhojo.Model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.avi.gharkhojo.R
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -22,9 +23,12 @@ class LoginViewModel : ViewModel() {
                 if (task.isSuccessful) {
                     val user = firebaseAuth.currentUser
                     val userData = user?.let {
-                        UserData(it.uid, it.displayName ?: "No username", it.photoUrl?.toString() ?: "")
+                        UserData.username = it.displayName
+                        UserData.address = R.string.default_address.toString()
+                        UserData.phn_no = R.string.default_phone.toString()
+                        UserData.profilePictureUrl = R.string.profile.toString()
                     }
-                    _loginState.value = LoginState.Success(userData)
+                    _loginState.value = LoginState.Success(UserData)
                 } else {
                     _loginState.value = LoginState.Error(task.exception?.message ?: "Login failed.")
                 }
@@ -39,10 +43,13 @@ class LoginViewModel : ViewModel() {
         firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val user = firebaseAuth.currentUser
-                val userData = user?.let {
-                    UserData(it.uid, it.displayName ?: "No username", it.photoUrl?.toString() ?: "")
+                user?.let {
+                    UserData.username = it.displayName
+                    UserData.address = R.string.default_address.toString()
+                    UserData.phn_no = R.string.default_phone.toString()
+                    UserData.profilePictureUrl = R.string.profile.toString()
                 }
-                _loginState.value = LoginState.Success(userData)
+                _loginState.value = LoginState.Success(userData = UserData)
             } else {
                 _loginState.value = LoginState.Error("Google sign-in failed.")
             }
