@@ -1,7 +1,9 @@
 package com.avi.gharkhojo.Model
 
-data class UserData(
-    val userId: String,
-    val username: String?,
-    val profilePictureUrl: String?
-)
+data object UserData{
+    var username: String? = null
+    var profilePictureUrl: String? = null
+    var email: String? = null
+    var phn_no: String? = null
+    var address: String? = null
+}

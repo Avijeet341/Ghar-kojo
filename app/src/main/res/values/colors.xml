@@ -3,6 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="Black">#000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="white_smoke">#F5F5F5</color>
     <color name="your_status_bar_color">#00ecbc</color>
     <color name="start_color">#00ecbc</color>
     <color name="end_color">#007adf</color>
@@ -13,4 +14,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorPrimaryLight">#C5CAE9</color>
     <color name="Yellow">#FFFF00</color>
+    <color name="light_gray">#DBEEE8</color>
+    <color name="lavender">#8692f7</color>
+    <color name="NavyBlue">#000080</color>
+    <color name="DarkGray">#333333</color>
 </resources>

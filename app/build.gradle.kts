@@ -56,6 +56,8 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.9.0")
     implementation("androidx.activity:activity:1.9.0")
     implementation("androidx.media3:media3-common:1.3.1")
+    implementation("com.google.firebase:firebase-firestore-ktx:25.0.0")
+    implementation("com.google.firebase:firebase-storage-ktx:21.0.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
@@ -79,11 +81,18 @@ dependencies {
 
     implementation("com.google.android.gms:play-services-auth:21.2.0")
     implementation("com.google.firebase:firebase-auth-ktx:23.0.0")
-    implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
 
     implementation("com.google.firebase:firebase-database-ktx:21.0.0")
     //
 
     implementation("androidx.fragment:fragment-ktx:1.8.1")
+    implementation ("com.github.yalantis:ucrop:2.2.8")
+
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+
+    // Add the dependency for the Cloud Storage library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-storage")
 }
+
 
