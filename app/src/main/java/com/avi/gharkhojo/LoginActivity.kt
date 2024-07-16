@@ -1,13 +1,14 @@
 package com.avi.gharkhojo
+
 import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.OptIn
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -15,10 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.media3.common.util.Log
-import androidx.media3.common.util.UnstableApi
 import com.avi.gharkhojo.Model.LoginViewModel
-import com.avi.gharkhojo.Model.SharedViewModel
 import com.avi.gharkhojo.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -34,7 +32,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var viewModel: LoginViewModel
 
-
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
         setupWindowInsets()
         setupUI()
         observeViewModel()
-        animationLoginBg()
+        startLoginBgAnimation()
 
         googleSignInClient = configureGoogleSignIn()
         activityResultLauncher = registerForActivityResult(
@@ -59,7 +56,7 @@ class LoginActivity : AppCompatActivity() {
         )
     }
 
-    private fun animationLoginBg() {
+    private fun startLoginBgAnimation() {
         val constraintLayout: ConstraintLayout = findViewById(R.id.LoginBgLayout)
         val animationDrawable: AnimationDrawable = constraintLayout.background as AnimationDrawable
         animationDrawable.setEnterFadeDuration(1000)
@@ -81,38 +78,45 @@ class LoginActivity : AppCompatActivity() {
             buttonLogin.setOnClickListener {
                 val email = editTextTextEmailAddress.text.toString()
                 val pass = editTextTextPassword.text.toString()
+                showLoading()
                 viewModel.signInUser(email, pass)
             }
-            buttonGoogle.setOnClickListener {
-                signInGoogle()
-            }
+            buttonGoogle.setOnClickListener { signInGoogle() }
             buttonFacebook.setOnClickListener {
                 // Add Facebook login logic here
             }
-            SignUptextView.setOnClickListener {
-                navigateTo(SignUpActivity::class.java)
-            }
-            forgetMyPasstextView.setOnClickListener {
-                navigateTo(ForgotActivity::class.java)
-            }
+            SignUptextView.setOnClickListener { navigateTo(SignUpActivity::class.java) }
+            forgetMyPasstextView.setOnClickListener { navigateTo(ForgotActivity::class.java) }
         }
     }
 
-    @OptIn(UnstableApi::class)
+    private fun showLoading() {
+        loginBinding.apply {
+            buttonLogin.visibility = View.GONE
+            progressCircularLogin.visibility = View.VISIBLE
+        }
+    }
+
+    private fun hideLoading() {
+        loginBinding.apply {
+            buttonLogin.visibility = View.VISIBLE
+            progressCircularLogin.visibility = View.GONE
+        }
+    }
+
     private fun observeViewModel() {
         viewModel.loginState.observe(this) { state ->
             when (state) {
                 is LoginViewModel.LoginState.Success -> {
+                    hideLoading()
                     showToast("Welcome Guys 💕🎇🎉🎊")
-
                     navigateTo(MainActivity::class.java)
                 }
                 is LoginViewModel.LoginState.Error -> {
+                    hideLoading()
                     showToast(state.message)
                 }
-                LoginViewModel.LoginState.Idle -> {
-                    // Do nothing or initial state handling if needed
-                }
+                LoginViewModel.LoginState.Idle -> { /* Do nothing */ }
             }
         }
     }
@@ -120,7 +124,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         if (viewModel.isUserLoggedIn()) {
-            Toast.makeText(applicationContext, "Welcome Guys😎", Toast.LENGTH_SHORT).show()
+            showToast("Welcome Guys😎")
             navigateTo(MainActivity::class.java)
         }
     }

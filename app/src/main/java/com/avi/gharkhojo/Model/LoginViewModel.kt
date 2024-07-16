@@ -10,9 +10,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 
 class LoginViewModel : ViewModel() {
 
-    private val firebaseAuth: FirebaseAuth by lazy {
-        FirebaseAuth.getInstance()
-    }
+    private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     private val _loginState = MutableLiveData<LoginState>()
     val loginState: LiveData<LoginState> = _loginState
@@ -22,11 +20,13 @@ class LoginViewModel : ViewModel() {
             firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val user = firebaseAuth.currentUser
-                    val userData = user?.let {
-                        UserData.username = it.displayName
-                        UserData.address = R.string.default_address.toString()
-                        UserData.phn_no = R.string.default_phone.toString()
-                        UserData.profilePictureUrl = R.string.profile.toString()
+                    user?.let {
+                        UserData.apply {
+                            username = it.displayName
+                            address = R.string.default_address.toString()
+                            phn_no = R.string.default_phone.toString()
+                            profilePictureUrl = R.string.profile.toString()
+                        }
                     }
                     _loginState.value = LoginState.Success(UserData)
                 } else {
@@ -44,21 +44,21 @@ class LoginViewModel : ViewModel() {
             if (task.isSuccessful) {
                 val user = firebaseAuth.currentUser
                 user?.let {
-                    UserData.username = it.displayName
-                    UserData.address = R.string.default_address.toString()
-                    UserData.phn_no = R.string.default_phone.toString()
-                    UserData.profilePictureUrl = R.string.profile.toString()
+                    UserData.apply {
+                        username = it.displayName
+                        address = R.string.default_address.toString()
+                        phn_no = R.string.default_phone.toString()
+                        profilePictureUrl = R.string.profile.toString()
+                    }
                 }
-                _loginState.value = LoginState.Success(userData = UserData)
+                _loginState.value = LoginState.Success(UserData)
             } else {
                 _loginState.value = LoginState.Error("Google sign-in failed.")
             }
         }
     }
 
-    fun isUserLoggedIn(): Boolean {
-        return firebaseAuth.currentUser != null
-    }
+    fun isUserLoggedIn(): Boolean = firebaseAuth.currentUser != null
 
     sealed class LoginState {
         data class Success(val userData: UserData?) : LoginState()

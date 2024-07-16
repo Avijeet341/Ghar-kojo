@@ -1,6 +1,7 @@
 package com.avi.gharkhojo
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -18,8 +19,14 @@ import androidx.navigation.fragment.NavHostFragment
 import com.avi.gharkhojo.Model.SharedViewModel
 import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.databinding.ActivityMainBinding
+import com.google.android.gms.auth.api.signin.internal.Storage
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.auth.User
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
+import com.google.firebase.storage.storage
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var bottomNavigation: ChipNavigationBar
     private val firestore: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
+    private val storageRef:StorageReference by lazy { Firebase.storage.reference.child("profile_pictures/${FirebaseAuth.getInstance().currentUser?.uid}") }
 
 
     @OptIn(UnstableApi::class)
@@ -37,7 +45,8 @@ class MainActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         Log.d("MainActivity", "User data updated:")
 
-        // Log user data changes in SharedViewModel
+
+
 
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -51,6 +60,12 @@ class MainActivity : AppCompatActivity() {
         UserData.email = FirebaseAuth.getInstance().currentUser?.email
         UserData.profilePictureUrl = FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
         UserData.username = FirebaseAuth.getInstance().currentUser?.displayName
+        storageRef.downloadUrl.addOnSuccessListener {
+            UserData.profilePictureUrl = it.toString()
+        }.addOnFailureListener{
+            UserData.profilePictureUrl = FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
+        }
+
         androidx.media3.common.util.Log.d("detail", UserData.email.toString())
         firestore.collection("users").document(
             FirebaseAuth.getInstance().currentUser?.uid

@@ -9,13 +9,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
-    <androidx.constraintlayout.widget.ConstraintLayout
 
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/LoginBgLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gradiant_list"
-        >
+        android:background="@drawable/gradiant_list">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/shapeableImageView"
@@ -30,7 +29,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-
             app:shapeAppearanceOverlay="@style/foxbiro"
             app:strokeColor="@color/white"
             app:strokeWidth="4dp" />
@@ -180,6 +178,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/buttonGoogle" />
 
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_circularLogin"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:indicatorColor="#2196f3"
+            app:trackCornerRadius="10dp"
+            app:trackThickness="7dp"
+            app:layout_constraintEnd_toEndOf="@+id/buttonLogin"
+            app:layout_constraintStart_toStartOf="@+id/buttonLogin"
+            app:layout_constraintTop_toTopOf="@+id/buttonLogin"
+            app:layout_constraintBottom_toBottomOf="@+id/buttonLogin" />
+
         <TextView
             android:id="@+id/SignUptextView"
             android:layout_width="wrap_content"
@@ -198,10 +210,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/lato_regular"
-            android:text="@string/forgot_password"
-            android:textColor="@color/black"
-            android:textSize="20sp"
+            android:layout_marginBottom="30dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/password"
+            android:textColor="@color/white"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="@+id/SignUptextView"
             app:layout_constraintStart_toStartOf="@+id/SignUptextView"
             app:layout_constraintTop_toBottomOf="@+id/SignUptextView" />

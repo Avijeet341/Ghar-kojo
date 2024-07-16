@@ -19,10 +19,14 @@ import com.avi.gharkhojo.databinding.FragmentProfileBinding
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.firestore.auth.User
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
 import com.yalantis.ucrop.UCrop
 import java.io.File
 import java.util.*
@@ -36,6 +40,7 @@ class Profile : Fragment() {
 
     private lateinit var pickImage: ActivityResultLauncher<String>
     private lateinit var cropImage: ActivityResultLauncher<Intent>
+    private val storageRef:StorageReference by lazy { Firebase.storage.reference.child("profile_pictures/${FirebaseAuth.getInstance().currentUser?.uid}") }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +61,7 @@ class Profile : Fragment() {
     }
 
     private fun loadProfileImage() {
-        val photoUrl = firebaseAuth.currentUser?.photoUrl
+        val photoUrl = UserData.profilePictureUrl
         Glide.with(this)
             .load(photoUrl ?: R.drawable.india)
             .placeholder(R.drawable.india)
@@ -86,6 +91,8 @@ class Profile : Fragment() {
         binding.textViewEmail.text = UserData.email ?: getString(R.string.default_email)
         binding.textViewAddress.text = UserData.address ?: getString(R.string.default_address)
         binding.textViewPhone.text = UserData.phn_no ?: getString(R.string.default_phone)
+//        binding.ProfilePic.setImageURI(Uri.parse(UserData.profilePictureUrl))
+
 
     }
 
@@ -101,6 +108,12 @@ class Profile : Fragment() {
                 result.data?.let {
                     val resultUri = UCrop.getOutput(it)
                     resultUri?.let { uri ->
+                        UserData.profilePictureUrl = uri.toString()
+                        storageRef.putFile(uri).addOnSuccessListener {
+                           storageRef.downloadUrl.addOnSuccessListener {
+                               UserData.profilePictureUrl = it.toString()
+                           }
+                        }
                         Glide.with(this)
                             .load(uri)
                             .placeholder(R.drawable.india)
