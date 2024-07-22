@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="12dp"
+
+    >
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_gray"
+        android:padding="12dp"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/baseline_person_24"
+            android:id="@+id/profile_pic"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="2dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Aditya SInghr rajput"
+            android:id="@+id/username"
+            android:textColor="@color/black"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="12dp"
+            android:textSize="18sp"
+            android:maxWidth="180dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="02:30 PM"
+            android:textColor="@color/black"
+            android:id="@+id/msgTime"
+            android:layout_marginStart="100dp"
+            android:layout_gravity="center_vertical"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</androidx.cardview.widget.CardView>
