@@ -1,3 +1,13 @@
 package com.avi.gharkhojo.Model
 
-data class ChatUserListModel(var username:String?,var userimage:String?, var userId:String?)
+ class ChatUserListModel(){
+    var username:String? = null
+    var userimage:String? = null
+    var userId:String? = null
+     constructor(username:String?,userImage: String?,userId:String?):this()
+    {
+        this.username=username;
+        this.userimage=userImage;
+        this.userId = userId
+    }
+}

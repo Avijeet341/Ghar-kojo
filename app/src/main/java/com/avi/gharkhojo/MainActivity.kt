@@ -1,6 +1,7 @@
 package com.avi.gharkhojo
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -16,12 +17,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.avi.gharkhojo.Chat.Chat_Activity
 import com.avi.gharkhojo.Model.SharedViewModel
 import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.databinding.ActivityMainBinding
 import com.google.android.gms.auth.api.signin.internal.Storage
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.auth.User
 import com.google.firebase.storage.StorageReference
@@ -57,9 +61,21 @@ class MainActivity : AppCompatActivity() {
         setUpTabBar()
         onBackPressedAvi()
 
-        UserData.email = FirebaseAuth.getInstance().currentUser?.email
+        UserData.email = if(UserData.email.isNullOrEmpty()){
+            FirebaseAuth.getInstance().currentUser?.email
+        }
+        else{
+            UserData.email
+        }
         UserData.profilePictureUrl = FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
-        UserData.username = FirebaseAuth.getInstance().currentUser?.displayName
+        UserData.username = if(UserData.username.isNullOrEmpty()){
+            FirebaseAuth.getInstance().currentUser?.displayName
+        }else{
+            UserData.username
+        }
+        UserData.uid = FirebaseAuth.getInstance().currentUser?.uid
+
+
         storageRef.downloadUrl.addOnSuccessListener {
             UserData.profilePictureUrl = it.toString()
         }.addOnFailureListener{
@@ -83,6 +99,14 @@ class MainActivity : AppCompatActivity() {
                 UserData.address = getString(R.string.default_address)
                 UserData.phn_no = getString(R.string.default_phone)
             }
+
+
+//        FirebaseAuth.getInstance().addAuthStateListener {
+//            if(it.currentUser!=null){
+//                databaseReference.push().setValue(UserData)
+//            }
+//
+//        }
     }
 
     private fun onBackPressedAvi() {
@@ -111,7 +135,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_cart -> {
                     mainBinding.apply {
                         // textMain.text="Fire."
-                        bottomNavBar.showBadge(R.id.nav_profile)
+//                        bottomNavBar.showBadge(R.id.nav_profile)
+                        startActivity(Intent(this@MainActivity, Chat_Activity::class.java))
                     }
                     navController.navigate(R.id.cart)
                 }
@@ -122,8 +147,10 @@ class MainActivity : AppCompatActivity() {
                     }
                     navController.navigate(R.id.profile)
                 }
+
             }
         }
+
     }
 
     @SuppressLint("SetTextI18n")

@@ -9,9 +9,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Model.ChatUserListModel
+import com.avi.gharkhojo.Model.UserData
+import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.ActivityChatBinding
 import com.avi.gharkhojo.databinding.UserListLayoutBinding
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 
 class ChatUserListAdapter(private val chatUsers: List<ChatUserListModel>,private val context: Context):
     RecyclerView.Adapter<ChatUserListAdapter.ChatUserViewHolder>(){
@@ -27,7 +30,7 @@ class ChatUserListAdapter(private val chatUsers: List<ChatUserListModel>,private
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatUserViewHolder {
 
-        return ChatUserViewHolder(UserListLayoutBinding.inflate(LayoutInflater.from(parent.context)))
+        return ChatUserViewHolder(UserListLayoutBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
     override fun getItemCount(): Int {
@@ -36,9 +39,13 @@ class ChatUserListAdapter(private val chatUsers: List<ChatUserListModel>,private
 
     override fun onBindViewHolder(holder: ChatUserViewHolder, position: Int) {
 
-        val chatUser = chatUsers[position]
-        Glide.with(context).load(Uri.parse(chatUser.userimage)).into(holder.img)
-        holder.name.text = chatUser.username
+        if(chatUsers.isNotEmpty()) {
+            val chatUser: ChatUserListModel = chatUsers[position]
+            if(!chatUser.userId.equals(FirebaseAuth.getInstance().uid)) {
+                Glide.with(context).load(Uri.parse(chatUser.userimage)).placeholder(R.drawable.baseline_person_24).into(holder.img)
+                holder.name.text = chatUser.username
+            }
+        }
 
     }
 

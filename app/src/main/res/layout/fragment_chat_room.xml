@@ -112,7 +112,7 @@
         </com.google.android.material.textfield.TextInputLayout>
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="50dp"
-            android:id="@id/sendMsg"
+            android:id="@+id/sendMsg"
             android:layout_height="50dp"
             android:elevation="12dp"
             android:src="@drawable/baseline_send_24"

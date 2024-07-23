@@ -6,4 +6,5 @@ data object UserData{
     var email: String? = null
     var phn_no: String? = null
     var address: String? = null
+    var uid: String? = null
 }

@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class SignUpViewModel : ViewModel() {
 
@@ -13,16 +15,28 @@ class SignUpViewModel : ViewModel() {
         FirebaseAuth.getInstance()
     }
 
+    private var firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private var databaseReference: DatabaseReference = firebaseDatabase.reference
+
     private val _signUpState = MutableLiveData<SignUpState>()
     val signUpState: LiveData<SignUpState> = _signUpState
 
-    fun signUpWithFirebase(email: String, pass: String, confirmPass: String) {
-        if (email.isNotEmpty() && pass.isNotEmpty() && confirmPass.isNotEmpty()) {
+    fun signUpWithFirebase(name:String,email: String, pass: String, confirmPass: String) {
+        if (name.isNotEmpty() && email.isNotEmpty() && pass.isNotEmpty() && confirmPass.isNotEmpty()) {
             if (pass == confirmPass) {
                 _signUpState.value = SignUpState.Loading
                 firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         _signUpState.value = SignUpState.Success
+                        UserData.username = name
+                        UserData.email = email
+
+                        var profilePic:String = FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
+                        profilePic = if(profilePic=="null") "" else profilePic
+                        var userName:String = name
+                        var userId:String? = FirebaseAuth.getInstance().currentUser?.uid
+
+                        databaseReference.child("users").push().setValue(ChatUserListModel(userName,profilePic,userId))
 
                     } else {
                         _signUpState.value = SignUpState.Error(task.exception?.message ?: "Sign-up failed.")

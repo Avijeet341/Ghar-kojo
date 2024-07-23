@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Adapter.ChatAdapter
 import com.avi.gharkhojo.Model.ChatRoomModel
+import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.databinding.FragmentChatRoomBinding
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -21,6 +22,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.auth.User
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -73,13 +75,14 @@ class ChatRoom : Fragment() {
 
         initializeMessaging()
 
-        databaseReference.child("chats").child(firebaseUser!!.uid).addValueEventListener(object:
+        databaseReference.child("chats").child(firebaseUser!!.uid+uid)
+            .addValueEventListener(object:
             ValueEventListener {
             @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(snapshot: DataSnapshot) {
-                var chatRoomModel: ChatRoomModel? = snapshot.value as ChatRoomModel?
-                if(chatRoomModel!=null){
-                    chatList.add(chatRoomModel)
+                for(data in snapshot.children){
+                    val chatRoomModel: ChatRoomModel? = data.getValue(ChatRoomModel::class.java)
+                    chatList.add(chatRoomModel!!)
                     chatAdapter.notifyDataSetChanged()
                 }
             }
@@ -98,8 +101,6 @@ class ChatRoom : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initializeMessaging(){
         if(firebaseUser!=null){
-            firebaseDatabase.reference.child("chats").child(uid!!)
-
 
             chatBinding.sendMsg.setOnClickListener{
 
@@ -110,13 +111,13 @@ class ChatRoom : Fragment() {
                     with(chatRoomModel){
                         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
                         val currentDateTime = LocalDateTime.now().format(formatter)
+                        name =  UserData.username
                         uid = firebaseUser!!.uid
                         msg = sendMsgText
                         time = currentDateTime
                     }
-                    chatList.add(chatRoomModel)
-                    chatAdapter.notifyDataSetChanged()
-                    databaseReference.child("chats").child(firebaseUser!!.uid).push().setValue(chatRoomModel)
+                    databaseReference.child("chats").child(firebaseUser!!.uid+uid)
+                        .push().setValue(chatRoomModel)
                 }
             }
         }

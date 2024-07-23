@@ -10,14 +10,20 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import com.avi.gharkhojo.Model.ChatUserListModel
 import com.avi.gharkhojo.Model.SignUpViewModel
+import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.databinding.ActivitySignUpBinding
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class SignUpActivity : AppCompatActivity() {
 
     private val signUpBinding: ActivitySignUpBinding by lazy {
         ActivitySignUpBinding.inflate(layoutInflater)
     }
+
+
 
     private lateinit var viewModel: SignUpViewModel
 
@@ -43,10 +49,11 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun setupUI() {
         signUpBinding.buttonSignUp.setOnClickListener {
+            val name = signUpBinding.usernameSignUp.text.toString().trim()
             val email = signUpBinding.editTextViewEmailSignUP.text.toString().trim()
             val pass = signUpBinding.editTextViewPasswordSignUP.text.toString().trim()
             val confirmPass = signUpBinding.editTextViewConfirmPasswordSignUP.text.toString().trim()
-            viewModel.signUpWithFirebase(email, pass, confirmPass)
+            viewModel.signUpWithFirebase(name,email, pass, confirmPass)
         }
     }
 
@@ -62,6 +69,7 @@ class SignUpActivity : AppCompatActivity() {
                     navigateTo(LoginActivity::class.java)
                     signUpBinding.progressCircularSignUp.visibility = View.INVISIBLE
                     signUpBinding.buttonSignUp.isClickable = true
+
                 }
                 is SignUpViewModel.SignUpState.Error -> {
                     showToast(state.message)
