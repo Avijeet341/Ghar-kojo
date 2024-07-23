@@ -41,8 +41,8 @@ class ChatUserListAdapter(private val chatUsers: List<ChatUserListModel>,private
 
         if(chatUsers.isNotEmpty()) {
             val chatUser: ChatUserListModel = chatUsers[position]
-            if(!chatUser.userId.equals(FirebaseAuth.getInstance().uid)) {
-                Glide.with(context).load(Uri.parse(chatUser.userimage)).placeholder(R.drawable.baseline_person_24).into(holder.img)
+            if(!chatUser.userId.equals(FirebaseAuth.getInstance().currentUser?.uid)) {
+                Glide.with(context).load(Uri.parse(if(!chatUser.userimage.isNullOrEmpty())chatUser.userimage else UserData.profilePictureUrl)).placeholder(R.drawable.baseline_person_24).into(holder.img)
                 holder.name.text = chatUser.username
             }
         }

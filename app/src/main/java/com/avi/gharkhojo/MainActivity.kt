@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AlertDialog
@@ -67,46 +68,55 @@ class MainActivity : AppCompatActivity() {
         else{
             UserData.email
         }
-        UserData.profilePictureUrl = FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
+        UserData.profilePictureUrl = if(UserData.profilePictureUrl.isNullOrEmpty()) {
+            FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
+        }else{
+            UserData.profilePictureUrl
+        }
         UserData.username = if(UserData.username.isNullOrEmpty()){
             FirebaseAuth.getInstance().currentUser?.displayName
+
         }else{
             UserData.username
         }
         UserData.uid = FirebaseAuth.getInstance().currentUser?.uid
+        Toast.makeText(this, UserData.profilePictureUrl, Toast.LENGTH_SHORT).show()
 
 
         storageRef.downloadUrl.addOnSuccessListener {
-            UserData.profilePictureUrl = it.toString()
+
+            if(it!=null) {
+                UserData.profilePictureUrl = it.toString()
+
+            }
+
+
         }.addOnFailureListener{
             UserData.profilePictureUrl = FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
         }
-
-        androidx.media3.common.util.Log.d("detail", UserData.email.toString())
-        firestore.collection("users").document(
-            FirebaseAuth.getInstance().currentUser?.uid
-            ?: "").get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    if(document.getString("name")!=null){
-                        UserData.username = document.getString("name")
+        if(UserData.username.isNullOrEmpty() || UserData.address.isNullOrEmpty() || UserData.phn_no.isNullOrEmpty()) {
+            firestore.collection("users").document(
+                FirebaseAuth.getInstance().currentUser?.uid
+                    ?: "").get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        if(document.getString("name")!=null){
+                            UserData.username = document.getString("name")
+                        }
+                        UserData.address = document.getString("address") ?: getString(R.string.default_address)
+                        UserData.phn_no = document.getString("phone") ?: getString(R.string.default_phone)
                     }
-                    UserData.address = document.getString("address") ?: getString(R.string.default_address)
-                    UserData.phn_no = document.getString("phone") ?: getString(R.string.default_phone)
                 }
-            }
-            .addOnFailureListener {
-                UserData.address = getString(R.string.default_address)
-                UserData.phn_no = getString(R.string.default_phone)
-            }
+                .addOnFailureListener {
+                    UserData.address = getString(R.string.default_address)
+                    UserData.phn_no = getString(R.string.default_phone)
+                }
+        }
 
 
-//        FirebaseAuth.getInstance().addAuthStateListener {
-//            if(it.currentUser!=null){
-//                databaseReference.push().setValue(UserData)
-//            }
-//
-//        }
+
+
+
     }
 
     private fun onBackPressedAvi() {

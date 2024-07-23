@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.avi.gharkhojo.LoginActivity
+import com.avi.gharkhojo.Model.ChatUserListModel
 import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentProfileBinding
@@ -23,6 +24,11 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.auth.User
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
@@ -36,10 +42,11 @@ class Profile : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-    private val firestore: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
     private lateinit var pickImage: ActivityResultLauncher<String>
     private lateinit var cropImage: ActivityResultLauncher<Intent>
+    private var firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private var databaseReference: DatabaseReference = firebaseDatabase.reference.child("users")
     private val storageRef:StorageReference by lazy { Firebase.storage.reference.child("profile_pictures/${FirebaseAuth.getInstance().currentUser?.uid}") }
 
     override fun onCreateView(
@@ -56,14 +63,14 @@ class Profile : Fragment() {
         loadProfileImage()
         setupClickListeners()
 
-
         initImagePicker()
     }
 
     private fun loadProfileImage() {
-        val photoUrl = UserData.profilePictureUrl
+        val photoUrl:String? = UserData.profilePictureUrl
+
         Glide.with(this)
-            .load(photoUrl ?: R.drawable.india)
+            .load(if(photoUrl=="null") R.drawable.india else photoUrl)
             .placeholder(R.drawable.india)
             .error(R.drawable.background2)
             .centerCrop()
@@ -112,7 +119,24 @@ class Profile : Fragment() {
                         storageRef.putFile(uri).addOnSuccessListener {
                            storageRef.downloadUrl.addOnSuccessListener {
                                UserData.profilePictureUrl = it.toString()
+
+                               databaseReference.addValueEventListener(object:ValueEventListener{
+                                   override fun onDataChange(snapshot: DataSnapshot) {
+                                       for(dataSnapshot in snapshot.children){
+                                           val userData = dataSnapshot.getValue(ChatUserListModel::class.java)
+                                            if(userData?.userId.equals(FirebaseAuth.getInstance().currentUser?.uid)){
+                                                databaseReference.child(dataSnapshot.key.toString()).child("userimage").setValue(UserData.profilePictureUrl)
+                                            }
+                                       }
+                                   }
+
+                                   override fun onCancelled(error: DatabaseError) {
+
+                                   }
+
+                               })
                            }
+
                         }
                         Glide.with(this)
                             .load(uri)
