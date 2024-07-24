@@ -25,4 +25,5 @@
         android:name="com.avi.gharkhojo.Fragments.Profile"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+
 </navigation>

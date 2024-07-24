@@ -1,13 +1,16 @@
 package com.avi.gharkhojo.Adapter
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.avi.gharkhojo.Chat.ChatRoom
 import com.avi.gharkhojo.Model.ChatUserListModel
 import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.R
@@ -39,13 +42,28 @@ class ChatUserListAdapter(private val chatUsers: List<ChatUserListModel>,private
 
     override fun onBindViewHolder(holder: ChatUserViewHolder, position: Int) {
 
-        if(chatUsers.isNotEmpty()) {
+        if (chatUsers.isNotEmpty()) {
             val chatUser: ChatUserListModel = chatUsers[position]
-            if(!chatUser.userId.equals(FirebaseAuth.getInstance().currentUser?.uid)) {
-                Glide.with(context).load(Uri.parse(if(!chatUser.userimage.isNullOrEmpty())chatUser.userimage else UserData.profilePictureUrl)).placeholder(R.drawable.baseline_person_24).into(holder.img)
+            if (!chatUser.userId.equals(FirebaseAuth.getInstance().currentUser?.uid)) {
+                Glide.with(context)
+                    .load(Uri.parse((if (!chatUser.userimage.isNullOrEmpty()) chatUser.userimage else R.drawable.baseline_person_24).toString()))
+                    .placeholder(R.drawable.baseline_person_24).into(holder.img)
                 holder.name.text = chatUser.username
+
+                holder.itemView.setOnClickListener {
+
+
+                    var intent: Intent = Intent(context, ChatRoom::class.java)
+                    intent.putExtra(ChatRoom.IMG_ARG,chatUser.userimage)
+                    intent.putExtra(ChatRoom.NAME_ARG,chatUser.username)
+                    intent.putExtra(ChatRoom.UID_ARG,chatUser.userId)
+                    context.startActivity(intent)
+                }
             }
+
         }
+
+
 
     }
 
