@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".Fragments.HomeDetails">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_search">
+
+        <!-- Scrollable Images -->
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/property_images_desc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Price and Charges -->
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_search"
+            android:elevation="10dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:padding="10dp"
+            android:text="₹ 7,000 / Month (₹ 14.0 K Deposit)"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewPager" />
+
+        <TextView
+            android:id="@+id/viewCharges"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_search"
+            android:elevation="10dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:padding="5dp"
+            android:text="@string/view_charges"
+            android:textColor="@android:color/holo_blue_dark"
+            app:layout_constraintStart_toStartOf="@id/price"
+            app:layout_constraintTop_toBottomOf="@id/price" />
+
+        <!-- Pricing and Negotiate -->
+        <TextView
+            android:id="@+id/pricingPuzzled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_search"
+            android:elevation="10dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:padding="5dp"
+            android:text="@string/pricing_got_you_puzzled"
+            android:textColor="@color/Pink"
+            app:layout_constraintStart_toStartOf="@id/viewCharges"
+            app:layout_constraintTop_toBottomOf="@id/viewCharges" />
+
+        <TextView
+            android:id="@+id/negotiateRent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_search"
+            android:elevation="10dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:padding="5dp"
+            android:text="@string/negotiate_rent"
+            android:textColor="@color/Pink"
+            app:layout_constraintStart_toStartOf="@id/pricingPuzzled"
+            app:layout_constraintTop_toBottomOf="@id/pricingPuzzled" />
+
+
+        <TextView
+            android:id="@+id/propertyType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/pace_details"
+            android:elevation="10dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:padding="10dp"
+            android:text="3 BHK Apartment"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/negotiateRent" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/propertyLocation"
+            android:layout_width="390dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/Green"
+            android:elevation="10dp"
+            android:padding="7dp"
+            app:cardCornerRadius="13dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/propertyType">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Location:"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:maxWidth="10dp"
+                        android:maxHeight="50dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Shree Jaggath Warrior Residency, Madanpur, Bhuban..."
+                        android:textColor="#000000" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/propertyDetailsCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="6dp"
+            android:backgroundTint="@color/Gray"
+            android:elevation="10dp"
+            android:padding="7dp"
+            app:cardCornerRadius="13dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/propertyLocation">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <!-- First Item -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:elevation="5dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Furnishing :"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:elevation="5dp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Unfurnished"
+                        android:textColor="#000000" />
+                </LinearLayout>
+
+                <!-- Separator Line -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/black" />
+
+                <!-- Second Item -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:elevation="5dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Built up Area :"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:elevation="5dp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="1400 sq.ft."
+                        android:textColor="#000000" />
+                </LinearLayout>
+
+                <!-- Separator Line -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/black" />
+
+                <!-- Third Item -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="2dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:elevation="5dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Preferred tenant type :"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:elevation="5dp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:padding="2dp"
+                        android:text="Family, Bachelor and Company"
+                        android:textColor="#000000" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Owner Details -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ownerDetailsCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/bg_search"
+            android:backgroundTint="@color/Turquoise"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/propertyDetailsCard">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/ownerName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:elevation="5dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Surendra Kumar Panda"
+                    android:textColor="#000000"
+                    android:textSize="17sp"
+                    app:layout_constraintEnd_toStartOf="@+id/chatNowButton"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/ownerRole"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:elevation="5dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="Owner"
+                    android:textColor="@color/DarkGray"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/ownerName"
+                    app:layout_constraintStart_toStartOf="@+id/ownerName"
+                    app:layout_constraintTop_toBottomOf="@id/ownerName" />
+
+                <TextView
+                    android:id="@+id/tenantsServed"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:elevation="5dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="426 tenants served"
+                    android:textColor="@color/DarkGray"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/ownerRole"
+                    app:layout_constraintStart_toStartOf="@+id/ownerRole"
+                    app:layout_constraintTop_toBottomOf="@id/ownerRole" />
+
+                <TextView
+                    android:id="@+id/postDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:elevation="5dp"
+                    android:fontFamily="@font/montserrat_regular"
+
+                    android:text="Posted on 24 June 2024"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    app:layout_constraintEnd_toEndOf="@+id/tenantsServed"
+                    app:layout_constraintStart_toStartOf="@+id/tenantsServed"
+                    app:layout_constraintTop_toBottomOf="@id/tenantsServed" />
+
+                <Button
+                    android:id="@+id/chatNowButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/chat_now_bg"
+                    android:backgroundTint="@color/start_color"
+                    android:drawableLeft="@drawable/chat"
+                    android:drawablePadding="8dp"
+                    android:elevation="15dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:padding="10dp"
+                    android:text="Chat Now"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/newTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:padding="3dp"
+                    android:text="FREE,Fast &amp; Secure"
+                    android:textColor="@color/Pink"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="@+id/chatNowButton"
+                    app:layout_constraintStart_toStartOf="@+id/chatNowButton"
+                    app:layout_constraintTop_toBottomOf="@+id/chatNowButton" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Buttons -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/buttonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_search"
+            android:elevation="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ownerDetailsCard">
+
+            <Button
+                android:id="@+id/chatButton"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/bg_search"
+                android:ellipsize="end"
+                android:fontFamily="@font/montserrat_regular"
+                android:minHeight="48dp"
+                android:text="Chat with Owner"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/divider1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="2dp"
+                android:layout_height="0dp"
+                android:background="@color/start_color"
+                app:layout_constraintBottom_toBottomOf="@+id/chatButton"
+                app:layout_constraintEnd_toStartOf="@+id/viewPhoneButton"
+                app:layout_constraintStart_toEndOf="@+id/chatButton"
+                app:layout_constraintTop_toTopOf="@+id/chatButton" />
+
+            <Button
+                android:id="@+id/viewPhoneButton"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_search"
+                android:ellipsize="end"
+                android:fontFamily="@font/montserrat_regular"
+                android:maxLines="1"
+                android:minHeight="48dp"
+                android:text="View Phone"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/divider2"
+                app:layout_constraintStart_toEndOf="@+id/divider1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="2dp"
+                android:layout_height="0dp"
+                android:background="@color/start_color"
+                app:layout_constraintBottom_toBottomOf="@+id/viewPhoneButton"
+                app:layout_constraintEnd_toStartOf="@+id/contactOwnerButton"
+                app:layout_constraintStart_toEndOf="@+id/viewPhoneButton"
+                app:layout_constraintTop_toTopOf="@+id/viewPhoneButton" />
+
+            <Button
+                android:id="@+id/contactOwnerButton"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/bg_search"
+                android:ellipsize="end"
+                android:fontFamily="@font/montserrat_regular"
+                android:minHeight="48dp"
+                android:padding="3dp"
+                android:text="Contact Owner"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/divider2"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Great Things about Property -->
+        <TextView
+            android:id="@+id/greatThings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_search"
+            android:elevation="10dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:padding="10dp"
+            android:text="Great things about this property"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/propertyType"
+            app:layout_constraintTop_toBottomOf="@id/buttonsLayout" />
+
+        <TextView
+            android:id="@+id/otherDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_search"
+            android:elevation="10dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:padding="10dp"
+            android:text="New flat, spacious room, cooperative society"
+            android:textColor="@android:color/holo_green_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/greatThings"
+            app:layout_constraintTop_toBottomOf="@+id/greatThings" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
