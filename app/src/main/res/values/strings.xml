@@ -53,5 +53,7 @@
     <string name="negotiate_rent">negotiate_rent</string>
     <string name="contact_owner">Contact Owner</string>
     <string name="new_flat_spacious_room_cooperative_society">New flat, spacious room, cooperative society</string>
-
+    <string name="grid_item_clicked">Clicked on GridItem: %1$s</string>
+    <string name="rent_format">Rent: %1$s</string>
+    <string name="bhk_description">%1$s BHK</string>
 </resources>

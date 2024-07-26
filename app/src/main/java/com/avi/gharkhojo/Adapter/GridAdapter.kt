@@ -25,11 +25,11 @@ class GridAdapter(
                 .load(R.drawable.kk)
                 .into(gridItemBinding.displayPicture)
 
-            // Set the rent text with the fixed prefix "Rent: "
-            gridItemBinding.rent.text = "Rent: ${formatRent(gridItem.rent)}"
+            // Set the rent text with the resource string
+            gridItemBinding.rent.text = gridItemBinding.root.context.getString(R.string.rent_format, formatRent(gridItem.rent))
 
-            // Set the BHK description text dynamically
-            gridItemBinding.bhkDescription.text = "${gridItem.bhk}BHK"
+            // Set the BHK description text dynamically using resource string
+            gridItemBinding.bhkDescription.text = gridItemBinding.root.context.getString(R.string.bhk_description, gridItem.bhk)
         }
 
         private fun formatRent(rent: String): String {

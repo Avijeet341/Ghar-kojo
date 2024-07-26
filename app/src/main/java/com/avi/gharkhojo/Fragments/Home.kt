@@ -33,7 +33,11 @@ class Home : Fragment() {
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = GridAdapter(createGridList()) { gridItem, position ->
-                Toast.makeText(requireContext(), "Clicked on GridItem: ${gridItem.rent}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.grid_item_clicked, gridItem.rent),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -50,21 +54,6 @@ class Home : Fragment() {
             GridItem(R.drawable.shoe, "5000", "3"),
             GridItem(R.drawable.room_view_2, "5000", "3"),
             GridItem(R.drawable.room_view_3, "5000", "3"),
-            GridItem(R.drawable.spider3, "10000", "2"),
-            GridItem(R.drawable.hashira, "12000", "3"),
-            GridItem(R.drawable.india, "9000", "2"),
-            GridItem(R.drawable.kk, "11000", "4"),
-            GridItem(R.drawable.pain, "13000", "5"),
-            GridItem(R.drawable.giyu_tomioka, "14000", "2"),
-            GridItem(R.drawable.doodle, "15000", "2"),
-            GridItem(R.drawable.itachi, "16000", "3"),
-            GridItem(R.drawable.family, "17000", "2"),
-            GridItem(R.drawable.kimetsu_no_yaiba, "18000", "2"),
-            GridItem(R.drawable.kokushibo, "19000", "2"),
-            GridItem(R.drawable.madara, "20000", "2"),
-            GridItem(R.drawable.vibe, "21000", "2"),
-            GridItem(R.drawable.this_is_good, "22000", "4"),
-            GridItem(R.drawable.squad, "23000", "2"),
             GridItem(R.drawable.space_light, "24000", "2"),
             GridItem(R.drawable.court, "25000", "2")
         )

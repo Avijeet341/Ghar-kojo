@@ -22,8 +22,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.firebase.firestore.auth.User
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
@@ -40,7 +38,7 @@ class Profile : Fragment() {
 
     private lateinit var pickImage: ActivityResultLauncher<String>
     private lateinit var cropImage: ActivityResultLauncher<Intent>
-    private val storageRef:StorageReference by lazy { Firebase.storage.reference.child("profile_pictures/${FirebaseAuth.getInstance().currentUser?.uid}") }
+    private val storageRef: StorageReference by lazy { Firebase.storage.reference.child("profile_pictures/${FirebaseAuth.getInstance().currentUser?.uid}") }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,8 +53,6 @@ class Profile : Fragment() {
 
         loadProfileImage()
         setupClickListeners()
-
-
         initImagePicker()
     }
 
@@ -84,19 +80,12 @@ class Profile : Fragment() {
         }
     }
 
-
     private fun loadUserData() {
-
         binding.textViewUsername.text = UserData.username ?: getString(R.string.default_username)
         binding.textViewEmail.text = UserData.email ?: getString(R.string.default_email)
         binding.textViewAddress.text = UserData.address ?: getString(R.string.default_address)
         binding.textViewPhone.text = UserData.phn_no ?: getString(R.string.default_phone)
-//        binding.ProfilePic.setImageURI(Uri.parse(UserData.profilePictureUrl))
-
-
     }
-
-
 
     private fun initImagePicker() {
         pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
@@ -110,9 +99,9 @@ class Profile : Fragment() {
                     resultUri?.let { uri ->
                         UserData.profilePictureUrl = uri.toString()
                         storageRef.putFile(uri).addOnSuccessListener {
-                           storageRef.downloadUrl.addOnSuccessListener {
-                               UserData.profilePictureUrl = it.toString()
-                           }
+                            storageRef.downloadUrl.addOnSuccessListener {
+                                UserData.profilePictureUrl = it.toString()
+                            }
                         }
                         Glide.with(this)
                             .load(uri)
@@ -154,9 +143,12 @@ class Profile : Fragment() {
         val googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
         googleSignInClient.signOut().addOnCompleteListener { task ->
             if (task.isSuccessful) {
+                // Clear UserData
+                UserData.clear()
+
                 Toast.makeText(requireContext(), getString(R.string.sign_out_success), Toast.LENGTH_SHORT).show()
                 startActivity(Intent(requireActivity(), LoginActivity::class.java))
-                requireActivity().finish()
+                requireActivity().finishAffinity()
             } else {
                 Toast.makeText(requireContext(), getString(R.string.sign_out_failed), Toast.LENGTH_SHORT).show()
             }
@@ -169,8 +161,11 @@ class Profile : Fragment() {
             val address = binding.textViewAddress.text.toString()
             val phone = binding.textViewPhone.text.toString()
 
-            val profileBottomSheet = ProfileBottomSheet(UserData.username?:R.string.default_username.toString(),
-                UserData.address?:R.string.default_address.toString(), UserData.phn_no?:R.string.default_phone.toString())
+            val profileBottomSheet = ProfileBottomSheet(
+                UserData.username ?: getString(R.string.default_username),
+                UserData.address ?: getString(R.string.default_address),
+                UserData.phn_no ?: getString(R.string.default_phone)
+            )
             profileBottomSheet.profileBinding = binding
             profileBottomSheet.show(childFragmentManager, ProfileBottomSheet::class.java.simpleName)
         }
@@ -180,6 +175,7 @@ class Profile : Fragment() {
         super.onStart()
         loadUserData()
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
