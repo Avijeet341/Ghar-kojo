@@ -13,11 +13,11 @@ data object UserData{
     var uid: String? = null
 
     fun clear() {
-        username = R.string.default_username.toString()
-        email = R.string.default_email.toString()
-        address = R.string.default_address.toString()
-        phn_no = R.string.default_phone.toString()
-        profilePictureUrl = R.string.profile.toString()
+        username = null
+        email = null
+        address = null
+        phn_no = null
+        profilePictureUrl = null
         uid = null
     }
 }
