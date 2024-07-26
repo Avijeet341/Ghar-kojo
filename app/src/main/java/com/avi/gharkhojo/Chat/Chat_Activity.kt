@@ -1,8 +1,6 @@
 package com.avi.gharkhojo.Chat
 
-
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -10,21 +8,17 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Adapter.ChatUserListAdapter
 import com.avi.gharkhojo.Model.ChatUserListModel
-import com.avi.gharkhojo.R
+import com.avi.gharkhojo.Model.Message
 import com.avi.gharkhojo.databinding.ActivityChatBinding
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-
+import com.google.firebase.database.*
 
 class Chat_Activity : AppCompatActivity() {
 
@@ -35,60 +29,110 @@ class Chat_Activity : AppCompatActivity() {
     private var firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
     private var databaseReference: DatabaseReference = firebaseDatabase.reference.child("users")
     private var chatUserListAdapter: ChatUserListAdapter? = null
+    private var userListListener: ValueEventListener? = null
+    private var messageListenerMap: MutableMap<String, ValueEventListener> = mutableMapOf()
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-
-        chatUserListAdapter = ChatUserListAdapter(chatUserListModel,this)
+        chatUserListAdapter = ChatUserListAdapter(chatUserListModel, this)
         recyclerView = binding.recyclerView2
-       recyclerView?.adapter = chatUserListAdapter
+        recyclerView?.adapter = chatUserListAdapter
         recyclerView?.layoutManager = LinearLayoutManager(this)
-
         recyclerView?.setHasFixedSize(true)
 
-        databaseReference.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                chatUserListModel.clear()
-                for(dataSnapshot in snapshot.children){
-                    val userData = dataSnapshot.getValue(ChatUserListModel::class.java)
-                    if(firebaseUser?.uid != userData?.userId){
-                        chatUserListModel.add(userData!!)
-
-                    }
-                }
-                chatUserListAdapter?.notifyDataSetChanged()
-            }
-            override fun onCancelled(error: DatabaseError) {
-
-        }
-
-
-        })
+//        fetchUsers()
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        firebaseDatabase.reference.child("Presence")
-//            .child(firebaseUser!!.uid).setValue("Online")
-//
-//    }
-//    override fun onPause() {
-//        super.onPause()
+    private fun fetchUsers() {
+        userListListener = object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val userIdSet = HashSet<String>()
+                chatUserListModel.clear()
+                val tasks = mutableListOf<Task<DataSnapshot>>()
+                for (dataSnapshot in snapshot.children) {
+                    if (dataSnapshot.key == "New message") continue
+                    val userData = dataSnapshot.getValue(ChatUserListModel::class.java)
+                    if (firebaseUser?.uid != userData?.userId && userData?.userId !in userIdSet) {
+                        userIdSet.add(userData!!.userId!!)
+                        val chatId = firebaseUser!!.uid + userData.userId
+                        addMessageListener(chatId)
+                        val task = firebaseDatabase.reference.child("chats")
+                            .child(chatId)
+                            .child("message")
+                            .get()
+                            .addOnSuccessListener { messageSnapshot ->
+                                userData.lastMessageTimestamp = messageSnapshot.children.lastOrNull()?.getValue(Message::class.java)?.timeStamp
+                                chatUserListModel.add(userData)
+                            }
+                        tasks.add(task)
+                    }
+                }
+
+                Tasks.whenAllComplete(tasks).addOnSuccessListener {
+                    chatUserListModel.sortByDescending { it.lastMessageTimestamp ?: 0L }
+                    chatUserListAdapter?.notifyDataSetChanged()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle possible errors
+            }
+        }
+        databaseReference.addValueEventListener(userListListener!!)
+    }
+
+    private fun addMessageListener(chatId: String) {
+        if (messageListenerMap.containsKey(chatId)) return
+
+        val messageListener = object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val userId = chatId.removePrefix(firebaseUser!!.uid)
+                val userIndex = chatUserListModel.indexOfFirst { it.userId == userId }
+                if (userIndex != -1) {
+                    chatUserListModel[userIndex].lastMessageTimestamp = snapshot.children.lastOrNull()?.getValue(Message::class.java)?.timeStamp
+                    chatUserListModel[userIndex].lastMessage = snapshot.children.lastOrNull()?.getValue(Message::class.java)?.message
+                    chatUserListModel.sortByDescending { it.lastMessageTimestamp ?: 0L }
+                    chatUserListAdapter?.notifyDataSetChanged()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle possible errors
+            }
+        }
+        val messageRef = firebaseDatabase.reference.child("chats").child(chatId).child("message")
+        messageRef.addValueEventListener(messageListener)
+        messageListenerMap[chatId] = messageListener
+    }
+
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onResume() {
+        super.onResume()
+        fetchUsers()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        userListListener?.let { databaseReference.removeEventListener(it) }
+        messageListenerMap.forEach { (chatId, listener) ->
+            firebaseDatabase.reference.child("chats").child(chatId).child("message").removeEventListener(listener)
+        }
+        messageListenerMap.clear()
 //        firebaseDatabase.reference.child("Presence")
 //            .child(firebaseUser!!.uid).setValue("Offline")
-//    }
-
-
-
+    }
 }

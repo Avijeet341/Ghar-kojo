@@ -176,6 +176,8 @@ class ChatRoom : AppCompatActivity() {
                 if(sendMsgText.isNotEmpty()){
                     chatBinding.inputMsg.setText("")
 
+                    databaseReference.child("users").child("New message").setValue("new message")
+
                     val randomKey = databaseReference.push().key
                     val lastMsgObj = HashMap<String,Any>()
                     lastMsgObj["lastMsg"] = message.message!!
