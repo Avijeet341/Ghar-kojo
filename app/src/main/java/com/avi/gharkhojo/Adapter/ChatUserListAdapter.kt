@@ -42,11 +42,12 @@ class ChatUserListAdapter(private val chatUsers: List<ChatUserListModel>,private
 
     override fun onBindViewHolder(holder: ChatUserViewHolder, position: Int) {
 
+
         if (chatUsers.isNotEmpty()) {
             val chatUser: ChatUserListModel = chatUsers[position]
             if (!chatUser.userId.equals(FirebaseAuth.getInstance().currentUser?.uid)) {
                 Glide.with(context)
-                    .load(Uri.parse((if (!chatUser.userimage.isNullOrEmpty()) chatUser.userimage else R.drawable.baseline_person_24).toString()))
+                    .load(chatUser.userimage)
                     .placeholder(R.drawable.baseline_person_24).into(holder.img)
                 holder.name.text = chatUser.username
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Model.Message
 import com.avi.gharkhojo.R
@@ -11,6 +12,7 @@ import com.avi.gharkhojo.databinding.DeleteLayoutBinding
 import com.avi.gharkhojo.databinding.ReceiverMsgBinding
 import com.avi.gharkhojo.databinding.SenderMsgBinding
 import com.bumptech.glide.Glide
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
@@ -70,6 +72,8 @@ class MessageAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val message = messages[position]
 
+
+
         if (holder.javaClass == SentMsgHolder::class.java) {
             val viewHolder = holder as SentMsgHolder
             if (message.message.equals("photo")) {
@@ -91,14 +95,15 @@ class MessageAdapter(
                     .setView(binding.root)
                     .create()
                 binding.everyone.setOnClickListener {
-                    message.messageId?.let {
+
+                  var senderMsgDel =   message.messageId?.let {
                         FirebaseDatabase.getInstance().reference.child("chats")
                             .child(senderRoom!!)
                             .child("message")
                             .child(it).setValue(null)
 
                     }
-                    message.messageId?.let {
+                var receiverMsgDel =    message.messageId?.let {
 
                         FirebaseDatabase.getInstance().reference.child("chats")
                             .child(receiverRoom!!)
@@ -106,47 +111,139 @@ class MessageAdapter(
                             .child(it).setValue(null)
 
                     }
-                    message.img_id?.let {
-                        storageRef.child("chats").child(it!!).delete()
+
+                    if(message.messageId!=null) {
+                        Tasks.whenAllComplete(senderMsgDel, receiverMsgDel).addOnSuccessListener {
+                          message.img_id?.let {
+                                storageRef.child("chats").child(it).delete().addOnSuccessListener {
+
+                                }
+                            }
+
+                        }
+
                     }
 
                     // for deleting last message:
 
-                    if(position==messages.size-1) {
-                        FirebaseDatabase.getInstance().reference.child("chats")
-                            .child(senderRoom!!)
-                            .child("lastMsg").setValue(null)
-                        FirebaseDatabase.getInstance().reference.child("chats")
-                            .child(senderRoom!!)
-                            .child("lastMsgTime").setValue(null)
 
-                        FirebaseDatabase.getInstance().reference.child("chats")
-                            .child(receiverRoom!!)
-                            .child("lastMsg").setValue(null)
-                        FirebaseDatabase.getInstance().reference.child("chats")
-                            .child(receiverRoom!!)
-                            .child("lastMsgTime").setValue(null)
+                    if (position == messages.size - 1) {
+
+                        var senderLastMsg:String?=null
+                        var senderLastMsgTime:String?=null
+
+                        var receiverLastMsg:String?=null
+                        var receiverLastMsgTime:String?=null
+
+                      var senderTask = FirebaseDatabase.getInstance().reference.child("chats")
+                                .child(senderRoom!!)
+                                .child("message")
+                                .get().addOnSuccessListener {
+                                    if(it.children.count()>0 && it.children.last().getValue(Message::class.java)!=null) {
+                                        senderLastMsg = it.children.last()
+                                            .getValue(Message::class.java)?.message
+                                        senderLastMsgTime = it.children.last()
+                                            .getValue(Message::class.java)?.timeStamp.toString()
+                                    }
+                                }
+
+
+
+                    var receiverTask = FirebaseDatabase.getInstance().reference.child("chats")
+                                .child(receiverRoom!!)
+                                .child("message")
+                                .get().addOnSuccessListener {
+
+                                    if(it.children.count()>0 && it.children.last().getValue(Message::class.java)!=null) {
+                                        receiverLastMsg = it.children.last()
+                                            .getValue(Message::class.java)?.message
+                                        receiverLastMsgTime = it.children.last()
+                                            .getValue(Message::class.java)?.timeStamp.toString()
+                                    }
+                                }
+
+
+
+                        Tasks.whenAllComplete(senderTask,receiverTask).addOnSuccessListener {
+
+                            FirebaseDatabase.getInstance().reference.child("chats")
+                                .child(senderRoom!!)
+                                .child("lastMsg").setValue(senderLastMsg)
+
+                            FirebaseDatabase.getInstance().reference.child("chats")
+                                .child(senderRoom!!)
+                                .child("lastMsgTime").setValue(senderLastMsgTime)
+
+
+                            FirebaseDatabase.getInstance().reference.child("chats")
+                                .child(receiverRoom!!)
+                                .child("lastMsg").setValue(receiverLastMsg)
+
+                            FirebaseDatabase.getInstance().reference.child("chats")
+                                .child(receiverRoom!!)
+                                .child("lastMsgTime").setValue(receiverLastMsgTime)
+                        }
+
+
+
+
                     }
+
+
 
                     dialog.dismiss()
                 }
                 binding.delete.setOnClickListener {
-                    message.messageId?.let {
+                   var senderMsgDel =   message.messageId?.let {
                         FirebaseDatabase.getInstance().reference.child("chats")
                             .child(senderRoom!!)
                             .child("message")
                             .child(it).setValue(null)
                     }
-                    message.img_id?.let {
-                        storageRef.child("chats").child(it!!).delete()
+
+                    if(message.messageId!=null) {
+                        Tasks.whenAllComplete(senderMsgDel).addOnSuccessListener {
+                            message.img_id?.let {
+                                storageRef.child("chats").child(it).delete()
+                            }
+                        }
+
                     }
 
-                    FirebaseDatabase.getInstance().reference.child("chats")
-                        .child(senderRoom!!)
-                        .child("lastMsg").setValue(null)
-                    FirebaseDatabase.getInstance().reference.child("chats")
-                        .child(senderRoom!!)
-                        .child("lastMsgTime").setValue(null)
+
+                    if(position == messages.size-1){
+                        var senderLastMsg:String?=null
+                        var senderLastMsgTime:String?=null
+
+                      var senderTask = FirebaseDatabase.getInstance().reference.child("chats")
+                                .child(senderRoom!!)
+                                .child("message")
+                                .get().addOnSuccessListener {
+                              if (it.children.count()>0 && it.children.last()
+                                      .getValue(Message::class.java) != null
+                              ) {
+                                  senderLastMsg =
+                                      it.children.last().getValue(Message::class.java)?.message
+                                  senderLastMsgTime = it.children.last()
+                                      .getValue(Message::class.java)?.timeStamp.toString()
+                              }
+                          }
+
+
+                        Tasks.whenAllComplete(senderTask).addOnSuccessListener {
+                            FirebaseDatabase.getInstance().reference.child("chats")
+                                .child(senderRoom!!)
+                                .child("lastMsg").setValue(senderLastMsg)
+
+                            FirebaseDatabase.getInstance().reference.child("chats")
+                                .child(senderRoom!!)
+                                .child("lastMsgTime").setValue(senderLastMsgTime)
+                        }
+                        }
+
+
+
+
                     dialog.dismiss()
 
                 }
@@ -183,23 +280,53 @@ class MessageAdapter(
                     .create()
 
                 binding.delete.setOnClickListener {
-                    message.messageId?.let {
+                   var senderMsgDel = message.messageId?.let {
                         FirebaseDatabase.getInstance().reference.child("chats")
                             .child(senderRoom!!)
                             .child("message")
                             .child(it).setValue(null)
                     }
-                    message.img_id?.let {
-                        storageRef.child("chats").child(it!!).delete()
+
+                    if(message.messageId!=null){
+                        Tasks.whenAllComplete(senderMsgDel).addOnSuccessListener {
+                            message.img_id?.let {
+                                storageRef.child("chats").child(it).delete()
+                            }
+                        }
                     }
-                    if(position==messages.size-1) {
-                        FirebaseDatabase.getInstance().reference.child("chats")
+
+
+
+                    if(position == messages.size-1){
+                        var senderLastMsg:String?=null
+                        var senderLastMsgTime:String?=null
+
+                        var senderTask = FirebaseDatabase.getInstance().reference.child("chats")
                             .child(senderRoom!!)
-                            .child("lastMsg").setValue(null)
-                        FirebaseDatabase.getInstance().reference.child("chats")
-                            .child(senderRoom!!)
-                            .child("lastMsgTime").setValue(null)
+                            .child("message")
+                            .get().addOnSuccessListener {
+                                if (it.children.count()>0 && it.children.last()
+                                        .getValue(Message::class.java) != null
+                                ) {
+                                    senderLastMsg =
+                                        it.children.last().getValue(Message::class.java)?.message
+                                    senderLastMsgTime = it.children.last()
+                                        .getValue(Message::class.java)?.timeStamp.toString()
+                                }
+                            }
+
+
+                        Tasks.whenAllComplete(senderTask).addOnSuccessListener {
+                            FirebaseDatabase.getInstance().reference.child("chats")
+                                .child(senderRoom!!)
+                                .child("lastMsg").setValue(senderLastMsg)
+
+                            FirebaseDatabase.getInstance().reference.child("chats")
+                                .child(senderRoom!!)
+                                .child("lastMsgTime").setValue(senderLastMsgTime)
+                        }
                     }
+
                     dialog.dismiss()
 
                 }

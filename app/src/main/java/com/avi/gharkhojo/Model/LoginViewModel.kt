@@ -1,5 +1,6 @@
 package com.avi.gharkhojo.Model
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,19 +16,12 @@ class LoginViewModel : ViewModel() {
     private val _loginState = MutableLiveData<LoginState>()
     val loginState: LiveData<LoginState> = _loginState
 
-    fun signInUser(email: String, pass: String) {
+    fun signInUser(email: String, pass: String,context: Context) {
         if (email.isNotEmpty() && pass.isNotEmpty()) {
             firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val user = firebaseAuth.currentUser
-                    user?.let {
-                        UserData.apply {
-                            username = it.displayName
-                            address = R.string.default_address.toString()
-                            phn_no = R.string.default_phone.toString()
-                            profilePictureUrl = R.string.profile.toString()
-                        }
-                    }
+                    UserSignupLoginManager.getInstance(context).setUp()
+
                     _loginState.value = LoginState.Success(UserData)
                 } else {
                     _loginState.value = LoginState.Error(task.exception?.message ?: "Login failed.")

@@ -84,7 +84,7 @@ class LoginActivity : AppCompatActivity() {
                 val email = editTextTextEmailAddress.text.toString()
                 val pass = editTextTextPassword.text.toString()
                 showLoading()
-                viewModel.signInUser(email, pass)
+                viewModel.signInUser(email, pass,this@LoginActivity)
             }
             buttonGoogle.setOnClickListener { signInGoogle() }
             buttonFacebook.setOnClickListener {

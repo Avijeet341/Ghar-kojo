@@ -141,6 +141,7 @@ class ChatRoom : AppCompatActivity() {
 
                     }
                     chatAdapter.notifyDataSetChanged()
+                    recyclerView.scrollToPosition(messages.size-1)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -241,9 +242,9 @@ class ChatRoom : AppCompatActivity() {
                         if (task.isSuccessful) {
                             ref.downloadUrl.addOnSuccessListener { uri ->
                                 val filePath = uri.toString()
-                                val messageTxt: String = chatBinding.inputMsg.text.toString().trim()
+//                                val messageTxt: String = chatBinding.inputMsg.text.toString().trim()
                                 val date = Date()
-                                val message = Message(messageTxt, firebaseUser!!.uid, date.time)
+                                val message = Message(null, firebaseUser!!.uid, date.time)
                                 message.imageUrl = filePath
                                 message.message = "photo"
                                 chatBinding.inputMsg.setText("")
@@ -262,6 +263,7 @@ class ChatRoom : AppCompatActivity() {
                                         databaseReference.child("chats").child(receiverRoom!!)
                                             .child("message").child(randomKey)
                                             .setValue(message).addOnSuccessListener {
+
                                             }
 
 

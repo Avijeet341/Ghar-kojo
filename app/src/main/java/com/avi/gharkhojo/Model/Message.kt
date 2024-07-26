@@ -4,6 +4,7 @@ class Message
 {
     var messageId:String? = null
     var message:String? = null
+    var isImage:Boolean = false
     var senderId:String? = null
     var imageUrl:String? = null
     var img_id:String? = null

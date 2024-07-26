@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import com.avi.gharkhojo.LoginActivity
 import com.avi.gharkhojo.Model.ChatUserListModel
 import com.avi.gharkhojo.Model.UserData
+import com.avi.gharkhojo.Model.UserSignupLoginManager
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentProfileBinding
 import com.bumptech.glide.Glide
@@ -95,7 +96,7 @@ class Profile : Fragment() {
     private fun loadUserData() {
 
         binding.textViewUsername.text = UserData.username ?: getString(R.string.default_username)
-        binding.textViewEmail.text = UserData.email ?: getString(R.string.default_email)
+        binding.textViewEmail.text = firebaseAuth.currentUser?.email ?: getString(R.string.default_email)
         binding.textViewAddress.text = UserData.address ?: getString(R.string.default_address)
         binding.textViewPhone.text = UserData.phn_no ?: getString(R.string.default_phone)
 //        binding.ProfilePic.setImageURI(Uri.parse(UserData.profilePictureUrl))
@@ -170,6 +171,13 @@ class Profile : Fragment() {
 
     private fun signOut() {
         firebaseAuth.signOut()
+        UserData.username = null
+        UserData.email = null
+        UserData.address = null
+        UserData.phn_no = null
+        UserData.profilePictureUrl = null
+        UserData.uid = null
+        UserSignupLoginManager.instance = null
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()

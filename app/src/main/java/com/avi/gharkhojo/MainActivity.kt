@@ -21,6 +21,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.avi.gharkhojo.Chat.Chat_Activity
 import com.avi.gharkhojo.Model.SharedViewModel
 import com.avi.gharkhojo.Model.UserData
+import com.avi.gharkhojo.Model.UserSignupLoginManager
 import com.avi.gharkhojo.databinding.ActivityMainBinding
 import com.google.android.gms.auth.api.signin.internal.Storage
 import com.google.firebase.Firebase
@@ -62,56 +63,7 @@ class MainActivity : AppCompatActivity() {
         setUpTabBar()
         onBackPressedAvi()
 
-        UserData.email = if(UserData.email.isNullOrEmpty()){
-            FirebaseAuth.getInstance().currentUser?.email
-        }
-        else{
-            UserData.email
-        }
-        UserData.profilePictureUrl = if(UserData.profilePictureUrl.isNullOrEmpty()) {
-            FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
-        }else{
-            UserData.profilePictureUrl
-        }
-        UserData.username = if(UserData.username.isNullOrEmpty()){
-            FirebaseAuth.getInstance().currentUser?.displayName
-
-        }else{
-            UserData.username
-        }
-        UserData.uid = FirebaseAuth.getInstance().currentUser?.uid
-        Toast.makeText(this, UserData.profilePictureUrl, Toast.LENGTH_SHORT).show()
-
-
-        storageRef.downloadUrl.addOnSuccessListener {
-
-            if(it!=null) {
-                UserData.profilePictureUrl = it.toString()
-
-            }
-
-
-        }.addOnFailureListener{
-            UserData.profilePictureUrl = FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
-        }
-        if(UserData.username.isNullOrEmpty() || UserData.address.isNullOrEmpty() || UserData.phn_no.isNullOrEmpty()) {
-            firestore.collection("users").document(
-                FirebaseAuth.getInstance().currentUser?.uid
-                    ?: "").get()
-                .addOnSuccessListener { document ->
-                    if (document != null) {
-                        if(document.getString("name")!=null){
-                            UserData.username = document.getString("name")
-                        }
-                        UserData.address = document.getString("address") ?: getString(R.string.default_address)
-                        UserData.phn_no = document.getString("phone") ?: getString(R.string.default_phone)
-                    }
-                }
-                .addOnFailureListener {
-                    UserData.address = getString(R.string.default_address)
-                    UserData.phn_no = getString(R.string.default_phone)
-                }
-        }
+        UserSignupLoginManager.getInstance(this).setUp()
 
 
 
