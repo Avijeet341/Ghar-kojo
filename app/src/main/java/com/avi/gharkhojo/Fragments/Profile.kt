@@ -171,12 +171,7 @@ class Profile : Fragment() {
 
     private fun signOut() {
         firebaseAuth.signOut()
-        UserData.username = null
-        UserData.email = null
-        UserData.address = null
-        UserData.phn_no = null
-        UserData.profilePictureUrl = null
-        UserData.uid = null
+        UserData.clear()
         UserSignupLoginManager.instance = null
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.avi.gharkhojo.R
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
@@ -16,24 +15,23 @@ class LoginViewModel : ViewModel() {
     private val _loginState = MutableLiveData<LoginState>()
     val loginState: LiveData<LoginState> = _loginState
 
-    fun signInUser(email: String, pass: String,context: Context) {
+    fun signInUser(email: String, pass: String,context:Context) {
         if (email.isNotEmpty() && pass.isNotEmpty()) {
             firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     UserSignupLoginManager.getInstance(context).setUp()
-
-                    _loginState.value = LoginState.Success(UserData)
+                    _loginState.postValue(LoginState.Success(UserData))
                 } else {
-                    _loginState.value = LoginState.Error(task.exception?.message ?: "Login failed.")
+                    _loginState.postValue(LoginState.Error(task.exception?.message ?: "Login failed."))
                 }
             }
         } else {
-            _loginState.value = LoginState.Error("Empty Fields Are Not Allowed!!😓.")
+            _loginState.postValue(LoginState.Error("Empty Fields Are Not Allowed!!😓."))
         }
     }
 
-    fun firebaseGoogleAccount(account: GoogleSignInAccount) {
-        val authCredential = GoogleAuthProvider.getCredential(account.idToken, null)
+    fun firebaseGoogleAccount(idToken: String) {
+        val authCredential = GoogleAuthProvider.getCredential(idToken, null)
         firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val user = firebaseAuth.currentUser
@@ -45,9 +43,9 @@ class LoginViewModel : ViewModel() {
                         profilePictureUrl = R.string.profile.toString()
                     }
                 }
-                _loginState.value = LoginState.Success(UserData)
+                _loginState.postValue(LoginState.Success(UserData))
             } else {
-                _loginState.value = LoginState.Error("Google sign-in failed.")
+                _loginState.postValue(LoginState.Error("Google sign-in failed."))
             }
         }
     }
