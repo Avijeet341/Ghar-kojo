@@ -2,17 +2,23 @@ package com.avi.gharkhojo.Chat
 
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -71,7 +77,8 @@ class ChatRoom : AppCompatActivity() {
         enableEdgeToEdge()
         chatBinding = ActivityChatRoomBinding.inflate(layoutInflater)
         setContentView(chatBinding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        ViewCompat.setOnApplyWindowInsetsListener(chatBinding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -149,6 +156,7 @@ class ChatRoom : AppCompatActivity() {
                 }
 
             })
+
 
         initializeMessaging()
 
@@ -246,7 +254,8 @@ class ChatRoom : AppCompatActivity() {
                                 val date = Date()
                                 val message = Message(null, firebaseUser!!.uid, date.time)
                                 message.imageUrl = filePath
-                                message.message = "photo"
+                                message.message = "photos"
+                                message.isImage = true
                                 chatBinding.inputMsg.setText("")
                                 val randomKey = databaseReference.push().key
                                 val lastMsgObj = HashMap<String, Any>()

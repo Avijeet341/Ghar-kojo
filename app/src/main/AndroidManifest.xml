@@ -17,7 +17,7 @@
         <activity
             android:name=".Chat.ChatRoom"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             />
         <activity
             android:name=".Chat.Chat_Activity"

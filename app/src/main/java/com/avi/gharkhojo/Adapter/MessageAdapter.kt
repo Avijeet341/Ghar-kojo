@@ -76,7 +76,10 @@ class MessageAdapter(
 
         if (holder.javaClass == SentMsgHolder::class.java) {
             val viewHolder = holder as SentMsgHolder
-            if (message.message.equals("photo")) {
+            viewHolder.binding.image.visibility = View.GONE
+            viewHolder.binding.mLinear.visibility = View.VISIBLE
+            viewHolder.binding.senderTextMsg.visibility = View.VISIBLE
+            if (message.isImage) {
                 viewHolder.binding.image.visibility = View.VISIBLE
                 viewHolder.binding.mLinear.visibility = View.GONE
                 viewHolder.binding.senderTextMsg.visibility = View.GONE
@@ -85,7 +88,9 @@ class MessageAdapter(
                     .placeholder(R.drawable.image_placeholder)
                     .into(viewHolder.binding.image)
             }
-            viewHolder.binding.senderTextMsg.text = message.message
+
+                viewHolder.binding.senderTextMsg.text = message.message
+
             viewHolder.binding.time.text = formatDate(message.timeStamp)
             viewHolder.itemView.setOnLongClickListener {
                 val view = LayoutInflater.from(context).inflate(R.layout.delete_layout, null)
@@ -257,7 +262,11 @@ class MessageAdapter(
         } else {
             val viewHolder = holder as ReceiveMsgHolder
 
-            if (message.message.equals("photo")) {
+            viewHolder.binding.image.visibility = View.GONE
+            viewHolder.binding.mLinear.visibility = View.VISIBLE
+            viewHolder.binding.receiverTxtMsg.visibility = View.VISIBLE
+
+            if (message.isImage) {
                 viewHolder.binding.image.visibility = View.VISIBLE
                 viewHolder.binding.mLinear.visibility = View.GONE
                 viewHolder.binding.receiverTxtMsg.visibility = View.GONE
@@ -268,7 +277,9 @@ class MessageAdapter(
 
 
             }
-            viewHolder.binding.receiverTxtMsg.text = message.message
+
+                viewHolder.binding.receiverTxtMsg.text = message.message
+
             viewHolder.binding.time.text = formatDate(message.timeStamp)
             viewHolder.itemView.setOnLongClickListener{
                 val view = LayoutInflater.from(context).inflate(R.layout.delete_layout, null)

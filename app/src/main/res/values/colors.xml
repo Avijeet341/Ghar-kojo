@@ -18,4 +18,22 @@
     <color name="lavender">#8692f7</color>
     <color name="NavyBlue">#000080</color>
     <color name="DarkGray">#333333</color>
+
+    <color name="card_background">#F8F9FA</color>
+    <color name="recycler_background">#FFFFFF</color>
+
+
+    <color name="text_primary">#212121</color>
+    <color name="status_color">#007BFF</color>
+    <color name="gray_hint">#6C757D</color>
+
+
+    <color name="profile_border">#007BFF</color>
+    <color name="profile_background">#E9ECEF</color>
+
+
+    <color name="icon_tint">#6C757D</color>
+
+
+    <color name="button_background">#28A745</color>
 </resources>
