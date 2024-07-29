@@ -2,7 +2,10 @@ package com.avi.gharkhojo.Adapter
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.net.Uri
+import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,24 +66,9 @@ class ChatUserListAdapter(private val chatUsers: List<ChatUserListModel>,private
                     .placeholder(R.drawable.baseline_person_24).into(holder.img)
                 holder.name.text = chatUser.username
                 holder.time.text = chatUser.lastMessageTimestamp?.let { formatDate(it) }
+                holder.lastMsg.text = chatUser.lastMessage
 
-                databaseReference.child("chats")
-                    .child(FirebaseAuth.getInstance().currentUser!!.uid + chatUser.userId!!)
-                    .child("message")
-                    .addValueEventListener(object : ValueEventListener {
-                        override fun onDataChange(snapshot: com.google.firebase.database.DataSnapshot) {
-                            if (snapshot.exists()) {
-                                val message: Message? =
-                                    snapshot.children.last().getValue(Message::class.java)
-                                holder.lastMsg.text = message?.message
-                            }
-                            }
 
-                        override fun onCancelled(error: DatabaseError) {
-
-                        }
-
-                    })
 
                 holder.itemView.setOnClickListener {
 
@@ -89,7 +77,10 @@ class ChatUserListAdapter(private val chatUsers: List<ChatUserListModel>,private
                     intent.putExtra(ChatRoom.IMG_ARG,chatUser.userimage)
                     intent.putExtra(ChatRoom.NAME_ARG,chatUser.username)
                     intent.putExtra(ChatRoom.UID_ARG,chatUser.userId)
+
                     context.startActivity(intent)
+
+
                 }
             }
 

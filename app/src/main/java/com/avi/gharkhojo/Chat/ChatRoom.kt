@@ -77,13 +77,24 @@ class ChatRoom : AppCompatActivity() {
         enableEdgeToEdge()
         chatBinding = ActivityChatRoomBinding.inflate(layoutInflater)
         setContentView(chatBinding.root)
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         ViewCompat.setOnApplyWindowInsetsListener(chatBinding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        setSupportActionBar(chatBinding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        chatBinding.toolbar.setNavigationIcon(R.drawable.baseline_arrow_back_ios_new_24)
+        chatBinding.toolbar.setNavigationOnClickListener {
+            finish()
+        }
+
+
+//        chatBinding.inputMsg.requestFocus()
         storage = FirebaseStorage.getInstance()
         dialog = ProgressDialog(this)
         dialog!!.setMessage("Uploading Image...")
@@ -175,8 +186,6 @@ class ChatRoom : AppCompatActivity() {
                 val message = Message(sendMsgText,firebaseUser!!.uid,date.time)
                 if(sendMsgText.isNotEmpty()){
                     chatBinding.inputMsg.setText("")
-
-                    databaseReference.child("users").child("New message").setValue("new message")
 
                     val randomKey = databaseReference.push().key
                     val lastMsgObj = HashMap<String,Any>()
@@ -294,6 +303,7 @@ class ChatRoom : AppCompatActivity() {
         databaseReference.child("Presence")
             .child(currentId!!)
             .setValue("Online")
+
     }
     override fun onPause() {
         super.onPause()
@@ -301,5 +311,7 @@ class ChatRoom : AppCompatActivity() {
         databaseReference.child("Presence")
             .child(currentId!!)
             .setValue("Offline")
+
     }
+
 }

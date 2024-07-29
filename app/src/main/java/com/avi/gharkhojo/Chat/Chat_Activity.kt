@@ -8,13 +8,13 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Adapter.ChatUserListAdapter
 import com.avi.gharkhojo.Model.ChatUserListModel
 import com.avi.gharkhojo.Model.Message
 import com.avi.gharkhojo.databinding.ActivityChatBinding
-import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -40,6 +40,8 @@ class Chat_Activity : AppCompatActivity() {
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val bottom = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+            v.updatePadding(bottom = bottom)
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
@@ -50,7 +52,8 @@ class Chat_Activity : AppCompatActivity() {
         recyclerView?.layoutManager = LinearLayoutManager(this)
         recyclerView?.setHasFixedSize(true)
 
-//        fetchUsers()
+
+        fetchUsers()
     }
 
     private fun fetchUsers() {
@@ -59,30 +62,21 @@ class Chat_Activity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val userIdSet = HashSet<String>()
                 chatUserListModel.clear()
-                val tasks = mutableListOf<Task<DataSnapshot>>()
                 for (dataSnapshot in snapshot.children) {
-                    if (dataSnapshot.key == "New message") continue
                     val userData = dataSnapshot.getValue(ChatUserListModel::class.java)
                     if (firebaseUser?.uid != userData?.userId && userData?.userId !in userIdSet) {
                         userIdSet.add(userData!!.userId!!)
                         val chatId = firebaseUser!!.uid + userData.userId
+                        chatUserListModel.add(userData)
                         addMessageListener(chatId)
-                        val task = firebaseDatabase.reference.child("chats")
-                            .child(chatId)
-                            .child("message")
-                            .get()
-                            .addOnSuccessListener { messageSnapshot ->
-                                userData.lastMessageTimestamp = messageSnapshot.children.lastOrNull()?.getValue(Message::class.java)?.timeStamp
-                                chatUserListModel.add(userData)
-                            }
-                        tasks.add(task)
+
+
                     }
                 }
 
-                Tasks.whenAllComplete(tasks).addOnSuccessListener {
+
                     chatUserListModel.sortByDescending { it.lastMessageTimestamp ?: 0L }
                     chatUserListAdapter?.notifyDataSetChanged()
-                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -103,7 +97,12 @@ class Chat_Activity : AppCompatActivity() {
                 if (userIndex != -1) {
                     chatUserListModel[userIndex].lastMessageTimestamp = snapshot.children.lastOrNull()?.getValue(Message::class.java)?.timeStamp
                     chatUserListModel[userIndex].lastMessage = snapshot.children.lastOrNull()?.getValue(Message::class.java)?.message
-                    chatUserListModel.sortByDescending { it.lastMessageTimestamp ?: 0L }
+                     chatUserListModel.sortByDescending { it.lastMessageTimestamp ?: 0L }
+                         .also {
+                             recyclerView?.scrollToPosition(0)
+                         }
+
+
                     chatUserListAdapter?.notifyDataSetChanged()
                 }
             }
@@ -117,22 +116,4 @@ class Chat_Activity : AppCompatActivity() {
         messageListenerMap[chatId] = messageListener
     }
 
-
-
-    @SuppressLint("NotifyDataSetChanged")
-    override fun onResume() {
-        super.onResume()
-        fetchUsers()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        userListListener?.let { databaseReference.removeEventListener(it) }
-        messageListenerMap.forEach { (chatId, listener) ->
-            firebaseDatabase.reference.child("chats").child(chatId).child("message").removeEventListener(listener)
-        }
-        messageListenerMap.clear()
-//        firebaseDatabase.reference.child("Presence")
-//            .child(firebaseUser!!.uid).setValue("Offline")
-    }
 }
