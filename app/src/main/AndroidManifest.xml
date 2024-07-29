@@ -2,8 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permissions -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -14,48 +19,40 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GharKhojo"
-        tools:targetApi="31"
-        android:enableOnBackInvokedCallback="true">
-
-        <!-- Chat Activity -->
+        tools:targetApi="31">
+        <activity
+            android:name=".Chat.ChatRoom"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity
             android:name=".Chat.Chat_Activity"
             android:exported="false" />
-
-        <!-- UCrop Activity (for image cropping) -->
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
-        <!-- Forgot Password Activity -->
         <activity
             android:name=".ForgotActivity"
             android:exported="false"
             android:theme="@style/AppTheme" />
-
-        <!-- Sign Up Activity -->
         <activity
             android:name=".SignUpActivity"
             android:exported="false"
             android:theme="@style/AppTheme" />
-
-        <!-- Login Activity -->
         <activity
             android:name=".LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.GharKhojo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Base.Theme.GharKhojo" />
-
     </application>
 
 </manifest>

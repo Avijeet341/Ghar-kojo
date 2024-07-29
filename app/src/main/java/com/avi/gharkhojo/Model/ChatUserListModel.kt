@@ -4,6 +4,8 @@ package com.avi.gharkhojo.Model
     var username:String? = null
     var userimage:String? = null
     var userId:String? = null
+     var lastMessageTimestamp:Long? = null
+     var lastMessage:String? = null
      constructor(username:String?,userImage: String?,userId:String?):this()
     {
         this.username=username;

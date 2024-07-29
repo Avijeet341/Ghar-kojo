@@ -8,12 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.avi.gharkhojo.Model.ChatUserListModel
 import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentProfileBinding
 import com.avi.gharkhojo.databinding.FragmentProfileBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ProfileBottomSheet(
@@ -27,6 +33,8 @@ class ProfileBottomSheet(
     private val binding get() = _binding!!
     private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     private val firestore: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
+    private var firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private var databaseReference: DatabaseReference = firebaseDatabase.reference.child("users")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,6 +120,21 @@ class ProfileBottomSheet(
             binding.buttonSave.visibility = View.VISIBLE
             binding.buttonSave.isClickable = true
         }
+        databaseReference.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(dataSnapshot in snapshot.children){
+                    val userData = dataSnapshot.getValue(ChatUserListModel::class.java)
+                    if(userData?.userId.equals(FirebaseAuth.getInstance().currentUser?.uid)){
+                        databaseReference.child(dataSnapshot.key.toString()).child("username").setValue(UserData.username)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
     }
 
     override fun onDestroyView() {

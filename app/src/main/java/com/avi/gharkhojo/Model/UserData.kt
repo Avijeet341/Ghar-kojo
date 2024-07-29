@@ -1,6 +1,10 @@
 package com.avi.gharkhojo.Model
 
-object UserData {
+import com.avi.gharkhojo.R
+
+data object UserData{
+
+
     var username: String? = null
     var profilePictureUrl: String? = null
     var email: String? = null
@@ -10,10 +14,10 @@ object UserData {
 
     fun clear() {
         username = null
-        profilePictureUrl = null
         email = null
-        phn_no = null
         address = null
+        phn_no = null
+        profilePictureUrl = null
         uid = null
     }
 }

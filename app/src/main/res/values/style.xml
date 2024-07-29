@@ -32,5 +32,7 @@
         <item name="android:background">@drawable/rounded_dialog_background</item>
     </style>
 
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+    </style>
 
 </resources>

@@ -82,7 +82,7 @@ class LoginActivity : AppCompatActivity() {
                 val pass = editTextTextPassword.text.toString()
                 showLoading()
                 CoroutineScope(Dispatchers.IO).launch {
-                    viewModel.signInUser(email, pass)
+                    viewModel.signInUser(email, pass, this@LoginActivity) // change by aditya
                     withContext(Dispatchers.Main) {
                         // Perform UI updates based on the result
                     }
@@ -178,7 +178,7 @@ class LoginActivity : AppCompatActivity() {
     private fun navigateTo(activityClass: Class<*>) {
         val intent = Intent(this, activityClass)
         startActivity(intent)
-      //  finish()
+        finish()
     }
 
     private fun showToast(message: String) {
