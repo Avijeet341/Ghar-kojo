@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_msg_you"
             android:paddingBottom="5dp"
+            android:fontFamily="@font/montserrat_regular"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="5dp"

@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -21,6 +22,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Adapter.MessageAdapter
@@ -79,19 +82,17 @@ class ChatRoom : AppCompatActivity() {
         setContentView(chatBinding.root)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         ViewCompat.setOnApplyWindowInsetsListener(chatBinding.root) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            val statusBar = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            chatBinding.toolbar.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                topMargin = statusBar.top
+            }
+            v.updatePadding(bottom = imeInsets.bottom)
             insets
         }
-
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setSupportActionBar(chatBinding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        chatBinding.toolbar.setNavigationIcon(R.drawable.baseline_arrow_back_ios_new_24)
-        chatBinding.toolbar.setNavigationOnClickListener {
-            finish()
-        }
+
 
 
 //        chatBinding.inputMsg.requestFocus()
@@ -119,7 +120,8 @@ class ChatRoom : AppCompatActivity() {
                     if(snapshot.exists()){
                         val status = snapshot.getValue(String::class.java)
                         if(status == "Offline"){
-                            chatBinding.status.visibility = View.GONE
+                            chatBinding.status.text = status
+                            chatBinding.status.visibility = View.INVISIBLE
                         }
                         else{
                             chatBinding.status.text = status
