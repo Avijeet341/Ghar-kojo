@@ -64,6 +64,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.google.firebase:firebase-database-ktx:21.0.0")
     implementation("androidx.media3:media3-common:1.4.0")
+    implementation("androidx.activity:activity:1.9.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation("com.vanniktech:android-image-cropper:4.5.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")

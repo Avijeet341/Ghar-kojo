@@ -128,13 +128,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (viewModel.isUserLoggedIn()) {
-            showToast("Welcome Guys😎")
-            navigateTo(MainActivity::class.java)
-        }
-    }
 
     private fun signInGoogle() {
         val signInRequest = BeginSignInRequest.builder()

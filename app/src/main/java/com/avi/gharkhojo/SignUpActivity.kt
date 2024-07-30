@@ -63,7 +63,6 @@ class SignUpActivity : AppCompatActivity() {
                 }
                 is SignUpViewModel.SignUpState.Success -> {
                     showToast("Your account has been created. ✅👍😍")
-                    navigateTo(LoginActivity::class.java)
                     signUpBinding.progressCircularSignUp.visibility = View.INVISIBLE
                     signUpBinding.buttonSignUp.isClickable = true
 
@@ -78,12 +77,6 @@ class SignUpActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private fun navigateTo(activityClass: Class<*>) {
-        val intent = Intent(this, activityClass)
-        startActivity(intent)
-        finish()
     }
 
     private fun showToast(message: String) {

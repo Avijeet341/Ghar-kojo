@@ -85,6 +85,9 @@ class Profile : Fragment() {
 
         binding.buttonSignOut.setOnClickListener {
             signOut()
+            requireActivity().finishAffinity()
+
+
         }
 
         binding.fabEditProfile.setOnClickListener {
