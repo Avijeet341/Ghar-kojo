@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -62,6 +63,7 @@ dependencies {
     // Image Loading and Cropping
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.google.firebase:firebase-database-ktx:21.0.0")
+    implementation("androidx.media3:media3-common:1.4.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation("com.vanniktech:android-image-cropper:4.5.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
@@ -83,4 +85,6 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 
     implementation ("com.google.android.gms:play-services-auth:21.2.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
 }

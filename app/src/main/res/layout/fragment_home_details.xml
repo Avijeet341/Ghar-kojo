@@ -34,10 +34,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/bg_search"
+            android:background="@drawable/bg_edit_text"
             android:elevation="10dp"
             android:fontFamily="@font/montserrat_bold"
-            android:padding="10dp"
+            android:padding="12dp"
             android:text="₹ 7,000 / Month (₹ 14.0 K Deposit)"
             android:textColor="#000000"
             android:textSize="18sp"
@@ -50,10 +50,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/bg_search"
+            android:background="@drawable/bg_edit_text"
             android:elevation="10dp"
             android:fontFamily="@font/montserrat_regular"
-            android:padding="5dp"
+            android:padding="10dp"
             android:text="@string/view_charges"
             android:textColor="@android:color/holo_blue_dark"
             app:layout_constraintStart_toStartOf="@id/price"
@@ -65,10 +65,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/bg_search"
+            android:background="@drawable/bg_edit_text"
             android:elevation="10dp"
             android:fontFamily="@font/montserrat_regular"
-            android:padding="5dp"
+            android:padding="10dp"
             android:text="@string/pricing_got_you_puzzled"
             android:textColor="@color/Pink"
             app:layout_constraintStart_toStartOf="@id/viewCharges"
@@ -79,10 +79,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/bg_search"
+            android:background="@drawable/bg_edit_text"
             android:elevation="10dp"
             android:fontFamily="@font/montserrat_regular"
-            android:padding="5dp"
+            android:padding="10dp"
             android:text="@string/negotiate_rent"
             android:textColor="@color/Pink"
             app:layout_constraintStart_toStartOf="@id/pricingPuzzled"
@@ -95,7 +95,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/pace_details"
+            android:background="@drawable/bg_edit_text"
+            android:backgroundTint="@color/Green"
             android:elevation="10dp"
             android:fontFamily="@font/montserrat_bold"
             android:padding="10dp"
@@ -105,16 +106,19 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/negotiateRent" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/propertyLocation"
-            android:layout_width="390dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="10dp"
             android:backgroundTint="@color/Green"
-            android:elevation="10dp"
+            android:background="@drawable/bg_edit_text"
+            app:cardElevation="10dp"
             android:padding="7dp"
             app:cardCornerRadius="13dp"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/propertyType">
@@ -123,38 +127,192 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-
                 android:padding="10dp">
 
+                <!-- Centered Location Header -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:text="Location"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <!-- PinCode Row -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    >
+                    android:paddingVertical="5dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:text="Location:"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="PinCode:"
                         android:textColor="#000000" />
 
                     <TextView
-                        android:maxWidth="10dp"
-                        android:maxHeight="50dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/montserrat_regular"
-                        android:text="Shree Jaggath Warrior Residency, Madanpur, Bhuban..."
+                        android:text="123456"
+                        android:textColor="#000000" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
+
+                <!-- Landmark Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="5dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Landmark:"
                         android:textColor="#000000" />
 
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Near Park"
+                        android:textColor="#000000" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
+
+                <!-- House No Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="5dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="House No:"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="123"
+                        android:textColor="#000000" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
+
+                <!-- Area Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="5dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Area:"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Downtown"
+                        android:textColor="#000000" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
+
+                <!-- Colony Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="5dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Colony:"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Green Park"
+                        android:textColor="#000000" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
+
+                <!-- City Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="5dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="City:"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Metropolis"
+                        android:textColor="#000000" />
                 </LinearLayout>
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/propertyDetailsCard"
@@ -162,9 +320,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="6dp"
+            android:layout_marginEnd="10dp"
             android:backgroundTint="@color/Gray"
-            android:elevation="10dp"
+            app:cardElevation="10dp"
             android:padding="7dp"
             app:cardCornerRadius="13dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -293,7 +451,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp">
+                android:padding="15dp">
 
                 <TextView
                     android:id="@+id/ownerName"
@@ -356,7 +514,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:layout_marginEnd="4dp"
+                    android:layout_marginEnd="5dp"
                     android:background="@drawable/chat_now_bg"
                     android:backgroundTint="@color/start_color"
                     android:drawableLeft="@drawable/chat"
@@ -378,7 +536,7 @@
                     android:padding="3dp"
                     android:text="FREE,Fast &amp; Secure"
                     android:textColor="@color/Pink"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="@+id/chatNowButton"
                     app:layout_constraintStart_toStartOf="@+id/chatNowButton"
                     app:layout_constraintTop_toBottomOf="@+id/chatNowButton" />
@@ -438,8 +596,8 @@
                 android:background="@drawable/bg_search"
                 android:ellipsize="end"
                 android:fontFamily="@font/montserrat_regular"
-                android:maxLines="1"
                 android:minHeight="48dp"
+                android:padding="2dp"
                 android:text="View Phone"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -479,37 +637,72 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Great Things about Property -->
-        <TextView
-            android:id="@+id/greatThings"
-            android:layout_width="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/bg_search"
-            android:elevation="10dp"
-            android:fontFamily="@font/montserrat_bold"
-            android:padding="10dp"
-            android:text="Great things about this property"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/propertyType"
-            app:layout_constraintTop_toBottomOf="@id/buttonsLayout" />
-
-        <TextView
-            android:id="@+id/otherDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/bg_search"
-            android:elevation="10dp"
-            android:fontFamily="@font/montserrat_regular"
-            android:padding="10dp"
-            android:text="New flat, spacious room, cooperative society"
-            android:textColor="@android:color/holo_green_dark"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="30dp"
+            android:backgroundTint="@color/white"
+            android:padding="8dp"
+            app:cardCornerRadius="13dp"
+            app:cardElevation="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/greatThings"
-            app:layout_constraintTop_toBottomOf="@+id/greatThings" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonsLayout">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="5dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:gravity="center_horizontal"
+                    android:text="Great things about this property"
+                    android:textColor="#000000"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:elevation="5dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:padding="4dp"
+                    android:text="New flat, spacious room, cooperative society"
+                    android:textColor="@android:color/holo_green_dark" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="16dp"
+            android:elevation="10dp"
+            android:background="@drawable/bg_edit_text"
+            android:backgroundTint="@color/Turquoise"
+            android:drawableStart="@drawable/placeholder"
+            android:drawableEnd="@drawable/right_arrow_svgrepo_com"
+            android:layoutDirection="ltr"
+            android:padding="5dp"
+            android:text="See on Map"
+            android:textColor="@color/fox_color"
+            app:layout_constraintBottom_toTopOf="@+id/propertyLocation"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
