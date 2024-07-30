@@ -46,5 +46,14 @@
     <string name="save">Save</string>
     <string name="enter_your_address">Enter your address</string>
     <string name="address">Address:</string>
-
+    <string name="property_images_desc">property_images_desc</string>
+    <string name="_7_000_month_14_0_k_deposit">₹ 7,000 / Month (₹ 14.0 K Deposit)</string>
+    <string name="view_charges">view charges</string>
+    <string name="pricing_got_you_puzzled">pricing got you puzzled</string>
+    <string name="negotiate_rent">negotiate rent</string>
+    <string name="contact_owner">Contact Owner</string>
+    <string name="new_flat_spacious_room_cooperative_society">New flat, spacious room, cooperative society</string>
+    <string name="grid_item_clicked">Clicked on GridItem: %1$s</string>
+    <string name="rent_format">Rent: %1$s</string>
+    <string name="bhk_description">%1$s BHK</string>
 </resources>

@@ -6,6 +6,7 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
+
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
@@ -16,4 +17,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "GharKhojo"
 include(":app")
- 
+

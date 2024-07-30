@@ -11,12 +11,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
-import com.avi.gharkhojo.Model.ChatUserListModel
 import com.avi.gharkhojo.Model.SignUpViewModel
-import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.databinding.ActivitySignUpBinding
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 
 class SignUpActivity : AppCompatActivity() {
 
