@@ -26,14 +26,18 @@ class MessageAdapter(
     var context:Context,
     messages:ArrayList<Message>?,
     senderRoom:String?,
-    receiverRoom:String?
+    receiverRoom:String?,
+    receiverName: String?,
+    scrollTo:ScrollTo?
 ) :RecyclerView.Adapter<RecyclerView.ViewHolder?>(){
     lateinit var messages:ArrayList<Message>
     val ITEM_SENT = 1
     val ITEM_RECEIVE = 2
     var senderRoom:String? = null
+    var receiverName:String? = null
     var receiverRoom:String? = null
     var storageRef:StorageReference = FirebaseStorage.getInstance().reference
+    var scrollTo:ScrollTo?=null
 
     init {
         if(messages!=null)
@@ -41,6 +45,8 @@ class MessageAdapter(
             this.messages = messages
             this.senderRoom = senderRoom
             this.receiverRoom = receiverRoom
+            this.receiverName = receiverName
+            this.scrollTo = scrollTo
         }
     }
 
@@ -73,12 +79,13 @@ class MessageAdapter(
         val message = messages[position]
 
 
-
         if (holder.javaClass == SentMsgHolder::class.java) {
             val viewHolder = holder as SentMsgHolder
+            viewHolder.binding.replyLayout.visibility = View.GONE
             viewHolder.binding.image.visibility = View.GONE
             viewHolder.binding.mLinear.visibility = View.VISIBLE
             viewHolder.binding.senderTextMsg.visibility = View.VISIBLE
+
             if (message.isImage) {
                 viewHolder.binding.image.visibility = View.VISIBLE
                 viewHolder.binding.mLinear.visibility = View.GONE
@@ -90,6 +97,25 @@ class MessageAdapter(
             }
 
                 viewHolder.binding.senderTextMsg.text = message.message
+            message.repliedMsg?.let {
+                viewHolder.binding.repliedMessg.text = message.repliedMsg
+                if(message.replyToId == FirebaseAuth.getInstance().currentUser?.uid){
+                    viewHolder.binding.repliedName.text = "You"
+                }
+                else{
+                    viewHolder.binding.repliedName.text = receiverName
+                }
+                viewHolder.binding.replyLayout.visibility = View.VISIBLE
+
+
+            }
+
+            viewHolder.binding.replyLayout.setOnClickListener{
+                if(message.repliedMsgPosition != null &&  message.repliedMsgPosition!!<messages.size
+                    && message.repliedMsg == messages[message.repliedMsgPosition!!].message)
+                    scrollTo?.ScrollToRepliedMessage(message.repliedMsgPosition!!)
+            }
+
 
             viewHolder.binding.time.text = formatDate(message.timeStamp)
             viewHolder.itemView.setOnLongClickListener {
@@ -262,6 +288,7 @@ class MessageAdapter(
         } else {
             val viewHolder = holder as ReceiveMsgHolder
 
+            viewHolder.binding.replyLayout.visibility = View.GONE
             viewHolder.binding.image.visibility = View.GONE
             viewHolder.binding.mLinear.visibility = View.VISIBLE
             viewHolder.binding.receiverTxtMsg.visibility = View.VISIBLE
@@ -279,6 +306,23 @@ class MessageAdapter(
             }
 
                 viewHolder.binding.receiverTxtMsg.text = message.message
+
+            message.repliedMsg?.let {
+                viewHolder.binding.repliedMessg.text = message.repliedMsg
+                if(message.replyToId == FirebaseAuth.getInstance().currentUser?.uid){
+                    viewHolder.binding.repliedName.text = "You"
+                }
+                else{
+                    viewHolder.binding.repliedName.text = receiverName
+                }
+                viewHolder.binding.replyLayout.visibility = View.VISIBLE
+            }
+                viewHolder.binding.replyLayout.setOnClickListener{
+                    Toast.makeText(context,"clicked",Toast.LENGTH_SHORT).show()
+                    if(message.repliedMsgPosition != null &&  message.repliedMsgPosition!!<messages.size
+                        && message.repliedMsg == messages[message.repliedMsgPosition!!].message)
+                        scrollTo?.ScrollToRepliedMessage(message.repliedMsgPosition!!)
+                }
 
             viewHolder.binding.time.text = formatDate(message.timeStamp)
             viewHolder.itemView.setOnLongClickListener{
@@ -380,5 +424,9 @@ class MessageAdapter(
     inner class ReceiveMsgHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         var binding: ReceiverMsgBinding = ReceiverMsgBinding.bind(itemView)
 
+    }
+
+    interface ScrollTo{
+        fun ScrollToRepliedMessage(position: Int)
     }
 }

@@ -32,4 +32,12 @@
     <color name="Gray">#F0F0F0</color>
     <color name="LightGray">#DADEDF</color>
     <color name="Turquoise">#E0F2F1</color>
+
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorE">#c4c4c4</color>
+    <color name="replyBackground">#DADADA</color>
+
+    <color name="colorAccent2">#D5D3D3</color>
+    <color name="colorAccent3">#F59496</color>
+    <color name="textColor">#1A1616</color>
 </resources>

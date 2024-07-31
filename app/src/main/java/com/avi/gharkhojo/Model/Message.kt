@@ -8,6 +8,9 @@ class Message
     var senderId:String? = null
     var imageUrl:String? = null
     var img_id:String? = null
+    var repliedMsg:String?=null
+    var repliedMsgPosition:Int?=null
+    var replyToId:String? = null
     var timeStamp:Long= 0
     constructor(){}
     constructor(message: String?,senderId:String?,timeStamp:Long)

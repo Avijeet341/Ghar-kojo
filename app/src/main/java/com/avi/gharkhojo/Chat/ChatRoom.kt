@@ -5,7 +5,6 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -16,12 +15,11 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -29,10 +27,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Adapter.MessageAdapter
+import com.avi.gharkhojo.Adapter.MessageSwipeController
 import com.avi.gharkhojo.Model.Message
+import com.avi.gharkhojo.Model.SwipeControllerActions
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.ActivityChatRoomBinding
 import com.bumptech.glide.Glide
@@ -45,13 +46,14 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ChatRoom : AppCompatActivity() {
 
+    private var reply_pos: Int?=null
+    private var replyToId: String? = null
     private var img: String? = null
     private var name: String? = null
     private var senderRoom: String? = null
@@ -132,7 +134,12 @@ class ChatRoom : AppCompatActivity() {
 
         senderRoom = senderUid + receiverUid
         receiverRoom = receiverUid + senderUid
-        chatAdapter = MessageAdapter(this, messages, senderRoom, receiverRoom)
+        chatAdapter = MessageAdapter(this, messages, senderRoom, receiverRoom,name,object:MessageAdapter.ScrollTo{
+            override fun ScrollToRepliedMessage(position: Int) {
+                recyclerView.scrollToPosition(position)
+            }
+
+        })
 
         recyclerView = chatBinding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -161,6 +168,20 @@ class ChatRoom : AppCompatActivity() {
                 }
             })
 
+        val messageSwipeController = MessageSwipeController(this, object : SwipeControllerActions {
+            override fun showReplyUI(position: Int) {
+                showQuotedMessage(messages[position])
+                this@ChatRoom.reply_pos = position
+                this@ChatRoom.replyToId = messages[position].senderId
+            }
+        })
+
+        val itemTouchHelper = ItemTouchHelper(messageSwipeController)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+
+       chatBinding.cancelButton.setOnClickListener {
+            hideReplyLayout()
+        }
         initializeMessaging()
     }
 
@@ -173,8 +194,20 @@ class ChatRoom : AppCompatActivity() {
                 val sendMsgText: String = chatBinding.inputMsg.text.toString().trim()
                 val date = Date()
                 val message = Message(sendMsgText, firebaseUser!!.uid, date.time)
+                var reply:String? = null
+                if(chatBinding.replyLayout.visibility==View.VISIBLE){
+                    reply = chatBinding.txtQuotedMsg.text.toString()
+                    message.repliedMsgPosition = reply_pos
+                    message.replyToId = replyToId
+                    hideReplyLayout()
+                }
                 if (sendMsgText.isNotEmpty()) {
                     chatBinding.inputMsg.setText("")
+
+                    if(reply!=null){
+                        message.repliedMsg = reply
+                    }
+                    message.senderId = senderUid
 
                     val randomKey = databaseReference.push().key
                     val lastMsgObj = HashMap<String, Any>()
@@ -274,15 +307,15 @@ class ChatRoom : AppCompatActivity() {
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
-        // Create an image file name
+
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
         return File.createTempFile(
-            "JPEG_${timeStamp}_", /* prefix */
-            ".jpg", /* suffix */
-            storageDir /* directory */
+            "JPEG_${timeStamp}_",
+            ".jpg",
+            storageDir
         ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
+
             currentPhotoPath = absolutePath
         }
     }
@@ -360,6 +393,28 @@ class ChatRoom : AppCompatActivity() {
                 }
             }
         }
+    }
+
+
+    private fun hideReplyLayout() {
+        chatBinding.replyLayout.visibility = View.GONE
+        this@ChatRoom.reply_pos = null
+        this@ChatRoom.replyToId = null
+    }
+
+    private fun showQuotedMessage(message: Message) {
+        chatBinding.inputMsg.requestFocus()
+        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager?.showSoftInput(chatBinding.inputMsg, InputMethodManager.SHOW_IMPLICIT)
+        chatBinding.txtQuotedMsg.text = message.message
+        if(message.senderId!=firebaseUser!!.uid) {
+            chatBinding.quotedName.text = name
+        }
+        else{
+            chatBinding.quotedName.text = "You"
+        }
+        chatBinding.replyLayout.visibility = View.VISIBLE
+
     }
 
     override fun onResume() {
