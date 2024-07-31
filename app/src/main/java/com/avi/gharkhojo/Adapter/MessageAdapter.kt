@@ -318,7 +318,6 @@ class MessageAdapter(
                 viewHolder.binding.replyLayout.visibility = View.VISIBLE
             }
                 viewHolder.binding.replyLayout.setOnClickListener{
-                    Toast.makeText(context,"clicked",Toast.LENGTH_SHORT).show()
                     if(message.repliedMsgPosition != null &&  message.repliedMsgPosition!!<messages.size
                         && message.repliedMsg == messages[message.repliedMsgPosition!!].message)
                         scrollTo?.ScrollToRepliedMessage(message.repliedMsgPosition!!)
