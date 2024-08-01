@@ -41,7 +41,6 @@ class SignUpViewModel : ViewModel() {
                 _signUpState.value = SignUpState.Loading
 
                   firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
-
                       if (task.isSuccessful) {
                           firebaseAuth.currentUser?.sendEmailVerification()
                               ?.addOnSuccessListener {
@@ -77,7 +76,7 @@ class SignUpViewModel : ViewModel() {
         var userId:String? = FirebaseAuth.getInstance().currentUser?.uid
 
         UserData.username = name
-        databaseReference.child("users").push().setValue(ChatUserListModel(userName,profilePic,userId))
+        databaseReference.child("users").push().setValue(ChatUserListModel(userName,profilePic,userId,FirebaseAuth.getInstance().currentUser?.email))
         if (userId != null) {
             val userData = mapOf(
                 "name" to userName,

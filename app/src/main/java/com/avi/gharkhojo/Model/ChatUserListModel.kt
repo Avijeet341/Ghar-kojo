@@ -6,10 +6,12 @@ package com.avi.gharkhojo.Model
     var userId:String? = null
      var lastMessageTimestamp:Long? = null
      var lastMessage:String? = null
-     constructor(username:String?,userImage: String?,userId:String?):this()
+     var userEmail:String? = null
+     constructor(username:String?,userImage: String?,userId:String?,userEmail:String?):this()
     {
         this.username=username;
         this.userimage=userImage;
         this.userId = userId
+        this.userEmail = userEmail
     }
 }

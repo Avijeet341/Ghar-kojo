@@ -167,7 +167,7 @@ class LoginActivity : AppCompatActivity() {
             val credential: SignInCredential = Identity.getSignInClient(this).getSignInCredentialFromIntent(data)
             val idToken = credential.googleIdToken
             if (idToken != null) {
-                viewModel.firebaseGoogleAccount(idToken)
+                viewModel.firebaseGoogleAccount(idToken, context = this)
             } else {
                 showToast("Google sign-in failed.")
             }
