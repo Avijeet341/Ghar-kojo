@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.avi.gharkhojo.Model.SignUpViewModel
 import com.avi.gharkhojo.databinding.ActivitySignUpBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -45,12 +46,14 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        signUpBinding.buttonSignUp.setOnClickListener {
+        signUpBinding.buttonSignUp.setOnClickListener {button->
             val name = signUpBinding.usernameSignUp.text.toString().trim()
             val email = signUpBinding.editTextViewEmailSignUP.text.toString().trim()
             val pass = signUpBinding.editTextViewPasswordSignUP.text.toString().trim()
             val confirmPass = signUpBinding.editTextViewConfirmPasswordSignUP.text.toString().trim()
-            viewModel.signUpWithFirebase(name,email, pass, confirmPass)
+
+            viewModel.signUpWithFirebase(name,email, pass, confirmPass,this@SignUpActivity
+                ,signUpBinding.buttonSignUp,supportFragmentManager)
         }
     }
 
@@ -58,11 +61,13 @@ class SignUpActivity : AppCompatActivity() {
         viewModel.signUpState.observe(this) { state ->
             when (state) {
                 is SignUpViewModel.SignUpState.Loading -> {
-                    signUpBinding.progressCircularSignUp.visibility = View.VISIBLE
+                    signUpBinding.progressCircularSignUp.visibility = View.GONE
                     signUpBinding.buttonSignUp.isClickable = false
                 }
                 is SignUpViewModel.SignUpState.Success -> {
                     showToast("Your account has been created. ✅👍😍")
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finishAffinity()
                     signUpBinding.progressCircularSignUp.visibility = View.INVISIBLE
                     signUpBinding.buttonSignUp.isClickable = true
 

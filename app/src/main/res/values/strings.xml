@@ -56,4 +56,5 @@
     <string name="grid_item_clicked">Clicked on GridItem: %1$s</string>
     <string name="rent_format">Rent: %1$s</string>
     <string name="bhk_description">%1$s BHK</string>
+    <string name="email_verification_quote">Verification email has been sent to your email address. Please verify your email address to continue.</string>
 </resources>

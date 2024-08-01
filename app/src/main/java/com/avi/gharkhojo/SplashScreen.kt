@@ -33,7 +33,11 @@ class SplashScreen : AppCompatActivity() {
             videoView.start()
         }
         videoView.setOnCompletionListener {
-            if (FirebaseAuth.getInstance().currentUser != null) {
+            if(FirebaseAuth.getInstance().currentUser!=null && !FirebaseAuth.getInstance().currentUser!!.isEmailVerified){
+                FirebaseAuth.getInstance().signOut()
+                FirebaseAuth.getInstance().currentUser?.delete()
+            }
+            if (FirebaseAuth.getInstance().currentUser != null && FirebaseAuth.getInstance().currentUser!!.isEmailVerified) {
                 startActivity(Intent(this@SplashScreen, MainActivity::class.java))
             } else {
                 startActivity(Intent(this@SplashScreen, LoginActivity::class.java))
