@@ -24,7 +24,7 @@ class SignUpViewModel : ViewModel() {
     private var databaseReference: DatabaseReference = firebaseDatabase.reference
     private val firestore: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
-    private val _signUpState = MutableLiveData<SignUpState>()
+     val _signUpState = MutableLiveData<SignUpState>()
     val signUpState: LiveData<SignUpState> = _signUpState
 
     fun signUpWithFirebase(
@@ -41,6 +41,7 @@ class SignUpViewModel : ViewModel() {
                 _signUpState.value = SignUpState.Loading
 
                   firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
+
                       if (task.isSuccessful) {
                           firebaseAuth.currentUser?.sendEmailVerification()
                               ?.addOnSuccessListener {
@@ -92,6 +93,7 @@ class SignUpViewModel : ViewModel() {
     sealed class SignUpState {
         object Loading : SignUpState()
         object Success : SignUpState()
+        object VerificationFailure:SignUpState()
         data class Error(val message: String) : SignUpState()
         object Idle : SignUpState()
     }

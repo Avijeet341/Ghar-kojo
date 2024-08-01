@@ -37,7 +37,7 @@ class SplashScreen : AppCompatActivity() {
                 FirebaseAuth.getInstance().signOut()
                 FirebaseAuth.getInstance().currentUser?.delete()
             }
-            if (FirebaseAuth.getInstance().currentUser != null && FirebaseAuth.getInstance().currentUser!!.isEmailVerified) {
+            else if (FirebaseAuth.getInstance().currentUser != null && FirebaseAuth.getInstance().currentUser!!.isEmailVerified) {
                 startActivity(Intent(this@SplashScreen, MainActivity::class.java))
             } else {
                 startActivity(Intent(this@SplashScreen, LoginActivity::class.java))

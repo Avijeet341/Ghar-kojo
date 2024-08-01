@@ -42,7 +42,6 @@ class CustomDialog(
                     if (task.isSuccessful) {
                         if (user.isEmailVerified) {
                             cancel()
-                            button.isClickable = true
                             signUpViewModel.setUpUserData(name, user.email!!)
                             dismissAllowingStateLoss()
 
@@ -57,7 +56,7 @@ class CustomDialog(
             override fun onFinish() {
                 countDown!!.timerText.text = "00:00"
                 user.delete()
-                button.isClickable = true
+                signUpViewModel._signUpState.value = SignUpViewModel.SignUpState.VerificationFailure
                 dismiss()
             }
         }.start()

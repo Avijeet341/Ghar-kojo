@@ -61,20 +61,25 @@ class SignUpActivity : AppCompatActivity() {
         viewModel.signUpState.observe(this) { state ->
             when (state) {
                 is SignUpViewModel.SignUpState.Loading -> {
-                    signUpBinding.progressCircularSignUp.visibility = View.GONE
+                    signUpBinding.progressCircularSignUp.visibility = View.VISIBLE
                     signUpBinding.buttonSignUp.isClickable = false
                 }
                 is SignUpViewModel.SignUpState.Success -> {
                     showToast("Your account has been created. ✅👍😍")
                     startActivity(Intent(this, MainActivity::class.java))
                     finishAffinity()
-                    signUpBinding.progressCircularSignUp.visibility = View.INVISIBLE
+                    signUpBinding.progressCircularSignUp.visibility = View.GONE
                     signUpBinding.buttonSignUp.isClickable = true
 
                 }
                 is SignUpViewModel.SignUpState.Error -> {
                     showToast(state.message)
-                    signUpBinding.progressCircularSignUp.visibility = View.INVISIBLE
+                    signUpBinding.progressCircularSignUp.visibility = View.GONE
+                    signUpBinding.buttonSignUp.isClickable = true
+                }
+                is SignUpViewModel.SignUpState.VerificationFailure->{
+                    showToast("Email has not been verified. Please verify your email.")
+                    signUpBinding.progressCircularSignUp.visibility = View.GONE
                     signUpBinding.buttonSignUp.isClickable = true
                 }
                 SignUpViewModel.SignUpState.Idle -> {
