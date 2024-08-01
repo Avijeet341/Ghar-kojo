@@ -4,27 +4,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/white"
-    android:background="@android:color/white"
+    android:background="@color/white"
     tools:context=".Fragments.Home">
-
-    <TextView
-        android:id="@+id/textViewHeader"
-        android:layout_width="0dp"
+    <!-- Toolbar with Material Theme -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_marginBottom="13dp"
         android:background="@drawable/rounded_bottom_corners"
-        android:elevation="8dp"
-        android:fontFamily="@font/autumn_in_november"
-        android:gravity="center"
-        android:padding="12dp"
-        android:text="@string/find_your_dream_home"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/recyclerView"
+        android:elevation="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+        app:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+        app:titleMarginEnd="16dp"
+        app:titleMarginStart="16dp"
+        app:titleTextAppearance="@style/Toolbar.TitleText">
+
+        <!-- Layout for Toolbar contents -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/calibri"
+                    android:text="Explore"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/user_img" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal"
+                android:weightSum="100">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="80"
+                    android:textColor="@color/black"
+                    android:background="@drawable/gray_rounded_shape"
+                    android:drawableLeft="@drawable/ic_search_gray_24dp"
+                    android:drawablePadding="8dp"
+                    android:fontFamily="@font/calibri"
+                    android:hint="What transport do you need?"
+                    android:padding="12dp"
+                    android:textColorHint="#9ea1b0" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="28dp"
+                    android:layout_weight="20"
+                    android:layout_gravity="center"
+                    android:src="@drawable/filter_icon" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -34,6 +92,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewHeader"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:listitem="@layout/grid_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>
