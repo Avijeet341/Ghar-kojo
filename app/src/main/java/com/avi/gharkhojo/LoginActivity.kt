@@ -23,6 +23,7 @@ import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.auth.api.identity.SignInCredential
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -116,8 +117,15 @@ class LoginActivity : AppCompatActivity() {
             when (state) {
                 is LoginViewModel.LoginState.Success -> {
                     hideLoading()
-                    showToast("Welcome Guys 💕🎇🎉🎊")
-                    navigateTo(MainActivity::class.java)
+                    if(FirebaseAuth.getInstance().currentUser?.isEmailVerified == true){
+                        showToast("Welcome Guys 💕🎇🎉🎊")
+                        navigateTo(MainActivity::class.java)
+                    }
+                    else{
+                        Toast.makeText(this,"Please Verify Your Email",Toast.LENGTH_SHORT).show()
+                        FirebaseAuth.getInstance().currentUser?.delete()
+                    }
+
                 }
                 is LoginViewModel.LoginState.Error -> {
                     hideLoading()
@@ -159,7 +167,7 @@ class LoginActivity : AppCompatActivity() {
             val credential: SignInCredential = Identity.getSignInClient(this).getSignInCredentialFromIntent(data)
             val idToken = credential.googleIdToken
             if (idToken != null) {
-                viewModel.firebaseGoogleAccount(idToken)
+                viewModel.firebaseGoogleAccount(idToken, context = this)
             } else {
                 showToast("Google sign-in failed.")
             }

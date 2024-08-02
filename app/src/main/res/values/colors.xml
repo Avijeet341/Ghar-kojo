@@ -9,7 +9,9 @@
     <color name="end_color">#007adf</color>
     <color name="fox_color">#02C3B9</color>
     <color name="dialogTitleColor">#FF5722</color>
-    <color name="dialogMessageColor">#757575</color>
+    <color name="dialogMessageColorRed">#940606</color>
+    <color name="dialogMessageColorYellow">#FFEB3B</color>
+    <color name="dialogMessageColorGreen">#2D9931</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorPrimaryLight">#C5CAE9</color>

@@ -155,8 +155,6 @@ class MessageAdapter(
 
                     }
 
-                    // for deleting last message:
-
 
                     if (position == messages.size - 1) {
 

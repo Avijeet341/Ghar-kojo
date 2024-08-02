@@ -62,6 +62,7 @@ class Chat_Activity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val userIdSet = HashSet<String>()
                 chatUserListModel.clear()
+                messageListenerMap.clear()
                 for (dataSnapshot in snapshot.children) {
                     val userData = dataSnapshot.getValue(ChatUserListModel::class.java)
                     if (firebaseUser?.uid != userData?.userId && userData?.userId !in userIdSet) {
@@ -80,7 +81,6 @@ class Chat_Activity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Handle possible errors
             }
         }
         databaseReference.addValueEventListener(userListListener!!)
@@ -108,7 +108,7 @@ class Chat_Activity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Handle possible errors
+
             }
         }
         val messageRef = firebaseDatabase.reference.child("chats").child(chatId).child("message")
