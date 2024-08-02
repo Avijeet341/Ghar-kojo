@@ -7,8 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Adapter.GridAdapter
+import com.avi.gharkhojo.Adapter.HousingTypeAdapter
 import com.avi.gharkhojo.Model.GridItem
+import com.avi.gharkhojo.Model.HousingType
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentHomeBinding
 
@@ -27,6 +31,24 @@ class Home : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupGridView()
+        setupToolbar()
+    }
+
+    private fun setupToolbar() {
+        val recyclerView: RecyclerView = _binding?.toolbar!!.findViewById(R.id.housingTypeRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        val housingTypes = listOf(
+            HousingType(R.drawable.home, "House"),
+            HousingType(R.drawable.apartment, "Apartment"),
+            HousingType(R.drawable.flat, "Flat"),
+            HousingType(R.drawable.dormitory, "Dormitory"),
+            HousingType(R.drawable.luxury, "Luxury"),
+            HousingType(R.drawable.luxury, "Luxury")
+        )
+
+        val adapter = HousingTypeAdapter(housingTypes)
+        recyclerView.adapter = adapter
     }
 
     private fun setupGridView() {

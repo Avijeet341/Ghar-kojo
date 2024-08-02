@@ -8,6 +8,9 @@
     <string name="forgot_password"><u>I forgot my password</u></string>
     <string name="Profile">Profile</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="appbar_scrolling_view_behavior">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
+
+    <string name="housing_type_icon_description">Housing type icon</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
