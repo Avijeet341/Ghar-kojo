@@ -11,7 +11,7 @@
         android:id="@+id/imageButton"
         android:layout_width="54dp"
         android:layout_height="54dp"
-        android:src="@drawable/luxury"
+        android:src="@drawable/ic_baseline_add_24"
         android:padding="10dp"
         android:backgroundTint="@color/mint_green"
         android:contentDescription="@string/housing_type_icon_description"

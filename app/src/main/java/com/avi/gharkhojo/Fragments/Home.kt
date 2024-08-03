@@ -32,6 +32,7 @@ class Home : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupGridView()
         setupToolbar()
+
     }
 
     private fun setupToolbar() {
@@ -39,12 +40,13 @@ class Home : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         val housingTypes = listOf(
+            HousingType(R.drawable.ic_baseline_add_24, "Add Property"),
             HousingType(R.drawable.home, "House"),
             HousingType(R.drawable.apartment, "Apartment"),
             HousingType(R.drawable.flat, "Flat"),
             HousingType(R.drawable.dormitory, "Dormitory"),
             HousingType(R.drawable.luxury, "Luxury"),
-            HousingType(R.drawable.luxury, "Luxury")
+            HousingType(R.drawable.commercial_property, "Commercial")
         )
 
         val adapter = HousingTypeAdapter(housingTypes)
@@ -77,6 +79,8 @@ class Home : Fragment() {
             GridItem(R.drawable.court, "25000", "2")
         )
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
