@@ -4,36 +4,203 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/white"
-    android:background="@android:color/white"
+    android:background="@color/white"
     tools:context=".Fragments.Home">
 
-    <TextView
-        android:id="@+id/textViewHeader"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:background="@drawable/rounded_bottom_corners"
-        android:elevation="8dp"
-        android:fontFamily="@font/autumn_in_november"
-        android:gravity="center"
-        android:padding="12dp"
-        android:text="@string/find_your_dream_home"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/recyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewHeader"
-        tools:listitem="@layout/grid_item" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="13dp"
+                android:background="@drawable/rounded_bottom_corners"
+                android:elevation="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+                app:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+                app:titleMarginEnd="16dp"
+                app:titleMarginStart="16dp"
+                app:titleTextAppearance="@style/Toolbar.TitleText">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- Greeting and search text views -->
+                    <TextView
+                        android:id="@+id/greetingText1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:paddingTop="2dp"
+                        android:text="Hi"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/greetingText2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="AVIJEET"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@id/greetingText1"
+                        app:layout_constraintTop_toTopOf="@id/greetingText1"
+                        android:layout_marginStart="4dp"/>
+
+                    <TextView
+                        android:id="@+id/greetingText3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="!"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/montserrat_regular"
+                        app:layout_constraintStart_toEndOf="@id/greetingText2"
+                        app:layout_constraintTop_toTopOf="@id/greetingText1"
+                        android:layout_marginStart="4dp"/>
+
+                    <TextView
+                        android:id="@+id/greetingText4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Searching in"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toEndOf="@id/greetingText3"
+                        app:layout_constraintTop_toTopOf="@id/greetingText1" />
+
+                    <!-- Search View -->
+                    <androidx.appcompat.widget.SearchView
+                        android:id="@+id/search_view"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="3dp"
+                        android:background="@drawable/bg_search"
+                        android:backgroundTint="@color/mint_green"
+                        android:iconifiedByDefault="false"
+                        app:layout_constraintEnd_toStartOf="@+id/userImage"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/greetingText4" />
+
+                    <!-- Location Label -->
+                    <TextView
+                        android:id="@+id/locationLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Location:"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/search_view" />
+
+                    <!-- Location Texts -->
+                    <TextView
+                        android:id="@+id/locationText1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Jaydev Vihar"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/locationLabel" />
+
+                    <TextView
+                        android:id="@+id/locationText2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=","
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@id/locationText1"
+                        app:layout_constraintTop_toBottomOf="@id/locationLabel"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"/>
+
+                    <TextView
+                        android:id="@+id/locationText3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bhubneswar"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@id/locationText2"
+                        app:layout_constraintTop_toBottomOf="@id/locationLabel"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"/>
+
+                    <!-- User Image -->
+
+                    <!-- Housing Types RecyclerView -->
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/userImage"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/user_img"
+                        app:civ_border_color="@android:color/white"
+                        app:civ_border_width="2dp"
+                        app:layout_constraintBottom_toBottomOf="@id/locationText1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.043" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/housingTypeRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toBottomOf="@id/locationText1"
+                        android:layout_marginTop="16dp"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                tools:listitem="@layout/grid_item" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

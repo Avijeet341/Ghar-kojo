@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Adapter.GridAdapter
+import com.avi.gharkhojo.Adapter.HousingTypeAdapter
 import com.avi.gharkhojo.Model.GridItem
+import com.avi.gharkhojo.Model.HousingType
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentHomeBinding
 
@@ -27,13 +31,34 @@ class Home : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupGridView()
+        setupToolbar()
+
+    }
+
+    private fun setupToolbar() {
+        val recyclerView: RecyclerView = _binding?.toolbar!!.findViewById(R.id.housingTypeRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        val housingTypes = listOf(
+            HousingType(R.drawable.ic_baseline_add_24, "Add Property"),
+            HousingType(R.drawable.home, "House"),
+            HousingType(R.drawable.apartment, "Apartment"),
+            HousingType(R.drawable.flat, "Flat"),
+            HousingType(R.drawable.dormitory, "Dormitory"),
+            HousingType(R.drawable.luxury, "Luxury"),
+            HousingType(R.drawable.commercial_property, "Commercial")
+        )
+
+        val adapter = HousingTypeAdapter(housingTypes)
+        recyclerView.adapter = adapter
     }
 
     private fun setupGridView() {
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = GridAdapter(createGridList()) { gridItem, position ->
-                Toast.makeText(requireContext(), "Clicked on GridItem: ${gridItem.rent}", Toast.LENGTH_SHORT).show()
+                val action = HomeDirections.actionHome2ToHomeDetails(gridItem)
+                findNavController().navigate(action)
             }
         }
     }
@@ -50,25 +75,12 @@ class Home : Fragment() {
             GridItem(R.drawable.shoe, "5000", "3"),
             GridItem(R.drawable.room_view_2, "5000", "3"),
             GridItem(R.drawable.room_view_3, "5000", "3"),
-            GridItem(R.drawable.spider3, "10000", "2"),
-            GridItem(R.drawable.hashira, "12000", "3"),
-            GridItem(R.drawable.india, "9000", "2"),
-            GridItem(R.drawable.kk, "11000", "4"),
-            GridItem(R.drawable.pain, "13000", "5"),
-            GridItem(R.drawable.giyu_tomioka, "14000", "2"),
-            GridItem(R.drawable.doodle, "15000", "2"),
-            GridItem(R.drawable.itachi, "16000", "3"),
-            GridItem(R.drawable.family, "17000", "2"),
-            GridItem(R.drawable.kimetsu_no_yaiba, "18000", "2"),
-            GridItem(R.drawable.kokushibo, "19000", "2"),
-            GridItem(R.drawable.madara, "20000", "2"),
-            GridItem(R.drawable.vibe, "21000", "2"),
-            GridItem(R.drawable.this_is_good, "22000", "4"),
-            GridItem(R.drawable.squad, "23000", "2"),
             GridItem(R.drawable.space_light, "24000", "2"),
             GridItem(R.drawable.court, "25000", "2")
         )
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

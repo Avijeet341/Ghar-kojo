@@ -1,11 +1,13 @@
 package com.avi.gharkhojo
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AlertDialog
@@ -16,12 +18,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.avi.gharkhojo.Chat.Chat_Activity
 import com.avi.gharkhojo.Model.SharedViewModel
 import com.avi.gharkhojo.Model.UserData
+import com.avi.gharkhojo.Model.UserSignupLoginManager
 import com.avi.gharkhojo.databinding.ActivityMainBinding
 import com.google.android.gms.auth.api.signin.internal.Storage
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.auth.User
 import com.google.firebase.storage.StorageReference
@@ -57,32 +63,12 @@ class MainActivity : AppCompatActivity() {
         setUpTabBar()
         onBackPressedAvi()
 
-        UserData.email = FirebaseAuth.getInstance().currentUser?.email
-        UserData.profilePictureUrl = FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
-        UserData.username = FirebaseAuth.getInstance().currentUser?.displayName
-        storageRef.downloadUrl.addOnSuccessListener {
-            UserData.profilePictureUrl = it.toString()
-        }.addOnFailureListener{
-            UserData.profilePictureUrl = FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
-        }
+        UserSignupLoginManager.getInstance(this).setUp()
 
-        androidx.media3.common.util.Log.d("detail", UserData.email.toString())
-        firestore.collection("users").document(
-            FirebaseAuth.getInstance().currentUser?.uid
-            ?: "").get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    if(document.getString("name")!=null){
-                        UserData.username = document.getString("name")
-                    }
-                    UserData.address = document.getString("address") ?: getString(R.string.default_address)
-                    UserData.phn_no = document.getString("phone") ?: getString(R.string.default_phone)
-                }
-            }
-            .addOnFailureListener {
-                UserData.address = getString(R.string.default_address)
-                UserData.phn_no = getString(R.string.default_phone)
-            }
+
+
+
+
     }
 
     private fun onBackPressedAvi() {
@@ -111,7 +97,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_cart -> {
                     mainBinding.apply {
                         // textMain.text="Fire."
-                        bottomNavBar.showBadge(R.id.nav_profile)
+//                        bottomNavBar.showBadge(R.id.nav_profile)
+                        startActivity(Intent(this@MainActivity, Chat_Activity::class.java))
                     }
                     navController.navigate(R.id.cart)
                 }
@@ -122,8 +109,10 @@ class MainActivity : AppCompatActivity() {
                     }
                     navController.navigate(R.id.profile)
                 }
+
             }
         }
+
     }
 
     @SuppressLint("SetTextI18n")

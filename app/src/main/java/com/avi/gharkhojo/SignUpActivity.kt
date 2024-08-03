@@ -1,3 +1,4 @@
+
 package com.avi.gharkhojo
 
 import android.content.Intent
@@ -12,12 +13,15 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.avi.gharkhojo.Model.SignUpViewModel
 import com.avi.gharkhojo.databinding.ActivitySignUpBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class SignUpActivity : AppCompatActivity() {
 
     private val signUpBinding: ActivitySignUpBinding by lazy {
         ActivitySignUpBinding.inflate(layoutInflater)
     }
+
+
 
     private lateinit var viewModel: SignUpViewModel
 
@@ -42,11 +46,14 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        signUpBinding.buttonSignUp.setOnClickListener {
+        signUpBinding.buttonSignUp.setOnClickListener {button->
+            val name = signUpBinding.usernameSignUp.text.toString().trim()
             val email = signUpBinding.editTextViewEmailSignUP.text.toString().trim()
             val pass = signUpBinding.editTextViewPasswordSignUP.text.toString().trim()
             val confirmPass = signUpBinding.editTextViewConfirmPasswordSignUP.text.toString().trim()
-            viewModel.signUpWithFirebase(email, pass, confirmPass)
+
+            viewModel.signUpWithFirebase(name,email, pass, confirmPass,this@SignUpActivity
+                ,signUpBinding.buttonSignUp,supportFragmentManager)
         }
     }
 
@@ -59,13 +66,20 @@ class SignUpActivity : AppCompatActivity() {
                 }
                 is SignUpViewModel.SignUpState.Success -> {
                     showToast("Your account has been created. ✅👍😍")
-                    navigateTo(LoginActivity::class.java)
-                    signUpBinding.progressCircularSignUp.visibility = View.INVISIBLE
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finishAffinity()
+                    signUpBinding.progressCircularSignUp.visibility = View.GONE
                     signUpBinding.buttonSignUp.isClickable = true
+
                 }
                 is SignUpViewModel.SignUpState.Error -> {
                     showToast(state.message)
-                    signUpBinding.progressCircularSignUp.visibility = View.INVISIBLE
+                    signUpBinding.progressCircularSignUp.visibility = View.GONE
+                    signUpBinding.buttonSignUp.isClickable = true
+                }
+                is SignUpViewModel.SignUpState.VerificationFailure->{
+                    showToast("Email has not been verified. Please verify your email.")
+                    signUpBinding.progressCircularSignUp.visibility = View.GONE
                     signUpBinding.buttonSignUp.isClickable = true
                 }
                 SignUpViewModel.SignUpState.Idle -> {
@@ -73,12 +87,6 @@ class SignUpActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private fun navigateTo(activityClass: Class<*>) {
-        val intent = Intent(this, activityClass)
-        startActivity(intent)
-        finish()
     }
 
     private fun showToast(message: String) {
