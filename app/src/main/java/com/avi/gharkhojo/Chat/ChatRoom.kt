@@ -424,17 +424,16 @@ class ChatRoom : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val currentId = FirebaseAuth.getInstance().uid
         databaseReference.child("Presence").child(senderRoom!!)
-            .child(currentId!!)
+            .child(senderUid!!)
             .setValue("Online")
     }
 
     override fun onPause() {
         super.onPause()
-        val currentId = FirebaseAuth.getInstance().uid
+
         databaseReference.child("Presence").child(senderRoom!!)
-            .child(currentId!!)
+            .child(senderUid!!)
             .setValue("Offline")
     }
 
