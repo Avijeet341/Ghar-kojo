@@ -1,7 +1,5 @@
 package com.avi.gharkhojo.Model
 
-import com.avi.gharkhojo.R
-
 data object UserData{
 
 

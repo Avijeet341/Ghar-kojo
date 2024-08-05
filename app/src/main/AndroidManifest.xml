@@ -7,7 +7,8 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -23,6 +24,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GharKhojo"
         tools:targetApi="31">
+        <activity
+            android:name=".OwnerActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DarkOwner"/>
         <activity
             android:name=".SplashScreen"
             android:exported="true"
@@ -54,8 +59,7 @@
         <activity
             android:name=".LoginActivity"
             android:exported="false"
-            android:theme="@style/Theme.GharKhojo">
-        </activity>
+            android:theme="@style/Theme.GharKhojo" />
         <activity
             android:name=".MainActivity"
             android:exported="false"

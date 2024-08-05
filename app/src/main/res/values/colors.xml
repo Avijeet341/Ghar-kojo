@@ -2,7 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="Black">#000000</color>
-    <color name="white">#FFFFFFFF</color>
+
     <color name="white_smoke">#F5F5F5</color>
     <color name="your_status_bar_color">#00ecbc</color>
     <color name="start_color">#00ecbc</color>
@@ -16,8 +16,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorPrimaryLight">#C5CAE9</color>
     <color name="Yellow">#FFFF00</color>
-    <color name="light_gray">#DBEEE8</color>
-    <color name="lavender">#8692f7</color>
     <color name="NavyBlue">#000080</color>
     <color name="DarkGray">#333333</color>
     <color name="card_background">#F8F9FA</color>
@@ -29,6 +27,7 @@
     <color name="profile_background">#E9ECEF</color>
     <color name="icon_tint">#6C757D</color>
     <color name="button_background">#28A745</color>
+    <color name="gray_600">#757575</color>
     <color name="Pink">#E91E63</color>
     <color name="Green">#90EE90</color>
     <color name="Gray">#F0F0F0</color>
@@ -42,4 +41,35 @@
     <color name="colorAccent2">#D5D3D3</color>
     <color name="colorAccent3">#F59496</color>
     <color name="textColor">#1A1616</color>
+
+
+
+    <color name="white">#FFFFFF</color>
+    <color name="off_white">#F5F5F5</color>
+    <color name="coral">#FF7F50</color>
+    <color name="peach">#FFDAB9</color>
+    <color name="gray">#808080</color>
+    <color name="light_gray">#D3D3D3</color>
+    <color name="navy_blue">#000080</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="soft_yellow">#FFF44F</color>
+    <color name="gold">#FFD700</color>
+    <color name="cream">#FFFDD0</color>
+    <color name="burgundy">#800020</color>
+    <color name="maroon">#800000</color>
+    <color name="lavender">#E6E6FA</color>
+    <color name="light_purple">#9370DB</color>
+    <color name="tan">#D2B48C</color>
+    <color name="beige">#F5F5DC</color>
+    <color name="orange">#FFA500</color>
+    <color name="pink">#FFC0CB</color>
+    <color name="soft_pink">#FFB6C1</color>
+    <color name="mint_green">#98FF98</color>
+    <color name="charcoal">#36454F</color>
+    <color name="dark_gray">#FF121212</color>
+    <color name="accent_color">#FF1E88E5</color>
+    <color name="YellowPrimary">#FFEB3B</color> <!-- Example yellow primary color -->
+    <color name="YellowPrimaryDark">#FBC02D</color> <!-- Darker shade of yellow for status bar -->
 </resources>
+
+

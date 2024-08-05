@@ -1,5 +1,6 @@
 package com.avi.gharkhojo.Fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +8,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Adapter.GridAdapter
+import com.avi.gharkhojo.Adapter.HousingTypeAdapter
 import com.avi.gharkhojo.Model.GridItem
+import com.avi.gharkhojo.Model.HousingType
+import com.avi.gharkhojo.OwnerActivity
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentHomeBinding
 
@@ -27,12 +33,35 @@ class Home : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupGridView()
+        setupToolbar()
+    }
+
+    private fun setupToolbar() {
+        val recyclerView: RecyclerView = binding.toolbar.findViewById(R.id.housingTypeRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        val housingTypes = listOf(
+            HousingType(R.drawable.ic_baseline_add_24, "Add Property"),
+            HousingType(R.drawable.home, "House"),
+            HousingType(R.drawable.apartment, "Apartment"),
+            HousingType(R.drawable.flat, "Flat"),
+            HousingType(R.drawable.dormitory, "Dormitory"),
+            HousingType(R.drawable.luxury, "Luxury"),
+            HousingType(R.drawable.commercial_property, "Commercial")
+        )
+
+        val adapter = HousingTypeAdapter(housingTypes) {
+            // Handle Add Property icon click
+            val intent = Intent(requireContext(), OwnerActivity::class.java)
+            startActivity(intent)
+        }
+        recyclerView.adapter = adapter
     }
 
     private fun setupGridView() {
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
-            adapter = GridAdapter(createGridList()) { gridItem, position ->
+            adapter = GridAdapter(createGridList()) { gridItem, _ ->
                 val action = HomeDirections.actionHome2ToHomeDetails(gridItem)
                 findNavController().navigate(action)
             }
