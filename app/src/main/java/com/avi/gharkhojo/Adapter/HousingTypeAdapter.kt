@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Model.HousingType
 import com.avi.gharkhojo.R
 
-class HousingTypeAdapter(private val housingTypes: List<HousingType>) :
-    RecyclerView.Adapter<HousingTypeAdapter.ViewHolder>() {
+class HousingTypeAdapter(
+    private val housingTypes: List<HousingType>,
+    private val onAddPropertyClick: () -> Unit
+) : RecyclerView.Adapter<HousingTypeAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageButton: ImageButton = view.findViewById(R.id.imageButton)
@@ -18,8 +20,7 @@ class HousingTypeAdapter(private val housingTypes: List<HousingType>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.tool_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.tool_item, parent, false)
         return ViewHolder(view)
     }
 
@@ -27,6 +28,13 @@ class HousingTypeAdapter(private val housingTypes: List<HousingType>) :
         val housingType = housingTypes[position]
         holder.imageButton.setImageResource(housingType.icon)
         holder.textView.text = housingType.name
+
+        // Set the click listener for Add Property icon
+        holder.imageButton.setOnClickListener {
+            if (housingType.name == "Add Property") {
+                onAddPropertyClick()
+            }
+        }
     }
 
     override fun getItemCount() = housingTypes.size

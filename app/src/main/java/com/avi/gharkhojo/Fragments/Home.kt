@@ -1,5 +1,6 @@
 package com.avi.gharkhojo.Fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.avi.gharkhojo.Adapter.GridAdapter
 import com.avi.gharkhojo.Adapter.HousingTypeAdapter
 import com.avi.gharkhojo.Model.GridItem
 import com.avi.gharkhojo.Model.HousingType
+import com.avi.gharkhojo.OwnerActivity
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentHomeBinding
 
@@ -32,11 +34,10 @@ class Home : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupGridView()
         setupToolbar()
-
     }
 
     private fun setupToolbar() {
-        val recyclerView: RecyclerView = _binding?.toolbar!!.findViewById(R.id.housingTypeRecyclerView)
+        val recyclerView: RecyclerView = binding.toolbar.findViewById(R.id.housingTypeRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         val housingTypes = listOf(
@@ -49,14 +50,18 @@ class Home : Fragment() {
             HousingType(R.drawable.commercial_property, "Commercial")
         )
 
-        val adapter = HousingTypeAdapter(housingTypes)
+        val adapter = HousingTypeAdapter(housingTypes) {
+            // Handle Add Property icon click
+            val intent = Intent(requireContext(), OwnerActivity::class.java)
+            startActivity(intent)
+        }
         recyclerView.adapter = adapter
     }
 
     private fun setupGridView() {
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
-            adapter = GridAdapter(createGridList()) { gridItem, position ->
+            adapter = GridAdapter(createGridList()) { gridItem, _ ->
                 val action = HomeDirections.actionHome2ToHomeDetails(gridItem)
                 findNavController().navigate(action)
             }
@@ -79,8 +84,6 @@ class Home : Fragment() {
             GridItem(R.drawable.court, "25000", "2")
         )
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

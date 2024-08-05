@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_menu_owner"
+    app:startDestination="@id/addFragment">
+
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="com.avi.gharkhojo.Fragments.OwnerFragments.AddFragment"
+        android:label="fragment_add"
+        tools:layout="@layout/fragment_add" />
+    <fragment
+        android:id="@+id/interestedFragment"
+        android:name="com.avi.gharkhojo.Fragments.OwnerFragments.InterestedFragment"
+        android:label="fragment_interest"
+        tools:layout="@layout/fragment_interest" />
+    <fragment
+        android:id="@+id/uploadsFragment"
+        android:name="com.avi.gharkhojo.Fragments.OwnerFragments.UploadsFragment"
+        android:label="fragment_uploads"
+        tools:layout="@layout/fragment_uploads" />
+    <fragment
+        android:id="@+id/ownerProfileFragment"
+        android:name="com.avi.gharkhojo.Fragments.OwnerFragments.OwnerProfileFragment"
+        android:label="fragment_owner_profile"
+        tools:layout="@layout/fragment_owner_profile" />
+</navigation>
