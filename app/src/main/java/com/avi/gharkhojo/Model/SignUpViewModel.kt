@@ -39,7 +39,6 @@ class SignUpViewModel : ViewModel() {
         if (name.isNotEmpty() && email.isNotEmpty() && pass.isNotEmpty() && confirmPass.isNotEmpty()) {
             if (pass == confirmPass) {
                 _signUpState.value = SignUpState.Loading
-
                   firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
                       if (task.isSuccessful) {
                           firebaseAuth.currentUser?.sendEmailVerification()

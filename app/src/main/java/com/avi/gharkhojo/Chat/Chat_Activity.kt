@@ -19,15 +19,21 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+
+@AndroidEntryPoint
 class Chat_Activity : AppCompatActivity() {
 
-    private var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+
+   @set:Inject
+   var firebaseUser: FirebaseUser? = null
     private var recyclerView: RecyclerView? = null
     private lateinit var binding: ActivityChatBinding
     private var chatUserListModel: ArrayList<ChatUserListModel> = ArrayList()
-    private var firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private var databaseReference: DatabaseReference = firebaseDatabase.reference.child("users")
+    @Inject lateinit var firebaseDatabase: FirebaseDatabase
+    @Inject lateinit var databaseReference: DatabaseReference
     private var chatUserListAdapter: ChatUserListAdapter? = null
     private var userListListener: ValueEventListener? = null
     private var messageListenerMap: MutableMap<String, ValueEventListener> = mutableMapOf()

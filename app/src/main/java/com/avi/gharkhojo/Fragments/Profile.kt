@@ -35,19 +35,21 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.yalantis.ucrop.UCrop
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.util.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class Profile : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+    @Inject lateinit var firebaseAuth: FirebaseAuth
 
     private lateinit var pickImage: ActivityResultLauncher<String>
     private lateinit var cropImage: ActivityResultLauncher<Intent>
-    private var firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private var databaseReference: DatabaseReference = firebaseDatabase.reference.child("users")
+    @Inject lateinit var databaseReference: DatabaseReference
     private val storageRef:StorageReference by lazy { Firebase.storage.reference.child("profile_pictures/${FirebaseAuth.getInstance().currentUser?.uid}") }
 
     override fun onCreateView(

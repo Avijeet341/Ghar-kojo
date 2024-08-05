@@ -19,7 +19,6 @@ import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.avi.gharkhojo.Chat.Chat_Activity
-import com.avi.gharkhojo.Model.SharedViewModel
 import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.Model.UserSignupLoginManager
 import com.avi.gharkhojo.databinding.ActivityMainBinding
@@ -34,14 +33,14 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.google.firebase.storage.storage
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var mainBinding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var bottomNavigation: ChipNavigationBar
-    private val firestore: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
-    private val storageRef:StorageReference by lazy { Firebase.storage.reference.child("profile_pictures/${FirebaseAuth.getInstance().currentUser?.uid}") }
-
 
     @OptIn(UnstableApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,8 +61,6 @@ class MainActivity : AppCompatActivity() {
         bottomNavigation.setMenuResource(R.menu.nav_menu) // Set the menu resource
         setUpTabBar()
         onBackPressedAvi()
-
-        UserSignupLoginManager.getInstance(this).setUp()
 
 
 
