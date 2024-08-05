@@ -14,9 +14,11 @@ import com.avi.gharkhojo.Adapter.GridAdapter
 import com.avi.gharkhojo.Adapter.HousingTypeAdapter
 import com.avi.gharkhojo.Model.GridItem
 import com.avi.gharkhojo.Model.HousingType
+import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.OwnerActivity
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentHomeBinding
+import com.bumptech.glide.Glide
 
 class Home : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -34,6 +36,7 @@ class Home : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupGridView()
         setupToolbar()
+        Glide.with(this).load(UserData.profilePictureUrl).placeholder(R.drawable.vibe).into(binding.userImage)
     }
 
     private fun setupToolbar() {
