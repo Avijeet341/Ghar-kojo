@@ -33,9 +33,6 @@ import java.util.Locale
 class ChatUserListAdapter(private val chatUsers: List<ChatUserListModel>,private val context: Context):
     RecyclerView.Adapter<ChatUserListAdapter.ChatUserViewHolder>(){
 
-    private var firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private var databaseReference: DatabaseReference = firebaseDatabase.reference
-
             class ChatUserViewHolder(userListBinding: UserListLayoutBinding):RecyclerView.ViewHolder(userListBinding.root){
 
                 var img:ImageView = userListBinding.profilePic

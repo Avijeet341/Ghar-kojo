@@ -16,7 +16,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.avi.gharkhojo.Model.LoginViewModel
+import com.avi.gharkhojo.Model.UserSignupLoginManager
 import com.avi.gharkhojo.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
@@ -24,10 +26,7 @@ import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.auth.api.identity.SignInCredential
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class LoginActivity : AppCompatActivity() {
 
@@ -59,12 +58,17 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.loginState.removeObservers(this)
+    }
+
     private fun startLoginBgAnimation() {
-        val constraintLayout: ConstraintLayout = findViewById(R.id.LoginBgLayout)
-        val animationDrawable: AnimationDrawable = constraintLayout.background as AnimationDrawable
-        animationDrawable.setEnterFadeDuration(1000)
-        animationDrawable.setExitFadeDuration(2000)
-        animationDrawable.start()
+        val animationDrawable = (loginBinding.LoginBgLayout.background as AnimationDrawable).apply {
+            setEnterFadeDuration(1000)
+            setExitFadeDuration(2000)
+            start()
+        }
     }
 
     private fun setupWindowInsets() {
@@ -78,23 +82,22 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupUI() {
         loginBinding.apply {
-            buttonLogin.setOnClickListener {
-                val email = editTextTextEmailAddress.text.toString()
-                val pass = editTextTextPassword.text.toString()
-                showLoading()
-                CoroutineScope(Dispatchers.IO).launch {
-                    viewModel.signInUser(email, pass, this@LoginActivity) // change by aditya
-                    withContext(Dispatchers.Main) {
-                        // Perform UI updates based on the result
-                    }
-                }
-            }
+            buttonLogin.setOnClickListener { login() }
             buttonGoogle.setOnClickListener { signInGoogle() }
             buttonFacebook.setOnClickListener {
                 // Add Facebook login logic here
             }
             SignUptextView.setOnClickListener { navigateTo(SignUpActivity::class.java) }
             forgetMyPasstextView.setOnClickListener { navigateTo(ForgotActivity::class.java) }
+        }
+    }
+
+    private fun login() {
+        val email = loginBinding.editTextTextEmailAddress.text.toString().trim()
+        val pass = loginBinding.editTextTextPassword.text.toString().trim()
+        showLoading()
+        lifecycleScope.launch {
+            viewModel.signInUser(email, pass, this@LoginActivity)
         }
     }
 
@@ -115,27 +118,23 @@ class LoginActivity : AppCompatActivity() {
     private fun observeViewModel() {
         viewModel.loginState.observe(this) { state ->
             when (state) {
-                is LoginViewModel.LoginState.Success -> {
-                    hideLoading()
-                    if(FirebaseAuth.getInstance().currentUser?.isEmailVerified == true){
-                        showToast("Welcome Guys 💕🎇🎉🎊")
-                        navigateTo(MainActivity::class.java)
-                    }
-                    else{
-                        Toast.makeText(this,"Please Verify Your Email",Toast.LENGTH_SHORT).show()
-                        FirebaseAuth.getInstance().currentUser?.delete()
-                    }
-
-                }
-                is LoginViewModel.LoginState.Error -> {
-                    hideLoading()
-                    showToast(state.message)
-                }
+                is LoginViewModel.LoginState.Success -> handleLoginSuccess()
+                is LoginViewModel.LoginState.Error -> handleLoginError(state.message)
                 LoginViewModel.LoginState.Idle -> { /* Do nothing */ }
             }
         }
     }
 
+    private fun handleLoginSuccess() {
+        hideLoading()
+        showToast("Welcome Guys 💕🎇🎉🎊")
+        navigateTo(MainActivity::class.java)
+    }
+
+    private fun handleLoginError(message: String) {
+        hideLoading()
+        showToast(message)
+    }
 
     private fun signInGoogle() {
         val signInRequest = BeginSignInRequest.builder()
@@ -178,11 +177,12 @@ class LoginActivity : AppCompatActivity() {
 
     private fun navigateTo(activityClass: Class<*>) {
         val intent = Intent(this, activityClass)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
-        //finish()
     }
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
+

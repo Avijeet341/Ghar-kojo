@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/addFragment"
+        android:icon="@drawable/ic_baseline_add_24"
+        android:title="Add Property"
+        app:cnb_iconColor="@color/black"
+        app:cnb_backgroundColor="@color/YellowPrimary"
+        />
+    <item
+        android:id="@+id/interestedFragment"
+        android:icon="@drawable/add"
+        android:title="Interested"
+        app:cnb_backgroundColor="@color/YellowPrimary"
+        app:cnb_iconColor="@color/black"/>
+    <item
+        android:id="@+id/uploadsFragment"
+        android:icon="@drawable/ic_baseline_upload_24"
+        android:title="Uploads"
+        app:cnb_backgroundColor="@color/YellowPrimary"
+        app:cnb_iconColor="@color/black"/>
+    <item
+        android:id="@+id/ownerProfileFragment"
+        android:icon="@drawable/account_heart"
+        android:title="Profile"
+        app:cnb_backgroundColor="@color/YellowPrimary"
+        app:cnb_iconColor="@color/black"/>
+</menu>

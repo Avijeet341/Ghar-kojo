@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.Ringtone
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -45,13 +46,16 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 class ChatRoom : AppCompatActivity() {
 
+    private var senderUid: String?=null
     private var reply_pos: Int?=null
     private var replyToId: String? = null
     private var img: String? = null
@@ -61,7 +65,6 @@ class ChatRoom : AppCompatActivity() {
     var storage: FirebaseStorage? = null
     var dialog: ProgressDialog? = null
     var receiverUid: String? = null
-    var senderUid: String? = null
     private lateinit var currentPhotoPath: String
 
     companion object {
@@ -73,9 +76,9 @@ class ChatRoom : AppCompatActivity() {
     private lateinit var chatAdapter: MessageAdapter
     private lateinit var chatBinding: ActivityChatRoomBinding
     private var messages: ArrayList<Message> = ArrayList()
-    private var firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private var databaseReference: DatabaseReference = firebaseDatabase.reference
-    private var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+    var firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
+    var databaseReference: DatabaseReference = firebaseDatabase.reference
+     var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private lateinit var recyclerView: RecyclerView
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -94,6 +97,7 @@ class ChatRoom : AppCompatActivity() {
             v.updatePadding(bottom = imeInsets.bottom)
             insets
         }
+
         setSupportActionBar(chatBinding.toolbar)
 
         storage = FirebaseStorage.getInstance()
@@ -107,12 +111,14 @@ class ChatRoom : AppCompatActivity() {
             receiverUid = it.getString(UID_ARG)
             name = it.getString(NAME_ARG)
             senderUid = firebaseUser!!.uid
+            senderRoom = senderUid + receiverUid
+            receiverRoom = receiverUid + senderUid
         }
 
         Glide.with(this).load(img).placeholder(R.drawable.baseline_person_24).into(chatBinding.profileImage)
         chatBinding.name.text = name
 
-        databaseReference.child("Presence").child(receiverUid!!)
+        databaseReference.child("Presence").child(receiverRoom!!).child(receiverUid!!)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
@@ -132,8 +138,6 @@ class ChatRoom : AppCompatActivity() {
                 }
             })
 
-        senderRoom = senderUid + receiverUid
-        receiverRoom = receiverUid + senderUid
         chatAdapter = MessageAdapter(this, messages, senderRoom, receiverRoom,name,object:MessageAdapter.ScrollTo{
             override fun ScrollToRepliedMessage(position: Int) {
                 recyclerView.scrollToPosition(position)
@@ -251,7 +255,7 @@ class ChatRoom : AppCompatActivity() {
                 }
 
                 override fun afterTextChanged(s: Editable?) {
-                    databaseReference.child("Presence")
+                    databaseReference.child("Presence").child(senderRoom!!)
                         .child(senderUid!!)
                         .setValue("typing...")
                     handler.removeCallbacksAndMessages(null)
@@ -259,7 +263,7 @@ class ChatRoom : AppCompatActivity() {
                 }
 
                 var userStoppedTyping = Runnable {
-                    databaseReference.child("Presence")
+                    databaseReference.child("Presence").child(senderRoom!!)
                         .child(senderUid!!)
                         .setValue("Online")
                 }
@@ -419,17 +423,16 @@ class ChatRoom : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val currentId = FirebaseAuth.getInstance().uid
-        databaseReference.child("Presence")
-            .child(currentId!!)
+        databaseReference.child("Presence").child(senderRoom!!)
+            .child(senderUid!!)
             .setValue("Online")
     }
 
     override fun onPause() {
         super.onPause()
-        val currentId = FirebaseAuth.getInstance().uid
-        databaseReference.child("Presence")
-            .child(currentId!!)
+
+        databaseReference.child("Presence").child(senderRoom!!)
+            .child(senderUid!!)
             .setValue("Offline")
     }
 

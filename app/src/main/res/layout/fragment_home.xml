@@ -17,6 +17,8 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
+                app:contentInsetEnd="0dp"
+                app:contentInsetStart="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="13dp"
@@ -40,8 +42,8 @@
                         android:id="@+id/greetingText1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="3dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/montserrat_regular"
                         android:paddingTop="2dp"
                         android:text="Hi"
@@ -49,38 +51,39 @@
                         android:textSize="16sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@+id/userImage" />
 
                     <TextView
-                        android:id="@+id/greetingText2"
+                        android:id="@+id/username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="AVIJEET"
-                        android:textSize="16sp"
-                        android:textColor="@color/white"
+                        android:layout_marginStart="4dp"
                         android:fontFamily="@font/montserrat_bold"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@id/greetingText1"
-                        app:layout_constraintTop_toTopOf="@id/greetingText1"
-                        android:layout_marginStart="4dp"/>
+                        app:layout_constraintTop_toTopOf="@id/greetingText1" />
 
                     <TextView
                         android:id="@+id/greetingText3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="!"
-                        android:textSize="16sp"
-                        android:textColor="@color/white"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="2dp"
                         android:fontFamily="@font/montserrat_regular"
-                        app:layout_constraintStart_toEndOf="@id/greetingText2"
-                        app:layout_constraintTop_toTopOf="@id/greetingText1"
-                        android:layout_marginStart="4dp"/>
+                        android:text="!"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toEndOf="@id/username"
+                        app:layout_constraintTop_toTopOf="@id/greetingText1" />
 
                     <TextView
                         android:id="@+id/greetingText4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
+                        android:layout_marginTop="2dp"
                         android:fontFamily="@font/montserrat_regular"
                         android:text="Searching in"
                         android:textColor="@color/white"
@@ -93,13 +96,34 @@
                         android:id="@+id/search_view"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="13dp"
                         android:layout_marginTop="8dp"
-                        android:layout_marginEnd="3dp"
-                        android:background="@drawable/bg_search"
+                        android:layout_marginEnd="5dp"
+                        android:background="@drawable/edittextshape"
                         android:backgroundTint="@color/mint_green"
+                        android:elevation="2dp"
                         android:iconifiedByDefault="false"
-                        app:layout_constraintEnd_toStartOf="@+id/userImage"
+                        app:layout_constraintEnd_toStartOf="@+id/filterButton"
+                        app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/greetingText4" />
+
+                    <!-- Filter Button -->
+                    <ImageButton
+                        android:id="@+id/filterButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="5dp"
+                        android:contentDescription="@string/filter"
+                        android:background="@drawable/edittextshape"
+                        android:backgroundTint="@color/mint_green"
+                         android:elevation="2dp"
+                        android:padding="4dp"
+                        android:src="@drawable/filter"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/search_view"
                         app:layout_constraintTop_toBottomOf="@id/greetingText4" />
 
                     <!-- Location Label -->
@@ -107,12 +131,12 @@
                         android:id="@+id/locationLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="3dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/montserrat_regular"
                         android:text="Location:"
                         android:textColor="@color/white"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/search_view" />
 
@@ -121,8 +145,7 @@
                         android:id="@+id/locationText1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="3dp"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginStart="15dp"
                         android:fontFamily="@font/montserrat_bold"
                         android:text="Jaydev Vihar"
                         android:textColor="@color/white"
@@ -135,54 +158,51 @@
                         android:id="@+id/locationText2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold"
                         android:text=","
                         android:textColor="@color/white"
                         android:textSize="18sp"
-                        android:fontFamily="@font/montserrat_bold"
                         android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@id/locationText1"
-                        app:layout_constraintTop_toBottomOf="@id/locationLabel"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginTop="4dp"/>
+                        app:layout_constraintTop_toBottomOf="@id/locationLabel" />
 
                     <TextView
                         android:id="@+id/locationText3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:fontFamily="@font/montserrat_bold"
                         android:text="Bhubneswar"
                         android:textColor="@color/white"
                         android:textSize="18sp"
-                        android:fontFamily="@font/montserrat_bold"
                         android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@id/locationText2"
-                        app:layout_constraintTop_toBottomOf="@id/locationLabel"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginTop="4dp"/>
+                        app:layout_constraintTop_toBottomOf="@id/locationLabel" />
 
                     <!-- User Image -->
 
                     <!-- Housing Types RecyclerView -->
+
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/userImage"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
-                        android:layout_marginEnd="12dp"
-                        android:src="@drawable/user_img"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:scaleType="centerCrop"
                         app:civ_border_color="@android:color/white"
                         app:civ_border_width="2dp"
-                        app:layout_constraintBottom_toBottomOf="@id/locationText1"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.043" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/housingTypeRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:layout_marginTop="4dp"
                         android:orientation="horizontal"
-                        app:layout_constraintTop_toBottomOf="@id/locationText1"
-                        android:layout_marginTop="16dp"/>
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@id/locationText1" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -192,6 +212,7 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:background="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
