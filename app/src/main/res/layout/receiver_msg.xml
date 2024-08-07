@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:textColor="#777777"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:textStyle="italic" />
 
     <LinearLayout
@@ -44,11 +44,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_regular"
-            android:text="hellsosskdkjdlksdkf
-            dkdkdjfkdjkfdjkfkdkfdkfdklfkdj;
-                jdkfvldldldfljadlldfjl;"
+            android:textColor="@color/black"
             android:maxLines="2"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:maxWidth="350dp"
             android:id="@+id/repliedMessg"
             />
@@ -70,7 +68,7 @@
             android:paddingRight="10dp"
             android:paddingTop="5dp"
             android:textColor="#ff717171"
-            android:textSize="16dp"
+            android:textSize="16sp"
 
             android:layout_toRightOf="@+id/textView27"
             android:layout_marginRight="50dp" />
@@ -82,7 +80,7 @@
             android:background="@drawable/triangle_msg_from"
             android:paddingRight="10dp"
             android:textColor="#ffffff"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:paddingLeft="10dp"
             android:paddingTop="2dp"
             android:layout_alignParentLeft="true"
