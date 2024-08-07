@@ -15,8 +15,6 @@ import com.avi.gharkhojo.Adapter.ChatUserListAdapter
 import com.avi.gharkhojo.Model.ChatUserListModel
 import com.avi.gharkhojo.Model.Message
 import com.avi.gharkhojo.databinding.ActivityChatBinding
-import com.google.android.gms.tasks.Tasks
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import dagger.hilt.android.AndroidEntryPoint
