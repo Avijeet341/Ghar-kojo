@@ -1,7 +1,6 @@
 package com.avi.gharkhojo
 
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity

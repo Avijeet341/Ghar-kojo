@@ -170,6 +170,7 @@
             android:textColor="@color/text_color_primary"
             android:textColorHint="#E0E0E0"
             android:padding="12dp"
+            android:inputType="number"
             android:hint="Enter tenant served"
             android:importantForAccessibility="yes"
             android:contentDescription="Tenant served input field"

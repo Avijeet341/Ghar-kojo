@@ -27,6 +27,7 @@
         <activity
             android:name=".OwnerActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.DarkOwner"/>
         <activity
             android:name=".SplashScreen"
