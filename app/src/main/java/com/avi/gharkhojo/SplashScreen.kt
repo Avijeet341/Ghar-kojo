@@ -24,13 +24,13 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-@AndroidEntryPoint
+
 class SplashScreen : AppCompatActivity() {
 
-    @Inject
-    lateinit var firebaseAuth: FirebaseAuth
 
-    private val firebaseUser: FirebaseUser? by lazy { firebaseAuth.currentUser }
+
+
+    private val firebaseUser: FirebaseUser? by lazy { FirebaseAuth.getInstance().currentUser }
 
     @OptIn(UnstableApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,7 +104,7 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun signOutAndNavigateToLogin() {
-        firebaseAuth.signOut()
+        FirebaseAuth.getInstance().signOut()
         firebaseUser?.delete()
         navigateToLogin()
     }
