@@ -113,8 +113,8 @@
                         android:id="@+id/textViewEmail"
                         android:fontFamily="@font/montserrat_regular"
                         android:layout_width="match_parent"
+                        android:textColor="@color/black"
                         android:layout_height="wrap_content"
-                        android:text="@string/abc_gmail_com"
                         android:layout_margin="6dp"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -145,7 +145,7 @@
                         android:fontFamily="@font/montserrat_regular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="AVIJEET SWAIN"
+                        android:textColor="@color/black"
                         android:layout_margin="6dp"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -176,7 +176,7 @@
                         android:fontFamily="@font/montserrat_regular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/flat_home_country"
+                        android:textColor="@color/black"
                         android:layout_margin="6dp"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -209,7 +209,7 @@
                         android:fontFamily="@font/montserrat_regular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/_11111111"
+                        android:textColor="@color/black"
                         android:layout_margin="6dp"
                         android:textSize="18sp" />
                 </LinearLayout>

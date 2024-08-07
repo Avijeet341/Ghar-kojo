@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,11 +19,16 @@ import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.OwnerActivity
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentHomeBinding
-import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class Home : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    @Inject lateinit var requestManager: RequestManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,9 +40,20 @@ class Home : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupGridView()
+
+        setupUserProfile()
         setupToolbar()
-        Glide.with(this).load(UserData.profilePictureUrl).placeholder(R.drawable.vibe).into(binding.userImage)
+        setupGridView()
+
+    }
+
+    private fun setupUserProfile() {
+        UserData.profilePictureUrl?.let { url ->
+            requestManager.load(url).placeholder(R.drawable.vibe).into(binding.userImage)
+        } ?: run {
+            binding.userImage.setImageResource(R.drawable.vibe)
+        }
+        binding.username.text = UserData.username ?: getString(R.string.default_username)
     }
 
     private fun setupToolbar() {
@@ -53,10 +70,10 @@ class Home : Fragment() {
             HousingType(R.drawable.commercial_property, "Commercial")
         )
 
-        val adapter = HousingTypeAdapter(housingTypes) {
-            // Handle Add Property icon click
-            val intent = Intent(requireContext(), OwnerActivity::class.java)
-            startActivity(intent)
+        val adapter = HousingTypeAdapter(housingTypes){
+
+                val intent = Intent(requireContext(), OwnerActivity::class.java)
+                startActivity(intent)
         }
         recyclerView.adapter = adapter
     }
