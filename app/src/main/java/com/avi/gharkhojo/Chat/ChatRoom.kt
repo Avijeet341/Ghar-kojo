@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.Ringtone
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -52,7 +53,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-@AndroidEntryPoint
 class ChatRoom : AppCompatActivity() {
 
     private var senderUid: String?=null
@@ -76,9 +76,9 @@ class ChatRoom : AppCompatActivity() {
     private lateinit var chatAdapter: MessageAdapter
     private lateinit var chatBinding: ActivityChatRoomBinding
     private var messages: ArrayList<Message> = ArrayList()
-    @Inject lateinit var firebaseDatabase: FirebaseDatabase
-   lateinit var databaseReference: DatabaseReference
-    @set:Inject var firebaseUser: FirebaseUser? = null
+    var firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
+    var databaseReference: DatabaseReference = firebaseDatabase.reference
+     var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private lateinit var recyclerView: RecyclerView
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -97,7 +97,6 @@ class ChatRoom : AppCompatActivity() {
             v.updatePadding(bottom = imeInsets.bottom)
             insets
         }
-        databaseReference = firebaseDatabase.reference
 
         setSupportActionBar(chatBinding.toolbar)
 
