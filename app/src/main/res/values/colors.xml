@@ -2,7 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="Black">#000000</color>
-
+    <color name="white">#FFFFFF</color>
     <color name="white_smoke">#F5F5F5</color>
     <color name="your_status_bar_color">#00ecbc</color>
     <color name="start_color">#00ecbc</color>
@@ -33,18 +33,12 @@
     <color name="Gray">#F0F0F0</color>
     <color name="LightGray">#DADEDF</color>
     <color name="Turquoise">#E0F2F1</color>
-
     <color name="colorAccent">#D81B60</color>
     <color name="colorE">#c4c4c4</color>
     <color name="replyBackground">#DADADA</color>
-
     <color name="colorAccent2">#D5D3D3</color>
     <color name="colorAccent3">#F59496</color>
     <color name="textColor">#1A1616</color>
-
-
-
-    <color name="white">#FFFFFF</color>
     <color name="off_white">#F5F5F5</color>
     <color name="coral">#FF7F50</color>
     <color name="peach">#FFDAB9</color>
@@ -67,9 +61,26 @@
     <color name="mint_green">#98FF98</color>
     <color name="charcoal">#36454F</color>
     <color name="dark_gray">#FF121212</color>
-    <color name="accent_color">#FF1E88E5</color>
-    <color name="YellowPrimary">#FFEB3B</color> <!-- Example yellow primary color -->
-    <color name="YellowPrimaryDark">#FBC02D</color> <!-- Darker shade of yellow for status bar -->
+    <color name="accent_color2">#FF1E88E5</color>
+    <color name="YellowPrimary">#FFEB3B</color>
+    <color name="YellowPrimaryDark">#FBC02D</color>
+
+    <!-- New colors for dark theme -->
+    <color name="dark_background">#121212</color>
+    <color name="dark_input_background">#1E1E1E</color>
+    <color name="dark_input_border">#333333</color>
+    <color name="purple_button">#6200EE</color>
+    <color name="text_color_primary">#FFFFFF</color>
+    <color name="text_color_secondary">#B3FFFFFF</color>
+
+    <color name="spinner_border">#424242</color>
+    <color name="spinner_arrow">#FFFFFF</color>
+    <color name="spinner_text_color">#FFFFFF</color>
+    <color name="spinner_item_normal">#2C2C2C</color>
+    <color name="spinner_item_pressed">#3D3D3D</color>
+
+    <color name="yellow_accent">#FFEB3B</color>
+    <color name="dark_gray2">#3C3C3C</color>
+
+    <color name="accent_color">#FFEB3B</color>
 </resources>
-
-

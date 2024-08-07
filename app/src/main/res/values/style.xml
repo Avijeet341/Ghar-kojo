@@ -49,4 +49,54 @@
         <item name="android:fontFamily">@font/calibri</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="BlackSpinnerStyle" parent="android:Widget.Spinner">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+<!--    <style name="CustomSwitchStyle" parent="Widget.MaterialComponents.CompoundButton.Switch">-->
+<!--        <item name="track">@drawable/switch_track_3d</item>-->
+<!--        <item name="android:thumb">@drawable/switch_thumb_3d</item>-->
+<!--        <item name="colorControlActivated">@color/yellow_accent</item>-->
+<!--        <item name="colorSwitchThumbNormal">@color/white</item>-->
+<!--        <item name="android:colorForeground">@color/dark_gray</item>-->
+<!--    </style>-->
+
+<!--    <style name="CustomSwitchStyle" parent="Widget.MaterialComponents.CompoundButton.Switch">-->
+<!--        <item name="colorControlActivated">#FFEB3B</item>-->
+<!--    </style>-->
+
+<!--    <style name="CustomSwitchStyle" parent="Widget.MaterialComponents.CompoundButton.Switch">-->
+<!--        <item name="colorControlActivated">#FFEB3B</item>-->
+<!--        <item name="colorSwitchThumbNormal">#FFEB3B</item>-->
+<!--        <item name="android:colorForeground">#2C2C2C</item>-->
+<!--    </style>-->
+
+<!--    <style name="CustomSwitchStyle" parent="Widget.MaterialComponents.CompoundButton.Switch">-->
+<!--        <item name="colorControlActivated">#FFEB3B</item>-->
+<!--        <item name="colorSwitchThumbNormal">#FFEB3B</item>-->
+<!--        <item name="android:colorForeground">#2C2C2C</item>-->
+<!--        <item name="trackTint">#2C2C2C</item>-->
+<!--    </style>-->
+
+<!--    <style name="CustomSwitchStyle" parent="Widget.MaterialComponents.CompoundButton.Switch">-->
+<!--        <item name="colorControlActivated">#FFEB3B</item>-->
+<!--        <item name="colorSwitchThumbNormal">#2C2C2C</item>-->
+<!--    </style>-->
+    <style name="CustomSwitchStyle" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:track">@drawable/neumorph_switch_track</item>
+        <item name="android:thumb">@drawable/neumorph_switch_thumb</item>
+    </style>
+
+    <style name="CustomRectangularButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="backgroundTint">@null</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">0dp</item>
+    </style>
 </resources>

@@ -50,7 +50,7 @@
             android:maxWidth="350dp"
             android:id="@+id/repliedMessg"
             android:textColor="@color/black"
-           />
+            />
     </LinearLayout>
 
     <RelativeLayout

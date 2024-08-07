@@ -60,4 +60,16 @@
     <string name="rent_format">Rent: %1$s</string>
     <string name="bhk_description">%1$s BHK</string>
     <string name="email_verification_quote">Verification email has been sent to your email address. Please verify your email address to continue.</string>
+    <string name="filter">Filter</string>
+    <string name="property_type_selection">Property Type selection</string>
+    <string name="next">Next</string>
+    <string name="preferred_tenants">Preferred Tenants</string>
+    <string name="preferred_tenants_selection">Preferred Tenants selection</string>
+    <string name="next_button">Next button</string>
+
+    <string-array name="furnishing_options">
+        <item>Semi Furnished</item>
+        <item>Fully Furnished</item>
+        <item>No Furnishing</item>
+    </string-array>
 </resources>

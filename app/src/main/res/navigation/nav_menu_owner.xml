@@ -9,20 +9,33 @@
         android:id="@+id/addFragment"
         android:name="com.avi.gharkhojo.Fragments.OwnerFragments.AddFragment"
         android:label="fragment_add"
-        tools:layout="@layout/fragment_add" />
+        tools:layout="@layout/fragment_add">
+        <action
+            android:id="@+id/action_addFragment_to_propertyDetailsFragment"
+            app:destination="@id/propertyDetailsFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/interestedFragment"
         android:name="com.avi.gharkhojo.Fragments.OwnerFragments.InterestedFragment"
         android:label="fragment_interest"
         tools:layout="@layout/fragment_interest" />
+
     <fragment
         android:id="@+id/uploadsFragment"
         android:name="com.avi.gharkhojo.Fragments.OwnerFragments.UploadsFragment"
         android:label="fragment_uploads"
         tools:layout="@layout/fragment_uploads" />
+
     <fragment
         android:id="@+id/ownerProfileFragment"
         android:name="com.avi.gharkhojo.Fragments.OwnerFragments.OwnerProfileFragment"
         android:label="fragment_owner_profile"
         tools:layout="@layout/fragment_owner_profile" />
+
+    <fragment
+        android:id="@+id/propertyDetailsFragment"
+        android:name="com.avi.gharkhojo.Fragments.OwnerFragments.PropertyDetailsFragment"
+        android:label="fragment_property_details"
+        tools:layout="@layout/fragment_property_details" />
 </navigation>
