@@ -28,6 +28,7 @@ class AddFragment : Fragment() {
         initializeViews(view)
         setupSpinners()
         setupNextButton()
+        loadData()
         return view
     }
 
@@ -56,7 +57,7 @@ class AddFragment : Fragment() {
     private fun setupNextButton() {
         nextButton.setOnClickListener {
             if (validateInputs()) {
-                // Navigate to PropertyDetailsFragment
+                saveData()
                 findNavController().navigate(R.id.action_addFragment_to_propertyDetailsFragment)
             }
         }
@@ -90,6 +91,39 @@ class AddFragment : Fragment() {
         }
 
         return isValid
+    }
+
+    private fun saveData() {
+        val sharedPref = activity?.getSharedPreferences("OwnerData", Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            putString("ownerName", ownerNameEditText.text.toString())
+            putString("email", emailEditText.text.toString())
+            putString("tenantServed", tenantServedEditText.text.toString())
+            putString("propertyType", propertyTypeSpinner.selectedItem.toString())
+            putString("preferredTenants", preferredTenantsSpinner.selectedItem.toString())
+            putString("phoneNumber", phoneNumberEditText.text.toString())
+            apply()
+        }
+    }
+
+    private fun loadData() {
+        val sharedPref = activity?.getSharedPreferences("OwnerData", Context.MODE_PRIVATE) ?: return
+        ownerNameEditText.setText(sharedPref.getString("ownerName", ""))
+        emailEditText.setText(sharedPref.getString("email", ""))
+        tenantServedEditText.setText(sharedPref.getString("tenantServed", ""))
+        phoneNumberEditText.setText(sharedPref.getString("phoneNumber", ""))
+
+        val propertyType = sharedPref.getString("propertyType", "")
+        val propertyTypePosition = (propertyTypeSpinner.adapter as ArrayAdapter<String>).getPosition(propertyType)
+        if (propertyTypePosition != -1) {
+            propertyTypeSpinner.setSelection(propertyTypePosition)
+        }
+
+        val preferredTenants = sharedPref.getString("preferredTenants", "")
+        val preferredTenantsPosition = (preferredTenantsSpinner.adapter as ArrayAdapter<String>).getPosition(preferredTenants)
+        if (preferredTenantsPosition != -1) {
+            preferredTenantsSpinner.setSelection(preferredTenantsPosition)
+        }
     }
 
     companion object {

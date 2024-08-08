@@ -12,7 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
-class OwnerActivity : AppCompatActivity() {
+class OwnerActivity : BaseActivity() {
     private lateinit var navController: NavController
     private lateinit var bottomNavigation: ChipNavigationBar
 
