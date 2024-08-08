@@ -102,27 +102,58 @@ class AddFragment : Fragment() {
             putString("propertyType", propertyTypeSpinner.selectedItem.toString())
             putString("preferredTenants", preferredTenantsSpinner.selectedItem.toString())
             putString("phoneNumber", phoneNumberEditText.text.toString())
+            putLong("last_updated", System.currentTimeMillis())
             apply()
         }
     }
 
     private fun loadData() {
         val sharedPref = activity?.getSharedPreferences("OwnerData", Context.MODE_PRIVATE) ?: return
-        ownerNameEditText.setText(sharedPref.getString("ownerName", ""))
-        emailEditText.setText(sharedPref.getString("email", ""))
-        tenantServedEditText.setText(sharedPref.getString("tenantServed", ""))
-        phoneNumberEditText.setText(sharedPref.getString("phoneNumber", ""))
+        val lastUpdated = sharedPref.getLong("last_updated", 0)
+        val currentTime = System.currentTimeMillis()
+        if (currentTime - lastUpdated > 60000) {  //1 min in milliseconds
+            clearData()
+        } else {
+            ownerNameEditText.setText(sharedPref.getString("ownerName", ""))
+            emailEditText.setText(sharedPref.getString("email", ""))
+            tenantServedEditText.setText(sharedPref.getString("tenantServed", ""))
+            phoneNumberEditText.setText(sharedPref.getString("phoneNumber", ""))
 
-        val propertyType = sharedPref.getString("propertyType", "")
-        val propertyTypePosition = (propertyTypeSpinner.adapter as ArrayAdapter<String>).getPosition(propertyType)
-        if (propertyTypePosition != -1) {
-            propertyTypeSpinner.setSelection(propertyTypePosition)
+            val propertyType = sharedPref.getString("propertyType", "")
+            val propertyTypePosition = getSpinnerPosition(propertyTypeSpinner, propertyType)
+            if (propertyTypePosition != -1) {
+                propertyTypeSpinner.setSelection(propertyTypePosition)
+            }
+
+            val preferredTenants = sharedPref.getString("preferredTenants", "")
+            val preferredTenantsPosition = getSpinnerPosition(preferredTenantsSpinner, preferredTenants)
+            if (preferredTenantsPosition != -1) {
+                preferredTenantsSpinner.setSelection(preferredTenantsPosition)
+            }
         }
+    }
 
-        val preferredTenants = sharedPref.getString("preferredTenants", "")
-        val preferredTenantsPosition = (preferredTenantsSpinner.adapter as ArrayAdapter<String>).getPosition(preferredTenants)
-        if (preferredTenantsPosition != -1) {
-            preferredTenantsSpinner.setSelection(preferredTenantsPosition)
+    private fun getSpinnerPosition(spinner: Spinner, value: String?): Int {
+        if (value.isNullOrEmpty()) return -1
+        for (i in 0 until spinner.adapter.count) {
+            if (value == spinner.adapter.getItem(i)) {
+                return i
+            }
+        }
+        return -1
+    }
+
+    private fun clearData() {
+        val sharedPref = activity?.getSharedPreferences("OwnerData", Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            remove("ownerName")
+            remove("email")
+            remove("tenantServed")
+            remove("propertyType")
+            remove("preferredTenants")
+            remove("phoneNumber")
+            remove("last_updated")
+            apply()
         }
     }
 

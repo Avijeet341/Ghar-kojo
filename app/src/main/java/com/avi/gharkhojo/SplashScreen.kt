@@ -1,5 +1,6 @@
 package com.avi.gharkhojo
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -20,20 +21,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-
 class SplashScreen : AppCompatActivity() {
 
-
-
-
     private val firebaseUser: FirebaseUser? by lazy { FirebaseAuth.getInstance().currentUser }
+
 
     @OptIn(UnstableApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_splash_screen)
-
 
         setupStatusBar()
         setupEdgeToEdge()
@@ -42,21 +39,23 @@ class SplashScreen : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             firebaseUser?.let { user ->
                 try {
+
                     reloadUser(user)
                     UserSignupLoginManager.getInstance(this@SplashScreen).setUp()
                     handleUserReload(user)
                 } catch (e: Exception) {
+
                     navigateToLogin()
                 }
-            } ?: navigateToLogin()
+            } ?: run { navigateToLogin() }
         }
-
-
-
     }
 
     private fun setupStatusBar() {
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         window.statusBarColor = resources.getColor(R.color.your_status_bar_color, theme)
     }
 
@@ -76,34 +75,46 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private suspend fun reloadUser(user: FirebaseUser) {
-        withContext(Dispatchers.IO) {
-            user.reload().await()
-        }
+        withContext(Dispatchers.IO) { user.reload().await() }
     }
 
     private fun handleUserReload(user: FirebaseUser) {
         if (user.isEmailVerified) {
-            navigateToMain()
+
+            navigateToLastUsedActivity()
         } else {
+
             signOutAndNavigateToLogin()
         }
     }
 
-    private fun navigateToMain() {
-        startActivity(Intent(this, MainActivity::class.java))
+    private fun navigateToLastUsedActivity() {
+        val intent = getLastUsedActivityIntent()
+        startActivity(intent)
         finishAffinity()
     }
 
     private fun navigateToLogin() {
+
         startActivity(Intent(this, LoginActivity::class.java))
         finishAffinity()
     }
 
     private fun signOutAndNavigateToLogin() {
+
         FirebaseAuth.getInstance().signOut()
         firebaseUser?.delete()
         navigateToLogin()
     }
 
+    private fun getLastUsedActivityIntent(): Intent {
+        val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val lastUsedActivity = sharedPref.getString("lastUsedActivity", null)
 
+        return when (lastUsedActivity) {
+            "com.avi.gharkhojo.MainActivity" -> Intent(this, MainActivity::class.java)
+            "com.avi.gharkhojo.OwnerActivity" -> Intent(this, OwnerActivity::class.java)
+            else -> Intent(this, MainActivity::class.java) // Default to MainActivity
+        }
+    }
 }

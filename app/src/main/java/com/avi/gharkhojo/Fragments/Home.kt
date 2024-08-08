@@ -74,6 +74,7 @@ class Home : Fragment() {
 
                 val intent = Intent(requireContext(), OwnerActivity::class.java)
                 startActivity(intent)
+            this.requireActivity().finish()
         }
         recyclerView.adapter = adapter
     }

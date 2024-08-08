@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
 open class BaseActivity : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         saveLastUsedActivity()
@@ -12,9 +14,11 @@ open class BaseActivity : AppCompatActivity() {
 
     private fun saveLastUsedActivity() {
         val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val className = javaClass.name
         with(sharedPref.edit()) {
-            putString("lastUsedActivity", javaClass.name)
+            putString("lastUsedActivity", className)
             apply()
         }
+
     }
 }
