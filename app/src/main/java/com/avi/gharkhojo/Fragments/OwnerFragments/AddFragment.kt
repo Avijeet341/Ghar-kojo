@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.avi.gharkhojo.R
+import java.util.concurrent.TimeUnit
 
 class AddFragment : Fragment() {
 
@@ -105,13 +108,15 @@ class AddFragment : Fragment() {
             putLong("last_updated", System.currentTimeMillis())
             apply()
         }
+
+        scheduleDataClear(requireContext())
     }
 
     private fun loadData() {
         val sharedPref = activity?.getSharedPreferences("OwnerData", Context.MODE_PRIVATE) ?: return
         val lastUpdated = sharedPref.getLong("last_updated", 0)
         val currentTime = System.currentTimeMillis()
-        if (currentTime - lastUpdated > 60000) {  //1 min in milliseconds
+        if (currentTime - lastUpdated > 30000) {  //1 min in milliseconds
             clearData()
         } else {
             ownerNameEditText.setText(sharedPref.getString("ownerName", ""))
@@ -154,6 +159,20 @@ class AddFragment : Fragment() {
             remove("phoneNumber")
             remove("last_updated")
             apply()
+        }
+    }
+
+    private fun scheduleDataClear(context: Context) {
+        val sharedPref = context.getSharedPreferences("OwnerData", Context.MODE_PRIVATE) ?: return
+        val hasData = sharedPref.contains("ownerName") || sharedPref.contains("email") ||
+                sharedPref.contains("tenantServed") || sharedPref.contains("propertyType") ||
+                sharedPref.contains("preferredTenants") || sharedPref.contains("phoneNumber")
+
+        if (hasData) {
+            val clearDataWorkRequest = OneTimeWorkRequestBuilder<ClearDataWorker>()
+                .setInitialDelay(1, TimeUnit.MINUTES)  // Delay execution by 1 minute
+                .build()
+            WorkManager.getInstance(context).enqueue(clearDataWorkRequest)
         }
     }
 
