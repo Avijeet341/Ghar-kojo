@@ -64,7 +64,7 @@ class Home : Fragment() {
             HousingType(R.drawable.ic_baseline_add_24, "Add Property"),
             HousingType(R.drawable.home, "House"),
             HousingType(R.drawable.apartment, "Apartment"),
-            HousingType(R.drawable.flat, "Flat"),
+            HousingType(R.drawable.building, "Flat"),
             HousingType(R.drawable.dormitory, "Dormitory"),
             HousingType(R.drawable.luxury, "Luxury"),
             HousingType(R.drawable.commercial_property, "Commercial")
