@@ -1,10 +1,11 @@
 package com.avi.gharkhojo
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.util.Log
 import android.view.WindowManager
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -13,7 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
-class OwnerActivity : AppCompatActivity() {
+class OwnerActivity : BaseActivity() {
     private lateinit var navController: NavController
     private lateinit var bottomNavigation: ChipNavigationBar
 
@@ -36,12 +37,26 @@ class OwnerActivity : AppCompatActivity() {
             insets
         }
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_owner) as NavHostFragment
-        navController = navHostFragment.navController
-        bottomNavigation = findViewById(R.id.bottom_nav_bar_owner)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_owner) as? NavHostFragment
+        navHostFragment?.let {
+            navController = it.navController
+        } ?: run {
+            Log.e("OwnerActivity", "NavHostFragment not found")
+            return
+        }
 
+        bottomNavigation = findViewById(R.id.bottom_nav_bar_owner)
         bottomNavigation.setMenuResource(R.menu.menu_owner) // Set the menu resource
         setUpTabBar()
+
+        // Set default fragment to AddFragment if not already set
+        if (savedInstanceState == null) {
+            navController.navigate(R.id.addFragment)
+            bottomNavigation.setItemSelected(R.id.addFragment, true) // Set ChipNavigationBar item to AddFragment
+        }
+
+        // Handle back press
+        handleOnBackPressed()
     }
 
     private fun setUpTabBar() {
@@ -59,7 +74,38 @@ class OwnerActivity : AppCompatActivity() {
                 R.id.ownerProfileFragment -> {
                     navController.navigate(R.id.ownerProfileFragment)
                 }
+                else -> {
+                    Log.e("OwnerActivity", "Unknown fragment id: $id")
+                }
             }
         }
+    }
+
+    private fun handleOnBackPressed() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val rootFragmentId = R.id.addFragment
+                val currentDestination = navController.currentDestination?.id
+
+                Log.d("HandleBackPress", "Current Destination: $currentDestination, Root Fragment: $rootFragmentId")
+
+                if (currentDestination != rootFragmentId) {
+                    // Navigate to root fragment if not already on it
+                    if (!navController.popBackStack(rootFragmentId, false)) {
+                        // If not able to pop back stack to root, just navigate to root fragment
+                        Log.d("HandleBackPress", "Navigating to Root Fragment")
+                        navController.navigate(rootFragmentId)
+                    }
+                    bottomNavigation.setItemSelected(R.id.addFragment, true)
+                    Log.d("HandleBackPress", "Set bottom navigation item selected")
+                } else {
+                    // Start MainActivity and finish OwnerActivity
+                    val intent = Intent(this@OwnerActivity, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    finish()
+                }
+            }
+        })
     }
 }
