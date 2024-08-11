@@ -395,38 +395,60 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="8dp"
-                        android:src="@drawable/baseline_my_location_24" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Live Location"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:textColor="#FFFFFF"
-                        android:layout_gravity="center_vertical"/>
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/baseline_my_location_24" />
 
-                    <Button
-                        android:background="@drawable/button_background"
-                        android:id="@+id/btnLiveLocation"
-                        android:layout_width="wrap_content"
-                        android:fontFamily="@font/lato_bold"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Live Location"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:textColor="#FFFFFF"
+                            android:layout_gravity="center_vertical"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="#FFEB3B"
-                        android:text="Get Location"
-                        android:textColor="#2C2C2C" />
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <Button
+                            android:background="@drawable/button_background"
+                            android:id="@+id/btnTurnOnLocation"
+                            android:layout_width="140dp"
+                            android:fontFamily="@font/lato_bold"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:backgroundTint="#FFEB3B"
+                            android:text="Turn On"
+                            android:textColor="#2C2C2C"
+                            android:textSize="11sp" />
+
+                        <Button
+                            android:background="@drawable/button_background"
+                            android:id="@+id/btnLiveLocation"
+                            android:layout_width="140dp"
+                            android:fontFamily="@font/lato_bold"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#FFEB3B"
+                            android:text="Get Location"
+                            android:textColor="#2C2C2C"
+                            android:textSize="11sp" />
+                    </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"

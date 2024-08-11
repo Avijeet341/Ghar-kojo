@@ -23,12 +23,14 @@ import com.avi.gharkhojo.R
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.textfield.TextInputEditText
 
 class RentAndLocationFragment : Fragment() {
 
     private lateinit var checkBoxParkingIncluded: CheckBox
     private lateinit var textInputLayoutParkingCharges: TextInputLayout
     private lateinit var btnLiveLocation: Button
+    private lateinit var btnTurnOnLocation: Button
     private lateinit var textViewLongitude: TextView
     private lateinit var textViewLatitude: TextView
     private lateinit var sharedPreferences: SharedPreferences
@@ -47,6 +49,7 @@ class RentAndLocationFragment : Fragment() {
         checkBoxParkingIncluded = view.findViewById(R.id.checkBoxParkingIncluded)
         textInputLayoutParkingCharges = view.findViewById(R.id.textInputLayoutParkingCharges)
         btnLiveLocation = view.findViewById(R.id.btnLiveLocation)
+        btnTurnOnLocation = view.findViewById(R.id.btnTurnOnLocation)
         textViewLongitude = view.findViewById(R.id.textViewLongitude)
         textViewLatitude = view.findViewById(R.id.textViewLatitude)
 
@@ -150,18 +153,22 @@ class RentAndLocationFragment : Fragment() {
                 }
             }
 
+        btnTurnOnLocation.setOnClickListener {
+            checkLocationPermissionAndSettings()
+        }
+
         btnLiveLocation.setOnClickListener {
             getLocation()
         }
     }
 
-    private fun getLocation() {
+    private fun checkLocationPermissionAndSettings() {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            checkLocationSettingsAndRetrieveLocation()
+            checkLocationSettings()
         } else {
             requestPermissions(
                 arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
@@ -170,11 +177,11 @@ class RentAndLocationFragment : Fragment() {
         }
     }
 
-    private fun checkLocationSettingsAndRetrieveLocation() {
+    private fun checkLocationSettings() {
         val settingsClient = LocationServices.getSettingsClient(requireActivity())
         settingsClient.checkLocationSettings(locationSettingsRequest)
             .addOnSuccessListener {
-                retrieveLocation() // All location settings are satisfied, proceed to get location
+                Toast.makeText(context, "Location services are enabled", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { exception ->
                 if (exception is ResolvableApiException) {
@@ -187,6 +194,18 @@ class RentAndLocationFragment : Fragment() {
                     Toast.makeText(context, "Location settings are inadequate, and cannot be fixed here.", Toast.LENGTH_LONG).show()
                 }
             }
+    }
+
+    private fun getLocation() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            retrieveLocation()
+        } else {
+            Toast.makeText(context, "Location permission not granted. Please turn on location first.", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun retrieveLocation() {
@@ -241,6 +260,38 @@ class RentAndLocationFragment : Fragment() {
         view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewParkingCharges)?.setText(sharedPreferences.getString("parkingCharges", ""))
         view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewBrokerage)?.setText(sharedPreferences.getString("brokerage", ""))
         view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewDeposit)?.setText(sharedPreferences.getString("deposit", ""))
+        view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewPincode)?.setText(sharedPreferences.getString("pincode", ""))
+        view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewLandmark)?.setText(sharedPreferences.getString("landmark", ""))
+        view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewHouseNumber)?.setText(sharedPreferences.getString("houseNumber", ""))
+        view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewArea)?.setText(sharedPreferences.getString("area", ""))
+        view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewColony)?.setText(sharedPreferences.getString("colony", ""))
+        view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewCity)?.setText(sharedPreferences.getString("city", ""))
+        view?.findViewById<TextInputEditText>(R.id.editTextPropertyDescription)?.setText(sharedPreferences.getString("propertyDescription", ""))
+
+        checkBoxParkingIncluded.isChecked = sharedPreferences.getBoolean("parkingIncluded", false)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        saveData()
+    }
+
+    private fun saveData() {
+        sharedPreferences.edit().apply {
+            putString("rent", view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewRent)?.text.toString())
+            putString("parkingCharges", view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewParkingCharges)?.text.toString())
+            putString("brokerage", view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewBrokerage)?.text.toString())
+            putString("deposit", view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewDeposit)?.text.toString())
+            putString("pincode", view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewPincode)?.text.toString())
+            putString("landmark", view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewLandmark)?.text.toString())
+            putString("houseNumber", view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewHouseNumber)?.text.toString())
+            putString("area", view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewArea)?.text.toString())
+            putString("colony", view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewColony)?.text.toString())
+            putString("city", view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewCity)?.text.toString())
+            putString("propertyDescription", view?.findViewById<TextInputEditText>(R.id.editTextPropertyDescription)?.text.toString())
+            putBoolean("parkingIncluded", checkBoxParkingIncluded.isChecked)
+            apply()
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -251,9 +302,9 @@ class RentAndLocationFragment : Fragment() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                getLocation()
+                checkLocationSettings()
             } else {
-                Toast.makeText(context, "Permission denied", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Location permission denied", Toast.LENGTH_LONG).show()
             }
         }
     }
