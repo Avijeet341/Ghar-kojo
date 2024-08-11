@@ -26,6 +26,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GharKhojo"
         tools:targetApi="31">
+        <service android:name=".NotificationServices"
+            android:foregroundServiceType="remoteMessaging"
+            android:exported="false">
+        </service>
         <activity
             android:name=".OwnerActivity"
             android:exported="false"
