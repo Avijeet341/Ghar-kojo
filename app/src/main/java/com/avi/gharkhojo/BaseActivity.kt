@@ -3,6 +3,7 @@ package com.avi.gharkhojo
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 
 open class BaseActivity : AppCompatActivity() {
 

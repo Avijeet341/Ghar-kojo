@@ -55,10 +55,9 @@ object DependencyManager {
 
     @Provides
     @Singleton
-    fun provideNotificationBuilder(@ActivityContext context: Context):NotificationCompat.Builder = NotificationCompat
+    fun provideNotificationBuilder(@ApplicationContext context: Context):NotificationCompat.Builder = NotificationCompat
         .Builder(context,CHANNEL_ID)
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        .setChannelId(CHANNEL_ID)
 
     @Provides
     @Singleton
