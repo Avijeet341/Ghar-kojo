@@ -60,7 +60,7 @@ class ProfileBottomSheet(
 
         isCancelable = false
         binding.editTextName.setText(name.trim())
-        binding.editTextAddress.setText(address.trim())
+       // binding.editTextAddress.setText(address.trim())
         binding.editTextPhone.setText(phone.trim())
 
         binding.cancelButton.setOnClickListener {
@@ -78,26 +78,31 @@ class ProfileBottomSheet(
 
     private fun saveProfileData() {
         val newName = binding.editTextName.text.toString().trim()
-        val newAddress = binding.editTextAddress.text.toString().trim()
+       /* val newAddress = binding.editTextAddress.text.toString().trim()
+       🫡
+        */
         val newPhone = binding.editTextPhone.text.toString().trim()
 
-        Log.d("ProfileBottomSheet", "New data - Name: $newName, Address: $newAddress, Phone: $newPhone")
+      /*  Log.d("ProfileBottomSheet", "New data - Name: $newName, Address: $newAddress, Phone: $newPhone")
+      *
+      * 🫡
+      * */
 
         val user = firebaseAuth.currentUser
         if (user != null) {
             val userData = mapOf(
                 "name" to newName,
-                "address" to newAddress,
+//                "address" to newAddress,
                 "phone" to newPhone
             )
 
             UserData.username = newName
             UserData.phn_no = newPhone
-            UserData.address = newAddress
+//            UserData.address = newAddress
 
             if (profileBinding != null) {
                 profileBinding?.textViewUsername?.text = newName
-                profileBinding?.textViewAddress?.text = newAddress
+//                profileBinding?.textViewAddress?.text = newAddress
                 profileBinding?.textViewPhone?.text = newPhone
             }
 

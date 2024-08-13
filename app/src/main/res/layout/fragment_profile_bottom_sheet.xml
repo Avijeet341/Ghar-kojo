@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:elevation="4dp"
+    android:id="@+id/EditProfileBottomSheet"
     android:background="@drawable/dialogbg"
     tools:context=".Fragments.ProfileBottomSheet">
 
@@ -79,32 +80,118 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp" />
 
-        <!-- Address Field -->
+        <!-- Address Fields -->
         <TextView
             android:id="@+id/textViewAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_regular"
-            android:text="@string/address"
+            android:text="Address"
             android:textColor="@color/your_status_bar_color"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/editTextName"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="16dp" />
 
+        <!-- PinCode -->
         <EditText
-            android:id="@+id/editTextAddress"
+            android:id="@+id/editTextPincode"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_edittext_boarder"
             android:fontFamily="@font/montserrat_regular"
-            android:hint="@string/enter_your_address"
+            android:hint="Enter Pincode"
+            android:inputType="number"
             android:padding="12dp"
             android:minHeight="48dp"
-            android:autofillHints="address"
-            android:textColor="@color/DarkGray"
+            android:textColor="#333333"
             android:textColorHint="@color/DarkGray"
             app:layout_constraintTop_toBottomOf="@id/textViewAddress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+
+        <!-- Landmark -->
+        <EditText
+            android:id="@+id/editTextLandmark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edittext_boarder"
+            android:fontFamily="@font/montserrat_regular"
+            android:hint="Enter Landmark"
+            android:padding="12dp"
+            android:minHeight="48dp"
+            android:textColor="#333333"
+            android:textColorHint="@color/DarkGray"
+            app:layout_constraintTop_toBottomOf="@id/editTextPincode"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+
+        <!-- House No -->
+        <EditText
+            android:id="@+id/editTextHouseNo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edittext_boarder"
+            android:fontFamily="@font/montserrat_regular"
+            android:hint="Enter House No"
+            android:padding="12dp"
+            android:minHeight="48dp"
+            android:textColor="#333333"
+            android:textColorHint="@color/DarkGray"
+            app:layout_constraintTop_toBottomOf="@id/editTextLandmark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+
+        <!-- Area -->
+        <EditText
+            android:id="@+id/editTextArea"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edittext_boarder"
+            android:fontFamily="@font/montserrat_regular"
+            android:hint="Enter Area"
+            android:padding="12dp"
+            android:minHeight="48dp"
+            android:textColor="#333333"
+            android:textColorHint="@color/DarkGray"
+            app:layout_constraintTop_toBottomOf="@id/editTextHouseNo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+
+        <!-- Colony -->
+        <EditText
+            android:id="@+id/editTextColony"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edittext_boarder"
+            android:fontFamily="@font/montserrat_regular"
+            android:hint="Enter Colony"
+            android:padding="12dp"
+            android:minHeight="48dp"
+            android:textColor="#333333"
+            android:textColorHint="@color/DarkGray"
+            app:layout_constraintTop_toBottomOf="@id/editTextArea"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+
+        <!-- City -->
+        <EditText
+            android:id="@+id/editTextCity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edittext_boarder"
+            android:fontFamily="@font/montserrat_regular"
+            android:hint="Enter City"
+            android:padding="12dp"
+            android:minHeight="48dp"
+            android:textColor="#333333"
+            android:textColorHint="@color/DarkGray"
+            app:layout_constraintTop_toBottomOf="@id/editTextColony"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp" />
@@ -118,7 +205,7 @@
             android:text="Phone:"
             android:textColor="@color/your_status_bar_color"
             android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/editTextAddress"
+            app:layout_constraintTop_toBottomOf="@id/editTextCity"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="16dp" />
 

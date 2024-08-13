@@ -100,7 +100,11 @@ class Profile : Fragment() {
 
         binding.textViewUsername.text = UserData.username ?: getString(R.string.default_username)
         binding.textViewEmail.text = firebaseUser?.email ?: getString(R.string.default_email)
-        binding.textViewAddress.text = UserData.address ?: getString(R.string.default_address)
+        /*binding.textViewAddress.text = UserData.address ?: getString(R.string.default_address)
+        🫡
+        yhan par error hai
+        */
+
         binding.textViewPhone.text = UserData.phn_no ?: getString(R.string.default_phone)
 //        binding.ProfilePic.setImageURI(Uri.parse(UserData.profilePictureUrl))
 
@@ -196,7 +200,10 @@ class Profile : Fragment() {
     private fun showProfileEditBottomSheet() {
         val user = firebaseAuth.currentUser
         if (user != null) {
-            val address = binding.textViewAddress.text.toString()
+/*        val address = binding.textViewAddress.text.toString()
+
+yhana par bhi🫡
+ */
             val phone = binding.textViewPhone.text.toString()
 
             val profileBottomSheet = ProfileBottomSheet(UserData.username?:R.string.default_username.toString(),
