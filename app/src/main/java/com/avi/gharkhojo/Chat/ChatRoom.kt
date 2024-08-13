@@ -238,6 +238,8 @@ class ChatRoom : AppCompatActivity() {
                     databaseReference.child("chats").child(receiverRoom!!).updateChildren(lastMsgObj)
                     databaseReference.child("chats").child(senderRoom!!).child("message").child(randomKey!!)
                         .setValue(message)
+                    databaseReference.child("chats").child(receiverRoom!!).child("message").child(randomKey)
+                        .setValue(message)
 
                 }
             }

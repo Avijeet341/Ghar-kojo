@@ -17,8 +17,6 @@ import com.avi.gharkhojo.databinding.ActivityChatBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 class Chat_Activity : AppCompatActivity() {
 
@@ -116,4 +114,5 @@ class Chat_Activity : AppCompatActivity() {
         messageRef.addValueEventListener(messageListener)
         messageListenerMap[chatId] = messageListener
     }
+
 }
