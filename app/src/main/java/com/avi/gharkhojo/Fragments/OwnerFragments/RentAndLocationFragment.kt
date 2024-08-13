@@ -126,7 +126,16 @@ class RentAndLocationFragment : Fragment() {
 
     private suspend fun fetchLocation(priority: Int) {
         try {
-            val locationRequest = LocationRequest.Builder(priority, 1000).build()
+            // Check for permission before proceeding
+            if (!hasPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) &&
+                !hasPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                requestPermissions(
+                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION),
+                    LOCATION_PERMISSION_REQUEST_CODE
+                )
+                return
+            }
+
             val locationResult = fusedLocationClient.getCurrentLocation(priority, null).await()
 
             locationResult?.let {
@@ -135,12 +144,15 @@ class RentAndLocationFragment : Fragment() {
             } ?: run {
                 Toast.makeText(context, "Failed to obtain location", Toast.LENGTH_LONG).show()
             }
+        } catch (e: SecurityException) {
+            Toast.makeText(context, "Location permission denied", Toast.LENGTH_LONG).show()
         } catch (e: Exception) {
             Toast.makeText(context, "Error getting location: ${e.message}", Toast.LENGTH_LONG).show()
         } finally {
             btnLiveLocation.isEnabled = true
         }
     }
+
 
     private fun updateUIWithLocation(latitude: Double, longitude: Double) {
         textViewLongitude.text = "Longitude: $longitude"
