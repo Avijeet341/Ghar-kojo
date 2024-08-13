@@ -89,7 +89,7 @@ class ChatRoom : AppCompatActivity() {
     private var messages: ArrayList<Message> = ArrayList()
     var firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
     var databaseReference: DatabaseReference = firebaseDatabase.reference
-     var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+    var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private lateinit var recyclerView: RecyclerView
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -200,7 +200,7 @@ class ChatRoom : AppCompatActivity() {
         val itemTouchHelper = ItemTouchHelper(messageSwipeController)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
-       chatBinding.cancelButton.setOnClickListener {
+        chatBinding.cancelButton.setOnClickListener {
             hideReplyLayout()
         }
         initializeMessaging()
@@ -237,6 +237,8 @@ class ChatRoom : AppCompatActivity() {
                     databaseReference.child("chats").child(senderRoom!!).updateChildren(lastMsgObj)
                     databaseReference.child("chats").child(receiverRoom!!).updateChildren(lastMsgObj)
                     databaseReference.child("chats").child(senderRoom!!).child("message").child(randomKey!!)
+                        .setValue(message)
+                    databaseReference.child("chats").child(receiverRoom!!).child("message").child(randomKey)
                         .setValue(message)
 
                 }

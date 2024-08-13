@@ -46,6 +46,14 @@
     <fragment
         android:id="@+id/rentAndLocationFragment"
         android:name="com.avi.gharkhojo.Fragments.OwnerFragments.RentAndLocationFragment"
-        android:label="fragment_rent_and_location"
-        tools:layout="@layout/fragment_rent_and_location" />
+        android:label="RentAndLocationFragment">
+        <action
+            android:id="@+id/action_rentAndLocationFragment_to_roomPhotosFragment"
+            app:destination="@id/roomPhotosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/roomPhotosFragment"
+        android:name="com.avi.gharkhojo.Fragments.OwnerFragments.RoomPhotosFragment"
+        android:label="fragment_room_photos"
+        tools:layout="@layout/fragment_room_photos" />
 </navigation>
