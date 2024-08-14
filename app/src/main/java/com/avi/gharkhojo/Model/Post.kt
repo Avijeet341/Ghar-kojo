@@ -30,8 +30,19 @@ package com.avi.gharkhojo.Model
     var state:String? ,
     var longitude:Double? ,
     var latitude:Double? ,
-    var description:String? 
-){
+    var description:String?,
+    var imageList:Map<String,ArrayList<String>?> = hashMapOf(
+        "BedRoom" to ArrayList(),
+        "Kitchen" to ArrayList(),
+        "Bathroom" to ArrayList(),
+        "Toilet" to ArrayList(),
+        "Balcony" to ArrayList(),
+        "Hall" to ArrayList(),
+        "Parking" to ArrayList(),
+        "Extra" to ArrayList()
+    )
+
+ ){
     constructor():this(null,null,
         null,null,
         null,null,

@@ -12,12 +12,12 @@ import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-@AndroidEntryPoint
+
 class ForgotActivity : AppCompatActivity() {
 
     private lateinit var forgotBinding: ActivityForgotBinding
 
-    @Inject lateinit var  firebaseAuth:FirebaseAuth
+      var  firebaseAuth:FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

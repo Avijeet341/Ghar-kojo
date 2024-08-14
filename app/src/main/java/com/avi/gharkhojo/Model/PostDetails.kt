@@ -33,18 +33,29 @@ object PostDetails {
     var latitude:Double? = null
     var description:String? = null
 
+    var imageList:Map<String,ArrayList<String>?> = hashMapOf(
+        "BedRoom" to ArrayList(),
+        "Kitchen" to ArrayList(),
+        "Bathroom" to ArrayList(),
+        "Toilet" to ArrayList(),
+        "Balcony" to ArrayList(),
+        "Hall" to ArrayList(),
+        "Parking" to ArrayList(),
+        "Extra" to ArrayList()
+    )
+
 
     fun setToPost():Post = Post().also {
-            it.ownerName = ownerName
-            it.propertyType = propertyType
-            it.preferredTenants = preferredTenants
-            it.email = email
-            it.tenantServed = tenantServed
-            it.phoneNumber = phoneNumber
-            it.builtUpArea = builtUpArea
-            it.floorPosition = floorPosition
+            it.ownerName = ownerName?.trim()
+            it.propertyType = propertyType?.trim()
+            it.preferredTenants = preferredTenants?.trim()
+            it.email = email?.trim()
+            it.tenantServed = tenantServed?.trim()
+            it.phoneNumber = phoneNumber?.trim()
+            it.builtUpArea = builtUpArea?.trim()
+            it.floorPosition = floorPosition?.trim()
             it.lockInPeriod = lockInPeriod
-            it.furnished = furnished
+            it.furnished = furnished?.trim()
             it.noOfBedRoom = noOfBedRoom
             it.noOfBathroom = noOfBathroom
             it.noOfBalcony = noOfBalcony
@@ -56,15 +67,16 @@ object PostDetails {
             it.rent = rent
             it.deposit = deposit
             it.pincode = pincode
-            it.landMark = landMark
+            it.landMark = landMark?.trim()
             it.houseNumber = houseNumber
-            it.area = area
-            it.colony = colony
-            it.city = city
-            it.state = state
+            it.area = area?.trim()
+            it.colony = colony?.trim()
+            it.city = city?.trim()
+            it.state = state?.trim()
             it.longitude = longitude
             it.latitude = latitude
-            it.description = description
+            it.description = description?.trim()
+            it.imageList = imageList
 
         clearAll()
             return it
@@ -100,7 +112,6 @@ object PostDetails {
                 && !state?.trim().isNullOrEmpty()
                 && longitude != null
                 && latitude != null
-                && !description?.trim().isNullOrEmpty()
                 
 
 
@@ -135,5 +146,8 @@ object PostDetails {
          longitude = null
          latitude = null
          description = null
+        imageList.forEach {
+            it.value?.clear()
+        }
     }
 }
