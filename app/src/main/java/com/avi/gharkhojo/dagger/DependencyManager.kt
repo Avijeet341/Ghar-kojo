@@ -61,38 +61,6 @@ object DependencyManager {
 
     @Provides
     @Singleton
-    fun provideFirebaseFirestore(): FirebaseFirestore = FirebaseFirestore.getInstance()
-
-    @Provides
-    @Singleton
-    fun provideFirebaseAuth():FirebaseAuth = FirebaseAuth.getInstance()
-
-    @Provides
-    @Singleton
-    fun provideFirebaseUser(firebaseAuth: FirebaseAuth):FirebaseUser? = firebaseAuth.currentUser
-
-
-    @Provides
-    @Singleton
-    fun provideDatabaseReference(firebaseDatabase: FirebaseDatabase):DatabaseReference = firebaseDatabase.reference.child("users")
-
-    @Provides
-    @Singleton
-    fun provideFirebaseDatabase():FirebaseDatabase = FirebaseDatabase.getInstance()
-
-    @Provides
-    @Singleton
     fun provideGlide(@ApplicationContext context: Context) = Glide.with(context)
 
-
-    private suspend fun reloadCurrentUser(firebaseAuth: FirebaseAuth): FirebaseUser? {
-        val currentUser = firebaseAuth.currentUser ?: return null
-        return try {
-            currentUser.reload().await()
-            firebaseAuth.currentUser
-        } catch (e: Exception) {
-
-            null
-        }
-    }
 }

@@ -24,7 +24,6 @@ class PropertyDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_property_details, container, false)
     }
 
@@ -45,18 +44,15 @@ class PropertyDetailsFragment : Fragment() {
     }
     override fun onDestroyView() {
         super.onDestroyView()
-        // Show the navigation bar when leaving this fragment
         showNavigationBar()
     }
     private fun setupBackButton(view: View) {
         view.findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
-            // Navigate back to the parent fragment
             parentFragmentManager.popBackStack()
         }
     }
     private fun setupNextButton(view: View) {
         view.findViewById<MaterialButton>(R.id.btnNext).setOnClickListener {
-            // Navigate to RentAndLocationFragment using the defined action
             findNavController().navigate(R.id.action_propertyDetailsFragment_to_rentAndLocationFragment)
         }
     }
@@ -76,7 +72,7 @@ class PropertyDetailsFragment : Fragment() {
             tvBedroomCount.text = bedroomCount.toString()
         }
 
-        // Washrooms
+
         view.findViewById<MaterialButton>(R.id.btnDecreaseWashrooms).setOnClickListener {
             if (washroomCount > 0) washroomCount--
             tvWashroomCount.text = washroomCount.toString()
@@ -86,7 +82,7 @@ class PropertyDetailsFragment : Fragment() {
             tvWashroomCount.text = washroomCount.toString()
         }
 
-        // Balconies
+
         view.findViewById<MaterialButton>(R.id.btnDecreaseBalconies).setOnClickListener {
             if (balconyCount > 0) balconyCount--
             tvBalconyCount.text = balconyCount.toString()
