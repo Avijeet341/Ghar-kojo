@@ -66,6 +66,17 @@
     <string name="preferred_tenants">Preferred Tenants</string>
     <string name="preferred_tenants_selection">Preferred Tenants selection</string>
     <string name="next_button">Next button</string>
+    <string name="tenant_served_input_field">Tenant served input field</string>
+    <string name="enter_tenant_served">Enter tenant served</string>
+    <string name="owner_details">Owner Details</string>
+    <string name="owner_name">Owner Name</string>
+    <string name="enter_owner_name">Enter owner name</string>
+    <string name="owner_name_input_field">Owner Name input field</string>
+    <string name="property_type">Property Type</string>
+    <string name="tenant_served">Tenant served</string>
+    <string name="phone_number_input_field">Phone Number input field</string>
+    <string name="enter_phone_number">Enter phone number</string>
+    <string name="chat">Chat</string>
 
     <string-array name="furnishing_options">
         <item>Semi Furnished</item>

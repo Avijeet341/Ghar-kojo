@@ -15,6 +15,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import androidx.navigation.fragment.findNavController
+import com.avi.gharkhojo.databinding.FragmentPropertyDetailsBinding
 
 class PropertyDetailsFragment : Fragment() {
     private var bedroomCount = 0

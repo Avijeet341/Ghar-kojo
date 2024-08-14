@@ -31,7 +31,7 @@ class AddFragment : Fragment() {
         initializeViews(view)
         setupSpinners()
         setupNextButton()
-
+        loadData()
         return view
     }
 
@@ -60,7 +60,7 @@ class AddFragment : Fragment() {
     private fun setupNextButton() {
         nextButton.setOnClickListener {
             if (validateInputs()) {
-
+                saveData()
                 findNavController().navigate(R.id.action_addFragment_to_propertyDetailsFragment)
             }
         }
@@ -96,7 +96,90 @@ class AddFragment : Fragment() {
         return isValid
     }
 
+    private fun saveData() {
+        val sharedPref = activity?.getSharedPreferences("OwnerData", Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            putString("ownerName", ownerNameEditText.text.toString())
+            putString("email", emailEditText.text.toString())
+            putString("tenantServed", tenantServedEditText.text.toString())
+            putString("propertyType", propertyTypeSpinner.selectedItem.toString())
+            putString("preferredTenants", preferredTenantsSpinner.selectedItem.toString())
+            putString("phoneNumber", phoneNumberEditText.text.toString())
+            putLong("last_updated", System.currentTimeMillis())
+            apply()
+        }
 
+        scheduleDataClear(requireContext())
+    }
+
+    private fun loadData() {
+        val sharedPref = activity?.getSharedPreferences("OwnerData", Context.MODE_PRIVATE) ?: return
+        val lastUpdated = sharedPref.getLong("last_updated", 0)
+        val currentTime = System.currentTimeMillis()
+        if (currentTime - lastUpdated > 30000) {  //1 min in milliseconds
+            clearData()
+        } else {
+            ownerNameEditText.setText(sharedPref.getString("ownerName", ""))
+            emailEditText.setText(sharedPref.getString("email", ""))
+            tenantServedEditText.setText(sharedPref.getString("tenantServed", ""))
+            phoneNumberEditText.setText(sharedPref.getString("phoneNumber", ""))
+
+            val propertyType = sharedPref.getString("propertyType", "")
+            val propertyTypePosition = getSpinnerPosition(propertyTypeSpinner, propertyType)
+            if (propertyTypePosition != -1) {
+                propertyTypeSpinner.setSelection(propertyTypePosition)
+            }
+
+            val preferredTenants = sharedPref.getString("preferredTenants", "")
+            val preferredTenantsPosition = getSpinnerPosition(preferredTenantsSpinner, preferredTenants)
+            if (preferredTenantsPosition != -1) {
+                preferredTenantsSpinner.setSelection(preferredTenantsPosition)
+            }
+        }
+    }
+
+    private fun getSpinnerPosition(spinner: Spinner, value: String?): Int {
+        if (value.isNullOrEmpty()) return -1
+        for (i in 0 until spinner.adapter.count) {
+            if (value == spinner.adapter.getItem(i)) {
+                return i
+            }
+        }
+        return -1
+    }
+
+    private fun clearData() {
+        val sharedPref = activity?.getSharedPreferences("OwnerData", Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            remove("ownerName")
+            remove("email")
+            remove("tenantServed")
+            remove("propertyType")
+            remove("preferredTenants")
+            remove("phoneNumber")
+            remove("last_updated")
+            apply()
+        }
+    }
+
+    private fun scheduleDataClear(context: Context) {
+        val sharedPref = context.getSharedPreferences("OwnerData", Context.MODE_PRIVATE) ?: return
+        val hasData = sharedPref.contains("ownerName") || sharedPref.contains("email") ||
+                sharedPref.contains("tenantServed") || sharedPref.contains("propertyType") ||
+                sharedPref.contains("preferredTenants") || sharedPref.contains("phoneNumber")
+
+        if (hasData) {
+            val clearDataWorkRequest = OneTimeWorkRequestBuilder<ClearDataWorker>()
+                .setInitialDelay(1, TimeUnit.MINUTES)  // Delay execution by 1 minute
+                .build()
+            WorkManager.getInstance(context).enqueue(clearDataWorkRequest)
+        }
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() = AddFragment()
+    }
 }
 
 class AccessibleSpinnerAdapter(context: Context, resource: Int, objects: List<String>) :

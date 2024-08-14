@@ -10,8 +10,8 @@
 
 
     <item android:id="@+id/nav_search"
-        android:icon="@drawable/icon_search"
-        android:title="@string/search"
+        android:icon="@drawable/ic_chat"
+        android:title="@string/chat"
         app:cnb_iconColor="#E91E63"/>
 
     <item android:id="@+id/nav_cart"
