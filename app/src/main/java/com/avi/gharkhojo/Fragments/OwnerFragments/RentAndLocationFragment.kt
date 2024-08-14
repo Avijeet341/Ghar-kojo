@@ -6,14 +6,19 @@ import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AutoCompleteTextView
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -21,10 +26,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.avi.gharkhojo.R
 import com.google.android.gms.common.api.ResolvableApiException
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.Priority
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -36,7 +44,6 @@ class RentAndLocationFragment : Fragment() {
     private lateinit var btnNext: Button
     private lateinit var textViewLongitude: TextView
     private lateinit var textViewLatitude: TextView
-    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var imageViewDeletePriceDetails: ImageView
 
@@ -52,10 +59,17 @@ class RentAndLocationFragment : Fragment() {
         initializeViews(view)
         setupLocationServices()
         setupAnimations(view)
+        setupBackButton(view)
         setupListeners()
-        loadSavedData()
 
         return view
+    }
+
+    private fun setupBackButton(view: View) {
+        view.findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
+            // Navigate back to the parent fragment
+            parentFragmentManager.popBackStack()
+        }
     }
 
     private fun initializeViews(view: View) {
@@ -71,8 +85,8 @@ class RentAndLocationFragment : Fragment() {
         textViewLatitude.visibility = View.GONE
     }
 
+
     private fun setupLocationServices() {
-        sharedPreferences = requireActivity().getSharedPreferences("RentLocationPrefs", Context.MODE_PRIVATE)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
     }
     private fun setupAnimations(view: View) {
@@ -163,8 +177,7 @@ class RentAndLocationFragment : Fragment() {
 
 
     private fun clearStoredData() {
-        // Clear SharedPreferences
-        sharedPreferences.edit().clear().apply()
+
 
         // Clear input fields
         view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewRent)?.text?.clear()
@@ -178,6 +191,7 @@ class RentAndLocationFragment : Fragment() {
         view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewColony)?.text?.clear()
         view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewCity)?.text?.clear()
         view?.findViewById<TextInputEditText>(R.id.editTextPropertyDescription)?.text?.clear()
+
 
         // Clear location data
         textViewLongitude.text = "Longitude: "
@@ -220,7 +234,6 @@ class RentAndLocationFragment : Fragment() {
 
             locationResult?.let {
                 updateUIWithLocation(it.latitude, it.longitude)
-                saveLocation(it.latitude, it.longitude)
             } ?: run {
                 Toast.makeText(context, "Failed to obtain location", Toast.LENGTH_LONG).show()
             }
@@ -279,24 +292,7 @@ class RentAndLocationFragment : Fragment() {
         }
     }
 
-    private fun saveLocation(latitude: Double, longitude: Double) {
-        sharedPreferences.edit().apply {
-            putFloat("latitude", latitude.toFloat())
-            putFloat("longitude", longitude.toFloat())
-            apply()
-        }
-    }
 
-    private fun loadSavedData() {
-        sharedPreferences.apply {
-            val latitude = getFloat("latitude", 0f).toDouble()
-            val longitude = getFloat("longitude", 0f).toDouble()
-
-            if (latitude != 0.0 && longitude != 0.0) {
-                updateUIWithLocation(latitude, longitude)
-            }
-        }
-    }
 
     private fun checkLocationPermission() {
         when {

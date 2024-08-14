@@ -76,6 +76,7 @@
     <string name="tenant_served">Tenant served</string>
     <string name="phone_number_input_field">Phone Number input field</string>
     <string name="enter_phone_number">Enter phone number</string>
+    <string name="chat">Chat</string>
 
     <string-array name="furnishing_options">
         <item>Semi Furnished</item>

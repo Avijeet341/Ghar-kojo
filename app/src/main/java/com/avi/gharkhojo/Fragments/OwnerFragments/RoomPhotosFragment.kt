@@ -7,12 +7,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.CompositePageTransformer
+import androidx.viewpager2.widget.MarginPageTransformer
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.widget.ImageButton
 import com.avi.gharkhojo.Adapter.PhotoAdapter
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentRoomPhotosBinding
+import kotlin.math.abs
 
 class RoomPhotosFragment : Fragment() {
 
@@ -22,6 +30,7 @@ class RoomPhotosFragment : Fragment() {
     private val roomTypes = arrayOf("BedRoom", "Kitchen", "WashRoom", "Toilet", "Balcony", "Hall", "Parking", "Extra")
     private val photoList = mutableListOf<Uri>()
     private lateinit var photoAdapter: PhotoAdapter
+    private var selectedRoomType: String? = null
 
     companion object {
         private const val PICK_IMAGES_REQUEST = 1
@@ -40,23 +49,24 @@ class RoomPhotosFragment : Fragment() {
 
         setupSpinner()
         setupViewPager()
+        setupBackButton(view)
         setupButtons()
     }
 
+    private fun setupBackButton(view: View) {
+        view.findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
+            // Navigate back to the parent fragment
+            parentFragmentManager.popBackStack()
+        }
+    }
     private fun setupSpinner() {
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, roomTypes)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.roomTypeSpinner.adapter = adapter
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, roomTypes)
+        (binding.spinnerContainer.editText as? AutoCompleteTextView)?.setAdapter(adapter)
 
-        binding.roomTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                val selectedType = roomTypes[position]
-                binding.selectedRoomTypeTextView.text = "Selected: $selectedType"
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                binding.selectedRoomTypeTextView.text = ""
-            }
+        (binding.spinnerContainer.editText as? AutoCompleteTextView)?.setOnItemClickListener { parent, _, position, _ ->
+            selectedRoomType = parent.getItemAtPosition(position) as String
+            binding.selectedRoomTypeTextView.text = selectedRoomType
+            binding.pickPhotosButton.isEnabled = true
         }
     }
 
@@ -64,15 +74,61 @@ class RoomPhotosFragment : Fragment() {
         photoAdapter = PhotoAdapter(photoList)
         binding.photoViewPager.adapter = photoAdapter
         binding.photoViewPager.visibility = View.GONE
+
+
+        binding.photoViewPager.setPageTransformer(getTransformation())
+        binding.photoViewPager.offscreenPageLimit = 3
+    }
+
+    private fun getTransformation(): CompositePageTransformer {
+        return CompositePageTransformer().apply {
+            addTransformer(MarginPageTransformer(30))
+            addTransformer { page, position ->
+                val alpha = 0.5f + 0.5f * (1 - abs(position))
+                page.alpha = alpha
+                page.scaleY = 0.85f + alpha * 0.15f
+
+                val elevation = if (position == 0f) 5f else 0f
+                page.translationZ = elevation
+
+                val rotation = -20 * position
+                page.rotation = rotation
+
+                val depth = -120 * abs(position)
+                page.cameraDistance = 8000f
+                page.translationX = depth
+
+                val fadeOut = if (position == 0f) 0f else 0.7f
+                val fadeAlpha = 1 - fadeOut * abs(position)
+                page.alpha = fadeAlpha
+
+                val absPosition = abs(position)
+                val bounceScale = if (absPosition > 1) 0.85f else (0.85f + (1 - absPosition) * 0.15f)
+                page.scaleX = bounceScale
+                page.scaleY = bounceScale
+
+                if (page is ImageView) {
+                    val saturation = 1 - 0.5f * abs(position)
+                    val colorMatrix = ColorMatrix().apply { setSaturation(saturation) }
+                    val filter = ColorMatrixColorFilter(colorMatrix)
+                    page.colorFilter = filter
+                }
+            }
+        }
     }
 
     private fun setupButtons() {
+        binding.pickPhotosButton.isEnabled = false
         binding.pickPhotosButton.setOnClickListener {
-            openImagePicker()
+            if (selectedRoomType != null) {
+                openImagePicker()
+            } else {
+                Toast.makeText(context, "Please select a room type first", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.uploadButton.setOnClickListener {
-            // TODO: Implement upload logic
+
         }
     }
 
