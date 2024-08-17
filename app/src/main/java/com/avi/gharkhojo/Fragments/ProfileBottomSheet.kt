@@ -24,7 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-@AndroidEntryPoint
+
 class ProfileBottomSheet(
     private val name: String,
     private val address: String,
@@ -34,9 +34,9 @@ class ProfileBottomSheet(
     var profileBinding: FragmentProfileBinding? = null
     private var _binding: FragmentProfileBottomSheetBinding? = null
     private val binding get() = _binding!!
-   @Inject lateinit var firebaseAuth: FirebaseAuth
-    @Inject lateinit var firestore: FirebaseFirestore
-    @Inject lateinit var databaseReference: DatabaseReference
+     val firebaseAuth: FirebaseAuth by lazy{ FirebaseAuth.getInstance() }
+     var firestore: FirebaseFirestore= FirebaseFirestore.getInstance()
+     var databaseReference: DatabaseReference= FirebaseDatabase.getInstance().getReference("users")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

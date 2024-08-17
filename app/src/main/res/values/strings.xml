@@ -52,8 +52,8 @@
     <string name="property_images_desc">property_images_desc</string>
     <string name="_7_000_month_14_0_k_deposit">₹ 7,000 / Month (₹ 14.0 K Deposit)</string>
     <string name="view_charges">view charges</string>
-    <string name="pricing_got_you_puzzled">pricing got you puzzled</string>
-    <string name="negotiate_rent">negotiate rent</string>
+    <string name="pricing_got_you_puzzled">pricing got you puzzled ?</string>
+    <string name="negotiate_rent">negotiate rent ></string>
     <string name="contact_owner">Contact Owner</string>
     <string name="new_flat_spacious_room_cooperative_society">New flat, spacious room, cooperative society</string>
     <string name="grid_item_clicked">Clicked on GridItem: %1$s</string>
@@ -77,6 +77,7 @@
     <string name="phone_number_input_field">Phone Number input field</string>
     <string name="enter_phone_number">Enter phone number</string>
     <string name="chat">Chat</string>
+    <string name="road_lain_no"><![CDATA[Road&Lain No:]]></string>
 
     <string-array name="furnishing_options">
         <item>Semi Furnished</item>
