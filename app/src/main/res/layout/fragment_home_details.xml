@@ -104,6 +104,7 @@
             app:layout_constraintTop_toBottomOf="@+id/viewCharges">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/HouseContents"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp">
@@ -133,12 +134,22 @@
                             android:src="@drawable/ic_bedroom" />
 
                         <TextView
-                            android:id="@+id/bedroomText"
+                            android:id="@+id/bedroomNumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="3 Bedroom"
+                            android:text="3"
+                            android:textColor="@color/Black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/bedroomText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Bedroom"
                             android:textColor="@color/Black"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -159,12 +170,22 @@
                             android:src="@drawable/ic_bathroom" />
 
                         <TextView
-                            android:id="@+id/bathroomText"
+                            android:id="@+id/bathroomNumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="2 Bathroom"
+                            android:text="2"
+                            android:textColor="@color/Black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/bathroomText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Bathroom"
                             android:textColor="@color/Black"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -196,12 +217,22 @@
                             android:src="@drawable/ic_kitchen" />
 
                         <TextView
-                            android:id="@+id/kitchenText"
+                            android:id="@+id/kitchenNumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="1 Kitchen"
+                            android:text="1"
+                            android:textColor="@color/Black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/kitchenText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Kitchen"
                             android:textColor="@color/Black"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -222,12 +253,22 @@
                             android:src="@drawable/ic_floor" />
 
                         <TextView
-                            android:id="@+id/floorText"
+                            android:id="@+id/floorNumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="2 Floor"
+                            android:text="2"
+                            android:textColor="@color/Black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/floorText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Floor"
                             android:textColor="@color/Black"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -259,12 +300,22 @@
                             android:src="@drawable/ic_balcony" />
 
                         <TextView
-                            android:id="@+id/balconyText"
+                            android:id="@+id/balconyNumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="2 Balcony"
+                            android:text="2"
+                            android:textColor="@color/Black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/balconyText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Balcony"
                             android:textColor="@color/Black"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -285,12 +336,22 @@
                             android:src="@drawable/ic_area" />
 
                         <TextView
-                            android:id="@+id/areaText"
+                            android:id="@+id/areaNumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="1500 Sq Ft"
+                            android:text="1500"
+                            android:textColor="@color/Black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/areaText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Sq Ft"
                             android:textColor="@color/Black"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -379,23 +440,51 @@
             app:layout_constraintTop_toBottomOf="@id/pricingPuzzled" />
 
 
-        <TextView
-            android:id="@+id/propertyType"
+        <LinearLayout
+            android:id="@+id/PropertyFeatures"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
+            android:orientation="horizontal"
             android:background="@drawable/bg_edit_text"
             android:backgroundTint="@color/Turquoise"
             android:elevation="2dp"
-            android:fontFamily="@font/montserrat_bold"
             android:padding="12dp"
-            android:text="3 BHK Apartment"
-            android:textColor="@color/fox_color"
-            android:textSize="14sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/negotiateRent" />
+            app:layout_constraintTop_toBottomOf="@+id/negotiateRent">
+
+            <TextView
+                android:id="@+id/BHKNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="3"
+                android:textColor="@color/fox_color"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/propertyBHK"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:text=" BHK "
+                android:textColor="@color/fox_color"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/propertyType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Apartment"
+                android:textColor="@color/fox_color"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/propertyLocation"
@@ -411,7 +500,7 @@
             app:cardCornerRadius="13dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/propertyType">
+            app:layout_constraintTop_toBottomOf="@+id/PropertyFeatures">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -677,6 +766,7 @@
                         android:textColor="#000000" />
 
                     <TextView
+                        android:id="@+id/furnishingText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -709,14 +799,30 @@
                         android:text="Built up Area :"
                         android:textColor="#000000" />
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:elevation="5dp"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:text="1400 sq.ft."
-                        android:textColor="#000000" />
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/BuiltUpAreaText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="5dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="1400"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="5dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text=" sq.ft."
+                            android:textColor="#000000"
+                            android:layout_marginStart="4dp" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <!-- Separator Line -->
@@ -744,6 +850,7 @@
                         android:textColor="#000000" />
 
                     <TextView
+                        android:id="@+id/PreferredTenantText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -815,6 +922,7 @@
                         android:textColor="@color/Black" />
 
                     <ImageView
+                        android:id="@+id/LiftIcon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_cross" />
@@ -851,6 +959,7 @@
                         android:textColor="@color/Black" />
 
                     <ImageView
+                        android:id="@+id/GeneratorIcon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_cross" />
@@ -887,6 +996,7 @@
                         android:textColor="@color/Black" />
 
                     <ImageView
+                        android:id="@+id/GasIcon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_tick" />
@@ -923,6 +1033,7 @@
                         android:textColor="@color/Black" />
 
                     <ImageView
+                        android:id="@+id/SecurityGuardIcon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_tick" />
@@ -958,6 +1069,7 @@
                         android:textColor="@color/Black" />
 
                     <ImageView
+                        android:id="@+id/ParkingIcon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_tick" />
@@ -1000,10 +1112,9 @@
                     android:text="Surendra Kumar Panda"
                     android:textColor="#000000"
                     android:textSize="17sp"
-                    app:layout_constraintEnd_toStartOf="@+id/chatNowButton"
+                    app:layout_constraintEnd_toStartOf="@+id/feedbackButton"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
-
                 </TextView>
 
                 <TextView
@@ -1019,36 +1130,92 @@
                     app:layout_constraintStart_toStartOf="@+id/ownerName"
                     app:layout_constraintTop_toBottomOf="@id/ownerName" />
 
-                <TextView
-                    android:id="@+id/tenantsServed"
+                <LinearLayout
+                    android:id="@+id/tenantsServedContainer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:elevation="5dp"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:text="426 tenants served"
-                    android:textColor="@color/DarkGray"
-                    android:textSize="16sp"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="@+id/ownerRole"
                     app:layout_constraintStart_toStartOf="@+id/ownerRole"
-                    app:layout_constraintTop_toBottomOf="@id/ownerRole" />
+                    app:layout_constraintTop_toBottomOf="@id/ownerRole">
+
+                    <TextView
+                        android:id="@+id/tenantsServedNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="5dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="426"
+                        android:textColor="@color/DarkGray"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tenantsServedText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:elevation="5dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="tenants served"
+                        android:textColor="@color/DarkGray"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/postDate"
-                    android:layout_width="0dp"
+                    android:id="@+id/postDatePrefix"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:elevation="5dp"
                     android:fontFamily="@font/montserrat_regular"
-
-                    android:text="Posted on 24 June 2024"
+                    android:text="Posted on"
                     android:textColor="@color/black"
                     android:textSize="17sp"
-                    app:layout_constraintEnd_toEndOf="@+id/tenantsServed"
-                    app:layout_constraintStart_toStartOf="@+id/tenantsServed"
-                    app:layout_constraintTop_toBottomOf="@id/tenantsServed" />
+                    app:layout_constraintStart_toStartOf="@+id/tenantsServedContainer"
+                    app:layout_constraintTop_toBottomOf="@id/tenantsServedContainer" />
+
+                <TextView
+                    android:id="@+id/postDateDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="5dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="24"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:layout_marginStart="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/postDatePrefix"
+                    app:layout_constraintTop_toTopOf="@+id/postDatePrefix" />
+
+                <TextView
+                    android:id="@+id/postDateMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="5dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="June"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:layout_marginStart="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/postDateDay"
+                    app:layout_constraintTop_toTopOf="@+id/postDatePrefix" />
+
+                <TextView
+                    android:id="@+id/postDateYear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="5dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="2024"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:layout_marginStart="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/postDateMonth"
+                    app:layout_constraintTop_toTopOf="@+id/postDatePrefix" />
 
                 <Button
-                    android:id="@+id/chatNowButton"
+                    android:id="@+id/feedbackButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -1058,7 +1225,6 @@
                     android:drawableLeft="@drawable/comment"
                     android:drawablePadding="8dp"
                     android:elevation="15dp"
-
                     android:fontFamily="@font/montserrat_regular"
                     android:padding="10dp"
                     android:text="Feedback"
@@ -1079,10 +1245,9 @@
                     android:textColor="@color/Pink"
                     android:textSize="10sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/chatNowButton" />
+                    app:layout_constraintTop_toBottomOf="@+id/feedbackButton" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -1220,6 +1385,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/GreatThingsText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -1235,7 +1401,7 @@
 
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/mapbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

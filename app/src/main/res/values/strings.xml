@@ -77,7 +77,7 @@
     <string name="phone_number_input_field">Phone Number input field</string>
     <string name="enter_phone_number">Enter phone number</string>
     <string name="chat">Chat</string>
-    <string name="road_lain_no"><![CDATA[Road&Lain No:]]></string>
+    <string name="road_lain_no"><![CDATA[Road&Lane No:]]></string>
 
     <string-array name="furnishing_options">
         <item>Semi Furnished</item>
