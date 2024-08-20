@@ -55,78 +55,76 @@ class HomeDetails : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         Initialization()
         setupViewPager()
-       gradientSweepTextColorAnimation()
-        
+
+
+        view.post {
+            gradientSweepTextColorAnimation()
+        }
+
+        binding.viewCharges.setOnClickListener {
+            showViewChargesBottomSheet()
+        }
 
     }
 
-private fun Initialization(){
+    private fun Initialization() {
+        // Set charges
+        binding.price.text = "₹3,899"
+        // CarView for House Contents
+        binding.bedroomNumber.text = "3"
+        binding.bathroomNumber.text = "2"
+        binding.kitchenNumber.text = "1"
+        binding.floorNumber.text = "2"
+        binding.balconyNumber.text = "2"
+        binding.areaNumber.text = "1500"
 
-    //set charges
-    binding.price.text = "₹3,899"
-    binding.viewCharges//Button for bottomSheet
+        // Owner Profile
+        binding.nameText.text = "Danile Foster"
+        binding.descriptionText.text = "Housing Prime Center"
 
-    //CarView For HouseContents
-    binding.bedroomNumber.text = "3"
-    binding.bathroomNumber.text = "2"
-    binding.kitchenNumber.text = "1"
-    binding.floorNumber.text = "2"
-    binding.balconyNumber.text = "2"
-    binding.areaNumber.text="1500"
+        // Negotiation
+        binding.negotiateRent.text = "Negotiate Rent"
 
-    //OwnerProfile
-    binding.nameText.text="Danile Foster"
-    binding.descriptionText.text="Housing Prime Center"
-    binding.messageButton
-    binding.callButton
+        // BHK and Property Type
+        binding.BHKNumber.text = "3"
+        binding.propertyType.text = "Apartment"
 
-    //negotiation
-    binding.negotiateRent.text="Negotiate Rent"
+        // Property Location
+        binding.houseNoText.text = "123"
+        binding.RoadLaneText.text = "8,9"
+        binding.ColonyText.text = "Green Park"
+        binding.AreaText.text = "Downtown"
+        binding.LandmarkText.text = "Near Park"
+        binding.CityText.text = "Metropolis"
+        binding.PinCodeText.text = "123456"
 
-    //BHK and PropertyType
-    binding.BHKNumber.text="3"
-    binding.propertyType.text="Apartment"
+        // Built-Up Area, Furnishing, and Preferred Tenant
+        binding.furnishingText.text = "Furnished"
+        binding.BuiltUpAreaText.text = "1500"
+        binding.PreferredTenantText.text = "Family, Bachelor, and Company"
 
-    //See On Map
-    binding.mapbutton
+        // Other Benefits
+        binding.LiftIcon.setImageResource(R.drawable.ic_cross) // agar true hai to ic_tick else ic_cross
+        binding.GeneratorIcon.setImageResource(R.drawable.ic_cross)
+        binding.GasIcon.setImageResource(R.drawable.ic_tick)
+        binding.SecurityGuardIcon.setImageResource(R.drawable.ic_tick)
+        binding.ParkingIcon.setImageResource(R.drawable.ic_tick)
 
-    //PropertyLocation
-    binding.houseNoText.text="123"
-    binding.RoadLaneText.text="8,9"
-    binding.ColonyText.text="Green Park"
-    binding.AreaText.text="Downtown"
-    binding.LandmarkText.text="Near Park"
-    binding.CityText.text="Metropolis"
-    binding.PinCodeText.text="123456"
+        // Owner Details
+        binding.ownerName.text = "Surendra Kumar Panda"
+        binding.tenantsServedNumber.text = "426"
+        binding.postDateDay.text = "24"
+        binding.postDateMonth.text = "June"
+        binding.postDateYear.text = "2024"
 
-    //BuiltUpAreaText and etc.
-    binding.furnishingText.text="Furnished"
-    binding.BuiltUpAreaText.text="1500"
-    binding.PreferredTenantText.text="Family,Bachelor and Company"
+        // Great Things About Property
+        binding.GreatThingsText.text = "New flat, spacious room, cooperative society"
+    }
 
-    //Other Benefits
-     binding.LiftIcon.setImageResource(R.drawable.ic_cross)//hai to ic_tick icon nahi to ic_cross
-     binding.GeneratorIcon.setImageResource(R.drawable.ic_cross)
-    binding.GasIcon.setImageResource(R.drawable.ic_tick)
-    binding.SecurityGuardIcon.setImageResource(R.drawable.ic_tick)
-    binding.ParkingIcon.setImageResource(R.drawable.ic_tick)
-
-    //Owner Details
-      binding.ownerName.text="Surendra Kumar Panda"
-      binding.tenantsServedNumber.text="426"
-      //"Posted on" "24" "June" "2024"
-      binding.postDateDay.text="24"
-      binding.postDateMonth.text="June"
-      binding.postDateYear.text="2024"
-
-    //Great Things About Property
-      binding.GreatThingsText.text="New flat, spacious room, cooperative society"
-
-
-
-}
     private fun gradientSweepTextColorAnimation() {
         val colors = intArrayOf(
             0xFFA0DAFB.toInt(),
@@ -135,32 +133,25 @@ private fun Initialization(){
         )
 
         val colorAnimator = ValueAnimator.ofArgb(*colors).apply {
-            duration = 4000 // 4 seconds to sweep through the colors
+            duration = 4000
             repeatCount = ValueAnimator.INFINITE
             repeatMode = ValueAnimator.REVERSE
             addUpdateListener { animator ->
-                val animatedValue = animator.animatedValue as Int
-                binding.price.setTextColor(animatedValue)
+                _binding?.let {
+                    val animatedValue = animator.animatedValue as Int
+                    it.price.setTextColor(animatedValue)
+                }
             }
         }
 
         colorAnimator.start()
     }
 
-
-
-
-
-
-
-
-
     private fun setupViewPager() {
         photoAdapter = MyViewPagerAdapter(imageResIds)
         binding.viewPager.adapter = photoAdapter
         binding.viewPager.setPageTransformer(getTransformation())
         binding.viewPager.offscreenPageLimit = 3
-        binding.price
         handler.post(autoSlideRunnable)
     }
 
@@ -199,6 +190,11 @@ private fun Initialization(){
                 }
             }
         }
+    }
+
+    private fun showViewChargesBottomSheet() {
+        val bottomSheet = ViewChargesBottomSheet.newInstance()
+        bottomSheet.show(childFragmentManager, ViewChargesBottomSheet.TAG)
     }
 
     override fun onDestroyView() {
