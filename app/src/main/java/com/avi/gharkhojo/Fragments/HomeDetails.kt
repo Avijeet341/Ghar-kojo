@@ -12,11 +12,16 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
+import androidx.viewpager2.widget.ViewPager2
 import com.avi.gharkhojo.Adapter.MyViewPagerAdapter
 import com.avi.gharkhojo.MainActivity
 import com.avi.gharkhojo.R
@@ -27,6 +32,45 @@ class HomeDetails : Fragment() {
 
     private var _binding: FragmentHomeDetailsBinding? = null
     private val binding get() = _binding!!
+    private lateinit var viewPager: ViewPager2
+    private lateinit var price: TextView
+    private lateinit var viewCharges: TextView
+    private lateinit var bedroomNumber: TextView
+    private lateinit var bathroomNumber: TextView
+    private lateinit var kitchenNumber: TextView
+    private lateinit var floorNumber: TextView
+    private lateinit var balconyNumber: TextView
+    private lateinit var areaNumber: TextView
+    private lateinit var nameText: TextView
+    private lateinit var descriptionText: TextView
+    private lateinit var messageButton:FrameLayout
+    private lateinit var callButton:FrameLayout
+    private lateinit var negotiateRent: TextView
+    private lateinit var BHKNumber: TextView
+    private lateinit var propertyType: TextView
+    private lateinit var houseNoText: TextView
+    private lateinit var RoadLaneText: TextView
+    private lateinit var ColonyText: TextView
+    private lateinit var AreaText: TextView
+    private lateinit var LandmarkText: TextView
+    private lateinit var CityText: TextView
+    private lateinit var PinCodeText: TextView
+    private lateinit var copyButton: ImageButton
+    private lateinit var furnishingText: TextView
+    private lateinit var BuiltUpAreaText: TextView
+    private lateinit var PreferredTenantText: TextView
+    private lateinit var LiftIcon: ImageView
+    private lateinit var GeneratorIcon: ImageView
+    private lateinit var GasIcon: ImageView
+    private lateinit var SecurityGuardIcon: ImageView
+    private lateinit var ParkingIcon: ImageView
+    private lateinit var ownerName: TextView
+    private lateinit var tenantsServedNumber: TextView
+    private lateinit var postDateDay: TextView
+    private lateinit var postDateMonth: TextView
+    private lateinit var postDateYear: TextView
+    private lateinit var feedbackButton: Button
+    private lateinit var GreatThingsText: TextView
 
     private lateinit var photoAdapter: MyViewPagerAdapter
     private val imageResIds = listOf(
@@ -93,16 +137,9 @@ class HomeDetails : Fragment() {
     }
 
     private fun buildAddress(): String {
-        val roadLane = binding.RoadLaneText.text.toString().split(",")
-        val formattedRoadLane = if (roadLane.size == 2) {
-            "Road ${roadLane[0].trim()}, Lane ${roadLane[1].trim()}"
-        } else {
-            binding.RoadLaneText.text.toString()
-        }
-
         return StringBuilder().apply {
             append("House No:${binding.houseNoText.text},")
-            append("$formattedRoadLane,")
+            append("Road&Lane No:${binding.RoadLaneText.text},")
             append("${binding.ColonyText.text} Colony,")
             append("${binding.LandmarkText.text},")
             append("${binding.CityText.text},")
@@ -117,58 +154,66 @@ class HomeDetails : Fragment() {
     }
 
     private fun Initialization() {
+        // ViewPager for Images
+        viewPager=binding.viewPager
+
         // Set charges
-        binding.price.text = "₹3,899"
+        price = binding.price
+        viewCharges=binding.viewCharges
 
         // CarView for House Contents
-        binding.bedroomNumber.text = "3"
-        binding.bathroomNumber.text = "2"
-        binding.kitchenNumber.text = "1"
-        binding.floorNumber.text = "2"
-        binding.balconyNumber.text = "2"
-        binding.areaNumber.text = "1500"
+        bedroomNumber = binding.bedroomNumber
+        bathroomNumber = binding.bathroomNumber
+        kitchenNumber = binding.kitchenNumber
+        floorNumber = binding.floorNumber
+        balconyNumber = binding.balconyNumber
+        areaNumber = binding.areaNumber
 
         // Owner Profile
-        binding.nameText.text = "Danile Foster"
-        binding.descriptionText.text = "Housing Prime Center"
+        nameText = binding.nameText
+        descriptionText = binding.descriptionText
+        messageButton = binding.messageButton
+        callButton = binding.callButton
 
         // Negotiation
-        binding.negotiateRent.text = "Negotiate Rent"
+        negotiateRent = binding.negotiateRent
 
         // BHK and Property Type
-        binding.BHKNumber.text = "3"
-        binding.propertyType.text = "Apartment"
+        BHKNumber = binding.BHKNumber
+        propertyType = binding.propertyType
 
         // Property Location
-        binding.houseNoText.text = "123"
-        binding.RoadLaneText.text = "8,9"
-        binding.ColonyText.text = "Green Park"
-        binding.AreaText.text = "Downtown"
-        binding.LandmarkText.text = "Near Park"
-        binding.CityText.text = "Metropolis"
-        binding.PinCodeText.text = "123456"
+        houseNoText = binding.houseNoText
+        RoadLaneText = binding.RoadLaneText
+        ColonyText = binding.ColonyText
+        AreaText = binding.AreaText
+        LandmarkText = binding.LandmarkText
+        CityText = binding.CityText
+        PinCodeText = binding.PinCodeText
+        copyButton=binding.copyButton
 
         // Built-Up Area, Furnishing, and Preferred Tenant
-        binding.furnishingText.text = "Furnished"
-        binding.BuiltUpAreaText.text = "1500"
-        binding.PreferredTenantText.text = "Family, Bachelor, and Company"
+        furnishingText = binding.furnishingText
+        BuiltUpAreaText = binding.BuiltUpAreaText
+        PreferredTenantText = binding.PreferredTenantText
 
         // Other Benefits
-        binding.LiftIcon.setImageResource(R.drawable.ic_cross) // agar true hai to ic_tick else ic_cross
-        binding.GeneratorIcon.setImageResource(R.drawable.ic_cross)
-        binding.GasIcon.setImageResource(R.drawable.ic_tick)
-        binding.SecurityGuardIcon.setImageResource(R.drawable.ic_tick)
-        binding.ParkingIcon.setImageResource(R.drawable.ic_tick)
+        LiftIcon = binding.LiftIcon // agar true hai to ic_tick else ic_cross
+        GeneratorIcon = binding.GeneratorIcon
+        GasIcon = binding.GasIcon
+        SecurityGuardIcon = binding.SecurityGuardIcon
+        ParkingIcon = binding.ParkingIcon
 
         // Owner Details
-        binding.ownerName.text = "Surendra Kumar Panda"
-        binding.tenantsServedNumber.text = "426"
-        binding.postDateDay.text = "24"
-        binding.postDateMonth.text = "June"
-        binding.postDateYear.text = "2024"
+        ownerName = binding.ownerName
+        tenantsServedNumber = binding.tenantsServedNumber
+        postDateDay = binding.postDateDay
+        postDateMonth = binding.postDateMonth
+        postDateYear = binding.postDateYear
+        feedbackButton=binding.feedbackButton
 
         // Great Things About Property
-        binding.GreatThingsText.text = "New flat, spacious room, cooperative society"
+        GreatThingsText = binding.GreatThingsText
     }
 
     private fun gradientSweepTextColorAnimation() {
