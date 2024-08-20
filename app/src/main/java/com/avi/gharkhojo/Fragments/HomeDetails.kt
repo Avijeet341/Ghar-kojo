@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.avi.gharkhojo.Adapter.MyViewPagerAdapter
+import com.avi.gharkhojo.MainActivity
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentHomeDetailsBinding
 import kotlin.math.abs
@@ -59,8 +60,7 @@ class HomeDetails : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
+        hideBottomNavBar()
         Initialization()
         setupViewPager()
         setupCopyButton()
@@ -75,6 +75,14 @@ class HomeDetails : Fragment() {
         }
 
     }
+    private fun hideBottomNavBar() {
+        (activity as? MainActivity)?.hideBottomNavBar()
+    }
+    private fun showBottomNavBar() {
+        (activity as? MainActivity)?.showBottomNavBar()
+    }
+
+
 
     private fun setupCopyButton() {
         binding.copyButton.setOnClickListener {
@@ -111,6 +119,7 @@ class HomeDetails : Fragment() {
     private fun Initialization() {
         // Set charges
         binding.price.text = "₹3,899"
+
         // CarView for House Contents
         binding.bedroomNumber.text = "3"
         binding.bathroomNumber.text = "2"
@@ -236,6 +245,7 @@ class HomeDetails : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        showBottomNavBar()
         handler.removeCallbacks(autoSlideRunnable)
         _binding = null
     }
