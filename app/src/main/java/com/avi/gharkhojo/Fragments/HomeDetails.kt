@@ -1,6 +1,9 @@
 package com.avi.gharkhojo.Fragments
 
 import android.animation.ValueAnimator
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.os.Bundle
@@ -10,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -59,6 +63,7 @@ class HomeDetails : Fragment() {
 
         Initialization()
         setupViewPager()
+        setupCopyButton()
 
 
         view.post {
@@ -69,6 +74,38 @@ class HomeDetails : Fragment() {
             showViewChargesBottomSheet()
         }
 
+    }
+
+    private fun setupCopyButton() {
+        binding.copyButton.setOnClickListener {
+            val address = buildAddress()
+            copyToClipboard(address)
+            Toast.makeText(context, "Address copied to clipboard", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun buildAddress(): String {
+        val roadLane = binding.RoadLaneText.text.toString().split(",")
+        val formattedRoadLane = if (roadLane.size == 2) {
+            "Road ${roadLane[0].trim()}, Lane ${roadLane[1].trim()}"
+        } else {
+            binding.RoadLaneText.text.toString()
+        }
+
+        return StringBuilder().apply {
+            append("House No:${binding.houseNoText.text},")
+            append("$formattedRoadLane,")
+            append("${binding.ColonyText.text} Colony,")
+            append("${binding.LandmarkText.text},")
+            append("${binding.CityText.text},")
+            append("pincode:${binding.PinCodeText.text}")
+        }.toString()
+    }
+
+    private fun copyToClipboard(text: String) {
+        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("address", text)
+        clipboard.setPrimaryClip(clip)
     }
 
     private fun Initialization() {

@@ -502,232 +502,247 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/PropertyFeatures">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_height="wrap_content">
 
-                <!-- Centered Location Header -->
-                <TextView
-                    android:layout_width="match_parent"
+                <ImageButton
+                    android:id="@+id/copyButton"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:gravity="center"
-                    android:paddingBottom="10dp"
-                    android:text="Property Location"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_copy"
+                    android:contentDescription="Copy address" />
 
-                <!-- House No Row -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="5dp">
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:fontFamily="@font/montserrat_bold"
-                        android:text="House No:"
-                        android:textColor="#000000" />
+                        android:gravity="center"
+                        android:paddingBottom="10dp"
+                        android:text="Property Location"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
 
-                    <TextView
-                        android:id="@+id/houseNoText"
-                        android:layout_width="0dp"
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:text="123"
-                        android:textColor="#000000" />
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="House No:"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:id="@+id/houseNoText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="123"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000000" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="@string/road_lain_no"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:id="@+id/RoadLaneText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="8,9"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000000" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="Colony:"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:id="@+id/ColonyText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Green Park"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000000" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="Area:"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:id="@+id/AreaText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Downtown"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000000" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="Landmark:"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:id="@+id/LandmarkText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Near Park"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000000" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="City:"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:id="@+id/CityText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Metropolis"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000000" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="PinCode:"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:id="@+id/PinCodeText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="123456"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#000000" />
-
-                <!-- Road/Lane No Row -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="5dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/montserrat_bold"
-                        android:text="@string/road_lain_no"
-                        android:textColor="#000000" />
-
-                    <TextView
-                        android:id="@+id/RoadLaneText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:text="8,9"
-                        android:textColor="#000000" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#000000" />
-
-                <!-- Colony Row -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="5dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/montserrat_bold"
-                        android:text="Colony:"
-                        android:textColor="#000000" />
-
-                    <TextView
-                        android:id="@+id/ColonyText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:text="Green Park"
-                        android:textColor="#000000" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#000000" />
-
-                <!-- Area Row -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="5dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/montserrat_bold"
-                        android:text="Area:"
-                        android:textColor="#000000" />
-
-                    <TextView
-                        android:id="@+id/AreaText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:text="Downtown"
-                        android:textColor="#000000" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#000000" />
-
-                <!-- Landmark Row -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="5dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/montserrat_bold"
-                        android:text="Landmark:"
-                        android:textColor="#000000" />
-
-                    <TextView
-                        android:id="@+id/LandmarkText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:text="Near Park"
-                        android:textColor="#000000" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#000000" />
-
-                <!-- City Row -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="5dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/montserrat_bold"
-                        android:text="City:"
-                        android:textColor="#000000" />
-
-                    <TextView
-                        android:id="@+id/CityText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:text="Metropolis"
-                        android:textColor="#000000" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#000000" />
-
-                <!-- PinCode Row -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="5dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/montserrat_bold"
-                        android:text="PinCode:"
-                        android:textColor="#000000" />
-
-                    <TextView
-                        android:id="@+id/PinCodeText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:text="123456"
-                        android:textColor="#000000" />
-                </LinearLayout>
-
-            </LinearLayout>
+            </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
-
 
         <androidx.cardview.widget.CardView
             android:id="@+id/propertyDetailsCard"
@@ -750,7 +765,7 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <!-- First Item -->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -776,7 +791,7 @@
                         android:textColor="#000000" />
                 </LinearLayout>
 
-                <!-- Separator Line -->
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -784,7 +799,7 @@
                     android:layout_marginBottom="8dp"
                     android:background="@color/black" />
 
-                <!-- Second Item -->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -825,7 +840,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Separator Line -->
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -833,7 +848,7 @@
                     android:layout_marginBottom="8dp"
                     android:background="@color/black" />
 
-                <!-- Third Item -->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -935,7 +950,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp" />
 
-                <!-- Generator Service -->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1009,7 +1024,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp" />
 
-                <!-- Security Guard -->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1046,7 +1061,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp" />
 
-                <!-- Parking -->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1078,9 +1093,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Owner Details -->
 
-        <!-- Buttons -->
 
         <androidx.cardview.widget.CardView
             android:id="@+id/ownerDetailsCard"
