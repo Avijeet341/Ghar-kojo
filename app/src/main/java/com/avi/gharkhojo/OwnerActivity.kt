@@ -3,6 +3,7 @@ package com.avi.gharkhojo
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
@@ -57,6 +58,14 @@ class OwnerActivity : BaseActivity() {
 
         // Handle back press
         handleOnBackPressed()
+    }
+
+    fun hideBottomNavBar() {
+        bottomNavigation.visibility = View.GONE
+    }
+
+    fun showBottomNavBar() {
+        bottomNavigation.visibility = View.VISIBLE
     }
 
     private fun setUpTabBar() {
