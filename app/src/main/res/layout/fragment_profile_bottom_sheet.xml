@@ -139,8 +139,24 @@
             android:padding="12dp"
             android:minHeight="48dp"
             android:textColor="#333333"
+            android:inputType="number"
             android:textColorHint="@color/DarkGray"
             app:layout_constraintTop_toBottomOf="@id/editTextLandmark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+        <EditText
+            android:id="@+id/editTextRoadNo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edittext_boarder"
+            android:fontFamily="@font/montserrat_regular"
+            android:hint="Enter Road No / Lane no"
+            android:padding="12dp"
+            android:minHeight="48dp"
+            android:textColor="#333333"
+            android:textColorHint="@color/DarkGray"
+            app:layout_constraintTop_toBottomOf="@id/editTextHouseNo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp" />
@@ -157,7 +173,7 @@
             android:minHeight="48dp"
             android:textColor="#333333"
             android:textColorHint="@color/DarkGray"
-            app:layout_constraintTop_toBottomOf="@id/editTextHouseNo"
+            app:layout_constraintTop_toBottomOf="@id/editTextRoadNo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp" />
@@ -195,6 +211,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp" />
+        <EditText
+            android:id="@+id/editTextState"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edittext_boarder"
+            android:fontFamily="@font/montserrat_regular"
+            android:hint="Enter State"
+            android:padding="12dp"
+            android:minHeight="48dp"
+            android:textColor="#333333"
+            android:textColorHint="@color/DarkGray"
+            app:layout_constraintTop_toBottomOf="@id/editTextCity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
 
         <!-- Phone Field -->
         <TextView
@@ -205,7 +236,7 @@
             android:text="Phone:"
             android:textColor="@color/your_status_bar_color"
             android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@id/editTextCity"
+            app:layout_constraintTop_toBottomOf="@id/editTextState"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="16dp" />
 

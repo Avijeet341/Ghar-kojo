@@ -1,6 +1,7 @@
 package com.avi.gharkhojo.Model
 
 import android.content.Context
+import android.widget.Toast
 import com.avi.gharkhojo.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -43,9 +44,7 @@ class UserSignupLoginManager(private val context: Context) {
             UserData.username = user.displayName ?: UserData.username
             UserData.uid = user.uid
 
-            if (UserData.username.isNullOrEmpty() || UserData.address.isNullOrEmpty() || UserData.phn_no.isNullOrEmpty()) {
-                fetchAdditionalUserData(user.uid)
-            }
+            fetchAdditionalUserData(user.uid)
         }
     }
 
@@ -61,12 +60,18 @@ class UserSignupLoginManager(private val context: Context) {
     private suspend fun fetchAdditionalUserData(uid: String) {
         try {
             val document = firestore.collection("users").document(uid).get().await()
-            UserData.username = document.getString("name") ?: UserData.username
-            UserData.address = document.getString("address") ?: context.getString(R.string.default_address)
-            UserData.phn_no = document.getString("phone") ?: context.getString(R.string.default_phone)
+            UserData.username = document.getString("username") ?: UserData.username
+            UserData.phn_no = document.getString("phn_no") ?: ""
+            UserData.HouseNo = document.getString("houseNo") ?: ""
+            UserData.Road_Lane = document.getString("road_Lane") ?: ""
+            UserData.City = document.getString("city") ?: ""
+            UserData.State = document.getString("state") ?: ""
+            UserData.Pincode = document.getString("pincode") ?: ""
+            UserData.Area = document.getString("area") ?: ""
+            UserData.colony = document.getString("colony") ?: ""
+            UserData.LandMark = document.getString("landMark") ?: ""
         } catch (e: Exception) {
-            UserData.address = context.getString(R.string.default_address)
-            UserData.phn_no = context.getString(R.string.default_phone)
+            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
         }
     }
 }

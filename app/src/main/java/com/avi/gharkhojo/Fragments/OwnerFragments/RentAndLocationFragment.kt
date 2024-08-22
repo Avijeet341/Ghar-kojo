@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.avi.gharkhojo.Model.PostDetails
+import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentRentAndLocationBinding
 import com.google.android.gms.common.api.ResolvableApiException
@@ -62,6 +63,8 @@ class RentAndLocationFragment : Fragment() {
     private lateinit var houseNumber:TextInputEditText
     private lateinit var area:TextInputEditText
     private lateinit var colony:TextInputEditText
+    private lateinit var state:TextInputEditText
+    private lateinit var roadNo:TextInputEditText
     private lateinit var city:TextInputEditText
     private lateinit var maintenceCharges:TextInputEditText
     private var _binding: FragmentRentAndLocationBinding? = null
@@ -109,9 +112,36 @@ class RentAndLocationFragment : Fragment() {
         colony = binding.autoCompleteTextViewColony
         city = binding.autoCompleteTextViewCity
         maintenceCharges = binding.maintenanceCharge
+        state = binding.autoCompleteTextViewState
+        roadNo = binding.autoCompleteTextViewRoadLaneNumber
         binding.btnBack.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
+        binding.checkBoxSameAsCurrentAddress.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked){
+            pincode.setText(UserData.Pincode)
+                landmark.setText(UserData.LandMark)
+            houseNumber.setText(UserData.HouseNo.toString())
+            area.setText(UserData.Area)
+            colony.setText(UserData.colony)
+            city.setText(UserData.City)
+                state.setText(UserData.State)
+                roadNo.setText(UserData.Road_Lane)
+
+
+            }
+            else{
+                pincode.setText("")
+                landmark.setText("")
+                houseNumber.setText("")
+                area.setText("")
+                colony.setText("")
+                city.setText("")
+                state.setText("")
+                roadNo.setText("")
+            }
+        }
+
     }
 
 
@@ -373,6 +403,8 @@ class RentAndLocationFragment : Fragment() {
             && city.text.toString().trim().isNotEmpty()
             && (binding.checkBoxParkingIncluded.isChecked || parkingCharges.text.toString().trim().isNotEmpty())
             && maintenceCharges.text.toString().trim().isNotEmpty()
+            && state.text.toString().trim().isNotEmpty()
+            && roadNo.text.toString().trim().isNotEmpty()
 
         ){
             return true

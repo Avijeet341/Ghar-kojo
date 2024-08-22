@@ -46,6 +46,7 @@ object PostDetails {
     var description:String? = null
     var coverImage:String? = null
     var maintenanceCharge:Double? = null
+    var road_lane:String? = null
 
     var imageList:Map<String,ArrayList<String>> = hashMapOf(
         "BedRoom" to ArrayList(),
@@ -95,6 +96,7 @@ object PostDetails {
             it.imageList = this@PostDetails.imageList
             it.coverImage = this@PostDetails.coverImage.toString().trim()
             it.maintenanceCharge = this@PostDetails.maintenanceCharge
+            it.road_lane = this@PostDetails.road_lane?.trim()
 
 
 
@@ -132,6 +134,7 @@ object PostDetails {
             && imageList.values.any { it.isNotEmpty() }
             && coverImage != null && coverImage!!.isNotEmpty()
             && maintenanceCharge != null
+            && state!=null && state!!.isNotEmpty()
                 
 
 
@@ -169,6 +172,7 @@ object PostDetails {
          longitude = null
          latitude = null
          description = null
+        road_lane = null
         imageList.forEach {
             it.value.clear()
         }

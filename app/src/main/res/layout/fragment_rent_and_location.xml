@@ -217,7 +217,16 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="6dp"/>
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Same as Current Address"
+            android:textColor="#FFEB3B"
+            android:buttonTint="#FFEB3B"
+            android:layout_marginBottom="16dp"
+            android:id="@+id/checkBoxSameAsCurrentAddress"
+            style="@style/Widget.AppCompat.CompoundButton.CheckBox"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewLocationDetails"
@@ -327,6 +336,39 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
+                    android:id="@+id/textView88"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Road / Lane No"
+                    android:textColor="#FFEB3B" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutRoadLaneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Road / Lane number"
+                    app:hintTextColor="#FFEB3B"
+                    android:textColorHint="#CCCCCC"
+                    app:boxStrokeColor="#FFEB3B"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/autoCompleteTextViewRoadLaneNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:textColor="#FFFFFF"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <TextView
                     android:id="@+id/textView9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -418,6 +460,38 @@
                         android:inputType="text"
                         android:textColor="#FFFFFF"/>
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/textView121"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="State"
+                    android:textColor="#FFEB3B" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutState"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter State"
+                    app:hintTextColor="#FFEB3B"
+                    android:textColorHint="#CCCCCC"
+                    app:boxStrokeColor="#FFEB3B"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/autoCompleteTextViewState"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:textColor="#FFFFFF"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
 
                 <LinearLayout
                     android:layout_marginTop="16dp"

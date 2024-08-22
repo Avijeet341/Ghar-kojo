@@ -39,6 +39,7 @@ data class Post(
     var postTime:Long?,
     var coverImage:String?,
     var maintenanceCharge:Double?,
+    var road_lane: String?,
     var imageList:Map<String,ArrayList<String>> = hashMapOf(
         "BedRoom" to ArrayList(),
         "Kitchen" to ArrayList(),
@@ -51,6 +52,7 @@ data class Post(
     )
 
  ){
+
 
 
 
@@ -69,6 +71,6 @@ data class Post(
         null,null,null,
         null,null,null,null,
         null,null,null,
-        null,null,null
+        null,null,null,null
         )
 }
