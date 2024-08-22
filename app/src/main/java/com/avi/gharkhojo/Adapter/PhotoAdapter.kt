@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.avi.gharkhojo.R
 
-class PhotoAdapter(private var photos: List<Uri>) : RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder>() {
+class PhotoAdapter(private var photos: List<String>) : RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder>() {
 
     class PhotoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.photoImageView)
@@ -23,7 +23,7 @@ class PhotoAdapter(private var photos: List<Uri>) : RecyclerView.Adapter<PhotoAd
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
         val photoUri = photos[position]
         Glide.with(holder.imageView.context)
-            .load(photoUri)
+            .load(Uri.parse(photoUri))
             .centerCrop()
             .placeholder(R.drawable.india)
             .error(R.drawable.india)
@@ -32,7 +32,7 @@ class PhotoAdapter(private var photos: List<Uri>) : RecyclerView.Adapter<PhotoAd
 
     override fun getItemCount() = photos.size
 
-    fun updatePhotos(newPhotos: List<Uri>) {
+    fun updatePhotos(newPhotos: List<String>) {
         photos = newPhotos
         notifyDataSetChanged()
     }

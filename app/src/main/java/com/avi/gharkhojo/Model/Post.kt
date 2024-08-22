@@ -1,6 +1,8 @@
 package com.avi.gharkhojo.Model
 
- data class Post(
+import android.net.Uri
+
+data class Post(
     var ownerName:String?,
     var propertyType:String?,
     var preferredTenants:String?,
@@ -18,6 +20,8 @@ package com.avi.gharkhojo.Model
     var hasLift:Boolean? ,
     var hasSecurityGuard:Boolean? ,
     var hasParking:Boolean? ,
+    var hasGenerator:Boolean? ,
+    var hasGasService:Boolean? ,
     var parkingCharge:Double? ,
     var rent:Double? ,
     var deposit:Double? ,
@@ -31,10 +35,14 @@ package com.avi.gharkhojo.Model
     var longitude:Double? ,
     var latitude:Double? ,
     var description:String?,
-    var imageList:Map<String,ArrayList<String>?> = hashMapOf(
+    var isParkingChargeIncluded: Boolean?,
+    var postTime:Long?,
+    var coverImage:String?,
+    var maintenanceCharge:Double?,
+    var imageList:Map<String,ArrayList<String>> = hashMapOf(
         "BedRoom" to ArrayList(),
         "Kitchen" to ArrayList(),
-        "Bathroom" to ArrayList(),
+        "WashRoom" to ArrayList(),
         "Toilet" to ArrayList(),
         "Balcony" to ArrayList(),
         "Hall" to ArrayList(),
@@ -43,6 +51,9 @@ package com.avi.gharkhojo.Model
     )
 
  ){
+
+
+
     constructor():this(null,null,
         null,null,
         null,null,
@@ -55,8 +66,9 @@ package com.avi.gharkhojo.Model
         null,null,
         null,null,
         null,null,
-        null,null,
-        null,null,
+        null,null,null,
+        null,null,null,null,
+        null,null,null,
         null,null,null
         )
 }
