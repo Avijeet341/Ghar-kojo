@@ -24,6 +24,7 @@
                 android:layout_marginBottom="13dp"
                 android:background="@drawable/rounded_bottom_corners"
                 android:elevation="4dp"
+                android:backgroundTint="#007FFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
