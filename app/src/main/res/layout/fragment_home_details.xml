@@ -19,7 +19,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/your_status_bar_color"
+            android:background="@color/expBlue"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -33,10 +33,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_back_arrow"
-
                     android:background="?attr/selectableItemBackgroundBorderless"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/expBgBlue"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <ImageButton
@@ -44,6 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_share"
+                    app:tint="@color/expBgBlue"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     app:layout_constraintEnd_toStartOf="@id/favoriteButton"
                     app:layout_constraintTop_toTopOf="parent"
@@ -55,6 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_favorite"
+                    app:tint="@color/expBgBlue"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     app:layout_constraintEnd_toStartOf="@id/chatBtn"
                     app:layout_constraintTop_toTopOf="parent"
@@ -66,6 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_chatbtn"
+                    app:tint="@color/expBgBlue"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -448,7 +451,7 @@
             android:layout_marginTop="16dp"
             android:orientation="horizontal"
             android:background="@drawable/bg_edit_text"
-            android:backgroundTint="@color/Turquoise"
+            android:backgroundTint="@color/expBgBlue"
             android:elevation="2dp"
             android:padding="12dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -460,7 +463,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="3"
-                android:textColor="@color/fox_color"
+                android:textColor="@color/messangerBlue"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -470,7 +473,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_bold"
                 android:text=" BHK "
-                android:textColor="@color/fox_color"
+                android:textColor="@color/messangerBlue"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -480,7 +483,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Apartment"
-                android:textColor="@color/fox_color"
+                android:textColor="@color/messangerBlue"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -493,7 +496,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="10dp"
-            android:backgroundTint="@color/Green"
+            android:backgroundTint="@color/expBlue"
             android:background="@drawable/bg_edit_text"
             app:cardElevation="5dp"
             android:padding="7dp"
@@ -513,6 +516,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_margin="8dp"
+                    app:tint="@color/expBgBlue"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_copy"
                     android:contentDescription="Copy address" />
@@ -531,7 +535,7 @@
                         android:gravity="center"
                         android:paddingBottom="10dp"
                         android:text="Property Location"
-                        android:textColor="#000000"
+                        android:textColor="@color/expBgBlue"
                         android:textSize="18sp" />
 
 
@@ -547,7 +551,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="House No:"
-                            android:textColor="#000000" />
+                            android:textColor="@color/expBgBlue" />
 
                         <TextView
                             android:id="@+id/houseNoText"
@@ -556,13 +560,13 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
                             android:text="123"
-                            android:textColor="#000000" />
+                            android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#000000" />
+                        android:background="@color/expBgBlue" />
 
 
                     <LinearLayout
@@ -577,7 +581,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="@string/road_lain_no"
-                            android:textColor="#000000" />
+                            android:textColor="@color/expBgBlue" />
 
                         <TextView
                             android:id="@+id/RoadLaneText"
@@ -586,13 +590,13 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
                             android:text="8,9"
-                            android:textColor="#000000" />
+                            android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#000000" />
+                        android:background="@color/expBgBlue" />
 
 
                     <LinearLayout
@@ -607,7 +611,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="Colony:"
-                            android:textColor="#000000" />
+                            android:textColor="@color/expBgBlue" />
 
                         <TextView
                             android:id="@+id/ColonyText"
@@ -616,13 +620,13 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
                             android:text="Green Park"
-                            android:textColor="#000000" />
+                            android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#000000" />
+                        android:background="@color/expBgBlue" />
 
 
                     <LinearLayout
@@ -637,7 +641,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="Area:"
-                            android:textColor="#000000" />
+                            android:textColor="@color/expBgBlue" />
 
                         <TextView
                             android:id="@+id/AreaText"
@@ -646,13 +650,13 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
                             android:text="Downtown"
-                            android:textColor="#000000" />
+                            android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#000000" />
+                        android:background="@color/expBgBlue" />
 
 
                     <LinearLayout
@@ -667,7 +671,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="Landmark:"
-                            android:textColor="#000000" />
+                            android:textColor="@color/expBgBlue" />
 
                         <TextView
                             android:id="@+id/LandmarkText"
@@ -676,13 +680,13 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
                             android:text="Near Park"
-                            android:textColor="#000000" />
+                            android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#000000" />
+                        android:background="@color/expBgBlue" />
 
 
                     <LinearLayout
@@ -697,7 +701,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="City:"
-                            android:textColor="#000000" />
+                            android:textColor="@color/expBgBlue" />
 
                         <TextView
                             android:id="@+id/CityText"
@@ -706,13 +710,13 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
                             android:text="Metropolis"
-                            android:textColor="#000000" />
+                            android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#000000" />
+                        android:background="@color/expBgBlue" />
 
 
                     <LinearLayout
@@ -727,7 +731,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="PinCode:"
-                            android:textColor="#000000" />
+                            android:textColor="@color/expBgBlue" />
 
                         <TextView
                             android:id="@+id/PinCodeText"
@@ -736,7 +740,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
                             android:text="123456"
-                            android:textColor="#000000" />
+                            android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -1103,7 +1107,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/bg_search"
-            android:backgroundTint="@color/Turquoise"
+            android:backgroundTint="@color/expBgBlue"
             app:cardCornerRadius="10dp"
             app:cardElevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -1234,7 +1238,7 @@
                     android:layout_marginTop="3dp"
                     android:layout_marginEnd="5dp"
                     android:background="@drawable/chat_now_bg"
-                    android:backgroundTint="@color/start_color"
+                    android:backgroundTint="@color/expBlue"
                     android:drawableLeft="@drawable/comment"
                     android:drawablePadding="8dp"
                     android:elevation="15dp"
@@ -1406,7 +1410,7 @@
                     android:fontFamily="@font/montserrat_regular"
                     android:padding="4dp"
                     android:text="New flat, spacious room, cooperative society"
-                    android:textColor="@android:color/holo_green_dark" />
+                    android:textColor="@color/expBlue" />
 
             </LinearLayout>
 
@@ -1419,16 +1423,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="10dp"
+            android:textAllCaps="false"
+            android:textStyle="bold"
             android:background="@drawable/bg_edit_text"
-            android:backgroundTint="@color/Turquoise"
+            android:backgroundTint="@color/expBgBlue"
             android:drawableStart="@drawable/placeholder"
             android:drawableEnd="@drawable/ic_next"
             android:drawablePadding="5dp"
             android:elevation="10dp"
             android:layoutDirection="ltr"
             android:padding="5dp"
+            android:drawableTint="@color/expBlue"
             android:text="See on Map"
-            android:textColor="@color/fox_color"
+            android:textColor="@color/messangerBlue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/negotiateRent" />
 

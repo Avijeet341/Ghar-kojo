@@ -19,7 +19,6 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.avi.gharkhojo.Adapter.MyViewPagerAdapter
 import com.avi.gharkhojo.Fragments.ViewChargesBottomSheet
-import com.avi.gharkhojo.MainActivity
 import com.avi.gharkhojo.OwnerActivity
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentOwnerDetailBinding
@@ -61,19 +60,22 @@ class OwnerDetailFragment : Fragment() {
     private lateinit var postDateDay: TextView
     private lateinit var postDateMonth: TextView
     private lateinit var postDateYear: TextView
-    private lateinit var feedbackButton: Button
     private lateinit var GreatThingsText: TextView
 
     private lateinit var photoAdapter: MyViewPagerAdapter
     private val imageResIds = listOf(
-        R.drawable.hall,
-        R.drawable.hall,
-        R.drawable.bedroom,
-        R.drawable.entry,
-        R.drawable.base,
-        R.drawable.living,
-        R.drawable.bath,
-        R.drawable.shoe
+        R.drawable.home1,
+        R.drawable.home2,
+        R.drawable.home3,
+        R.drawable.home4,
+        R.drawable.home5,
+        R.drawable.home6,
+        R.drawable.home7,
+        R.drawable.home8,
+        R.drawable.home9,
+        R.drawable.home10,
+        R.drawable.home11,
+        R.drawable.home12,
     )
 
     private val handler = Handler(Looper.getMainLooper())

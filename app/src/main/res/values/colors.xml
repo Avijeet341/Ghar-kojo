@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="expBlue">#007FFF</color>
+    <color name="expBgBlue">#E7F1FE</color>
+    <color name="messangerBlue">#4285F4</color>
     <color name="black">#FF000000</color>
     <color name="Black">#000000</color>
     <color name="white">#FFFFFF</color>

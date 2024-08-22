@@ -74,14 +74,18 @@ class HomeDetails : Fragment() {
 
     private lateinit var photoAdapter: MyViewPagerAdapter
     private val imageResIds = listOf(
-        R.drawable.hall,
-        R.drawable.hall,
-        R.drawable.bedroom,
-        R.drawable.entry,
-        R.drawable.base,
-        R.drawable.living,
-        R.drawable.bath,
-        R.drawable.shoe
+        R.drawable.home1,
+        R.drawable.home2,
+        R.drawable.home3,
+        R.drawable.home4,
+        R.drawable.home5,
+        R.drawable.home6,
+        R.drawable.home7,
+        R.drawable.home8,
+        R.drawable.home9,
+        R.drawable.home10,
+        R.drawable.home11,
+        R.drawable.home12,
     )
 
     private val handler = Handler(Looper.getMainLooper())
@@ -218,9 +222,9 @@ class HomeDetails : Fragment() {
 
     private fun gradientSweepTextColorAnimation() {
         val colors = intArrayOf(
-            0xFFA0DAFB.toInt(),
-            0xFF00ecbc.toInt(), // Green
-            0xFF0A8ED9.toInt()  // Blue
+            0xFFA0DAFE.toInt(),
+            0xFF00ecbc.toInt(),
+            0xFF007FFF.toInt()
         )
 
         val colorAnimator = ValueAnimator.ofArgb(*colors).apply {

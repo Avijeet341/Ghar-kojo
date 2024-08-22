@@ -99,4 +99,14 @@
         <item name="iconGravity">textStart</item>
         <item name="iconPadding">0dp</item>
     </style>
+
+    <style name="CustomSearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="searchIcon">@drawable/custom_search_icon</item>
+        <item name="closeIcon">@drawable/custom_close_icon</item>
+        <item name="android:textColorHint">@color/expBlue</item>
+        <item name="android:textColor">@color/expBlue</item>
+        <item name="android:textCursorDrawable">@drawable/custom_cursor</item>
+        <item name="queryHint">Search...</item>
+        <item name="searchHintIcon">@drawable/custom_search_hint_icon</item>
+    </style>
 </resources>
