@@ -22,20 +22,20 @@
                 android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_back"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Back"
                 android:padding="10dp"
-                android:contentDescription="Back" />
+                android:src="@drawable/ic_arrow_back" />
 
             <ImageButton
                 android:id="@+id/btnDelete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_delete"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="10dp"
                 android:layout_alignParentEnd="true"
-                android:contentDescription="Delete" />
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Delete"
+                android:padding="10dp"
+                android:src="@drawable/ic_delete" />
 
         </RelativeLayout>
 

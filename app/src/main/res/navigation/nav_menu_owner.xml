@@ -24,7 +24,12 @@
         android:id="@+id/uploadsFragment"
         android:name="com.avi.gharkhojo.Fragments.OwnerFragments.UploadsFragment"
         android:label="fragment_uploads"
-        tools:layout="@layout/fragment_uploads" />
+        tools:layout="@layout/fragment_uploads">
+        <action
+            android:id="@+id/action_uploadsFragment_to_ownerDetailFragment"
+            app:destination="@id/ownerDetailFragment" />
+    </fragment>
+
 
     <fragment
         android:id="@+id/ownerProfileFragment"
@@ -56,4 +61,9 @@
         android:name="com.avi.gharkhojo.Fragments.OwnerFragments.RoomPhotosFragment"
         android:label="fragment_room_photos"
         tools:layout="@layout/fragment_room_photos" />
+    <fragment
+        android:id="@+id/ownerDetailFragment"
+        android:name="com.avi.gharkhojo.Fragments.OwnerFragments.OwnerDetailFragment"
+        android:label="fragment_owner_detail"
+        tools:layout="@layout/fragment_owner_detail" />
 </navigation>

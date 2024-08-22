@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
@@ -32,6 +33,14 @@ class MainActivity : BaseActivity() {
         setupNavigation()
         setupTabBar()
         handleOnBackPressed()
+    }
+
+    fun hideBottomNavBar() {
+        bottomNavigation.visibility = View.GONE
+    }
+
+    fun showBottomNavBar() {
+        bottomNavigation.visibility = View.VISIBLE
     }
 
     private fun setupNavigation() {

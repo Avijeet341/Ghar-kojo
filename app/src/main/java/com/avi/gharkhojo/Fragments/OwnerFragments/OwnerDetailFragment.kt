@@ -1,4 +1,4 @@
-package com.avi.gharkhojo.Fragments
+package com.avi.gharkhojo.Fragments.OwnerFragments
 
 import android.animation.ValueAnimator
 import android.content.ClipData
@@ -12,25 +12,22 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.avi.gharkhojo.Adapter.MyViewPagerAdapter
+import com.avi.gharkhojo.Fragments.ViewChargesBottomSheet
 import com.avi.gharkhojo.MainActivity
+import com.avi.gharkhojo.OwnerActivity
 import com.avi.gharkhojo.R
-import com.avi.gharkhojo.databinding.FragmentHomeDetailsBinding
+import com.avi.gharkhojo.databinding.FragmentOwnerDetailBinding
 import kotlin.math.abs
 
-class HomeDetails : Fragment() {
+class OwnerDetailFragment : Fragment() {
 
-    private var _binding: FragmentHomeDetailsBinding? = null
+    private var _binding: FragmentOwnerDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewPager: ViewPager2
     private lateinit var price: TextView
@@ -41,11 +38,6 @@ class HomeDetails : Fragment() {
     private lateinit var floorNumber: TextView
     private lateinit var balconyNumber: TextView
     private lateinit var areaNumber: TextView
-    private lateinit var nameText: TextView
-    private lateinit var descriptionText: TextView
-    private lateinit var messageButton:FrameLayout
-    private lateinit var callButton:FrameLayout
-    private lateinit var negotiateRent: TextView
     private lateinit var BHKNumber: TextView
     private lateinit var propertyType: TextView
     private lateinit var houseNoText: TextView
@@ -98,7 +90,7 @@ class HomeDetails : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeDetailsBinding.inflate(inflater, container, false)
+        _binding = FragmentOwnerDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -109,7 +101,6 @@ class HomeDetails : Fragment() {
         setupViewPager()
         setupCopyButton()
 
-
         view.post {
             gradientSweepTextColorAnimation()
         }
@@ -119,14 +110,14 @@ class HomeDetails : Fragment() {
         }
 
     }
+
     private fun hideBottomNavBar() {
-        (activity as? MainActivity)?.hideBottomNavBar()
+        (activity as? OwnerActivity)?.hideBottomNavBar()
     }
+
     private fun showBottomNavBar() {
-        (activity as? MainActivity)?.showBottomNavBar()
+        (activity as? OwnerActivity)?.showBottomNavBar()
     }
-
-
 
     private fun setupCopyButton() {
         binding.copyButton.setOnClickListener {
@@ -169,14 +160,7 @@ class HomeDetails : Fragment() {
         balconyNumber = binding.balconyNumber
         areaNumber = binding.areaNumber
 
-        // Owner Profile
-        nameText = binding.nameText
-        descriptionText = binding.descriptionText
-        messageButton = binding.messageButton
-        callButton = binding.callButton
 
-        // Negotiation
-        negotiateRent = binding.negotiateRent
 
         // BHK and Property Type
         BHKNumber = binding.BHKNumber
@@ -210,7 +194,7 @@ class HomeDetails : Fragment() {
         postDateDay = binding.postDateDay
         postDateMonth = binding.postDateMonth
         postDateYear = binding.postDateYear
-        feedbackButton=binding.feedbackButton
+
 
         // Great Things About Property
         GreatThingsText = binding.GreatThingsText
@@ -218,9 +202,9 @@ class HomeDetails : Fragment() {
 
     private fun gradientSweepTextColorAnimation() {
         val colors = intArrayOf(
-            0xFFA0DAFB.toInt(),
-            0xFF00ecbc.toInt(), // Green
-            0xFF0A8ED9.toInt()  // Blue
+            0xFFFFEB3B.toInt(),
+            0xFFFDD835.toInt(),
+            0xFFF9A825.toInt()  // Blue
         )
 
         val colorAnimator = ValueAnimator.ofArgb(*colors).apply {
@@ -284,14 +268,14 @@ class HomeDetails : Fragment() {
     }
 
     private fun showViewChargesBottomSheet() {
-        val bottomSheet = ViewChargesBottomSheet.newInstance()
-        bottomSheet.show(childFragmentManager, ViewChargesBottomSheet.TAG)
+        val bottomSheetFragment = ViewChargesBottomSheet()
+        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        showBottomNavBar()
-        handler.removeCallbacks(autoSlideRunnable)
         _binding = null
+        handler.removeCallbacks(autoSlideRunnable)
+        showBottomNavBar()
     }
 }
