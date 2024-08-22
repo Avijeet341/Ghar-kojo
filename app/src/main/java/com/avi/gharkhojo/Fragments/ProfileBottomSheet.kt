@@ -34,9 +34,9 @@ class ProfileBottomSheet(
     var profileBinding: FragmentProfileBinding? = null
     private var _binding: FragmentProfileBottomSheetBinding? = null
     private val binding get() = _binding!!
-     val firebaseAuth: FirebaseAuth by lazy{ FirebaseAuth.getInstance() }
-     var firestore: FirebaseFirestore= FirebaseFirestore.getInstance()
-     var databaseReference: DatabaseReference= FirebaseDatabase.getInstance().getReference("users")
+    val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+      var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+      var databaseReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("users")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,11 +60,11 @@ class ProfileBottomSheet(
 
         isCancelable = false
         binding.editTextName.setText(name.trim())
-       // binding.editTextAddress.setText(address.trim())
+
         binding.editTextPhone.setText(phone.trim())
 
         binding.cancelButton.setOnClickListener {
-            dismiss()  // Dismiss the bottom sheet when cancel button is clicked
+            dismiss()
         }
 
         binding.buttonSave.setOnClickListener {
@@ -78,15 +78,8 @@ class ProfileBottomSheet(
 
     private fun saveProfileData() {
         val newName = binding.editTextName.text.toString().trim()
-       /* val newAddress = binding.editTextAddress.text.toString().trim()
-       🫡
-        */
         val newPhone = binding.editTextPhone.text.toString().trim()
 
-      /*  Log.d("ProfileBottomSheet", "New data - Name: $newName, Address: $newAddress, Phone: $newPhone")
-      *
-      * 🫡
-      * */
 
         val user = firebaseAuth.currentUser
         if (user != null) {

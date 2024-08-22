@@ -9,13 +9,15 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.avi.gharkhojo.databinding.ActivityForgotBinding
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 class ForgotActivity : AppCompatActivity() {
 
     private lateinit var forgotBinding: ActivityForgotBinding
 
-     var  firebaseAuth:FirebaseAuth=FirebaseAuth.getInstance()
+      var  firebaseAuth:FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

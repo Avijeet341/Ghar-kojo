@@ -6,11 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.avi.gharkhojo.Model.PostDetails
 import com.avi.gharkhojo.R
+import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import java.util.concurrent.TimeUnit
 
 class AddFragment : Fragment() {
@@ -59,6 +62,15 @@ class AddFragment : Fragment() {
     private fun setupNextButton() {
         nextButton.setOnClickListener {
             if (validateInputs()) {
+                PostDetails.let {
+                    it.ownerName = ownerNameEditText.text.toString()
+                    it.email = emailEditText.text.toString()
+                    it.tenantServed = tenantServedEditText.text.toString()
+                    it.propertyType = propertyTypeSpinner.selectedItem.toString()
+                    it.preferredTenants = preferredTenantsSpinner.selectedItem.toString()
+                    it.phoneNumber = phoneNumberEditText.text.toString()
+                }
+                hideNavigationBar()
                 findNavController().navigate(R.id.action_addFragment_to_propertyDetailsFragment)
             }
         }
@@ -92,6 +104,22 @@ class AddFragment : Fragment() {
         }
 
         return isValid
+    }
+    private fun hideNavigationBar() {
+        (activity as? AppCompatActivity)?.findViewById<ChipNavigationBar>(R.id.bottom_nav_bar_owner)?.visibility = View.GONE
+    }
+    private fun showNavigationBar() {
+        (activity as? AppCompatActivity)?.findViewById<ChipNavigationBar>(R.id.bottom_nav_bar_owner)?.visibility = View.VISIBLE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showNavigationBar()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        PostDetails.clearAll()
     }
 
 
