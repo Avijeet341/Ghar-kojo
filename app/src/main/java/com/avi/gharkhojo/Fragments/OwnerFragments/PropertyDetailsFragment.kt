@@ -25,7 +25,6 @@ class PropertyDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_property_details, container, false)
     }
 
@@ -36,28 +35,16 @@ class PropertyDetailsFragment : Fragment() {
         setupCounters(view)
         setupBackButton(view)
         setupNextButton(view)
-        hideNavigationBar()
     }
-    private fun hideNavigationBar() {
-        (activity as? AppCompatActivity)?.findViewById<ChipNavigationBar>(R.id.bottom_nav_bar_owner)?.visibility = View.GONE
-    }
-    private fun showNavigationBar() {
-        (activity as? AppCompatActivity)?.findViewById<ChipNavigationBar>(R.id.bottom_nav_bar_owner)?.visibility = View.VISIBLE
-    }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        // Show the navigation bar when leaving this fragment
-        showNavigationBar()
-    }
+
+
     private fun setupBackButton(view: View) {
         view.findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
-            // Navigate back to the parent fragment
             parentFragmentManager.popBackStack()
         }
     }
     private fun setupNextButton(view: View) {
         view.findViewById<MaterialButton>(R.id.btnNext).setOnClickListener {
-            // Navigate to RentAndLocationFragment using the defined action
             findNavController().navigate(R.id.action_propertyDetailsFragment_to_rentAndLocationFragment)
         }
     }
@@ -67,7 +54,7 @@ class PropertyDetailsFragment : Fragment() {
         val tvWashroomCount = view.findViewById<TextView>(R.id.tvWashroomCount)
         val tvBalconyCount = view.findViewById<TextView>(R.id.tvBalconyCount)
 
-        // Bedrooms
+
         view.findViewById<MaterialButton>(R.id.btnDecreaseBedrooms).setOnClickListener {
             if (bedroomCount > 0) bedroomCount--
             tvBedroomCount.text = bedroomCount.toString()
@@ -77,7 +64,7 @@ class PropertyDetailsFragment : Fragment() {
             tvBedroomCount.text = bedroomCount.toString()
         }
 
-        // Washrooms
+
         view.findViewById<MaterialButton>(R.id.btnDecreaseWashrooms).setOnClickListener {
             if (washroomCount > 0) washroomCount--
             tvWashroomCount.text = washroomCount.toString()
@@ -87,7 +74,7 @@ class PropertyDetailsFragment : Fragment() {
             tvWashroomCount.text = washroomCount.toString()
         }
 
-        // Balconies
+
         view.findViewById<MaterialButton>(R.id.btnDecreaseBalconies).setOnClickListener {
             if (balconyCount > 0) balconyCount--
             tvBalconyCount.text = balconyCount.toString()
@@ -97,10 +84,12 @@ class PropertyDetailsFragment : Fragment() {
             tvBalconyCount.text = balconyCount.toString()
         }
 
-        // Initialize TextView values
         tvBedroomCount.text = bedroomCount.toString()
         tvWashroomCount.text = washroomCount.toString()
         tvBalconyCount.text = balconyCount.toString()
+    }
+    private fun isAllFieldsFilled(): Boolean {
+        TODO("Not yet implemented")
     }
     private fun setupFurnishingSpinner(view: View) {
         val furnishingOptions = arrayOf("Semi Furnished", "Fully Furnished", "No Furnishing")
@@ -111,11 +100,7 @@ class PropertyDetailsFragment : Fragment() {
 
         spinnerFurnishing.setAdapter(adapter)
 
-        // Set the dropdown background to black
         spinnerFurnishing.setDropDownBackgroundResource(android.R.color.black)
     }
-    companion object {
-        @JvmStatic
-        fun newInstance() = PropertyDetailsFragment()
-    }
+
 }
