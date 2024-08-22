@@ -45,6 +45,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="10dp"
+
+                        android:backgroundTint="@color/expBlue"
+                        android:elevation="5dp"
                         android:fontFamily="@font/montserrat_regular"
                         android:paddingTop="2dp"
                         android:text="Hi"
@@ -62,6 +65,7 @@
                         android:fontFamily="@font/montserrat_bold"
                         android:textColor="@color/white"
                         android:textSize="16sp"
+                        android:elevation="5dp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@id/greetingText1"
                         app:layout_constraintTop_toTopOf="@id/greetingText1" />
@@ -88,6 +92,7 @@
                         android:fontFamily="@font/montserrat_regular"
                         android:text="Searching in"
                         android:textColor="@color/white"
+                        android:elevation="5dp"
                         android:textSize="16sp"
                         app:layout_constraintStart_toEndOf="@id/greetingText3"
                         app:layout_constraintTop_toTopOf="@id/greetingText1" />
@@ -101,13 +106,15 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="5dp"
                         android:background="@drawable/edittextshape"
-                        android:backgroundTint="@color/off_white"
-                        android:elevation="2dp"
+                        android:backgroundTint="@color/white"
+                        android:elevation="6dp"
                         android:iconifiedByDefault="false"
                         app:layout_constraintEnd_toStartOf="@+id/filterButton"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/greetingText4" />
+                        app:layout_constraintTop_toBottomOf="@id/greetingText4"
+                        style="@style/CustomSearchViewStyle"
+                        />
 
                     <!-- Filter Button -->
                     <ImageButton
@@ -118,13 +125,14 @@
                         android:layout_marginEnd="5dp"
                         android:contentDescription="@string/filter"
                         android:background="@drawable/whitebutton"
-                         android:elevation="2dp"
+                        android:elevation="6dp"
                         android:padding="4dp"
                         android:src="@drawable/filter"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toEndOf="@+id/search_view"
-                        app:layout_constraintTop_toBottomOf="@id/greetingText4" />
+                        app:layout_constraintTop_toBottomOf="@id/greetingText4"
+                        app:tint="#007FFF" />
 
                     <!-- Location Label -->
                     <TextView
@@ -135,6 +143,7 @@
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/montserrat_regular"
                         android:text="Location:"
+                        android:elevation="5dp"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -149,6 +158,7 @@
                         android:fontFamily="@font/montserrat_bold"
                         android:text="Jaydev Vihar"
                         android:textColor="@color/white"
+                        android:elevation="5dp"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
@@ -173,6 +183,7 @@
                         android:layout_marginStart="4dp"
                         android:fontFamily="@font/montserrat_bold"
                         android:text="Bhubneswar"
+                        android:elevation="5dp"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="bold"
