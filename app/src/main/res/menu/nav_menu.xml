@@ -12,15 +12,15 @@
     <item android:id="@+id/nav_search"
         android:icon="@drawable/ic_chat"
         android:title="@string/chat"
-        app:cnb_iconColor="#E91E63"/>
+        app:cnb_iconColor="@color/expBlue"/>
 
     <item android:id="@+id/nav_cart"
         android:icon="@drawable/cart_variant"
         android:title="@string/Cart"
-        app:cnb_iconColor="#F44336"/>
+        app:cnb_iconColor="@color/expBlue"/>
 
     <item android:id="@+id/nav_profile"
         android:icon="@drawable/account_heart"
         android:title="@string/Profile"
-        app:cnb_iconColor="#FF9800"/>
+        app:cnb_iconColor="@color/expBlue"/>
 </menu>
