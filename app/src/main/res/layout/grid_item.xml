@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     app:cardCornerRadius="15dp"
-    android:backgroundTint="@color/Turquoise"
+    android:backgroundTint="@color/expBgBlue"
     app:cardElevation="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,7 +49,8 @@
                 android:drawableStart="@drawable/pin"
                 android:drawablePadding="4dp"
                 android:text="Jagmara"
-                android:textColor="@android:color/white"
+                android:drawableTint="#4285F4"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 android:fontFamily="@font/montserrat_bold"
                 />

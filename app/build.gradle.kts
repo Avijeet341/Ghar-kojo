@@ -68,6 +68,8 @@ dependencies {
     implementation("com.google.firebase:firebase-database-ktx:21.0.0")
     implementation("androidx.media3:media3-common:1.4.0")
     implementation("androidx.activity:activity:1.9.1")
+    implementation("androidx.work:work-runtime-ktx:2.9.1")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation("com.vanniktech:android-image-cropper:4.5.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
@@ -96,6 +98,8 @@ dependencies {
 
     implementation ("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-compiler:2.51.1")
+
+    
 
 
 }

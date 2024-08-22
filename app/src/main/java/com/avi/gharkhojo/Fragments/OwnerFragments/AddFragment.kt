@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.avi.gharkhojo.R
+import java.util.concurrent.TimeUnit
 
 class AddFragment : Fragment() {
 
@@ -56,7 +59,6 @@ class AddFragment : Fragment() {
     private fun setupNextButton() {
         nextButton.setOnClickListener {
             if (validateInputs()) {
-                // Navigate to PropertyDetailsFragment
                 findNavController().navigate(R.id.action_addFragment_to_propertyDetailsFragment)
             }
         }
@@ -92,10 +94,7 @@ class AddFragment : Fragment() {
         return isValid
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() = AddFragment()
-    }
+
 }
 
 class AccessibleSpinnerAdapter(context: Context, resource: Int, objects: List<String>) :

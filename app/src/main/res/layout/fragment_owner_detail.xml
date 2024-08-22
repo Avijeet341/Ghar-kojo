@@ -1,0 +1,1240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#1E1E1E"
+    tools:context=".Fragments.OwnerFragments.OwnerDetailFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/yourPropertyTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your Property"
+            android:textSize="20sp"
+            android:textColor="#FFEB3B"
+            android:textStyle="bold"
+            android:drawableEnd="@drawable/edit_svgrepo_com"
+            android:drawableStart="@drawable/ic_back_arrow"
+            android:drawableTint="#FFEB3B"
+            android:layout_gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="26dp"
+            android:background="@drawable/rounded_bottom_corners"
+            android:backgroundTint="#2C2C2C"
+            android:gravity="center"/>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:contentDescription="@string/property_images_desc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/yourPropertyTextView" />
+
+
+        <LinearLayout
+            android:id="@+id/priceContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_edit_text"
+            android:backgroundTint="#2C2C2C"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewPager">
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="2dp"
+                android:paddingBottom="5dp"
+                android:text="₹3,899"
+                android:textColor="#FFEB3B"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/priceFrequency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:paddingStart="2dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:text="/Month"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/viewCharges"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/gradiant_yellow_bg"
+            android:elevation="5dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:padding="12dp"
+            android:text="@string/view_charges"
+            android:textColor="#333333"
+            app:layout_constraintEnd_toEndOf="@+id/viewPager"
+            app:layout_constraintTop_toBottomOf="@+id/viewPager" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/propertyFeaturesCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="10dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="#2C2C2C"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/priceContainer">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/HouseContents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:id="@+id/firstRow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/bedroomIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:contentDescription="Bedroom icon"
+                            android:src="@drawable/ic_bedroom"
+                            app:tint="#FFEB3B" />
+
+                        <TextView
+                            android:id="@+id/bedroomNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="3"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/bedroomText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Bedroom"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="70dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/bathroomIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:contentDescription="Bathroom icon"
+                            android:src="@drawable/ic_bathroom"
+                            app:tint="#FFEB3B" />
+
+                        <TextView
+                            android:id="@+id/bathroomNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="2"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/bathroomText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Bathroom"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/secondRow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/firstRow">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/kitchenIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:contentDescription="Kitchen icon"
+                            android:src="@drawable/ic_kitchen"
+                            app:tint="#FFEB3B" />
+
+                        <TextView
+                            android:id="@+id/kitchenNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="1"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/kitchenText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Kitchen"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="70dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/floorIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:contentDescription="Floor icon"
+                            android:src="@drawable/ic_floor"
+                            app:tint="#FFEB3B" />
+
+                        <TextView
+                            android:id="@+id/floorNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="2"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/floorText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Floor"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/thirdRow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/secondRow">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/balconyIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:contentDescription="Balcony icon"
+                            android:src="@drawable/ic_balcony"
+                            app:tint="#FFEB3B" />
+
+                        <TextView
+                            android:id="@+id/balconyNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="2"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/balconyText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Balcony"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="70dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/areaIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:contentDescription="Area icon"
+                            android:src="@drawable/ic_area"
+                            app:tint="#FFEB3B" />
+
+                        <TextView
+                            android:id="@+id/areaNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="1500"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/areaText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Sq Ft"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/PropertyFeatures"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_edit_text"
+            android:backgroundTint="#2C2C2C"
+            android:elevation="2dp"
+            android:padding="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/propertyFeaturesCard">
+
+            <TextView
+                android:id="@+id/BHKNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="3"
+                android:textColor="#FFEB3B"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/propertyBHK"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:text=" BHK "
+                android:textColor="#FFEB3B"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/propertyType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Apartment"
+                android:textColor="#FFEB3B"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mapbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:drawableStart="@drawable/placeholder"
+            android:drawablePadding="5dp"
+            android:layoutDirection="ltr"
+            android:padding="12dp"
+            android:text="See on Map"
+            android:textColor="#FFEB3B"
+            android:textStyle="bold"
+            app:backgroundTint="#2C2C2C"
+            app:cornerRadius="10dp"
+            app:icon="@drawable/placeholder"
+            app:iconGravity="textStart"
+            app:iconSize="18dp"
+            app:iconTint="#FFEB3B"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/propertyFeaturesCard"
+            app:rippleColor="#80FFEB3B" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/propertyLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="#2C2C2C"
+            android:background="@drawable/bg_edit_text"
+            app:cardElevation="5dp"
+            android:padding="7dp"
+            app:cardCornerRadius="13dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/PropertyFeatures">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/copyButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_copy"
+                    android:contentDescription="Copy address"
+                    app:tint="#FFEB3B" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:gravity="center"
+                        android:paddingBottom="10dp"
+                        android:text="Property Location"
+                        android:textColor="#FFEB3B"
+                        android:textSize="18sp" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="House No:"
+                            android:textColor="#FFEB3B" />
+
+                        <TextView
+                            android:id="@+id/houseNoText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="123"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#FFEB3B" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="@string/road_lain_no"
+                            android:textColor="#FFEB3B" />
+
+                        <TextView
+                            android:id="@+id/RoadLaneText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="8,9"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#FFEB3B" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="Colony:"
+                            android:textColor="#FFEB3B" />
+
+                        <TextView
+                            android:id="@+id/ColonyText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Green Park"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#FFEB3B" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="Area:"
+                            android:textColor="#FFEB3B" />
+
+                        <TextView
+                            android:id="@+id/AreaText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Downtown"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#FFEB3B" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="Landmark:"
+                            android:textColor="#FFEB3B" />
+
+                        <TextView
+                            android:id="@+id/LandmarkText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Near Park"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#FFEB3B" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="City:"
+                            android:textColor="#FFEB3B" />
+
+                        <TextView
+                            android:id="@+id/CityText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Metropolis"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#FFEB3B" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="PinCode:"
+                            android:textColor="#FFEB3B" />
+
+                        <TextView
+                            android:id="@+id/PinCodeText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="123456"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/propertyDetailsCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="#2C2C2C"
+            app:cardElevation="5dp"
+            android:padding="7dp"
+            app:cardCornerRadius="13dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/propertyLocation">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:elevation="5dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Furnishing :"
+                        android:textColor="#FFEB3B" />
+
+                    <TextView
+                        android:id="@+id/furnishingText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:elevation="5dp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Unfurnished"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="#FFEB3B" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:elevation="5dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Built up Area :"
+                        android:textColor="#FFEB3B" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/BuiltUpAreaText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="5dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="1400"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="5dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text=" sq.ft."
+                            android:textColor="@color/white"
+                            android:layout_marginStart="4dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="#FFEB3B" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="2dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:elevation="5dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Preferred tenant type :"
+                        android:textColor="#FFEB3B" />
+
+                    <TextView
+                        android:id="@+id/PreferredTenantText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:elevation="5dp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:padding="2dp"
+                        android:text="Family, Bachelor and Company"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/PropertyServices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_search"
+            android:backgroundTint="#2C2C2C"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="5dp"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/propertyDetailsCard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/propertyDetailsCard">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="18dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:gravity="center"
+                    android:text="Other Benefits"
+                    android:textColor="#FFEB3B"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <!-- Lift Service -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:scaleType="centerCrop"
+                        app:tint="#FFEB3B"
+                        android:src="@drawable/icon_lift" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Lift Service"
+                        android:textColor="@color/off_white" />
+
+                    <ImageView
+                        android:id="@+id/LiftIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_cross" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/LightGray"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:scaleType="centerCrop"
+                        app:tint="#FFEB3B"
+                        android:src="@drawable/icon_generator" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Generator Service"
+                        android:textColor="@color/off_white" />
+
+                    <ImageView
+                        android:id="@+id/GeneratorIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_cross" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/LightGray"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp" />
+
+                <!-- Gas Service -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:scaleType="centerCrop"
+                        app:tint="#FFEB3B"
+                        android:src="@drawable/icon_gas" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Gas Service"
+                        android:textColor="@color/off_white" />
+
+                    <ImageView
+                        android:id="@+id/GasIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_tick" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/LightGray"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:tint="#FFEB3B"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_security" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Security Guard"
+                        android:textColor="@color/off_white" />
+
+                    <ImageView
+                        android:id="@+id/SecurityGuardIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_tick" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/LightGray"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:tint="#FFEB3B"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_parking" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Parking"
+                        android:textColor="@color/off_white" />
+
+                    <ImageView
+                        android:id="@+id/ParkingIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_tick" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ownerDetailsCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/bg_search"
+            android:backgroundTint="#2C2C2C"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/PropertyServices">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/ownerName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:elevation="5dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Surendra Kumar Panda"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/ownerRole"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:elevation="5dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="Owner"
+                    android:textColor="#FFEB3B"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/ownerName"
+                    app:layout_constraintStart_toStartOf="@+id/ownerName"
+                    app:layout_constraintTop_toBottomOf="@id/ownerName" />
+
+                <LinearLayout
+                    android:id="@+id/tenantsServedContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="@+id/ownerRole"
+                    app:layout_constraintStart_toStartOf="@+id/ownerRole"
+                    app:layout_constraintTop_toBottomOf="@id/ownerRole">
+
+                    <TextView
+                        android:id="@+id/tenantsServedNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="5dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="426"
+                        android:textColor="#FFEB3B"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tenantsServedText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:elevation="5dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="tenants served"
+                        android:textColor="#FFEB3B"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/postDatePrefix"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="5dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Posted on"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toStartOf="@+id/tenantsServedContainer"
+                    app:layout_constraintTop_toBottomOf="@id/tenantsServedContainer" />
+
+                <TextView
+                    android:id="@+id/postDateDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:elevation="5dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="24"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toEndOf="@+id/postDatePrefix"
+                    app:layout_constraintTop_toTopOf="@+id/postDatePrefix" />
+
+                <TextView
+                    android:id="@+id/postDateMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:elevation="5dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="June"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toEndOf="@+id/postDateDay"
+                    app:layout_constraintTop_toTopOf="@+id/postDatePrefix" />
+
+                <TextView
+                    android:id="@+id/postDateYear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:elevation="5dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="2024"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toEndOf="@+id/postDateMonth"
+                    app:layout_constraintTop_toTopOf="@+id/postDatePrefix" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="30dp"
+            android:backgroundTint="#2C2C2C"
+            android:padding="8dp"
+            app:cardCornerRadius="13dp"
+            app:cardElevation="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ownerDetailsCard">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="5dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:gravity="center_horizontal"
+                    android:text="Great things about this property"
+                    android:textColor="#FFEB3B"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/GreatThingsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:elevation="5dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:padding="4dp"
+                    android:text="New flat, spacious room, cooperative society"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
+
+
+
+

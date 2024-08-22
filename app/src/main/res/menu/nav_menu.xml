@@ -5,22 +5,22 @@
     <item android:id="@+id/nav_home"
         android:icon="@drawable/icon_home"
         android:title="@string/home"
-        app:cnb_iconColor="@color/your_status_bar_color"
+        app:cnb_iconColor="@color/expBlue"
         />
 
 
     <item android:id="@+id/nav_search"
-        android:icon="@drawable/icon_search"
-        android:title="@string/search"
-        app:cnb_iconColor="#E91E63"/>
+        android:icon="@drawable/ic_chat"
+        android:title="@string/chat"
+        app:cnb_iconColor="@color/expBlue"/>
 
     <item android:id="@+id/nav_cart"
         android:icon="@drawable/cart_variant"
         android:title="@string/Cart"
-        app:cnb_iconColor="#F44336"/>
+        app:cnb_iconColor="@color/expBlue"/>
 
     <item android:id="@+id/nav_profile"
         android:icon="@drawable/account_heart"
         android:title="@string/Profile"
-        app:cnb_iconColor="#FF9800"/>
+        app:cnb_iconColor="@color/expBlue"/>
 </menu>

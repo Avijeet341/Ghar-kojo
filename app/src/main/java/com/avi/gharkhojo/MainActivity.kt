@@ -1,8 +1,10 @@
 package com.avi.gharkhojo
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
@@ -18,7 +20,7 @@ import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     private lateinit var mainBinding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var bottomNavigation: ChipNavigationBar
@@ -31,6 +33,14 @@ class MainActivity : AppCompatActivity() {
         setupNavigation()
         setupTabBar()
         handleOnBackPressed()
+    }
+
+    fun hideBottomNavBar() {
+        bottomNavigation.visibility = View.GONE
+    }
+
+    fun showBottomNavBar() {
+        bottomNavigation.visibility = View.VISIBLE
     }
 
     private fun setupNavigation() {

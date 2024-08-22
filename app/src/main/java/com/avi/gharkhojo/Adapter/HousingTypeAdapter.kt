@@ -29,7 +29,7 @@ class HousingTypeAdapter(
         holder.imageButton.setImageResource(housingType.icon)
         holder.textView.text = housingType.name
 
-        // Set the click listener for Add Property icon
+
         holder.imageButton.setOnClickListener {
             if (housingType.name == "Add Property") {
                 onAddPropertyClick()

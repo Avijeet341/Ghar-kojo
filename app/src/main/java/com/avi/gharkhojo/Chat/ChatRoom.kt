@@ -1,10 +1,15 @@
 package com.avi.gharkhojo.Chat
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.media.Ringtone
 import android.net.Uri
 import android.os.Build
@@ -22,8 +27,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationChannelCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.graphics.drawable.IconCompat
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -65,6 +75,7 @@ class ChatRoom : AppCompatActivity() {
     var storage: FirebaseStorage? = null
     var dialog: ProgressDialog? = null
     var receiverUid: String? = null
+
     private lateinit var currentPhotoPath: String
 
     companion object {
@@ -78,7 +89,7 @@ class ChatRoom : AppCompatActivity() {
     private var messages: ArrayList<Message> = ArrayList()
     var firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
     var databaseReference: DatabaseReference = firebaseDatabase.reference
-     var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+    var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private lateinit var recyclerView: RecyclerView
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -91,6 +102,10 @@ class ChatRoom : AppCompatActivity() {
         ViewCompat.setOnApplyWindowInsetsListener(chatBinding.root) { v, insets ->
             val statusBar = insets.getInsets(WindowInsetsCompat.Type.statusBars())
             val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+
+
+
+
             chatBinding.toolbar.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 topMargin = statusBar.top
             }
@@ -163,6 +178,7 @@ class ChatRoom : AppCompatActivity() {
                         message?.messageId = data.key
                         messages.add(message!!)
                     }
+
                     chatAdapter.notifyDataSetChanged()
                     recyclerView.scrollToPosition(messages.size - 1)
                 }
@@ -170,6 +186,7 @@ class ChatRoom : AppCompatActivity() {
                 override fun onCancelled(error: DatabaseError) {
                     Toast.makeText(this@ChatRoom, error.message, Toast.LENGTH_SHORT).show()
                 }
+
             })
 
         val messageSwipeController = MessageSwipeController(this, object : SwipeControllerActions {
@@ -183,7 +200,7 @@ class ChatRoom : AppCompatActivity() {
         val itemTouchHelper = ItemTouchHelper(messageSwipeController)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
-       chatBinding.cancelButton.setOnClickListener {
+        chatBinding.cancelButton.setOnClickListener {
             hideReplyLayout()
         }
         initializeMessaging()
@@ -220,10 +237,10 @@ class ChatRoom : AppCompatActivity() {
                     databaseReference.child("chats").child(senderRoom!!).updateChildren(lastMsgObj)
                     databaseReference.child("chats").child(receiverRoom!!).updateChildren(lastMsgObj)
                     databaseReference.child("chats").child(senderRoom!!).child("message").child(randomKey!!)
-                        .setValue(message).addOnSuccessListener {
-                            databaseReference.child("chats").child(receiverRoom!!).child("message").child(randomKey)
-                                .setValue(message)
-                        }
+                        .setValue(message)
+                    databaseReference.child("chats").child(receiverRoom!!).child("message").child(randomKey)
+                        .setValue(message)
+
                 }
             }
 
@@ -272,6 +289,8 @@ class ChatRoom : AppCompatActivity() {
             supportActionBar?.setDisplayShowTitleEnabled(false)
         }
     }
+
+
 
     private fun checkPermission(): Boolean {
         val camera = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
@@ -420,6 +439,8 @@ class ChatRoom : AppCompatActivity() {
         chatBinding.replyLayout.visibility = View.VISIBLE
 
     }
+
+
 
     override fun onResume() {
         super.onResume()

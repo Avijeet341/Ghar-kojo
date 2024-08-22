@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
+import androidx.navigation.fragment.findNavController
+import com.avi.gharkhojo.databinding.FragmentPropertyDetailsBinding
 
 class PropertyDetailsFragment : Fragment() {
     private var bedroomCount = 0
@@ -33,6 +35,7 @@ class PropertyDetailsFragment : Fragment() {
         setupFurnishingSpinner(view)
         setupCounters(view)
         setupBackButton(view)
+        setupNextButton(view)
         hideNavigationBar()
     }
     private fun hideNavigationBar() {
@@ -50,6 +53,12 @@ class PropertyDetailsFragment : Fragment() {
         view.findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
             // Navigate back to the parent fragment
             parentFragmentManager.popBackStack()
+        }
+    }
+    private fun setupNextButton(view: View) {
+        view.findViewById<MaterialButton>(R.id.btnNext).setOnClickListener {
+            // Navigate to RentAndLocationFragment using the defined action
+            findNavController().navigate(R.id.action_propertyDetailsFragment_to_rentAndLocationFragment)
         }
     }
 

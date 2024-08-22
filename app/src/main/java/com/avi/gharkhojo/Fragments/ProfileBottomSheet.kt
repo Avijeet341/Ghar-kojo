@@ -24,7 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-@AndroidEntryPoint
+
 class ProfileBottomSheet(
     private val name: String,
     private val address: String,
@@ -34,9 +34,9 @@ class ProfileBottomSheet(
     var profileBinding: FragmentProfileBinding? = null
     private var _binding: FragmentProfileBottomSheetBinding? = null
     private val binding get() = _binding!!
-   @Inject lateinit var firebaseAuth: FirebaseAuth
-    @Inject lateinit var firestore: FirebaseFirestore
-    @Inject lateinit var databaseReference: DatabaseReference
+     val firebaseAuth: FirebaseAuth by lazy{ FirebaseAuth.getInstance() }
+     var firestore: FirebaseFirestore= FirebaseFirestore.getInstance()
+     var databaseReference: DatabaseReference= FirebaseDatabase.getInstance().getReference("users")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +60,7 @@ class ProfileBottomSheet(
 
         isCancelable = false
         binding.editTextName.setText(name.trim())
-        binding.editTextAddress.setText(address.trim())
+       // binding.editTextAddress.setText(address.trim())
         binding.editTextPhone.setText(phone.trim())
 
         binding.cancelButton.setOnClickListener {
@@ -78,26 +78,31 @@ class ProfileBottomSheet(
 
     private fun saveProfileData() {
         val newName = binding.editTextName.text.toString().trim()
-        val newAddress = binding.editTextAddress.text.toString().trim()
+       /* val newAddress = binding.editTextAddress.text.toString().trim()
+       🫡
+        */
         val newPhone = binding.editTextPhone.text.toString().trim()
 
-        Log.d("ProfileBottomSheet", "New data - Name: $newName, Address: $newAddress, Phone: $newPhone")
+      /*  Log.d("ProfileBottomSheet", "New data - Name: $newName, Address: $newAddress, Phone: $newPhone")
+      *
+      * 🫡
+      * */
 
         val user = firebaseAuth.currentUser
         if (user != null) {
             val userData = mapOf(
                 "name" to newName,
-                "address" to newAddress,
+//                "address" to newAddress,
                 "phone" to newPhone
             )
 
             UserData.username = newName
             UserData.phn_no = newPhone
-            UserData.address = newAddress
+//            UserData.address = newAddress
 
             if (profileBinding != null) {
                 profileBinding?.textViewUsername?.text = newName
-                profileBinding?.textViewAddress?.text = newAddress
+//                profileBinding?.textViewAddress?.text = newAddress
                 profileBinding?.textViewPhone?.text = newPhone
             }
 
