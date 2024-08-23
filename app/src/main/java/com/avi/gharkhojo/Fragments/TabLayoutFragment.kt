@@ -14,10 +14,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentTabLayoutBinding
-
-
-
-
+import com.bumptech.glide.Glide
 
 class TabLayoutFragment : Fragment() {
 
@@ -80,9 +77,10 @@ class TabLayoutFragment : Fragment() {
             FilterMode.Bedroom -> listOf(ImageItem("Bedroom", BedroomImages))
             FilterMode.WalkInRobe -> listOf(ImageItem("Walk-in Robe", WalkInRobeImages))
         }
-        imageAdapter.submitList(filteredList.flatMap { item ->
+        val flattenedList = filteredList.flatMap { item ->
             listOf(ImageItem(item.title, emptyList())) + item.images.map { ImageItem("", listOf(it)) }
-        })
+        }
+        imageAdapter.submitList(flattenedList)
     }
 
     private fun getAllImages(): List<ImageItem> {
@@ -121,7 +119,7 @@ class ImageAdapter : ListAdapter<ImageItem, RecyclerView.ViewHolder>(ImageDiffCa
         val item = getItem(position)
         when (holder) {
             is HeaderViewHolder -> holder.bind(item.title)
-            is ImageViewHolder -> holder.bind(item.images.first())
+            is ImageViewHolder -> item.images.firstOrNull()?.let { holder.bind(it) }
         }
     }
 
@@ -141,7 +139,11 @@ class ImageAdapter : ListAdapter<ImageItem, RecyclerView.ViewHolder>(ImageDiffCa
         private val imageView: ImageView = view.findViewById(R.id.image_view)
 
         fun bind(imageRes: Int) {
-            imageView.setImageResource(imageRes)
+            Glide.with(imageView.context)
+                .load(imageRes)
+                .override(500, 500)
+                .centerCrop()
+                .into(imageView)
         }
     }
 
