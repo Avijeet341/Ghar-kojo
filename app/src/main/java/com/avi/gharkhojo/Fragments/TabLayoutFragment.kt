@@ -1,60 +1,90 @@
 package com.avi.gharkhojo.Fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
+import com.avi.gharkhojo.Adapter.ImageAdapter
 import com.avi.gharkhojo.R
+import com.google.android.material.tabs.TabLayout
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TabLayoutFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class TabLayoutFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class TabLayoutFragment : Fragment(R.layout.fragment_tab_layout) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var tabLayout: TabLayout
+
+    private val livingRoomImages = listOf(
+        R.drawable.home6,
+        R.drawable.home8,
+        R.drawable.home9,
+        R.drawable.home3
+    )
+
+    private val officeImages = listOf(
+        R.drawable.home1,
+        R.drawable.home5
+    )
+
+    private val bedroomImages = listOf(
+        R.drawable.home2,
+        R.drawable.home4,
+        R.drawable.home7
+    )
+
+    private val walkInRobeImages = listOf(
+        R.drawable.home11
+    )
+
+    private enum class FilterMode {
+        All,
+        LivingRoom,
+        Office,
+        Bedroom,
+        WalkInRobe
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        recyclerView = view.findViewById(R.id.recyclerView)
+        tabLayout = view.findViewById(R.id.tabLayout)
+
+        val images = mapOf(
+            FilterMode.LivingRoom to livingRoomImages,
+            FilterMode.Office to officeImages,
+            FilterMode.Bedroom to bedroomImages,
+            FilterMode.WalkInRobe to walkInRobeImages
+        )
+
+        tabLayout.addTab(tabLayout.newTab().setText("All"))
+        images.keys.forEach { mode ->
+            tabLayout.addTab(tabLayout.newTab().setText(mode.name))
         }
-    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tab_layout, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TabLayoutFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TabLayoutFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                val selectedMode = tab?.position?.let { FilterMode.values()[it] }
+                updateRecyclerView(selectedMode)
             }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
+
+        // Initial load
+        updateRecyclerView(FilterMode.All)
+    }
+
+    private fun updateRecyclerView(filterMode: FilterMode?) {
+        val selectedImages = when (filterMode) {
+            FilterMode.All -> livingRoomImages + officeImages + bedroomImages + walkInRobeImages
+            FilterMode.LivingRoom -> livingRoomImages
+            FilterMode.Office -> officeImages
+            FilterMode.Bedroom -> bedroomImages
+            FilterMode.WalkInRobe -> walkInRobeImages
+            else -> emptyList()
+        }
+        recyclerView.adapter = ImageAdapter(selectedImages)
     }
 }
