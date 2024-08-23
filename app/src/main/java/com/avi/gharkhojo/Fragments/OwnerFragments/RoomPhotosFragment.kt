@@ -193,7 +193,6 @@ class RoomPhotosFragment : Fragment() {
         }
 
         binding.uploadButton.setOnClickListener {
-            Toast.makeText(context, PostDetails.builtUpArea, Toast.LENGTH_SHORT).show()
             if (PostDetails.isAllFieldsFilled()) {
                 binding.uploadProgressBar.visibility = View.VISIBLE
                 binding.pickPhotosButton.isEnabled = false
@@ -237,6 +236,9 @@ class RoomPhotosFragment : Fragment() {
             else{
                 if(PostDetails.coverImage.isNullOrEmpty()){
                     Toast.makeText(context, "Please select a cover image", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -328,6 +330,8 @@ class RoomPhotosFragment : Fragment() {
                 if(intent.data != null){
                     intent.data?.let {
                         uri->
+                        photoList.clear()
+                        PostDetails.coverImage = ""
                         coverImage = uri.toString()
                         photoList.add(uri.toString())
                         PostDetails.coverImage = uri.toString()
