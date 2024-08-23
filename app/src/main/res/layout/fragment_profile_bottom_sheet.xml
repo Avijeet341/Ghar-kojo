@@ -95,41 +95,6 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="16dp" />
 
-        <!-- PinCode -->
-        <EditText
-            android:id="@+id/editTextPincode"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_edittext_boarder"
-            android:fontFamily="@font/montserrat_regular"
-            android:hint="Enter Pincode"
-            android:inputType="number"
-            android:padding="12dp"
-            android:minHeight="48dp"
-            android:textColor="#333333"
-            android:textColorHint="@color/DarkGray"
-            app:layout_constraintTop_toBottomOf="@id/textViewAddress"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp" />
-
-        <!-- Landmark -->
-        <EditText
-            android:id="@+id/editTextLandmark"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_edittext_boarder"
-            android:fontFamily="@font/montserrat_regular"
-            android:hint="Enter Landmark"
-            android:padding="12dp"
-            android:minHeight="48dp"
-            android:textColor="#333333"
-            android:textColorHint="@color/DarkGray"
-            app:layout_constraintTop_toBottomOf="@id/editTextPincode"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp" />
-
         <!-- House No -->
         <EditText
             android:id="@+id/editTextHouseNo"
@@ -143,10 +108,12 @@
             android:textColor="#333333"
             android:inputType="number"
             android:textColorHint="@color/DarkGray"
-            app:layout_constraintTop_toBottomOf="@id/editTextLandmark"
+            app:layout_constraintTop_toBottomOf="@id/textViewAddress"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp" />
+
+        <!-- Road No -->
         <EditText
             android:id="@+id/editTextRoadNo"
             android:layout_width="0dp"
@@ -163,6 +130,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp" />
 
+        <!-- Colony -->
+        <EditText
+            android:id="@+id/editTextColony"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edittext_boarder"
+            android:fontFamily="@font/montserrat_regular"
+            android:hint="Enter Colony"
+            android:padding="12dp"
+            android:minHeight="48dp"
+            android:textColor="#333333"
+            android:textColorHint="@color/DarkGray"
+            app:layout_constraintTop_toBottomOf="@id/editTextRoadNo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+
         <!-- Area -->
         <EditText
             android:id="@+id/editTextArea"
@@ -175,19 +159,19 @@
             android:minHeight="48dp"
             android:textColor="#333333"
             android:textColorHint="@color/DarkGray"
-            app:layout_constraintTop_toBottomOf="@id/editTextRoadNo"
+            app:layout_constraintTop_toBottomOf="@id/editTextColony"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp" />
 
-        <!-- Colony -->
+        <!-- Landmark -->
         <EditText
-            android:id="@+id/editTextColony"
+            android:id="@+id/editTextLandmark"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_edittext_boarder"
             android:fontFamily="@font/montserrat_regular"
-            android:hint="Enter Colony"
+            android:hint="Enter Landmark"
             android:padding="12dp"
             android:minHeight="48dp"
             android:textColor="#333333"
@@ -209,10 +193,12 @@
             android:minHeight="48dp"
             android:textColor="#333333"
             android:textColorHint="@color/DarkGray"
-            app:layout_constraintTop_toBottomOf="@id/editTextColony"
+            app:layout_constraintTop_toBottomOf="@id/editTextLandmark"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp" />
+
+        <!--State -->
         <EditText
             android:id="@+id/editTextState"
             android:layout_width="0dp"
@@ -229,6 +215,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp" />
 
+        <!-- PinCode -->
+        <EditText
+            android:id="@+id/editTextPincode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edittext_boarder"
+            android:fontFamily="@font/montserrat_regular"
+            android:hint="Enter Pincode"
+            android:inputType="number"
+            android:padding="12dp"
+            android:minHeight="48dp"
+            android:textColor="#333333"
+            android:textColorHint="@color/DarkGray"
+            app:layout_constraintTop_toBottomOf="@id/editTextState"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+
         <!-- Phone Field -->
         <TextView
             android:id="@+id/textViewPhone"
@@ -238,7 +242,7 @@
             android:text="Phone:"
             android:textColor="@color/expBlue"
             android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@id/editTextState"
+            app:layout_constraintTop_toBottomOf="@id/editTextPincode"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="16dp" />
 
@@ -278,7 +282,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editTextPhone" />
-
         <!-- Progress Indicator -->
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_circularLogin"
