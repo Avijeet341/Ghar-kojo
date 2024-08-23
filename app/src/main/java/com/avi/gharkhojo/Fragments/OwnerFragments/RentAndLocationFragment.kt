@@ -229,6 +229,7 @@ class RentAndLocationFragment : Fragment() {
                 this.latitude = lat
                 this.longitude = long
                 this.maintenanceCharge = binding.maintenanceCharge.text.toString().trim().toDouble()
+                this.state = this@RentAndLocationFragment.state.text.toString().trim()
 
 
             }
