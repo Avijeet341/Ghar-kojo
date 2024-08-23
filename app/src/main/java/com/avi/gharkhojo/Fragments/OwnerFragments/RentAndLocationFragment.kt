@@ -9,6 +9,7 @@ import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.avi.gharkhojo.Model.PostDetails
+import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.R
+import com.avi.gharkhojo.databinding.FragmentRentAndLocationBinding
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
@@ -33,10 +37,15 @@ import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.Priority
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class RentAndLocationFragment : Fragment() {
+    private var lat: Double = 0.0
+    private var long: Double = 0.0
     private lateinit var checkBoxParkingIncluded: CheckBox
     private lateinit var textInputLayoutParkingCharges: TextInputLayout
     private lateinit var btnLiveLocation: Button
@@ -46,6 +55,22 @@ class RentAndLocationFragment : Fragment() {
     private lateinit var textViewLatitude: TextView
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var imageViewDeletePriceDetails: ImageView
+    private lateinit var rent:TextInputEditText
+    private lateinit var parkingCharges:TextInputEditText
+    private lateinit var deposit:TextInputEditText
+    private lateinit var pincode:TextInputEditText
+    private lateinit var landmark:TextInputEditText
+    private lateinit var houseNumber:TextInputEditText
+    private lateinit var area:TextInputEditText
+    private lateinit var colony:TextInputEditText
+    private lateinit var state:TextInputEditText
+    private lateinit var roadNo:TextInputEditText
+    private lateinit var city:TextInputEditText
+    private lateinit var maintenceCharges:TextInputEditText
+    private var _binding: FragmentRentAndLocationBinding? = null
+    private val binding get() = _binding!!
+
+
 
 
     companion object {
@@ -54,46 +79,80 @@ class RentAndLocationFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_rent_and_location, container, false)
 
-        initializeViews(view)
+        _binding = FragmentRentAndLocationBinding.inflate(inflater, container, false)
+
+        initializeViews()
         setupLocationServices()
-        setupAnimations(view)
-        setupBackButton(view)
+        setupAnimations()
         setupListeners()
 
-        return view
+        return binding.root
     }
 
-    private fun setupBackButton(view: View) {
-        view.findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
-            // Navigate back to the parent fragment
-            parentFragmentManager.popBackStack()
-        }
-    }
 
-    private fun initializeViews(view: View) {
-        checkBoxParkingIncluded = view.findViewById(R.id.checkBoxParkingIncluded)
-        textInputLayoutParkingCharges = view.findViewById(R.id.textInputLayoutParkingCharges)
-        btnLiveLocation = view.findViewById(R.id.btnLiveLocation)
-        btnTurnOnLocation = view.findViewById(R.id.btnTurnOnLocation)
-        btnNext = view.findViewById(R.id.btnNext)
-        textViewLongitude = view.findViewById(R.id.textViewLongitude)
-        textViewLatitude = view.findViewById(R.id.textViewLatitude)
-        imageViewDeletePriceDetails = view.findViewById(R.id.imageViewDeletePriceDetails)
+    private fun initializeViews() {
+        checkBoxParkingIncluded = binding.checkBoxParkingIncluded
+        textInputLayoutParkingCharges = binding.textInputLayoutParkingCharges
+        btnLiveLocation = binding.btnLiveLocation
+        btnTurnOnLocation = binding.btnTurnOnLocation
+        btnNext = binding.btnNext
+        textViewLongitude = binding.textViewLongitude
+        textViewLatitude = binding.textViewLatitude
+        imageViewDeletePriceDetails = binding.imageViewDeletePriceDetails
         textViewLongitude.visibility = View.GONE
         textViewLatitude.visibility = View.GONE
+        rent = binding.autoCompleteTextViewRent
+        parkingCharges = binding.autoCompleteTextViewParkingCharges
+        deposit = binding.autoCompleteTextViewDeposit
+        pincode = binding.autoCompleteTextViewPincode
+        landmark = binding.autoCompleteTextViewLandmark
+        houseNumber = binding.autoCompleteTextViewHouseNumber
+        area = binding.autoCompleteTextViewArea
+        colony = binding.autoCompleteTextViewColony
+        city = binding.autoCompleteTextViewCity
+        maintenceCharges = binding.maintenanceCharge
+        state = binding.autoCompleteTextViewState
+        roadNo = binding.autoCompleteTextViewRoadLaneNumber
+        binding.btnBack.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+        binding.checkBoxSameAsCurrentAddress.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked){
+            pincode.setText(UserData.Pincode)
+                landmark.setText(UserData.LandMark)
+            houseNumber.setText(UserData.HouseNo.toString())
+            area.setText(UserData.Area)
+            colony.setText(UserData.colony)
+            city.setText(UserData.City)
+                state.setText(UserData.State)
+                roadNo.setText(UserData.Road_Lane)
+
+
+            }
+            else{
+                pincode.setText("")
+                landmark.setText("")
+                houseNumber.setText("")
+                area.setText("")
+                colony.setText("")
+                city.setText("")
+                state.setText("")
+                roadNo.setText("")
+            }
+        }
+
     }
 
 
     private fun setupLocationServices() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
     }
-    private fun setupAnimations(view: View) {
+    private fun setupAnimations() {
         val cardViews = listOf<CardView>(
-            view.findViewById(R.id.cardViewPriceDetails),
-            view.findViewById(R.id.cardViewLocationDetails),
-            view.findViewById(R.id.cardViewPropertyDescription)
+            binding.cardViewPriceDetails,
+            binding.cardViewLocationDetails,
+            binding.cardViewPropertyDescription
         )
 
         val animatorSet = AnimatorSet()
@@ -111,6 +170,7 @@ class RentAndLocationFragment : Fragment() {
         checkBoxParkingIncluded.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 textInputLayoutParkingCharges.visibility = View.GONE
+                parkingCharges?.setText("")
             } else {
                 textInputLayoutParkingCharges.visibility = View.VISIBLE
                 textInputLayoutParkingCharges.alpha = 0f
@@ -118,7 +178,7 @@ class RentAndLocationFragment : Fragment() {
             }
         }
 
-        view?.findViewById<View>(R.id.btnNext)?.setOnClickListener {
+        btnNext.setOnClickListener {
             it.animate()
                 .scaleX(0.95f)
                 .scaleY(0.95f)
@@ -151,12 +211,32 @@ class RentAndLocationFragment : Fragment() {
             clearStoredData()
         }
         btnNext.setOnClickListener {
+            if(!isAllFieldsFilled()){
+                return@setOnClickListener
+        }
+            with(PostDetails){
+                this.parkingCharge = if(checkBoxParkingIncluded.isChecked) 0.0 else parkingCharges.text.toString().trim().toDouble()
+                this.rent = binding.autoCompleteTextViewRent.text.toString().trim().toDouble()
+                this.deposit = binding.autoCompleteTextViewDeposit.text.toString().trim().toDouble()
+                this.pincode = binding.autoCompleteTextViewPincode.text.toString().trim().toInt()
+                this.landMark = binding.autoCompleteTextViewLandmark.text.toString().trim()
+                this.houseNumber = binding.autoCompleteTextViewHouseNumber.text.toString().trim().toInt()
+                this.area = binding.autoCompleteTextViewArea.text.toString().trim()
+                this.colony = binding.autoCompleteTextViewColony.text.toString().trim()
+                this.city = binding.autoCompleteTextViewCity.text.toString().trim()
+                this.isParkingChargeIncluded = binding.checkBoxParkingIncluded.isChecked
+                this.description = binding.textInputLayoutPropertyDescription.editText?.text.toString().trim()
+                this.latitude = lat
+                this.longitude = long
+                this.maintenanceCharge = binding.maintenanceCharge.text.toString().trim().toDouble()
+
+
+            }
             findNavController().navigate(R.id.action_rentAndLocationFragment_to_roomPhotosFragment)
         }
     }
     private fun setupTextInputAnimations() {
         val autoCompleteTextViews = listOf(
-            R.id.autoCompleteTextViewRent, R.id.autoCompleteTextViewBrokerage,
             R.id.autoCompleteTextViewDeposit, R.id.autoCompleteTextViewPincode,
             R.id.autoCompleteTextViewLandmark, R.id.autoCompleteTextViewHouseNumber,
             R.id.autoCompleteTextViewArea, R.id.autoCompleteTextViewColony,
@@ -169,8 +249,8 @@ class RentAndLocationFragment : Fragment() {
             }
         }
 
-        view?.findViewById<TextInputLayout>(R.id.textInputLayoutPropertyDescription)
-            ?.editText?.setOnFocusChangeListener { v, hasFocus ->
+       binding.textInputLayoutPropertyDescription
+            .editText?.setOnFocusChangeListener { v, hasFocus ->
                 v.animate().scaleX(if (hasFocus) 1.05f else 1f).scaleY(if (hasFocus) 1.05f else 1f).setDuration(200).start()
             }
     }
@@ -179,27 +259,30 @@ class RentAndLocationFragment : Fragment() {
     private fun clearStoredData() {
 
 
-        // Clear input fields
-        view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewRent)?.text?.clear()
-        view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewParkingCharges)?.text?.clear()
-        view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewBrokerage)?.text?.clear()
-        view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewDeposit)?.text?.clear()
-        view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewPincode)?.text?.clear()
-        view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewLandmark)?.text?.clear()
-        view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewHouseNumber)?.text?.clear()
-        view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewArea)?.text?.clear()
-        view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewColony)?.text?.clear()
-        view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewCity)?.text?.clear()
-        view?.findViewById<TextInputEditText>(R.id.editTextPropertyDescription)?.text?.clear()
-
-
-        // Clear location data
-        textViewLongitude.text = "Longitude: "
-        textViewLatitude.text = "Latitude: "
+       binding.textInputLayoutPropertyDescription.editText?.setText("")
+        binding.checkBoxParkingIncluded.isChecked = false
+        parkingCharges?.setText("")
+        textInputLayoutParkingCharges.visibility = View.GONE
+        rent.setText("")
+        parkingCharges.setText("")
+        deposit.setText("")
+        pincode.setText("")
+        landmark.setText("")
+        houseNumber.setText("")
+        area.setText("")
+        colony.setText("")
+        city.setText("")
+        btnLiveLocation.isEnabled = true
+        btnTurnOnLocation.isEnabled = true
+        btnNext.isEnabled = true
         textViewLongitude.visibility = View.GONE
         textViewLatitude.visibility = View.GONE
-
+        textViewLongitude.text = ""
+        textViewLatitude.text = ""
+        maintenceCharges.setText("")
         Toast.makeText(context, "All data has been cleared", Toast.LENGTH_SHORT).show()
+
+
     }
 
     private suspend fun getLocation() {
@@ -220,7 +303,6 @@ class RentAndLocationFragment : Fragment() {
 
     private suspend fun fetchLocation(priority: Int) {
         try {
-            // Check for permission before proceeding
             if (!hasPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) &&
                 !hasPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION)) {
                 requestPermissions(
@@ -250,6 +332,8 @@ class RentAndLocationFragment : Fragment() {
     private fun updateUIWithLocation(latitude: Double, longitude: Double) {
         textViewLongitude.text = "Longitude: $longitude"
         textViewLatitude.text = "Latitude: $latitude"
+        lat = latitude
+        long = longitude
         textViewLongitude.visibility = View.VISIBLE
         textViewLatitude.visibility = View.VISIBLE
         Toast.makeText(context, "Location obtained successfully", Toast.LENGTH_SHORT).show()
@@ -267,7 +351,6 @@ class RentAndLocationFragment : Fragment() {
         val task = settingsClient.checkLocationSettings(builder.build())
 
         task.addOnSuccessListener {
-            // Location settings are satisfied, nothing to do here.
         }.addOnFailureListener { exception ->
             if (exception is ResolvableApiException) {
                 try {
@@ -309,6 +392,26 @@ class RentAndLocationFragment : Fragment() {
                 )
             }
         }
+    }
+    private fun isAllFieldsFilled(): Boolean {
+
+        if(
+            rent.text.toString().trim().isNotEmpty()
+            && deposit.text.toString().trim().isNotEmpty() && pincode.text.toString().trim().isNotEmpty()
+            && landmark.text.toString().trim().isNotEmpty() && houseNumber.text.toString().trim().isNotEmpty()
+            && area.text.toString().trim().isNotEmpty() && colony.text.toString().trim().isNotEmpty()
+            && city.text.toString().trim().isNotEmpty()
+            && (binding.checkBoxParkingIncluded.isChecked || parkingCharges.text.toString().trim().isNotEmpty())
+            && maintenceCharges.text.toString().trim().isNotEmpty()
+            && state.text.toString().trim().isNotEmpty()
+            && roadNo.text.toString().trim().isNotEmpty()
+
+        ){
+            return true
+        }
+            Toast.makeText(context, "Please fill all  stared fields", Toast.LENGTH_SHORT).show()
+            return false
+
     }
 
     private fun hasPermission(permission: String): Boolean {
