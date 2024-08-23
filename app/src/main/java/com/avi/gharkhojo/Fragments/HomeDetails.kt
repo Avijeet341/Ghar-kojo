@@ -19,10 +19,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.avi.gharkhojo.Adapter.MyViewPagerAdapter
+import com.avi.gharkhojo.Adapter.MyViewPagerAdapter2
 import com.avi.gharkhojo.MainActivity
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentHomeDetailsBinding
@@ -72,7 +74,7 @@ class HomeDetails : Fragment() {
     private lateinit var feedbackButton: Button
     private lateinit var GreatThingsText: TextView
 
-    private lateinit var photoAdapter: MyViewPagerAdapter
+    private lateinit var photoAdapter: MyViewPagerAdapter2
     private val imageResIds = listOf(
         R.drawable.home1,
         R.drawable.home2,
@@ -243,12 +245,19 @@ class HomeDetails : Fragment() {
     }
 
     private fun setupViewPager() {
-        photoAdapter = MyViewPagerAdapter(imageResIds)
+        photoAdapter = MyViewPagerAdapter2(imageResIds) {
+            navigateToTabLayoutFragment()
+        }
         binding.viewPager.adapter = photoAdapter
         binding.viewPager.setPageTransformer(getTransformation())
         binding.viewPager.offscreenPageLimit = 3
         handler.post(autoSlideRunnable)
     }
+
+    private fun navigateToTabLayoutFragment() {
+        findNavController().navigate(R.id.action_homeDetails_to_tabLayoutFragment)
+    }
+
 
     private fun getTransformation(): CompositePageTransformer {
         return CompositePageTransformer().apply {
