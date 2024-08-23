@@ -1,6 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/expBgBlue"
@@ -201,15 +203,12 @@
                     android:orientation="vertical"
                     android:padding="10dp">
 
-                    <!-- Centered Location Header -->
-
-                    <!-- PinCode Row -->
+                    <!-- Address Header -->
                     <TextView
                         android:drawableTint="@color/expBlue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawablePadding="8dp"
-
                         android:drawableStart="@drawable/home_1_svgrepo_com"
                         android:fontFamily="@font/montserrat_bold"
                         android:layout_marginBottom="8dp"
@@ -217,64 +216,6 @@
                         android:text="Address"
                         android:textColor="#000000"
                         android:textSize="18sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:elevation="50dp"
-                        android:paddingVertical="5dp">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/montserrat_bold"
-                            android:text="PinCode:"
-                            android:textColor="#000000" />
-
-                        <TextView
-                            android:id="@+id/textViewPincode"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/montserrat_regular"
-                            android:textColor="#000000" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#000000" />
-
-                    <!-- Landmark Row -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingVertical="5dp">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/montserrat_bold"
-                            android:text="Landmark:"
-                            android:textColor="#000000" />
-
-                        <TextView
-                            android:id="@+id/textViewLandmark"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/montserrat_regular"
-                            android:textColor="#000000" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#000000" />
 
                     <!-- House No Row -->
                     <LinearLayout
@@ -298,7 +239,6 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
                             android:textColor="#000000" />
-
                     </LinearLayout>
 
                     <View
@@ -306,6 +246,7 @@
                         android:layout_height="1dp"
                         android:background="#000000" />
 
+                    <!-- Road No / Lane No Row -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -317,41 +258,11 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_bold"
-                            android:text="Road No / Lane No:"
+                            android:text="Road/Lane No:"
                             android:textColor="#000000" />
 
                         <TextView
                             android:id="@+id/textRoadNo"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/montserrat_regular"
-                            android:textColor="#000000" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#000000" />
-
-                    <!-- Area Row -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingVertical="5dp">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/montserrat_bold"
-                            android:text="Area:"
-                            android:textColor="#000000" />
-
-                        <TextView
-                            android:id="@+id/textViewArea"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -393,6 +304,64 @@
                         android:layout_height="1dp"
                         android:background="#000000" />
 
+                    <!-- Area Row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="Area:"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:id="@+id/textViewArea"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000000" />
+
+                    <!-- Landmark Row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="Landmark:"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:id="@+id/textViewLandmark"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000000" />
+
                     <!-- City Row -->
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -422,7 +391,7 @@
                         android:layout_height="1dp"
                         android:background="#000000" />
 
-                    <!-- City Row -->
+                    <!-- State Row -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -439,6 +408,35 @@
 
                         <TextView
                             android:id="@+id/textViewState"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000000" />
+
+                    <!-- PinCode Row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="PinCode:"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:id="@+id/textViewPincode"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
