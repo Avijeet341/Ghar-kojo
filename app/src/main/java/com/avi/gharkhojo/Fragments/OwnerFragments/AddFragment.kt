@@ -12,7 +12,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.avi.gharkhojo.Model.PostDetails
+import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.R
+import com.avi.gharkhojo.databinding.FragmentAddBinding
+import com.bumptech.glide.Glide
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import java.util.concurrent.TimeUnit
 
@@ -25,15 +28,19 @@ class AddFragment : Fragment() {
     private lateinit var preferredTenantsSpinner: Spinner
     private lateinit var phoneNumberEditText: EditText
     private lateinit var nextButton: Button
+    private lateinit var addBinding: FragmentAddBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_add, container, false)
+        addBinding = FragmentAddBinding.inflate(inflater, container, false)
+        val view = addBinding.root
         initializeViews(view)
         setupSpinners()
         setupNextButton()
+
+        Glide.with(this).load(UserData.profilePictureUrl).into(addBinding.ProfilePic)
         return view
     }
 

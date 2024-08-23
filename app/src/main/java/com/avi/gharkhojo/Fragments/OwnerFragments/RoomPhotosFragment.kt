@@ -2,6 +2,8 @@ package com.avi.gharkhojo.Fragments.OwnerFragments
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,15 +13,33 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
-import android.graphics.ColorMatrix
-import android.graphics.ColorMatrixColorFilter
-import android.widget.ImageButton
 import com.avi.gharkhojo.Adapter.PhotoAdapter
+import com.avi.gharkhojo.Model.Post
+import com.avi.gharkhojo.Model.PostDetails
+import com.avi.gharkhojo.Model.PostDetails.clearAll
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentRoomPhotosBinding
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.ListResult
+import com.google.firebase.storage.storage
+import com.ismaeldivita.chipnavigation.ChipNavigationBar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.time.withTimeout
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import kotlin.math.abs
 
 class RoomPhotosFragment : Fragment() {
@@ -27,13 +47,19 @@ class RoomPhotosFragment : Fragment() {
     private var _binding: FragmentRoomPhotosBinding? = null
     private val binding get() = _binding!!
 
-    private val roomTypes = arrayOf("BedRoom", "Kitchen", "WashRoom", "Toilet", "Balcony", "Hall", "Parking", "Extra")
-    private val photoList = mutableListOf<Uri>()
+    private val roomTypes = arrayOf("CoverImage","BedRoom", "Kitchen", "WashRoom", "Toilet", "Balcony", "Hall", "Parking", "Extra")
+    private val photoList = mutableListOf<String>()
     private lateinit var photoAdapter: PhotoAdapter
     private var selectedRoomType: String? = null
+    private var coverImage: String = ""
+
+    private var databaseReference: DatabaseReference? = FirebaseDatabase.getInstance().reference.child("Posts").child(
+        FirebaseAuth.getInstance().currentUser!!.uid)
+    private var storageReference = Firebase.storage.reference.child("Posts/${FirebaseAuth.getInstance().currentUser!!.uid}")
 
     companion object {
         private const val PICK_IMAGES_REQUEST = 1
+        private const val PICK_SINGLE_IMAGE_REQUEST = 11
     }
 
     override fun onCreateView(
@@ -49,15 +75,15 @@ class RoomPhotosFragment : Fragment() {
 
         setupSpinner()
         setupViewPager()
-        setupBackButton(view)
+        setupBackButton()
         setupButtons()
     }
 
-    private fun setupBackButton(view: View) {
-        view.findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
-            // Navigate back to the parent fragment
+    private fun setupBackButton() {
+       binding.btnBack.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
+
     }
     private fun setupSpinner() {
         val adapter = ArrayAdapter(requireContext(), R.layout.list_item, roomTypes)
@@ -65,7 +91,27 @@ class RoomPhotosFragment : Fragment() {
 
         (binding.spinnerContainer.editText as? AutoCompleteTextView)?.setOnItemClickListener { parent, _, position, _ ->
             selectedRoomType = parent.getItemAtPosition(position) as String
-            binding.selectedRoomTypeTextView.text = selectedRoomType
+            if(selectedRoomType!= "CoverImage" && PostDetails.imageList.get(selectedRoomType)?.size!! !=0){
+                photoList.clear()
+                photoList.addAll(PostDetails.imageList.get(selectedRoomType)!!)
+                updateViewPager()
+                binding.selectedRoomTypeTextView.text = "${selectedRoomType} Total images: ${PostDetails.imageList.get(selectedRoomType)?.size}"
+            }
+            else if(selectedRoomType == "CoverImage"){
+                photoList.clear()
+                if(coverImage.isNotEmpty()) {
+                    photoList.add(coverImage)
+                    updateViewPager()
+                }
+
+                binding.selectedRoomTypeTextView.text = "${selectedRoomType}"
+            }
+            else{
+                photoList.clear()
+                updateViewPager()
+                binding.selectedRoomTypeTextView.text = "${selectedRoomType}"
+            }
+
             binding.pickPhotosButton.isEnabled = true
         }
     }
@@ -73,7 +119,6 @@ class RoomPhotosFragment : Fragment() {
     private fun setupViewPager() {
         photoAdapter = PhotoAdapter(photoList)
         binding.photoViewPager.adapter = photoAdapter
-        binding.photoViewPager.visibility = View.GONE
 
 
         binding.photoViewPager.setPageTransformer(getTransformation())
@@ -121,14 +166,131 @@ class RoomPhotosFragment : Fragment() {
         binding.pickPhotosButton.isEnabled = false
         binding.pickPhotosButton.setOnClickListener {
             if (selectedRoomType != null) {
-                openImagePicker()
+                var spinner = binding.spinnerContainer.editText as AutoCompleteTextView
+                if(spinner.text.toString() == "CoverImage"){
+                    openSingleImagePicker();
+                }else {
+                    openImagePicker()
+                }
             } else {
                 Toast.makeText(context, "Please select a room type first", Toast.LENGTH_SHORT).show()
             }
         }
 
-        binding.uploadButton.setOnClickListener {
+        binding.deleteSelected.setOnClickListener {
+            if((binding.spinnerContainer.editText as? AutoCompleteTextView)?.text.toString() == "CoverImage"){
+                coverImage = ""
+                photoList.clear()
+                binding.selectedRoomTypeTextView.text = "${selectedRoomType}"
+                PostDetails.coverImage = ""
+                updateViewPager()
+                return@setOnClickListener
+            }
+            photoList.clear()
+            PostDetails.imageList.get(selectedRoomType!!)?.clear()
+            binding.selectedRoomTypeTextView.text = "${selectedRoomType} Total images: ${PostDetails.imageList.get(selectedRoomType)?.size}"
+            updateViewPager()
+        }
 
+        binding.uploadButton.setOnClickListener {
+            if (PostDetails.isAllFieldsFilled()) {
+                binding.uploadProgressBar.visibility = View.VISIBLE
+                binding.pickPhotosButton.isEnabled = false
+                binding.uploadButton.isEnabled = false
+                binding.deleteSelected.isEnabled = false
+
+                val post = PostDetails.saveData()
+
+                CoroutineScope(Dispatchers.Main).launch {
+                            val isUploadSuccessful = uploadPost(post)
+                            if (isUploadSuccessful) {
+                                clearAll()
+                                photoList.clear()
+                                binding.selectedRoomTypeTextView.text =
+                                    "${selectedRoomType} Total images: ${PostDetails.imageList[selectedRoomType]?.size}"
+                                binding.roomTypeSpinner.setSelection(0)
+                                updateViewPager()
+                                Toast.makeText(
+                                    context,
+                                    "Post Uploaded Successfully!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                this@RoomPhotosFragment.findNavController()
+                                    .navigate(R.id.uploadsFragment)
+                                (activity as AppCompatActivity).findViewById<ChipNavigationBar>(R.id.bottom_nav_bar_owner).visibility = View.VISIBLE
+                                (activity as? AppCompatActivity)?.findViewById<ChipNavigationBar>(R.id.bottom_nav_bar_owner)?.setItemSelected(R.id.uploadsFragment)
+
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Post Upload Failed!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            binding.uploadProgressBar.visibility = View.GONE
+                            binding.pickPhotosButton.isEnabled = true
+                            binding.uploadButton.isEnabled = true
+                            binding.deleteSelected.isEnabled = true
+                }
+            }
+            else{
+                if(PostDetails.coverImage.isNullOrEmpty()){
+                    Toast.makeText(context, "Please select a cover image", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun openSingleImagePicker() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_SINGLE_IMAGE_REQUEST)
+    }
+
+    private suspend fun uploadPost(post: Post): Boolean = withContext(Dispatchers.IO) {
+        try {
+            post.postTime = System.currentTimeMillis()
+            val uploadTasks = post.imageList.flatMap { (key, images) ->
+                images.map { imageUri ->
+                    async {
+                        storageReference.child(post.postTime.toString()).child(key).child(System.currentTimeMillis().toString()).putFile(Uri.parse(imageUri)).await()
+                    }
+                }
+            }
+            async {
+                storageReference.child(post.postTime.toString()).child("coverImage").putFile(Uri.parse(post.coverImage)).await()
+            }.await()
+
+            uploadTasks.awaitAll()
+
+            val downloadUrlTasks = post.imageList.map { (key, _) ->
+
+                async {
+                    if(post.imageList[key]?.isEmpty() != true){
+                        val downloadUrls = storageReference.child(post.postTime.toString()).child(key).listAll().await().items.map { item ->
+                            item.downloadUrl.await().toString()
+                        }
+                        post.imageList[key]?.clear()
+                        post.imageList[key]?.addAll(downloadUrls)
+                    }
+
+                }
+            }
+            storageReference.child(post.postTime.toString()).child("coverImage").downloadUrl.await()?.let {
+                post.coverImage = it.toString()
+            }
+
+            downloadUrlTasks.awaitAll()
+
+            val key = databaseReference?.push()?.key ?: return@withContext false
+            databaseReference?.child(key)?.setValue(post)?.await()
+
+            return@withContext true
+        } catch (e: Exception) {
+            return@withContext false
         }
     }
 
@@ -143,29 +305,56 @@ class RoomPhotosFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGES_REQUEST && resultCode == Activity.RESULT_OK) {
             data?.let { intent ->
-                photoList.clear()
                 if (intent.clipData != null) {
                     val count = intent.clipData!!.itemCount
                     for (i in 0 until count) {
                         val imageUri = intent.clipData!!.getItemAt(i).uri
-                        photoList.add(imageUri)
+                        photoList.add(imageUri.toString())
+                        PostDetails.imageList.get(selectedRoomType!!)?.add(imageUri.toString())
                     }
+
+                    binding.selectedRoomTypeTextView.text = "${selectedRoomType} Total images: ${PostDetails.imageList.get(selectedRoomType)?.size}"
                 } else {
                     intent.data?.let { uri ->
-                        photoList.add(uri)
+                        coverImage = uri.toString()
+                        photoList.add(uri.toString())
+                        PostDetails.imageList.get(selectedRoomType!!)?.add(uri.toString())
+                        binding.selectedRoomTypeTextView.text = "${selectedRoomType} Total images: ${PostDetails.imageList.get(selectedRoomType)?.size}"
                     }
                 }
                 updateViewPager()
+            }
+        }
+        else if(requestCode == PICK_SINGLE_IMAGE_REQUEST && resultCode == Activity.RESULT_OK){
+            data?.let { intent ->
+                if(intent.data != null){
+                    intent.data?.let {
+                        uri->
+                        photoList.clear()
+                        PostDetails.coverImage = ""
+                        coverImage = uri.toString()
+                        photoList.add(uri.toString())
+                        PostDetails.coverImage = uri.toString()
+                        updateViewPager()
+                    }
+                }
+
             }
         }
     }
 
     private fun updateViewPager() {
         if (photoList.isNotEmpty()) {
-            binding.photoViewPager.visibility = View.VISIBLE
+            binding.selectedRoomTypeContainer.visibility = View.VISIBLE
             photoAdapter.updatePhotos(photoList)
         } else {
-            binding.photoViewPager.visibility = View.GONE
+           binding.selectedRoomTypeContainer.visibility = View.GONE
+        }
+        if(PostDetails.imageList.any{it.value.isNotEmpty()}){
+            binding.uploadButton.isEnabled = true
+        }
+        else{
+            binding.uploadButton.isEnabled = false
         }
     }
 

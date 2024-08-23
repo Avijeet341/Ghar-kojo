@@ -46,4 +46,9 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
+    <style name="UploadProgress" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminateTint">@color/accent_color</item>
+        <item name="android:progressTint">@color/accent_color</item>
+    </style>
+
 </resources>
