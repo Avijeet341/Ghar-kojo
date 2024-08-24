@@ -3,12 +3,15 @@ package com.avi.gharkhojo.Adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.avi.gharkhojo.Model.Post
 import com.avi.gharkhojo.Model.Upload
+import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.OwnerUploadsItemBinding
 import com.bumptech.glide.Glide
 
-class UploadsAdapter(private val uploads: List<Upload>, private val onItemClick: (Upload) -> Unit) :
+class UploadsAdapter(private val onItemClick: (Post) -> Unit) :
     RecyclerView.Adapter<UploadsAdapter.UploadViewHolder>() {
+        private val uploads = ArrayList<Post>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UploadViewHolder {
         val binding = OwnerUploadsItemBinding.inflate(
@@ -25,24 +28,31 @@ class UploadsAdapter(private val uploads: List<Upload>, private val onItemClick:
 
     override fun getItemCount(): Int = uploads.size
 
+    fun updateData(newUploads: MutableList<Post>) {
+        this.uploads.clear()
+        this.uploads.addAll(newUploads)
+        notifyDataSetChanged()
+    }
+
     inner class UploadViewHolder(private val binding: OwnerUploadsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(upload: Upload) {
+        fun bind(post: Post) {
             Glide.with(binding.root.context)
-                .load(upload.imageResId)
+                .load(post.coverImage.orEmpty())
+                .error(R.drawable.home)
                 .into(binding.houseImage)
 
-            binding.houseTitle.text = upload.title
-            binding.houseLocation.text = upload.location
-            binding.housePriceAmount.text = upload.priceAmount
-            binding.housePricePeriod.text = upload.pricePeriod
-            binding.houseBedrooms.text = upload.bedrooms.toString()
-            binding.houseBathrooms.text = upload.bathrooms.toString()
-            binding.houseArea.text = upload.area
+            binding.houseTitle.text = post.propertyType.orEmpty()
+            binding.houseLocation.text = "${post.area.orEmpty()}, ${post.city.orEmpty()}"
+            binding.housePriceAmount.text = "${post.rent}"
+            binding.housePricePeriod.text = "/Month"
+            binding.houseBedrooms.text = post.noOfBedRoom.toString()
+            binding.houseBathrooms.text = post.noOfBathroom.toString()
+            binding.houseArea.text ="${post.builtUpArea} sq.ft."
 
             binding.root.setOnClickListener {
-                onItemClick(upload)
+                onItemClick(post)
             }
         }
     }

@@ -94,7 +94,7 @@ class HomeDetails : Fragment() {
     private val autoSlideRunnable = object : Runnable {
         override fun run() {
             val currentItem = binding.viewPager.currentItem
-            val nextItem = (currentItem + 1) % imageResIds.size
+            val nextItem = (currentItem + 1) % if(imageResIds.size==0) 1 else imageResIds.size
             binding.viewPager.setCurrentItem(nextItem, true)
             handler.postDelayed(this, 3000)
         }
@@ -224,7 +224,7 @@ class HomeDetails : Fragment() {
 
     private fun gradientSweepTextColorAnimation() {
         val colors = intArrayOf(
-            0xFF4285F4.toInt(),
+            0xFFA0DAFE.toInt(),
             0xFF00ecbc.toInt(),
             0xFF007FFF.toInt()
         )

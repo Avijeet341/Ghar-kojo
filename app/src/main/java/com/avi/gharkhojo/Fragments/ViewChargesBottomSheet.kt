@@ -15,11 +15,30 @@ class ViewChargesBottomSheet : BottomSheetDialogFragment() {
 
     private var _binding: FragmentViewChargesBottomSheetBinding? = null
     private val binding get() = _binding!!
+    private lateinit var rent:String
+    private lateinit var parkingCharge:String
+    private lateinit var maintenanceCharge:String
+    private lateinit var deposit:String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentViewChargesBottomSheetBinding.inflate(inflater, container, false)
+        rent = 0.toString()
+        parkingCharge = 0.toString()
+        maintenanceCharge = 0.toString()
+        deposit = 0.toString()
+
+        arguments?.let {
+            rent = it.getString("rent", "")
+            parkingCharge = it.getString("parkingCharge", "")
+            maintenanceCharge = it.getString("maintenanceCharge", "")
+            deposit = it.getString("deposit", "")
+        }
+        binding.rentalTextView.text = rent
+        binding.parkingChargesTextView.text = parkingCharge
+        binding.maintenanceChargesTextView.text = maintenanceCharge
+        binding.refundableDepositTextView.text = deposit
         return binding.root
 
 
