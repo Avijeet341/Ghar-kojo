@@ -168,6 +168,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/gray_600"
                 android:fontFamily="@font/montserrat_regular"
                 android:text="Brokerage"/>
             <TextView
@@ -216,6 +217,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/gray_600"
                 android:fontFamily="@font/montserrat_regular"
                 android:text="Refundable deposit"/>
             <TextView

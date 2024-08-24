@@ -303,7 +303,7 @@ class HomeDetails : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        showBottomNavBar()
+        //showBottomNavBar()
         handler.removeCallbacks(autoSlideRunnable)
         _binding = null
     }

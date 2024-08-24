@@ -1285,11 +1285,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="7dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="Share your experience"
                     android:textColor="@color/Pink"
-                    android:textSize="10sp"
+                    android:textSize="11sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/feedbackButton" />
 
@@ -1451,6 +1451,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="10dp"
             android:text="See on Map"
+            android:drawableEnd="@drawable/ic_next"
             android:background="@drawable/bg_edit_text"
             android:textAllCaps="false"
             android:textColor="#007AFF"
@@ -1461,7 +1462,6 @@
             app:icon="@drawable/placeholder"
             app:iconGravity="textStart"
             app:iconTint="#007AFF"
-
             app:iconSize="24dp"
             app:iconPadding="8dp"
             app:cornerRadius="20dp"

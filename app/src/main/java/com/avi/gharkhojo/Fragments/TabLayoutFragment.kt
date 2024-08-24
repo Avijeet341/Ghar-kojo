@@ -14,6 +14,7 @@ import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.avi.gharkhojo.Adapter.ImageAdapter
+import com.avi.gharkhojo.MainActivity
 import com.avi.gharkhojo.Model.ImageItem
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentTabLayoutBinding
@@ -39,10 +40,19 @@ class TabLayoutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        hideBottomNavBar()
         setupToolbar()
         setupFilterChips()
         setupRecyclerView()
     }
+
+    private fun hideBottomNavBar() {
+        (activity as? MainActivity)?.hideBottomNavBar()
+    }
+    private fun showBottomNavBar() {
+        (activity as? MainActivity)?.showBottomNavBar()
+    }
+
 
     private fun setupToolbar() {
         (activity as AppCompatActivity).apply {
@@ -145,6 +155,7 @@ class TabLayoutFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        showBottomNavBar()
         _binding = null
     }
 
