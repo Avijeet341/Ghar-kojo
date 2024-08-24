@@ -24,11 +24,16 @@ class ViewChargesBottomSheet : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentViewChargesBottomSheetBinding.inflate(inflater, container, false)
+        rent = 0.toString()
+        parkingCharge = 0.toString()
+        maintenanceCharge = 0.toString()
+        deposit = 0.toString()
+
         arguments?.let {
-            rent = it.getString("rent","")
-            parkingCharge = it.getString("parkingCharge","")
-            maintenanceCharge = it.getString("maintenanceCharge","")
-            deposit = it.getString("deposit","")
+            rent = it.getString("rent", "")
+            parkingCharge = it.getString("parkingCharge", "")
+            maintenanceCharge = it.getString("maintenanceCharge", "")
+            deposit = it.getString("deposit", "")
         }
         binding.rentalTextView.text = rent
         binding.parkingChargesTextView.text = parkingCharge

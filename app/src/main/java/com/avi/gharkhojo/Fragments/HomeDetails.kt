@@ -79,7 +79,7 @@ class HomeDetails : Fragment() {
     private val autoSlideRunnable = object : Runnable {
         override fun run() {
             val currentItem = binding.viewPager.currentItem
-            val nextItem = (currentItem + 1) % imageResIds.size
+            val nextItem = (currentItem + 1) % if(imageResIds.size==0) 1 else imageResIds.size
             binding.viewPager.setCurrentItem(nextItem, true)
             handler.postDelayed(this, 3000)
         }
