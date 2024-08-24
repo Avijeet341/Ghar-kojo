@@ -94,23 +94,22 @@ class RoomPhotosFragment : Fragment() {
             if(selectedRoomType!= "CoverImage" && PostDetails.imageList.get(selectedRoomType)?.size!! !=0){
                 photoList.clear()
                 photoList.addAll(PostDetails.imageList.get(selectedRoomType)!!)
-                updateViewPager()
                 binding.selectedRoomTypeTextView.text = "${selectedRoomType} Total images: ${PostDetails.imageList.get(selectedRoomType)?.size}"
             }
             else if(selectedRoomType == "CoverImage"){
                 photoList.clear()
-                if(coverImage.isNotEmpty()) {
-                    photoList.add(coverImage)
-                    updateViewPager()
+                if(!PostDetails.coverImage.isNullOrEmpty()) {
+                    photoList.add(PostDetails.coverImage!!)
+
                 }
 
                 binding.selectedRoomTypeTextView.text = "${selectedRoomType}"
             }
             else{
                 photoList.clear()
-                updateViewPager()
                 binding.selectedRoomTypeTextView.text = "${selectedRoomType}"
             }
+            updateViewPager()
 
             binding.pickPhotosButton.isEnabled = true
         }
