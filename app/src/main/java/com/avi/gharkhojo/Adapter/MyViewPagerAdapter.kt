@@ -4,16 +4,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.R
 import com.bumptech.glide.Glide
 
-class MyViewPagerAdapter(
-    private val imageResIds: List<Int>
-) : RecyclerView.Adapter<MyViewPagerAdapter.ViewHolder>() {
+class MyViewPagerAdapter: RecyclerView.Adapter<MyViewPagerAdapter.ViewHolder>() {
+
+    private val imageResIds = ArrayList<String>()
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.photoImageView)
+        val imgCoutter: TextView = itemView.findViewById(R.id.imgCounter)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,9 +29,17 @@ class MyViewPagerAdapter(
         Glide.with(holder.itemView.context)
             .load(imageResId)
             .into(holder.imageView)
+
+        holder.imgCoutter.text = "${position+1}/${imageResIds.size}"
     }
 
     override fun getItemCount(): Int {
         return imageResIds.size
+    }
+
+    fun updateData(newImageResIds: ArrayList<String>) {
+        imageResIds.clear()
+        imageResIds.addAll(newImageResIds)
+        notifyDataSetChanged()
     }
 }

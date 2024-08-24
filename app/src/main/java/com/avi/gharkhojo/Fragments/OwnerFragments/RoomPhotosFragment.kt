@@ -200,6 +200,7 @@ class RoomPhotosFragment : Fragment() {
                 binding.deleteSelected.isEnabled = false
 
                 val post = PostDetails.saveData()
+                post.userId = FirebaseAuth.getInstance().currentUser!!.uid
 
                 CoroutineScope(Dispatchers.Main).launch {
                             val isUploadSuccessful = uploadPost(post)
@@ -252,11 +253,11 @@ class RoomPhotosFragment : Fragment() {
 
     private suspend fun uploadPost(post: Post): Boolean = withContext(Dispatchers.IO) {
         try {
-            post.postTime = System.currentTimeMillis()
+            post.postTime = System.currentTimeMillis().toString()
             val uploadTasks = post.imageList.flatMap { (key, images) ->
                 images.map { imageUri ->
                     async {
-                        storageReference.child(post.postTime.toString()).child(key).child(System.currentTimeMillis().toString()).putFile(Uri.parse(imageUri)).await()
+                        storageReference.child(post.postTime!!).child(key).child(System.currentTimeMillis().toString()).putFile(Uri.parse(imageUri)).await()
                     }
                 }
             }
@@ -285,8 +286,7 @@ class RoomPhotosFragment : Fragment() {
 
             downloadUrlTasks.awaitAll()
 
-            val key = databaseReference?.push()?.key ?: return@withContext false
-            databaseReference?.child(key)?.setValue(post)?.await()
+            databaseReference?.push()?.setValue(post)?.await()
 
             return@withContext true
         } catch (e: Exception) {
