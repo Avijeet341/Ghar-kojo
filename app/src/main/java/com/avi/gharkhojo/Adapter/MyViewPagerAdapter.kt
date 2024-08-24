@@ -15,7 +15,6 @@ class MyViewPagerAdapter: RecyclerView.Adapter<MyViewPagerAdapter.ViewHolder>() 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.photoImageView)
-        val imgCoutter: TextView = itemView.findViewById(R.id.imgCounter)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,8 +28,6 @@ class MyViewPagerAdapter: RecyclerView.Adapter<MyViewPagerAdapter.ViewHolder>() 
         Glide.with(holder.itemView.context)
             .load(imageResId)
             .into(holder.imageView)
-
-        holder.imgCoutter.text = "${position+1}/${imageResIds.size}"
     }
 
     override fun getItemCount(): Int {

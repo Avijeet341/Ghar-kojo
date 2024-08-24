@@ -17,20 +17,5 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1/7"
-            android:elevation="5dp"
-            android:padding="2dp"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:background="@color/gold"
-            android:id="@+id/imgCounter"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="10dp"
-            />
-
     </androidx.cardview.widget.CardView>
 
