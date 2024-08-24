@@ -151,7 +151,7 @@ class OwnerDetailFragment : Fragment() {
     private fun getDateTime(postTime: String?): CharSequence? {
 
 
-        val sdf = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
+        val sdf = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
         val dateTime = Date(postTime!!.toLong())
         return sdf.format(dateTime)
 
