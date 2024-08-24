@@ -38,3 +38,11 @@ class MyViewPagerAdapter2(
         return imageResIds.size
     }
 }
+
+
+
+
+
+
+
+

@@ -19,10 +19,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.avi.gharkhojo.Adapter.MyViewPagerAdapter
+import com.avi.gharkhojo.Adapter.MyViewPagerAdapter2
 import com.avi.gharkhojo.MainActivity
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentHomeDetailsBinding
@@ -72,14 +74,27 @@ class HomeDetails : Fragment() {
     private lateinit var feedbackButton: Button
     private lateinit var GreatThingsText: TextView
 
-    private lateinit var photoAdapter: MyViewPagerAdapter
-    private val imageResIds = ArrayList<String>()
+    private lateinit var photoAdapter: MyViewPagerAdapter2
+    private val imageResIds = listOf(
+        R.drawable.home1,
+        R.drawable.home2,
+        R.drawable.home3,
+        R.drawable.home4,
+        R.drawable.home5,
+        R.drawable.home6,
+        R.drawable.home7,
+        R.drawable.home8,
+        R.drawable.home9,
+        R.drawable.home10,
+        R.drawable.home11,
+        R.drawable.home12,
+    )
 
     private val handler = Handler(Looper.getMainLooper())
     private val autoSlideRunnable = object : Runnable {
         override fun run() {
             val currentItem = binding.viewPager.currentItem
-            val nextItem = (currentItem + 1) % if(imageResIds.size==0) 1 else imageResIds.size
+            val nextItem = (currentItem + 1) % imageResIds.size
             binding.viewPager.setCurrentItem(nextItem, true)
             handler.postDelayed(this, 3000)
         }
@@ -95,7 +110,7 @@ class HomeDetails : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        hideBottomNavBar()
+       // hideBottomNavBar()
         Initialization()
         setupViewPager()
         setupCopyButton()
@@ -209,7 +224,7 @@ class HomeDetails : Fragment() {
 
     private fun gradientSweepTextColorAnimation() {
         val colors = intArrayOf(
-            0xFFA0DAFE.toInt(),
+            0xFF4285F4.toInt(),
             0xFF00ecbc.toInt(),
             0xFF007FFF.toInt()
         )
@@ -230,13 +245,19 @@ class HomeDetails : Fragment() {
     }
 
     private fun setupViewPager() {
-        photoAdapter = MyViewPagerAdapter()
-        photoAdapter.updateData(imageResIds)
+        photoAdapter = MyViewPagerAdapter2(imageResIds) {
+            navigateToTabLayoutFragment()
+        }
         binding.viewPager.adapter = photoAdapter
         binding.viewPager.setPageTransformer(getTransformation())
         binding.viewPager.offscreenPageLimit = 3
         handler.post(autoSlideRunnable)
     }
+
+    private fun navigateToTabLayoutFragment() {
+        findNavController().navigate(R.id.action_homeDetails_to_tabLayoutFragment)
+    }
+
 
     private fun getTransformation(): CompositePageTransformer {
         return CompositePageTransformer().apply {
@@ -282,7 +303,7 @@ class HomeDetails : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        showBottomNavBar()
+        //showBottomNavBar()
         handler.removeCallbacks(autoSlideRunnable)
         _binding = null
     }

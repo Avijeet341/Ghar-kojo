@@ -1285,11 +1285,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="7dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="Share your experience"
                     android:textColor="@color/Pink"
-                    android:textSize="10sp"
+                    android:textSize="11sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/feedbackButton" />
 
@@ -1444,29 +1444,54 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
-
-
-        <Button
-            android:id="@+id/mapbutton"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mapButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="10dp"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:background="@drawable/bg_edit_text"
-            android:backgroundTint="@color/expBgBlue"
-            android:drawableStart="@drawable/placeholder"
-            android:drawableEnd="@drawable/ic_next"
-            android:drawablePadding="5dp"
-            android:elevation="10dp"
-            android:layoutDirection="ltr"
-            android:padding="5dp"
-            android:drawableTint="@color/expBlue"
             android:text="See on Map"
+            android:drawableEnd="@drawable/ic_next"
+            android:background="@drawable/bg_edit_text"
+            android:textAllCaps="false"
             android:textColor="@color/messangerBlue"
+            android:elevation="2dp"
+            android:textSize="14sp"
+             android:padding="7dp"
+            android:textStyle="bold"
+            app:icon="@drawable/placeholder"
+            app:iconGravity="textStart"
+            app:iconTint="#007AFF"
+            app:iconSize="24dp"
+            app:iconPadding="8dp"
+            app:cornerRadius="20dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:backgroundTint="@color/expBgBlue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/negotiateRent" />
+
+
+<!--        <Button-->
+<!--            android:id="@+id/mapbutton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginEnd="10dp"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:textStyle="bold"-->
+<!--            android:background="@drawable/bg_edit_text"-->
+<!--            android:backgroundTint="@color/expBgBlue"-->
+<!--            android:drawableStart="@drawable/placeholder"-->
+<!--            android:drawableEnd="@drawable/ic_next"-->
+<!--            android:drawablePadding="5dp"-->
+<!--            android:elevation="10dp"-->
+<!--            android:layoutDirection="ltr"-->
+<!--            android:padding="5dp"-->
+<!--            android:drawableTint="@color/expBlue"-->
+<!--            android:text="See on Map"-->
+<!--            android:textColor="@color/messangerBlue"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/negotiateRent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
