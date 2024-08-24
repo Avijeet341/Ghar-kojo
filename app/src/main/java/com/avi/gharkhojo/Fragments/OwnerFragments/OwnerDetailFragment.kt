@@ -145,6 +145,7 @@ class OwnerDetailFragment : Fragment() {
         tenantsServedNumber.text = post.tenantServed
         postDateDay.text = getDateTime(post.postTime)
         GreatThingsText.text = post.description.toString()
+        binding.stateText.text = post.state.toString()
     }
 
     private fun getDateTime(postTime: String?): CharSequence? {
