@@ -35,11 +35,12 @@
             android:orientation="vertical">
 
             <HorizontalScrollView
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbars="none"
                 android:background="@color/white"
-                android:paddingHorizontal="16dp">
+                android:paddingHorizontal="10dp">
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/filter_chip_group"
