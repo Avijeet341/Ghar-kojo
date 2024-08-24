@@ -6,11 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.avi.gharkhojo.Model.PostDetails
+import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.R
+import com.avi.gharkhojo.databinding.FragmentAddBinding
+import com.bumptech.glide.Glide
+import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import java.util.concurrent.TimeUnit
 
 class AddFragment : Fragment() {
@@ -22,15 +28,19 @@ class AddFragment : Fragment() {
     private lateinit var preferredTenantsSpinner: Spinner
     private lateinit var phoneNumberEditText: EditText
     private lateinit var nextButton: Button
+    private lateinit var addBinding: FragmentAddBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_add, container, false)
+        addBinding = FragmentAddBinding.inflate(inflater, container, false)
+        val view = addBinding.root
         initializeViews(view)
         setupSpinners()
         setupNextButton()
+
+        Glide.with(this).load(UserData.profilePictureUrl).into(addBinding.ProfilePic)
         return view
     }
 
@@ -59,6 +69,15 @@ class AddFragment : Fragment() {
     private fun setupNextButton() {
         nextButton.setOnClickListener {
             if (validateInputs()) {
+                PostDetails.let {
+                    it.ownerName = ownerNameEditText.text.toString()
+                    it.email = emailEditText.text.toString()
+                    it.tenantServed = tenantServedEditText.text.toString()
+                    it.propertyType = propertyTypeSpinner.selectedItem.toString()
+                    it.preferredTenants = preferredTenantsSpinner.selectedItem.toString()
+                    it.phoneNumber = phoneNumberEditText.text.toString()
+                }
+                hideNavigationBar()
                 findNavController().navigate(R.id.action_addFragment_to_propertyDetailsFragment)
             }
         }
@@ -92,6 +111,22 @@ class AddFragment : Fragment() {
         }
 
         return isValid
+    }
+    private fun hideNavigationBar() {
+        (activity as? AppCompatActivity)?.findViewById<ChipNavigationBar>(R.id.bottom_nav_bar_owner)?.visibility = View.GONE
+    }
+    private fun showNavigationBar() {
+        (activity as? AppCompatActivity)?.findViewById<ChipNavigationBar>(R.id.bottom_nav_bar_owner)?.visibility = View.VISIBLE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showNavigationBar()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        PostDetails.clearAll()
     }
 
 

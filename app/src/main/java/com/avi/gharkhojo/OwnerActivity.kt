@@ -1,5 +1,6 @@
 package com.avi.gharkhojo
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -25,11 +26,10 @@ class OwnerActivity : BaseActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_owner)
 
-        // Set status bar color to black
+
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, android.R.color.black)
 
-        // Optional: If you want white icons on the black status bar
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -50,13 +50,12 @@ class OwnerActivity : BaseActivity() {
         bottomNavigation.setMenuResource(R.menu.menu_owner) // Set the menu resource
         setUpTabBar()
 
-        // Set default fragment to AddFragment if not already set
+
         if (savedInstanceState == null) {
             navController.navigate(R.id.addFragment)
             bottomNavigation.setItemSelected(R.id.addFragment, true) // Set ChipNavigationBar item to AddFragment
         }
 
-        // Handle back press
         handleOnBackPressed()
     }
 
@@ -99,16 +98,14 @@ class OwnerActivity : BaseActivity() {
                 Log.d("HandleBackPress", "Current Destination: $currentDestination, Root Fragment: $rootFragmentId")
 
                 if (currentDestination != rootFragmentId) {
-                    // Navigate to root fragment if not already on it
                     if (!navController.popBackStack(rootFragmentId, false)) {
-                        // If not able to pop back stack to root, just navigate to root fragment
+
                         Log.d("HandleBackPress", "Navigating to Root Fragment")
                         navController.navigate(rootFragmentId)
                     }
                     bottomNavigation.setItemSelected(R.id.addFragment, true)
                     Log.d("HandleBackPress", "Set bottom navigation item selected")
                 } else {
-                    // Start MainActivity and finish OwnerActivity
                     val intent = Intent(this@OwnerActivity, MainActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
@@ -117,4 +114,5 @@ class OwnerActivity : BaseActivity() {
             }
         })
     }
+
 }

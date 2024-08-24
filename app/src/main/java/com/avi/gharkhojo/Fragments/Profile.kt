@@ -98,15 +98,18 @@ class Profile : Fragment() {
 
     private fun loadUserData() {
 
-        binding.textViewUsername.text = UserData.username ?: getString(R.string.default_username)
-        binding.textViewEmail.text = firebaseUser?.email ?: getString(R.string.default_email)
-        /*binding.textViewAddress.text = UserData.address ?: getString(R.string.default_address)
-        🫡
-        yhan par error hai
-        */
+        binding.textViewUsername.text = UserData.username ?: ""
+        binding.textViewEmail.text = firebaseUser?.email ?: ""
 
-        binding.textViewPhone.text = UserData.phn_no ?: getString(R.string.default_phone)
-//        binding.ProfilePic.setImageURI(Uri.parse(UserData.profilePictureUrl))
+        binding.textViewPhone.text = UserData.phn_no ?: ""
+        binding.textRoadNo.text = UserData.Road_Lane ?: ""
+        binding.textViewCity.text = UserData.City ?: ""
+        binding.textViewState.text = UserData.State ?: ""
+        binding.textViewPincode.text = UserData.Pincode ?: ""
+        binding.textViewArea.text = UserData.Area ?: ""
+        binding.textViewLandmark.text = UserData.LandMark ?: ""
+        binding.textViewHouseNo.text = UserData.HouseNo ?: ""
+        binding.textViewColony.text = UserData.colony ?: ""
 
 
     }
@@ -200,14 +203,7 @@ class Profile : Fragment() {
     private fun showProfileEditBottomSheet() {
         val user = firebaseAuth.currentUser
         if (user != null) {
-/*        val address = binding.textViewAddress.text.toString()
-
-yhana par bhi🫡
- */
-            val phone = binding.textViewPhone.text.toString()
-
-            val profileBottomSheet = ProfileBottomSheet(UserData.username?:R.string.default_username.toString(),
-                UserData.address?:R.string.default_address.toString(), UserData.phn_no?:R.string.default_phone.toString())
+            val profileBottomSheet = ProfileBottomSheet()
             profileBottomSheet.profileBinding = binding
             profileBottomSheet.show(childFragmentManager, ProfileBottomSheet::class.java.simpleName)
         }

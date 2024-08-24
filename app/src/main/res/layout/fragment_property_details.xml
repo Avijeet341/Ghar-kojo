@@ -426,7 +426,7 @@
                     android:theme="@style/CustomSwitchStyle"/>
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switchInternetWifi"
+                    android:id="@+id/switchSecurityGaurdService"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Security Gaurd"

@@ -1,12 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.GharKhojo" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="Base.Theme.GharKhojo" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here -->
         <item name="android:statusBarColor">@color/expBlue</item>
-        <item name="colorPrimary">@color/expBlue</item>  </style>
+        <item name="colorPrimary">@color/expBlue</item>
+        <!-- Add other customizations as needed -->
+    </style>
 
-
+    <style name="Base.Theme.GharKhojoo" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:statusBarColor">@color/expBlue</item>
+        <item name="colorPrimary">@color/expBlue</item>
+    </style>
     <style name="InfinityWallsAvi" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->

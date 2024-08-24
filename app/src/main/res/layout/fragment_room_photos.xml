@@ -28,14 +28,6 @@
             android:layout_alignParentStart="true"
             android:contentDescription="Back" />
 
-        <ImageView
-            android:id="@+id/imageViewDeletePriceDetails"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_delete"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:contentDescription="Delete price details"/>
 
     </RelativeLayout>
 
@@ -105,87 +97,102 @@
         app:layout_constraintTop_toTopOf="@id/selectedLabelTextView"
         app:layout_constraintEnd_toEndOf="@id/spinnerContainer"/>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/photoViewPager"
-        android:layout_width="0dp"
-        android:layout_height="400dp"
-        android:background="@drawable/viewpager_background"
-        android:visibility="gone"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/selectedRoomTypeContainer"
         app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
+
         app:layout_constraintTop_toBottomOf="@id/selectedRoomTypeTextView"
-        android:layout_marginHorizontal="16dp"/>
+        >
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/photoViewPager"
+            android:layout_width="0dp"
+            android:layout_height="400dp"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/viewpager_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/deleteSelected"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="Delete details"
+            android:src="@drawable/ic_delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/pickPhotosButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"
         android:background="@drawable/button_background"
         android:backgroundTint="#FFEB3B"
+        android:fontFamily="@font/montserrat_regular"
+        android:padding="8dp"
         android:text="Pick Photos"
-        android:fontFamily="@font/montserrat_regular"
-        android:textStyle="bold"
         android:textColor="#121212"
         android:textSize="12sp"
-        android:padding="8dp"
+        android:textStyle="bold"
         app:icon="@drawable/ic_camera"
-        app:iconSize="18dp"
-        app:iconPadding="4dp"
         app:iconGravity="textStart"
-        app:iconTint="#121212"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/nextButton"
-        app:layout_constraintTop_toBottomOf="@id/photoViewPager"
-        app:layout_constraintHorizontal_weight="1" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/nextButton"
-        android:layout_width="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/button_background"
-        android:backgroundTint="#FFEB3B"
-        android:text="Next"
-        android:fontFamily="@font/montserrat_regular"
-        android:textStyle="bold"
-        android:textColor="#121212"
-        android:textSize="12sp"
-        android:padding="8dp"
-        app:icon="@drawable/ic_next"
-        app:iconSize="18dp"
         app:iconPadding="4dp"
-        app:iconGravity="textEnd"
+        app:iconSize="18dp"
         app:iconTint="#121212"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/pickPhotosButton"
-        app:layout_constraintTop_toBottomOf="@id/photoViewPager"
-        app:layout_constraintHorizontal_weight="1" />
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selectedRoomTypeContainer" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/uploadButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/button_background"
         android:backgroundTint="#FFEB3B"
-        android:text="Upload"
+        android:enabled="false"
         android:fontFamily="@font/montserrat_regular"
-        android:textStyle="bold"
+        android:padding="8dp"
+        android:text="Upload"
         android:textColor="#121212"
         android:textSize="12sp"
-        android:padding="8dp"
+        android:textStyle="bold"
         app:icon="@drawable/ic_upload"
-        app:iconSize="18dp"
-        app:iconPadding="4dp"
         app:iconGravity="textStart"
+        app:iconPadding="4dp"
+        app:iconSize="18dp"
         app:iconTint="#121212"
-        app:layout_constraintTop_toBottomOf="@id/nextButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/pickPhotosButton" />
+
+    <ProgressBar
+        android:id="@+id/uploadProgressBar"
+        style="@style/UploadProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="312dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uploadButton" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
