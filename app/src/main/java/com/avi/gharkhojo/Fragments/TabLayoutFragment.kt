@@ -40,7 +40,7 @@ class TabLayoutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        hideBottomNavBar()
+       // hideBottomNavBar()
         setupToolbar()
         setupFilterChips()
         setupRecyclerView()
@@ -155,7 +155,7 @@ class TabLayoutFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        showBottomNavBar()
+        //showBottomNavBar()
         _binding = null
     }
 

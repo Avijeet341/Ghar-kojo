@@ -265,23 +265,27 @@
             android:layout_marginTop="8dp" />
 
         <!-- Save Button -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonSave"
             android:layout_width="0dp"
+            app:cornerRadius="10dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/gradiant_btn_login"
-            android:backgroundTint="@color/expBlue"
             android:fontFamily="@font/montserrat_bold"
             android:padding="12dp"
             android:text="@string/save"
             android:textColor="@color/white"
             android:textSize="16sp"
+            app:backgroundTint="@color/expBlue"
+            app:iconTint="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editTextPhone" />
+            app:layout_constraintTop_toBottomOf="@id/editTextPhone"
+            style="@style/Widget.MaterialComponents.Button"
+            />
+
         <!-- Progress Indicator -->
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_circularLogin"

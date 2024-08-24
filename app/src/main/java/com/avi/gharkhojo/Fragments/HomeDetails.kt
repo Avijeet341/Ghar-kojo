@@ -110,7 +110,7 @@ class HomeDetails : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        hideBottomNavBar()
+       // hideBottomNavBar()
         Initialization()
         setupViewPager()
         setupCopyButton()
