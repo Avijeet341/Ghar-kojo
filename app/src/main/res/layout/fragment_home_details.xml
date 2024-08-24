@@ -1454,7 +1454,7 @@
             android:drawableEnd="@drawable/ic_next"
             android:background="@drawable/bg_edit_text"
             android:textAllCaps="false"
-            android:textColor="#007AFF"
+            android:textColor="@color/messangerBlue"
             android:elevation="2dp"
             android:textSize="14sp"
              android:padding="7dp"
