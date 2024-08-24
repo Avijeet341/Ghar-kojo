@@ -9,6 +9,8 @@ import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -42,6 +44,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import java.text.NumberFormat
+import java.util.Currency
 
 class RentAndLocationFragment : Fragment() {
     private var lat: Double = 0.0
@@ -114,6 +118,13 @@ class RentAndLocationFragment : Fragment() {
         maintenceCharges = binding.maintenanceCharge
         state = binding.autoCompleteTextViewState
         roadNo = binding.autoCompleteTextViewRoadLaneNumber
+
+
+        binding.autoCompleteTextViewRent.addTextChangedListener(TextWatch(binding.autoCompleteTextViewRent))
+        binding.autoCompleteTextViewDeposit.addTextChangedListener(TextWatch(binding.autoCompleteTextViewDeposit))
+        binding.maintenanceCharge.addTextChangedListener(TextWatch(binding.maintenanceCharge))
+        binding.autoCompleteTextViewParkingCharges.addTextChangedListener(TextWatch(binding.autoCompleteTextViewParkingCharges))
+
         binding.btnBack.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
@@ -215,9 +226,9 @@ class RentAndLocationFragment : Fragment() {
                 return@setOnClickListener
         }
             with(PostDetails){
-                this.parkingCharge = if(checkBoxParkingIncluded.isChecked) 0.0 else parkingCharges.text.toString().trim().toDouble()
-                this.rent = binding.autoCompleteTextViewRent.text.toString().trim().toDouble()
-                this.deposit = binding.autoCompleteTextViewDeposit.text.toString().trim().toDouble()
+                this.parkingCharge = if(checkBoxParkingIncluded.isChecked) "₹ 0.0" else parkingCharges.text.toString().trim()
+                this.rent = binding.autoCompleteTextViewRent.text.toString().trim()
+                this.deposit = binding.autoCompleteTextViewDeposit.text.toString().trim()
                 this.pincode = binding.autoCompleteTextViewPincode.text.toString().trim().toInt()
                 this.landMark = binding.autoCompleteTextViewLandmark.text.toString().trim()
                 this.houseNumber = binding.autoCompleteTextViewHouseNumber.text.toString().trim().toInt()
@@ -228,8 +239,9 @@ class RentAndLocationFragment : Fragment() {
                 this.description = binding.textInputLayoutPropertyDescription.editText?.text.toString().trim()
                 this.latitude = lat
                 this.longitude = long
-                this.maintenanceCharge = binding.maintenanceCharge.text.toString().trim().toDouble()
+                this.maintenanceCharge = binding.maintenanceCharge.text.toString().trim()
                 this.state = this@RentAndLocationFragment.state.text.toString().trim()
+                this.road_lane = this@RentAndLocationFragment.roadNo.text.toString().trim()
 
 
             }
@@ -397,13 +409,13 @@ class RentAndLocationFragment : Fragment() {
     private fun isAllFieldsFilled(): Boolean {
 
         if(
-            rent.text.toString().trim().isNotEmpty()
-            && deposit.text.toString().trim().isNotEmpty() && pincode.text.toString().trim().isNotEmpty()
+            rent.text.toString().trim().removePrefix("₹").trim().isNotEmpty()
+            && deposit.text.toString().removePrefix("₹").trim().trim().isNotEmpty() && pincode.text.toString().trim().isNotEmpty()
             && landmark.text.toString().trim().isNotEmpty() && houseNumber.text.toString().trim().isNotEmpty()
             && area.text.toString().trim().isNotEmpty() && colony.text.toString().trim().isNotEmpty()
             && city.text.toString().trim().isNotEmpty()
             && (binding.checkBoxParkingIncluded.isChecked || parkingCharges.text.toString().trim().isNotEmpty())
-            && maintenceCharges.text.toString().trim().isNotEmpty()
+            && maintenceCharges.text.toString().trim().removePrefix("₹").trim().isNotEmpty()
             && state.text.toString().trim().isNotEmpty()
             && roadNo.text.toString().trim().isNotEmpty()
 
@@ -424,4 +436,52 @@ class RentAndLocationFragment : Fragment() {
         kotlinx.coroutines.delay(delay)
         button.isEnabled = true
     }
+
+    inner class TextWatch(private val textInputEditText: TextInputEditText) : TextWatcher {
+
+        private var numberFormat = NumberFormat.getCurrencyInstance().apply {
+            maximumFractionDigits = 0
+            currency = Currency.getInstance("INR")
+        }
+        private var isEditing = false
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            // No action needed here
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            // No action needed here
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            if (isEditing) return
+            isEditing = true
+
+            try {
+                val originalString = s.toString()
+
+                val cleanString = originalString.replace("[₹,]".toRegex(), "").trim()
+
+                if (cleanString.isNotEmpty()) {
+                    val number = cleanString.toDoubleOrNull()
+                    if (number != null) {
+
+                        val formattedNumber = numberFormat.format(number)
+
+                        if (formattedNumber != originalString) {
+                            textInputEditText.setText(formattedNumber)
+                            textInputEditText.setSelection(formattedNumber.length)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                isEditing = false
+            }
+        }
+    }
+
+
+
 }

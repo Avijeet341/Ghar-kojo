@@ -64,7 +64,6 @@
                 android:paddingTop="5dp"
                 android:paddingEnd="2dp"
                 android:paddingBottom="5dp"
-                android:text="₹3,899"
                 android:textColor="#FFEB3B"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -148,7 +147,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="3"
                             android:textColor="#FFFFFF"
                             android:textSize="14sp" />
 
@@ -184,7 +182,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="2"
                             android:textColor="#FFFFFF"
                             android:textSize="14sp" />
 
@@ -230,7 +227,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="1"
                             android:textColor="#FFFFFF"
                             android:textSize="14sp" />
 
@@ -266,7 +262,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="2"
                             android:textColor="#FFFFFF"
                             android:textSize="14sp" />
 
@@ -312,7 +307,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="2"
                             android:textColor="@color/white"
                             android:textSize="14sp" />
 
@@ -348,7 +342,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="1500"
                             android:textColor="#FFFFFF"
                             android:textSize="14sp" />
 
@@ -385,7 +378,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="3"
                 android:textColor="#FFEB3B"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -405,7 +397,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Apartment"
                 android:textColor="#FFEB3B"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -505,7 +496,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="123"
                             android:textColor="@color/white" />
                     </LinearLayout>
 
@@ -535,7 +525,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="8,9"
                             android:textColor="@color/white" />
                     </LinearLayout>
 
@@ -565,7 +554,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="Green Park"
                             android:textColor="@color/white" />
                     </LinearLayout>
 
@@ -595,7 +583,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="Downtown"
                             android:textColor="@color/white" />
                     </LinearLayout>
 
@@ -625,7 +612,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="Near Park"
                             android:textColor="@color/white" />
                     </LinearLayout>
 
@@ -655,7 +641,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="Metropolis"
                             android:textColor="@color/white" />
                     </LinearLayout>
 
@@ -685,7 +670,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="123456"
                             android:textColor="@color/white" />
                     </LinearLayout>
 
@@ -737,7 +721,6 @@
                         android:layout_weight="1"
                         android:elevation="5dp"
                         android:fontFamily="@font/montserrat_regular"
-                        android:text="Unfurnished"
                         android:textColor="@color/white" />
                 </LinearLayout>
 
@@ -776,7 +759,6 @@
                             android:layout_height="wrap_content"
                             android:elevation="5dp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="1400"
                             android:textColor="@color/white" />
 
                         <TextView
@@ -822,7 +804,6 @@
                         android:elevation="5dp"
                         android:fontFamily="@font/montserrat_regular"
                         android:padding="2dp"
-                        android:text="Family, Bachelor and Company"
                         android:textColor="@color/white" />
                 </LinearLayout>
 
@@ -888,10 +869,9 @@
                         android:textColor="@color/off_white" />
 
                     <ImageView
-                        android:id="@+id/LiftIcon"
+                        android:id="@+id/liftIcon"
                         android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_cross" />
+                        android:layout_height="24dp"/>
                 </LinearLayout>
 
                 <View
@@ -928,8 +908,7 @@
                     <ImageView
                         android:id="@+id/GeneratorIcon"
                         android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_cross" />
+                        android:layout_height="24dp"/>
                 </LinearLayout>
 
                 <View
@@ -966,8 +945,7 @@
                     <ImageView
                         android:id="@+id/GasIcon"
                         android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_tick" />
+                        android:layout_height="24dp"/>
                 </LinearLayout>
 
                 <View
@@ -1004,8 +982,7 @@
                     <ImageView
                         android:id="@+id/SecurityGuardIcon"
                         android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_tick" />
+                        android:layout_height="24dp"/>
                 </LinearLayout>
 
                 <View
@@ -1041,8 +1018,7 @@
                     <ImageView
                         android:id="@+id/ParkingIcon"
                         android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_tick" />
+                        android:layout_height="24dp"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -1067,16 +1043,15 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:padding="15dp">
 
                 <TextView
                     android:id="@+id/ownerName"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:elevation="5dp"
                     android:fontFamily="@font/montserrat_regular"
-                    android:text="Surendra Kumar Panda"
                     android:textColor="@color/white"
                     android:textSize="17sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -1084,7 +1059,7 @@
 
                 <TextView
                     android:id="@+id/ownerRole"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:elevation="5dp"
                     android:fontFamily="@font/montserrat_bold"
@@ -1097,7 +1072,7 @@
 
                 <LinearLayout
                     android:id="@+id/tenantsServedContainer"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal"
@@ -1111,16 +1086,14 @@
                         android:layout_height="wrap_content"
                         android:elevation="5dp"
                         android:fontFamily="@font/montserrat_bold"
-                        android:text="426"
                         android:textColor="#FFEB3B"
                         android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/tenantsServedText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:elevation="5dp"
                         android:fontFamily="@font/montserrat_bold"
                         android:text="tenants served"
                         android:textColor="#FFEB3B"
@@ -1137,47 +1110,23 @@
                     android:text="Posted on"
                     android:textColor="@color/white"
                     android:textSize="17sp"
-                    app:layout_constraintStart_toStartOf="@+id/tenantsServedContainer"
+
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tenantsServedContainer" />
 
                 <TextView
-                    android:id="@+id/postDateDay"
+                    android:id="@+id/postTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
                     android:elevation="5dp"
                     android:fontFamily="@font/montserrat_regular"
-                    android:text="24"
                     android:textColor="@color/white"
                     android:textSize="17sp"
-                    app:layout_constraintStart_toEndOf="@+id/postDatePrefix"
-                    app:layout_constraintTop_toTopOf="@+id/postDatePrefix" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/postDatePrefix" />
 
-                <TextView
-                    android:id="@+id/postDateMonth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:elevation="5dp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:text="June"
-                    android:textColor="@color/white"
-                    android:textSize="17sp"
-                    app:layout_constraintStart_toEndOf="@+id/postDateDay"
-                    app:layout_constraintTop_toTopOf="@+id/postDatePrefix" />
-
-                <TextView
-                    android:id="@+id/postDateYear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:elevation="5dp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:text="2024"
-                    android:textColor="@color/white"
-                    android:textSize="17sp"
-                    app:layout_constraintStart_toEndOf="@+id/postDateMonth"
-                    app:layout_constraintTop_toTopOf="@+id/postDatePrefix" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
@@ -1225,7 +1174,6 @@
                     android:elevation="5dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:padding="4dp"
-                    android:text="New flat, spacious room, cooperative society"
                     android:textColor="@color/white" />
 
             </LinearLayout>

@@ -73,20 +73,7 @@ class HomeDetails : Fragment() {
     private lateinit var GreatThingsText: TextView
 
     private lateinit var photoAdapter: MyViewPagerAdapter
-    private val imageResIds = listOf(
-        R.drawable.home1,
-        R.drawable.home2,
-        R.drawable.home3,
-        R.drawable.home4,
-        R.drawable.home5,
-        R.drawable.home6,
-        R.drawable.home7,
-        R.drawable.home8,
-        R.drawable.home9,
-        R.drawable.home10,
-        R.drawable.home11,
-        R.drawable.home12,
-    )
+    private val imageResIds = ArrayList<String>()
 
     private val handler = Handler(Looper.getMainLooper())
     private val autoSlideRunnable = object : Runnable {
@@ -243,7 +230,8 @@ class HomeDetails : Fragment() {
     }
 
     private fun setupViewPager() {
-        photoAdapter = MyViewPagerAdapter(imageResIds)
+        photoAdapter = MyViewPagerAdapter()
+        photoAdapter.updateData(imageResIds)
         binding.viewPager.adapter = photoAdapter
         binding.viewPager.setPageTransformer(getTransformation())
         binding.viewPager.offscreenPageLimit = 3

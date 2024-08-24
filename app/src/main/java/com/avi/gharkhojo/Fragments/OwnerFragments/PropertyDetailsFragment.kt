@@ -1,6 +1,8 @@
 package com.avi.gharkhojo.Fragments.OwnerFragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,13 +20,18 @@ import com.avi.gharkhojo.databinding.FragmentPropertyDetailsBinding
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
+import java.text.NumberFormat
+import java.util.Currency
 
 class PropertyDetailsFragment : Fragment() {
     private var bedroomCount = 0
     private var washroomCount = 0
     private var balconyCount = 0
+    private var kitchenCount = 0
+
     lateinit var tvBedroomCount:TextView
     lateinit var tvWashroomCount:TextView
+    lateinit var tvKitchenCount:TextView
     lateinit var tvBalconyCount:TextView
     lateinit var spinnerFurnishing:AutoCompleteTextView
     lateinit var etTotalSpace:TextInputEditText
@@ -64,6 +71,7 @@ class PropertyDetailsFragment : Fragment() {
          tvBedroomCount = binding.tvBedroomCount
          tvWashroomCount = binding.tvWashroomCount
          tvBalconyCount = binding.tvBalconyCount
+        tvKitchenCount = binding.tvKitchenCount
 
         etTotalSpace = binding.etTotalSpace
         etFloorPosition = binding.etFloorPosition
@@ -75,6 +83,41 @@ class PropertyDetailsFragment : Fragment() {
         switchSecurityGaurdService = binding.switchSecurityGaurdService
         switchParking = binding.switchParking
         spinnerFurnishing = binding.autoCompleteTextView
+
+        binding.etTotalSpace.addTextChangedListener(object : TextWatcher {
+            private var isEditing = false
+            private val numberFormat: NumberFormat = NumberFormat.getInstance().apply {
+                maximumFractionDigits = 0
+                isGroupingUsed = true
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (isEditing) return
+                isEditing = true
+
+                try {
+                    val input = s.toString().replace(",", "")
+                    val number = input.toIntOrNull()
+                    if (number != null) {
+                        val formatted = numberFormat.format(number)
+                        binding.etTotalSpace.setText(formatted)
+                        binding.etTotalSpace.setSelection(formatted.length)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace() // Handle any unexpected errors
+                } finally {
+                    isEditing = false
+                }
+            }
+        })
+
 
 
 
@@ -122,6 +165,19 @@ class PropertyDetailsFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
 
+        binding.btnDecreaseKitchen.setOnClickListener {
+            if (kitchenCount > 0) {
+                kitchenCount--
+            }
+            tvKitchenCount.text = kitchenCount.toString()
+        }
+        binding.btnIncreaseKitchen.setOnClickListener {
+            kitchenCount++
+            tvKitchenCount.error = null
+            tvKitchenCount.text = kitchenCount.toString()
+        }
+
+
         binding.btnNext.setOnClickListener {
             if(!isAllFieldsFilled()){
                 return@setOnClickListener
@@ -140,6 +196,7 @@ class PropertyDetailsFragment : Fragment() {
                 noOfBedRoom = this@PropertyDetailsFragment.bedroomCount
                 noOfBathroom = this@PropertyDetailsFragment.washroomCount
                 noOfBalcony = this@PropertyDetailsFragment.balconyCount
+                noOfKitchen = this@PropertyDetailsFragment.kitchenCount
 
             }
             findNavController().navigate(R.id.action_propertyDetailsFragment_to_rentAndLocationFragment)
@@ -152,6 +209,8 @@ class PropertyDetailsFragment : Fragment() {
         tvBedroomCount.text = bedroomCount.toString()
         tvWashroomCount.text = washroomCount.toString()
         tvBalconyCount.text = balconyCount.toString()
+        tvKitchenCount.text = kitchenCount.toString()
+
     }
     private fun isAllFieldsFilled(): Boolean {
        if(etTotalSpace.text?.trim().isNullOrEmpty()){
@@ -176,6 +235,11 @@ class PropertyDetailsFragment : Fragment() {
         }
         if(washroomCount == 0){
             tvWashroomCount.error = "This field is required"
+            return false
+        }
+        if(kitchenCount == 0)
+        {
+            tvKitchenCount.error = "This field is required"
             return false
         }
         return true
@@ -209,6 +273,8 @@ class PropertyDetailsFragment : Fragment() {
         tvBedroomCount.text = bedroomCount.toString()
         tvWashroomCount.text = washroomCount.toString()
         tvBalconyCount.text = balconyCount.toString()
+        kitchenCount = 0
+        tvKitchenCount.text = kitchenCount.toString()
 
     }
 
