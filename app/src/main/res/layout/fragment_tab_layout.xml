@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:backgroundTint="@color/expBlue"
-    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Fragments.TabLayoutFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:backgroundTint="@color/expBlue"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/expBlue">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="Images"
+            app:titleTextAppearance="@style/CustomToolbarTitleTextAppearance"
             app:navigationIcon="@drawable/ic_back_arrow" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -24,6 +26,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -35,64 +38,51 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbars="none"
+                android:background="@color/white"
                 android:paddingHorizontal="16dp">
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/filter_chip_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:singleSelection="true">
+                    app:singleSelection="true"
+                    app:selectionRequired="true"
+                    app:chipSpacing="8dp">
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/filter_all"
+                        style="@style/CustomChipStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="All"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        android:backgroundTint="@color/expBlue"
-                        style="@style/Widget.MaterialComponents.Chip.Filter" />
+                        android:text="All" />
 
                     <com.google.android.material.chip.Chip
-                        android:backgroundTint="@color/expBlue"
                         android:id="@+id/filter_living_room"
+                        style="@style/CustomChipStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Living Room"
-
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        style="@style/Widget.MaterialComponents.Chip.Filter" />
+                        android:text="LivingRoom" />
 
                     <com.google.android.material.chip.Chip
-                        android:backgroundTint="@color/expBlue"
                         android:id="@+id/filter_office"
+                        style="@style/CustomChipStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Office"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        style="@style/Widget.MaterialComponents.Chip.Filter" />
+                        android:text="Office" />
 
                     <com.google.android.material.chip.Chip
-                        android:backgroundTint="@color/expBlue"
                         android:id="@+id/filter_bedroom"
+                        style="@style/CustomChipStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Bedroom"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        style="@style/Widget.MaterialComponents.Chip.Filter" />
+                        android:text="Bedroom" />
 
                     <com.google.android.material.chip.Chip
-                        android:backgroundTint="@color/expBlue"
                         android:id="@+id/filter_walk_in_robe"
+                        style="@style/CustomChipStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        android:text="Walk-in Robe"
-                        style="@style/Widget.MaterialComponents.Chip.Filter" />
+                        android:text="Walk-in Robe" />
 
                 </com.google.android.material.chip.ChipGroup>
             </HorizontalScrollView>

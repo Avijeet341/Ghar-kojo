@@ -86,4 +86,13 @@
     <color name="dark_gray2">#3C3C3C</color>
 
     <color name="accent_color">#FFEB3B</color>
+
+
+    <color name="chip_selected_background">#E6F3FF</color>
+    <color name="chip_selected_text_border">#0066CC</color>
+    <color name="chip_unselected_text">#757575</color>
+    <color name="chip_unselected_border">#E0E0E0</color>
+
+    <!-- Toolbar text color (if needed) -->
+    <color name="toolbar_text_color">#FFFFFF</color>
 </resources>

@@ -1,20 +1,23 @@
 package com.avi.gharkhojo.Fragments
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.animation.OvershootInterpolator
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
+import com.avi.gharkhojo.Adapter.ImageAdapter
+import com.avi.gharkhojo.Model.ImageItem
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentTabLayoutBinding
-import com.bumptech.glide.Glide
+import com.google.android.material.chip.Chip
 
 class TabLayoutFragment : Fragment() {
 
@@ -24,45 +27,91 @@ class TabLayoutFragment : Fragment() {
     private lateinit var imageAdapter: ImageAdapter
     private var currentFilter = FilterMode.All
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentTabLayoutBinding.inflate(inflater, container, false)
+        imageAdapter = ImageAdapter()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupToolbar()
         setupFilterChips()
         setupRecyclerView()
     }
 
     private fun setupToolbar() {
-        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).apply {
+            setSupportActionBar(binding.toolbar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
     }
 
     private fun setupFilterChips() {
-        binding.filterChipGroup.setOnCheckedChangeListener { _, checkedId ->
-            currentFilter = when (checkedId) {
-                R.id.filter_all -> FilterMode.All
-                R.id.filter_living_room -> FilterMode.LivingRoom
-                R.id.filter_office -> FilterMode.Office
-                R.id.filter_bedroom -> FilterMode.Bedroom
-                R.id.filter_walk_in_robe -> FilterMode.WalkInRobe
-                else -> FilterMode.All
+        val chips = listOf(
+            binding.filterAll,
+            binding.filterLivingRoom,
+            binding.filterOffice,
+            binding.filterBedroom,
+            binding.filterWalkInRobe
+        )
+
+        chips.forEachIndexed { index, chip ->
+            chip.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    currentFilter = FilterMode.values()[index]
+                    updateImageList()
+                    animateChipSelection(chip)
+                }
             }
-            updateImageList()
+        }
+
+
+        binding.filterAll.isChecked = true
+    }
+
+    private fun animateChipSelection(selectedChip: Chip) {
+        val icon = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_check)?.apply {
+            setTint(ContextCompat.getColor(requireContext(), R.color.white))
+        }
+
+        selectedChip.chipIcon = icon
+        selectedChip.isChipIconVisible = true
+
+
+        selectedChip.chipIconSize = 0f
+
+
+        val targetIconSize = selectedChip.height * 0.5f
+        val iconSizeAnimator = ObjectAnimator.ofFloat(selectedChip, "chipIconSize", 0f, targetIconSize)
+
+        AnimatorSet().apply {
+            playTogether(iconSizeAnimator)
+            duration = 300
+            interpolator = OvershootInterpolator()
+            start()
+        }
+
+
+        binding.filterChipGroup.children.forEach { view ->
+            if (view is Chip && view != selectedChip) {
+                view.isChipIconVisible = false
+            }
         }
     }
 
     private fun setupRecyclerView() {
-        imageAdapter = ImageAdapter()
-        binding.imageGrid.adapter = imageAdapter
-        binding.imageGrid.layoutManager = GridLayoutManager(context, 2).apply {
-            spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                override fun getSpanSize(position: Int): Int {
-                    return if (imageAdapter.getItemViewType(position) == ImageAdapter.VIEW_TYPE_HEADER) 2 else 1
+        binding.imageGrid.apply {
+            adapter = imageAdapter
+            layoutManager = GridLayoutManager(context, 2).apply {
+                spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                    override fun getSpanSize(position: Int): Int {
+                        return if (imageAdapter.getItemViewType(position) == ImageAdapter.VIEW_TYPE_HEADER) 2 else 1
+                    }
                 }
             }
         }
@@ -70,6 +119,8 @@ class TabLayoutFragment : Fragment() {
     }
 
     private fun updateImageList() {
+        if (!::imageAdapter.isInitialized) return
+
         val filteredList = when (currentFilter) {
             FilterMode.All -> getAllImages()
             FilterMode.LivingRoom -> listOf(ImageItem("Living Room", LivingRoomImages))
@@ -104,66 +155,6 @@ class TabLayoutFragment : Fragment() {
         val OfficeImages = listOf(R.drawable.home1, R.drawable.home5)
     }
 }
-
-class ImageAdapter : ListAdapter<ImageItem, RecyclerView.ViewHolder>(ImageDiffCallback()) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            VIEW_TYPE_HEADER -> HeaderViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_header, parent, false))
-            VIEW_TYPE_IMAGE -> ImageViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_image, parent, false))
-            else -> throw IllegalArgumentException("Invalid view type")
-        }
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = getItem(position)
-        when (holder) {
-            is HeaderViewHolder -> holder.bind(item.title)
-            is ImageViewHolder -> item.images.firstOrNull()?.let { holder.bind(it) }
-        }
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return if (getItem(position).images.isEmpty()) VIEW_TYPE_HEADER else VIEW_TYPE_IMAGE
-    }
-
-    class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val titleText: TextView = view.findViewById(R.id.title_text)
-
-        fun bind(title: String) {
-            titleText.text = title
-        }
-    }
-
-    class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val imageView: ImageView = view.findViewById(R.id.image_view)
-
-        fun bind(imageRes: Int) {
-            Glide.with(imageView.context)
-                .load(imageRes)
-                .override(500, 500)
-                .centerCrop()
-                .into(imageView)
-        }
-    }
-
-    companion object {
-        const val VIEW_TYPE_HEADER = 0
-        const val VIEW_TYPE_IMAGE = 1
-    }
-}
-
-class ImageDiffCallback : DiffUtil.ItemCallback<ImageItem>() {
-    override fun areItemsTheSame(oldItem: ImageItem, newItem: ImageItem): Boolean {
-        return oldItem.title == newItem.title && oldItem.images == newItem.images
-    }
-
-    override fun areContentsTheSame(oldItem: ImageItem, newItem: ImageItem): Boolean {
-        return oldItem == newItem
-    }
-}
-
-data class ImageItem(val title: String, val images: List<Int>)
 
 enum class FilterMode {
     All,
