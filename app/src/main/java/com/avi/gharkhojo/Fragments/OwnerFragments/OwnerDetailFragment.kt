@@ -180,6 +180,7 @@ class OwnerDetailFragment : Fragment() {
             append("${binding.LandmarkText.text},")
             append("${binding.CityText.text},")
             append("pincode:${binding.PinCodeText.text}")
+            append("state:${binding.stateText.text}")
         }.toString()
     }
 
