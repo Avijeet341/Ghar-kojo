@@ -180,8 +180,9 @@ class OwnerDetailFragment : Fragment() {
             append("${binding.ColonyText.text} Colony,")
             append("${binding.LandmarkText.text},")
             append("${binding.CityText.text},")
+            append("${binding.stateText.text},")
             append("pincode:${binding.PinCodeText.text}")
-            append("state:${binding.stateText.text}")
+
         }.toString()
     }
 
