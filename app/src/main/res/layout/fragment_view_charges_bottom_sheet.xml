@@ -107,6 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 android:fontFamily="@font/montserrat_regular"
                 android:text="Included in rent"/>
         </LinearLayout>
@@ -120,6 +121,7 @@
                 android:fontFamily="@font/montserrat_regular"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textStyle="bold"
                 android:textColor="@color/gray_600"
                 android:text="Maintenance charges"/>
             <TextView
