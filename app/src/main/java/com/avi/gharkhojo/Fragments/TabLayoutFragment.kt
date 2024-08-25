@@ -1,3 +1,10 @@
+/*
+* Agar tere ko naya tab item add karna hai to Model me ja kar FilterMode name ka enum class hoga usme add karna Category
+* uske bad to tu janta hi hai
+*
+*
+* */
+
 package com.avi.gharkhojo.Fragments
 
 import android.animation.ValueAnimator
@@ -66,16 +73,23 @@ class TabLayoutFragment : Fragment() {
                 id = View.generateViewId()
                 text = category
                 isCheckable = true
-                setChipBackgroundColorResource(R.color.chip_background_color)
-                setTextAppearanceResource(chipTextAppearance)
 
-                 //Style TabItem
+                 //Custom Style
+                setTextAppearanceResource(chipTextAppearance)
+                setChipBackgroundColorResource(R.color.chip_background_color)
                 minimumHeight = resources.getDimensionPixelSize(R.dimen.chip_min_height)
                 shapeAppearanceModel = shapeAppearanceModel.toBuilder()
                     .setAllCornerSizes(resources.getDimension(R.dimen.chip_corner_radius))
                     .build()
                 chipStartPadding = resources.getDimension(R.dimen.chip_start_padding)
                 chipEndPadding = resources.getDimension(R.dimen.chip_end_padding)
+                setPadding(
+                    resources.getDimensionPixelSize(R.dimen.chip_padding_start),
+                    0,
+                    resources.getDimensionPixelSize(R.dimen.chip_padding_end),
+                    0
+                )
+
                 chipIconSize = 0f
                 chipIcon = null
                 checkedIcon = null
@@ -90,12 +104,13 @@ class TabLayoutFragment : Fragment() {
             binding.filterChipGroup.addView(chip)
         }
 
-        // yahn by default all selected hoga TabLayout me
+        // by default  all checked rahega
         (binding.filterChipGroup.getChildAt(0) as? Chip)?.let {
             it.isChecked = true
             animateChipSelection(it)
         }
     }
+
 
     private fun animateChipSelection(selectedChip: Chip) {
         val icon = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_check)?.apply {

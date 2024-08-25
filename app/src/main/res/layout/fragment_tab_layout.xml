@@ -50,7 +50,7 @@ tools:context=".Fragments.TabLayoutFragment">
                 app:singleSelection="true"
                 app:selectionRequired="true"
                 app:chipSpacing="8dp">
-                <!-- Chips will be added programmatically -->
+
             </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>
 
