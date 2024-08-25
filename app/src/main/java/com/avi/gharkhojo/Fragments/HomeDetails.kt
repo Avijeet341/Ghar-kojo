@@ -224,7 +224,7 @@ class HomeDetails : Fragment() {
 
     private fun gradientSweepTextColorAnimation() {
         val colors = intArrayOf(
-            0xFF4285F4.toInt(),
+            0xFFA0DAFE.toInt(),
             0xFF00ecbc.toInt(),
             0xFF007FFF.toInt()
         )
