@@ -28,7 +28,6 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.ListResult
 import com.google.firebase.storage.storage
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import kotlinx.coroutines.CoroutineScope
@@ -37,9 +36,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.time.withTimeout
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeout
 import kotlin.math.abs
 
 class RoomPhotosFragment : Fragment() {

@@ -23,7 +23,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
-import com.avi.gharkhojo.Adapter.MyViewPagerAdapter
 import com.avi.gharkhojo.Adapter.MyViewPagerAdapter2
 import com.avi.gharkhojo.MainActivity
 import com.avi.gharkhojo.R
