@@ -87,6 +87,7 @@
                 android:id="@+id/rentalTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
         </LinearLayout>
@@ -129,6 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 android:fontFamily="@font/montserrat_regular"
                 />
         </LinearLayout>
