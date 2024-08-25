@@ -1,5 +1,5 @@
 <resources>
-    <dimen name="chip_min_height">55dp</dimen>
+    <dimen name="chip_min_height">57dp</dimen>
     <dimen name="chip_corner_radius">8dp</dimen>
     <dimen name="chip_start_padding">8dp</dimen>
     <dimen name="chip_end_padding">0dp</dimen>
