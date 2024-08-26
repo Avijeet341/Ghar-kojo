@@ -15,6 +15,7 @@
         android:padding="5dp"
         android:textColor="#777777"
         android:textSize="12sp"
+        android:fontFamily="@font/montserrat_regular"
         android:textStyle="italic" />
 
     <LinearLayout
