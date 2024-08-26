@@ -20,6 +20,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.CompositePageTransformer
@@ -210,11 +211,31 @@ class HomeDetails : Fragment() {
 
     private fun setupBookmarkButton() {
         var isBookmarked = false
+        val unbookmarkedColor = ContextCompat.getColor(requireContext(), R.color.bookmark_unbookmarked)
+        val bookmarkedColor = ContextCompat.getColor(requireContext(), R.color.bookmark_bookmarked)
+
+
+        bookMark.setImageResource(R.drawable.bookmark_animation)
+        bookMark.setColorFilter(unbookmarkedColor)
+
         bookMark.setOnClickListener {
             isBookmarked = !isBookmarked
-            val drawable = bookMark.drawable as AnimatedStateListDrawable
-            bookMark.isSelected = isBookmarked
-            drawable.setState(if (isBookmarked) intArrayOf(android.R.attr.state_checked) else intArrayOf())
+
+            if (isBookmarked) {
+                // Bookmark
+                bookMark.setColorFilter(bookmarkedColor)
+                Toast.makeText(context, "Bookmarked", Toast.LENGTH_SHORT).show()
+            } else {
+                // Unbookmark
+                bookMark.setColorFilter(unbookmarkedColor)
+                bookMark.setImageResource(R.drawable.bookmark_animation)
+                Toast.makeText(context, "Unbookmarked", Toast.LENGTH_SHORT).show()
+            }
+
+
+            (bookMark.drawable as? AnimatedStateListDrawable)?.let { drawable ->
+                drawable.setState(if (isBookmarked) intArrayOf(android.R.attr.state_checked) else intArrayOf())
+            }
         }
     }
 

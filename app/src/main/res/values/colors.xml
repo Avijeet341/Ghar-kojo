@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="bookmark_unbookmarked">#E7F1FE</color>
+    <color name="bookmark_bookmarked">#FFD580</color>
     <color name="expBlue">#007FFF</color>
     <color name="expBgBlue">#E7F1FE</color>
     <color name="messangerBlue">#4285F4</color>
