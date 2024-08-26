@@ -229,7 +229,7 @@ class HomeDetails : Fragment() {
                 // Unbookmark
                 bookMark.setColorFilter(unbookmarkedColor)
                 bookMark.setImageResource(R.drawable.bookmark_animation)
-                Toast.makeText(context, "Unbookmarked", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Bookmark Removed", Toast.LENGTH_SHORT).show()
             }
 
 

@@ -52,6 +52,11 @@
         android:name="com.avi.gharkhojo.Fragments.TabLayoutFragment"
         android:label="fragment_tab_layout"
         tools:layout="@layout/fragment_tab_layout" />
+    <fragment
+        android:id="@+id/bookmarkFragment"
+        android:name="com.avi.gharkhojo.Fragments.BookmarkFragment"
+        android:label="fragment_bookmark"
+        tools:layout="@layout/fragment_bookmark" />
 
 
 </navigation>

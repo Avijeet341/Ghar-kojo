@@ -3,7 +3,7 @@
     <string name="app_name">GharKhojo</string>
     <string name="home">Home</string>
     <string name="search">search</string>
-    <string name="Cart">Cart</string>
+    <string name="Cart">Bookmark</string>
     <string name="account">Don\'t you have a account yet?<font color="@color/black"><b><u><i>Sign Up</i></u></b></font></string>
     <string name="forgot_password"><u>I forgot my password</u></string>
     <string name="Profile">Profile</string>
