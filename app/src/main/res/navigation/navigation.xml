@@ -46,11 +46,6 @@
             android:id="@+id/action_homeDetails_to_tabLayoutFragment"
             app:destination="@id/tabLayoutFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/tabLayoutFragment"
-        android:name="com.avi.gharkhojo.Fragments.TabLayoutFragment"
-        android:label="fragment_tab_layout"
-        tools:layout="@layout/fragment_tab_layout" />
 
     <fragment
         android:id="@+id/tabLayoutFragment"

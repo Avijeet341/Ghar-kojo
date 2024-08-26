@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
@@ -31,7 +32,7 @@ import javax.inject.Inject
 class Home : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-
+    private lateinit var filterAnimation: android.view.animation.Animation
     @Inject lateinit var requestManager: RequestManager
 
     override fun onCreateView(
@@ -49,9 +50,18 @@ class Home : Fragment() {
         setupToolbar()
         setupGridView()
         setupSearchView()
+        setupFilterButtonAnimation()
 
     }
 
+    private fun setupFilterButtonAnimation() {
+        filterAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.filter_button_animation)
+
+        binding.filterButton.setOnClickListener {
+            it.startAnimation(filterAnimation)
+
+        }
+    }
     private fun setupSearchView() {
         val searchView = binding.toolbar.findViewById<SearchView>(R.id.search_view)
 

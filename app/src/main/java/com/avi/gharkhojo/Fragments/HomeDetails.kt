@@ -6,6 +6,8 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
+import android.graphics.drawable.AnimatedStateListDrawable
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -33,6 +35,10 @@ class HomeDetails : Fragment() {
 
     private var _binding: FragmentHomeDetailsBinding? = null
     private val binding get() = _binding!!
+    private lateinit var bookMark: ImageButton
+    private lateinit var shareButton: ImageButton
+    private lateinit var chatBtn: ImageButton
+    private lateinit var backButton: ImageButton
     private lateinit var viewPager: ViewPager2
     private lateinit var price: TextView
     private lateinit var viewCharges: TextView
@@ -113,7 +119,7 @@ class HomeDetails : Fragment() {
         Initialization()
         setupViewPager()
         setupCopyButton()
-
+        setupBookmarkButton()
 
         view.post {
             gradientSweepTextColorAnimation()
@@ -124,41 +130,16 @@ class HomeDetails : Fragment() {
         }
 
     }
-    private fun hideBottomNavBar() {
-        (activity as? MainActivity)?.hideBottomNavBar()
-    }
-    private fun showBottomNavBar() {
-        (activity as? MainActivity)?.showBottomNavBar()
-    }
-
-
-
-    private fun setupCopyButton() {
-        binding.copyButton.setOnClickListener {
-            val address = buildAddress()
-            copyToClipboard(address)
-            Toast.makeText(context, "Address copied to clipboard", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun buildAddress(): String {
-        return StringBuilder().apply {
-            append("House No:${binding.houseNoText.text},")
-            append("Road&Lane No:${binding.RoadLaneText.text},")
-            append("${binding.ColonyText.text} Colony,")
-            append("${binding.LandmarkText.text},")
-            append("${binding.CityText.text},")
-            append("pincode:${binding.PinCodeText.text}")
-        }.toString()
-    }
-
-    private fun copyToClipboard(text: String) {
-        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText("address", text)
-        clipboard.setPrimaryClip(clip)
-    }
 
     private fun Initialization() {
+
+        //ToolBar
+        bookMark = binding.bookMarkButton
+        shareButton = binding.shareButton
+        chatBtn = binding.chatBtn
+        backButton = binding.backButton
+
+
         // ViewPager for Images
         viewPager=binding.viewPager
 
@@ -220,6 +201,49 @@ class HomeDetails : Fragment() {
         // Great Things About Property
         GreatThingsText = binding.GreatThingsText
     }
+    private fun hideBottomNavBar() {
+        (activity as? MainActivity)?.hideBottomNavBar()
+    }
+    private fun showBottomNavBar() {
+        (activity as? MainActivity)?.showBottomNavBar()
+    }
+
+    private fun setupBookmarkButton() {
+        var isBookmarked = false
+        bookMark.setOnClickListener {
+            isBookmarked = !isBookmarked
+            val drawable = bookMark.drawable as AnimatedStateListDrawable
+            bookMark.isSelected = isBookmarked
+            drawable.setState(if (isBookmarked) intArrayOf(android.R.attr.state_checked) else intArrayOf())
+        }
+    }
+
+    private fun setupCopyButton() {
+        binding.copyButton.setOnClickListener {
+            val address = buildAddress()
+            copyToClipboard(address)
+            Toast.makeText(context, "Address copied to clipboard", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun buildAddress(): String {
+        return StringBuilder().apply {
+            append("House No:${binding.houseNoText.text},")
+            append("Road&Lane No:${binding.RoadLaneText.text},")
+            append("${binding.ColonyText.text} Colony,")
+            append("${binding.LandmarkText.text},")
+            append("${binding.CityText.text},")
+            append("pincode:${binding.PinCodeText.text}")
+        }.toString()
+    }
+
+    private fun copyToClipboard(text: String) {
+        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("address", text)
+        clipboard.setPrimaryClip(clip)
+    }
+
+
 
     private fun gradientSweepTextColorAnimation() {
         val colors = intArrayOf(
@@ -296,8 +320,8 @@ class HomeDetails : Fragment() {
     }
 
     private fun showViewChargesBottomSheet() {
-        val bottomSheet = ViewChargesBottomSheet.newInstance()
-        bottomSheet.show(childFragmentManager, ViewChargesBottomSheet.TAG)
+        val bottomSheet = ViewChargesUserBottomSheetFragment.newInstance()
+        bottomSheet.show(childFragmentManager, ViewChargesUserBottomSheetFragment.TAG)
     }
 
     override fun onDestroyView() {

@@ -1,0 +1,26 @@
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/state_off"
+        android:drawable="@drawable/ic_favorite"
+        android:state_checked="false"/>
+    <item
+        android:id="@+id/state_on"
+        android:drawable="@drawable/ic_bookmark_filled"
+        android:state_checked="true"/>
+
+    <transition
+        android:fromId="@id/state_off"
+        android:toId="@id/state_on">
+        <animated-vector android:drawable="@drawable/ic_favorite">
+            <!-- Define your animation here -->
+        </animated-vector>
+    </transition>
+
+    <transition
+        android:fromId="@id/state_on"
+        android:toId="@id/state_off">
+        <animated-vector android:drawable="@drawable/ic_bookmark_filled">
+            <!-- Define your reverse animation here -->
+        </animated-vector>
+    </transition>
+</animated-selector>
