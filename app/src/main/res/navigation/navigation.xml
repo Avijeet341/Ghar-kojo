@@ -23,12 +23,6 @@
         tools:layout="@layout/fragment_search" />
 
     <fragment
-        android:id="@+id/cart"
-        android:name="com.avi.gharkhojo.Fragments.Cart"
-        android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" />
-
-    <fragment
         android:id="@+id/profile"
         android:name="com.avi.gharkhojo.Fragments.Profile"
         android:label="fragment_profile"
@@ -56,7 +50,11 @@
         android:id="@+id/bookmarkFragment"
         android:name="com.avi.gharkhojo.Fragments.BookmarkFragment"
         android:label="fragment_bookmark"
-        tools:layout="@layout/fragment_bookmark" />
+        tools:layout="@layout/fragment_bookmark" >
+        <action
+            android:id="@+id/action_bookmarkFragment_to_homeDetails"
+            app:destination="@id/homeDetails" />
+    </fragment>
 
 
 </navigation>

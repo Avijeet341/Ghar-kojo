@@ -1,60 +1,71 @@
 package com.avi.gharkhojo.Fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.avi.gharkhojo.Adapter.BookmarkAdapter
+import com.avi.gharkhojo.Model.GridItem
+import com.avi.gharkhojo.Model.House
 import com.avi.gharkhojo.R
+import com.avi.gharkhojo.databinding.FragmentBookmarkBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [BookmarkFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class BookmarkFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentBookmarkBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bookmark, container, false)
+        _binding = FragmentBookmarkBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment BookmarkFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            BookmarkFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
+        val houses = listOf(
+            House(
+                imageUrl = R.drawable.home1,
+                title = "Modern Wood House",
+                location = "Canberra, Australia",
+                priceAmount = "$3,000",
+                bedrooms = "5",
+                bathrooms = "4",
+                area = "1500 sq.ft."
+            ),
+            House(
+                imageUrl = R.drawable.home2,
+                title = "Stylish Villa",
+                location = "Sydney, Australia",
+                priceAmount = "$4,500",
+                bedrooms = "6",
+                bathrooms = "5",
+                area = "2000 sq.ft."
+            )
+        )
+
+
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.adapter = BookmarkAdapter(houses) { house ->
+            // Navigate to HomeDetailsFragment without any GridItem
+            val action = BookmarkFragmentDirections.actionBookmarkFragmentToHomeDetails(
+                selectedGridItem = GridItem(0, "", "") //  default GridItem
+            )
+            findNavController().navigate(action)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
