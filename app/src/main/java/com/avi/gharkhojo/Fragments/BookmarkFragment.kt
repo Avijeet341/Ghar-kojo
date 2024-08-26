@@ -28,9 +28,7 @@ class BookmarkFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setNavigationOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-        }
+
 
         val houses = listOf(
             House(
@@ -50,7 +48,46 @@ class BookmarkFragment : Fragment() {
                 bedrooms = "6",
                 bathrooms = "5",
                 area = "2000 sq.ft."
+            ),
+            House(
+                imageUrl = R.drawable.home3,
+                title = "Modern Loft",
+                location = "New York, USA",
+                priceAmount = "$3,200",
+                bedrooms = "4",
+                bathrooms = "3",
+                area = "1500 sq.ft."
+            ),
+            House(
+                imageUrl = R.drawable.home4,
+                title = "Charming Cottage",
+                location = "Lake Tahoe, USA",
+                priceAmount = "$2,800",
+                bedrooms = "3",
+                bathrooms = "2",
+                area = "1200 sq.ft."
             )
+         ,House(
+                imageUrl = R.drawable.home5,
+                title = "Elegant Mansion",
+                location = "Paris, France",
+                priceAmount = "$8,000",
+                bedrooms = "7",
+                bathrooms = "6",
+                area = "3500 sq.ft."
+            )
+,
+            House(
+                imageUrl = R.drawable.home6,
+                title = "Cozy Cabin",
+                location = "Aspen, USA",
+                priceAmount = "$1,800",
+                bedrooms = "2",
+                bathrooms = "1",
+                area = "900 sq.ft."
+            )
+
+
         )
 
 

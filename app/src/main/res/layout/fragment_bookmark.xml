@@ -17,10 +17,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Your Bookmarks"
+            app:title="Your Bookmarks :"
             app:titleTextColor="@color/white"
             app:titleTextAppearance="@style/CustomToolbarTitleTextAppearance"
-            app:navigationIcon="@drawable/ic_back_arrow" />
+             />
 
     </com.google.android.material.appbar.AppBarLayout>
 
