@@ -56,7 +56,11 @@ class BookmarkFragment : Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = BookmarkAdapter(houses) { house ->
-            // Navigate to HomeDetailsFragment without any GridItem
+            /* Navigate to HomeDetailsFragment without any GridItem
+            * hum log home se bhi homeDetails me aa rahe hain or bookmark se bhi
+            * but mr gridItem sirf home frament ke liye kar raha hun issliye gridItem
+            *  ka default value send kar raha hun home deatails me  bookmark fragment se
+            * */
             val action = BookmarkFragmentDirections.actionBookmarkFragmentToHomeDetails(
                 selectedGridItem = GridItem(0, "", "") //  default GridItem
             )
