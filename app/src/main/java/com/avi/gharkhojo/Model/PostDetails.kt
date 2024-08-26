@@ -30,10 +30,10 @@ object PostDetails {
     var hasParking:Boolean? = null
     var hasGenerator:Boolean? = null
     var hasGasService:Boolean? = null
-    var parkingCharge:Double? = null
+    var parkingCharge:String? = null
     var isParkingChargeIncluded:Boolean? = null
-    var rent:Double? = null
-    var deposit:Double? = null
+    var rent:String? = null
+    var deposit:String? = null
     var pincode:Int? = null
     var landMark:String? = null
     var houseNumber:Int? = null
@@ -45,8 +45,9 @@ object PostDetails {
     var latitude:Double? = null
     var description:String? = null
     var coverImage:String? = null
-    var maintenanceCharge:Double? = null
+    var maintenanceCharge:String? = null
     var road_lane:String? = null
+    var noOfKitchen:Int? = null
 
     var imageList:Map<String,ArrayList<String>> = hashMapOf(
         "BedRoom" to ArrayList(),
@@ -97,6 +98,7 @@ object PostDetails {
             it.coverImage = this@PostDetails.coverImage.toString().trim()
             it.maintenanceCharge = this@PostDetails.maintenanceCharge
             it.road_lane = this@PostDetails.road_lane?.trim()
+            it.noOfKitchen = this@PostDetails.noOfKitchen
 
 
 
@@ -135,6 +137,7 @@ object PostDetails {
             && coverImage != null && coverImage!!.isNotEmpty()
             && maintenanceCharge != null
             && state!=null && state!!.isNotEmpty()
+            && noOfKitchen != null
                 
 
 
@@ -173,6 +176,7 @@ object PostDetails {
          latitude = null
          description = null
         road_lane = null
+        noOfKitchen = null
         imageList.forEach {
             it.value.clear()
         }

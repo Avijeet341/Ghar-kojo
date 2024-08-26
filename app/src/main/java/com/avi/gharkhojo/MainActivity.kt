@@ -55,10 +55,10 @@ class MainActivity : BaseActivity() {
         bottomNavigation.setOnItemSelectedListener { id ->
             when (id) {
                 R.id.nav_home -> navController.navigate(R.id.home2)
-                R.id.nav_search -> navController.navigate(R.id.search)
-                R.id.nav_cart -> {
-                    startActivity(Intent(this, Chat_Activity::class.java))
-//                    navController.navigate(R.id.cart)
+                R.id.nav_chat -> startActivity(Intent(this, Chat_Activity::class.java))
+                    //
+                R.id.nav_bookMark -> {
+                    navController.navigate(R.id.bookmarkFragment)
                 }
                 R.id.nav_profile -> navController.navigate(R.id.profile)
             }

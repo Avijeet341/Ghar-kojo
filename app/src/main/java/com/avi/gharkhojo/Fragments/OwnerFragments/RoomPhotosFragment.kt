@@ -28,7 +28,6 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.ListResult
 import com.google.firebase.storage.storage
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import kotlinx.coroutines.CoroutineScope
@@ -37,9 +36,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.time.withTimeout
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeout
 import kotlin.math.abs
 
 class RoomPhotosFragment : Fragment() {
@@ -94,23 +91,22 @@ class RoomPhotosFragment : Fragment() {
             if(selectedRoomType!= "CoverImage" && PostDetails.imageList.get(selectedRoomType)?.size!! !=0){
                 photoList.clear()
                 photoList.addAll(PostDetails.imageList.get(selectedRoomType)!!)
-                updateViewPager()
                 binding.selectedRoomTypeTextView.text = "${selectedRoomType} Total images: ${PostDetails.imageList.get(selectedRoomType)?.size}"
             }
             else if(selectedRoomType == "CoverImage"){
                 photoList.clear()
-                if(coverImage.isNotEmpty()) {
-                    photoList.add(coverImage)
-                    updateViewPager()
+                if(!PostDetails.coverImage.isNullOrEmpty()) {
+                    photoList.add(PostDetails.coverImage!!)
+
                 }
 
                 binding.selectedRoomTypeTextView.text = "${selectedRoomType}"
             }
             else{
                 photoList.clear()
-                updateViewPager()
                 binding.selectedRoomTypeTextView.text = "${selectedRoomType}"
             }
+            updateViewPager()
 
             binding.pickPhotosButton.isEnabled = true
         }
@@ -200,6 +196,7 @@ class RoomPhotosFragment : Fragment() {
                 binding.deleteSelected.isEnabled = false
 
                 val post = PostDetails.saveData()
+                post.userId = FirebaseAuth.getInstance().currentUser!!.uid
 
                 CoroutineScope(Dispatchers.Main).launch {
                             val isUploadSuccessful = uploadPost(post)
@@ -252,11 +249,11 @@ class RoomPhotosFragment : Fragment() {
 
     private suspend fun uploadPost(post: Post): Boolean = withContext(Dispatchers.IO) {
         try {
-            post.postTime = System.currentTimeMillis()
+            post.postTime = System.currentTimeMillis().toString()
             val uploadTasks = post.imageList.flatMap { (key, images) ->
                 images.map { imageUri ->
                     async {
-                        storageReference.child(post.postTime.toString()).child(key).child(System.currentTimeMillis().toString()).putFile(Uri.parse(imageUri)).await()
+                        storageReference.child(post.postTime!!).child(key).child(System.currentTimeMillis().toString()).putFile(Uri.parse(imageUri)).await()
                     }
                 }
             }
@@ -285,8 +282,7 @@ class RoomPhotosFragment : Fragment() {
 
             downloadUrlTasks.awaitAll()
 
-            val key = databaseReference?.push()?.key ?: return@withContext false
-            databaseReference?.child(key)?.setValue(post)?.await()
+            databaseReference?.push()?.setValue(post)?.await()
 
             return@withContext true
         } catch (e: Exception) {

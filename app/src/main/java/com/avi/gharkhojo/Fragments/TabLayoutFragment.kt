@@ -1,12 +1,19 @@
+/*
+* Agar tere ko naya tab item add karna hai to Model me ja kar FilterMode name ka enum class hoga usme add karna Category
+* uske bad to tu janta hi hai
+*
+*
+* */
+
 package com.avi.gharkhojo.Fragments
 
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
@@ -14,7 +21,7 @@ import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.avi.gharkhojo.Adapter.ImageAdapter
-import com.avi.gharkhojo.MainActivity
+import com.avi.gharkhojo.Model.FilterMode
 import com.avi.gharkhojo.Model.ImageItem
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentTabLayoutBinding
@@ -28,6 +35,8 @@ class TabLayoutFragment : Fragment() {
     private lateinit var imageAdapter: ImageAdapter
     private var currentFilter = FilterMode.All
 
+    private val filterCategories = listOf("All","Hall" ,"LivingRoom", "Office", "Bedroom", "Walk-in Robe")
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,19 +49,10 @@ class TabLayoutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       // hideBottomNavBar()
         setupToolbar()
         setupFilterChips()
         setupRecyclerView()
     }
-
-    private fun hideBottomNavBar() {
-        (activity as? MainActivity)?.hideBottomNavBar()
-    }
-    private fun showBottomNavBar() {
-        (activity as? MainActivity)?.showBottomNavBar()
-    }
-
 
     private fun setupToolbar() {
         (activity as AppCompatActivity).apply {
@@ -62,27 +62,56 @@ class TabLayoutFragment : Fragment() {
     }
 
     private fun setupFilterChips() {
-        val chips = listOf(
-            binding.filterAll,
-            binding.filterLivingRoom,
-            binding.filterOffice,
-            binding.filterBedroom,
-            binding.filterWalkInRobe
-        )
+        binding.filterChipGroup.removeAllViews()
+        binding.filterChipGroup.isSingleSelection = true
+        binding.filterChipGroup.isSelectionRequired = false
 
-        chips.forEachIndexed { index, chip ->
-            chip.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    currentFilter = FilterMode.values()[index]
+        val chipStyle = R.style.CustomChipStyle
+        val chipTextAppearance = R.style.CustomChipTextAppearance
+
+        filterCategories.forEachIndexed { index, category ->
+            val chip = Chip(requireContext(), null, chipStyle).apply {
+                id = View.generateViewId()
+                text = category
+                isCheckable = true
+
+                 //Custom Style
+                setTextAppearanceResource(chipTextAppearance)
+                setChipBackgroundColorResource(R.color.chip_background_color)
+                minimumHeight = resources.getDimensionPixelSize(R.dimen.chip_min_height)
+                shapeAppearanceModel = shapeAppearanceModel.toBuilder()
+                    .setAllCornerSizes(resources.getDimension(R.dimen.chip_corner_radius))
+                    .build()
+                chipStartPadding = resources.getDimension(R.dimen.chip_start_padding)
+                chipEndPadding = resources.getDimension(R.dimen.chip_end_padding)
+                setPadding(
+                    resources.getDimensionPixelSize(R.dimen.chip_padding_start),
+                    0,
+                    resources.getDimensionPixelSize(R.dimen.chip_padding_end),
+                    0
+                )
+
+                chipIconSize = 0f
+                chipIcon = null
+                checkedIcon = null
+
+                setOnClickListener {
+                    isChecked = true
+                    currentFilter = FilterMode.entries.toTypedArray()[index]
                     updateImageList()
-                    animateChipSelection(chip)
+                    animateChipSelection(this)
                 }
             }
+            binding.filterChipGroup.addView(chip)
         }
 
-
-        binding.filterAll.isChecked = true
+        // by default  all checked rahega
+        (binding.filterChipGroup.getChildAt(0) as? Chip)?.let {
+            it.isChecked = true
+            animateChipSelection(it)
+        }
     }
+
 
     private fun animateChipSelection(selectedChip: Chip) {
         val icon = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_check)?.apply {
@@ -92,20 +121,19 @@ class TabLayoutFragment : Fragment() {
         selectedChip.chipIcon = icon
         selectedChip.isChipIconVisible = true
 
-
-        selectedChip.chipIconSize = 0f
-
+//Size shrink and expand
+        selectedChip.chipIconSize = 1f
 
         val targetIconSize = selectedChip.height * 0.5f
-        val iconSizeAnimator = ObjectAnimator.ofFloat(selectedChip, "chipIconSize", 0f, targetIconSize)
-
-        AnimatorSet().apply {
-            playTogether(iconSizeAnimator)
+        ValueAnimator.ofFloat(1f, targetIconSize).apply {
+            addUpdateListener { animator ->
+                val animatedValue = animator.animatedValue as Float
+                selectedChip.chipIconSize = animatedValue
+            }
             duration = 300
             interpolator = OvershootInterpolator()
             start()
         }
-
 
         binding.filterChipGroup.children.forEach { view ->
             if (view is Chip && view != selectedChip) {
@@ -133,6 +161,7 @@ class TabLayoutFragment : Fragment() {
 
         val filteredList = when (currentFilter) {
             FilterMode.All -> getAllImages()
+            FilterMode.Hall -> listOf(ImageItem("Hall", HallImages))
             FilterMode.LivingRoom -> listOf(ImageItem("Living Room", LivingRoomImages))
             FilterMode.Office -> listOf(ImageItem("Office", OfficeImages))
             FilterMode.Bedroom -> listOf(ImageItem("Bedroom", BedroomImages))
@@ -146,16 +175,16 @@ class TabLayoutFragment : Fragment() {
 
     private fun getAllImages(): List<ImageItem> {
         return listOf(
-            ImageItem("Office", OfficeImages),
-            ImageItem("Walk-in Robe", WalkInRobeImages),
+            ImageItem("Hall", HallImages),
             ImageItem("Living Room", LivingRoomImages),
-            ImageItem("Bedroom", BedroomImages)
+            ImageItem("Office", OfficeImages),
+            ImageItem("Bedroom", BedroomImages),
+            ImageItem("Walk-in Robe", WalkInRobeImages),
         )
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        //showBottomNavBar()
         _binding = null
     }
 
@@ -164,13 +193,7 @@ class TabLayoutFragment : Fragment() {
         val LivingRoomImages = listOf(R.drawable.home6, R.drawable.home8, R.drawable.home9, R.drawable.home3)
         val BedroomImages = listOf(R.drawable.home2, R.drawable.home4, R.drawable.home7)
         val OfficeImages = listOf(R.drawable.home1, R.drawable.home5)
+        val HallImages = listOf(R.drawable.home10,R.drawable.home12)
     }
 }
 
-enum class FilterMode {
-    All,
-    LivingRoom,
-    Office,
-    Bedroom,
-    WalkInRobe
-}

@@ -52,8 +52,8 @@ class OwnerActivity : BaseActivity() {
 
 
         if (savedInstanceState == null) {
-            navController.navigate(R.id.addFragment)
-            bottomNavigation.setItemSelected(R.id.addFragment, true) // Set ChipNavigationBar item to AddFragment
+            navController.navigate(R.id.uploadsFragment)
+            bottomNavigation.setItemSelected(R.id.uploadsFragment, true) // Set ChipNavigationBar item to AddFragment
         }
 
         handleOnBackPressed()
@@ -92,7 +92,7 @@ class OwnerActivity : BaseActivity() {
     private fun handleOnBackPressed() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                val rootFragmentId = R.id.addFragment
+                val rootFragmentId = R.id.uploadsFragment
                 val currentDestination = navController.currentDestination?.id
 
                 Log.d("HandleBackPress", "Current Destination: $currentDestination, Root Fragment: $rootFragmentId")
@@ -103,7 +103,7 @@ class OwnerActivity : BaseActivity() {
                         Log.d("HandleBackPress", "Navigating to Root Fragment")
                         navController.navigate(rootFragmentId)
                     }
-                    bottomNavigation.setItemSelected(R.id.addFragment, true)
+                    bottomNavigation.setItemSelected(R.id.uploadsFragment, true)
                     Log.d("HandleBackPress", "Set bottom navigation item selected")
                 } else {
                     val intent = Intent(this@OwnerActivity, MainActivity::class.java)

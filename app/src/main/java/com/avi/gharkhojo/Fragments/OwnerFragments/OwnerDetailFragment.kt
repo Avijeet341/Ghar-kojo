@@ -6,6 +6,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -13,15 +14,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.avi.gharkhojo.Adapter.MyViewPagerAdapter
 import com.avi.gharkhojo.Fragments.ViewChargesBottomSheet
+import com.avi.gharkhojo.Model.Post
+import com.avi.gharkhojo.Model.Upload
 import com.avi.gharkhojo.OwnerActivity
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentOwnerDetailBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlin.math.abs
 
 class OwnerDetailFragment : Fragment() {
@@ -58,50 +68,42 @@ class OwnerDetailFragment : Fragment() {
     private lateinit var ownerName: TextView
     private lateinit var tenantsServedNumber: TextView
     private lateinit var postDateDay: TextView
-    private lateinit var postDateMonth: TextView
-    private lateinit var postDateYear: TextView
+
     private lateinit var GreatThingsText: TextView
 
     private lateinit var photoAdapter: MyViewPagerAdapter
-    private val imageResIds = listOf(
-        R.drawable.home1,
-        R.drawable.home2,
-        R.drawable.home3,
-        R.drawable.home4,
-        R.drawable.home5,
-        R.drawable.home6,
-        R.drawable.home7,
-        R.drawable.home8,
-        R.drawable.home9,
-        R.drawable.home10,
-        R.drawable.home11,
-        R.drawable.home12,
-    )
-
+    private var databaseReference: DatabaseReference? = FirebaseDatabase.getInstance().reference.child("Posts").child(
+        FirebaseAuth.getInstance().currentUser!!.uid)
+    private val imageResIds = ArrayList<String>()
+    lateinit var post:Post
     private val handler = Handler(Looper.getMainLooper())
     private val autoSlideRunnable = object : Runnable {
         override fun run() {
             val currentItem = binding.viewPager.currentItem
-            val nextItem = (currentItem + 1) % imageResIds.size
+            val nextItem = (currentItem + 1) % if(imageResIds.size==0) 1 else imageResIds.size
             binding.viewPager.setCurrentItem(nextItem, true)
             handler.postDelayed(this, 3000)
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentOwnerDetailBinding.inflate(inflater, container, false)
+        post = arguments?.getParcelable("post")!!
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         hideBottomNavBar()
         Initialization()
         setupViewPager()
         setupCopyButton()
+        setupData()
 
         view.post {
             gradientSweepTextColorAnimation()
@@ -110,6 +112,48 @@ class OwnerDetailFragment : Fragment() {
         binding.viewCharges.setOnClickListener {
             showViewChargesBottomSheet()
         }
+
+    }
+
+    private fun setupData() {
+        price.text = post.rent
+        bedroomNumber.text = post.noOfBedRoom.toString()
+        bathroomNumber.text = post.noOfBathroom.toString()
+        kitchenNumber.text = post.noOfKitchen.toString()
+        floorNumber.text = post.floorPosition
+        balconyNumber.text = post.noOfBalcony.toString()
+        areaNumber.text = "${post.builtUpArea}"
+
+        BHKNumber.text = "${(post.noOfBedRoom?.plus(post.noOfKitchen!!) ?: 0) + 1}"
+        propertyType.text = post.propertyType
+        houseNoText.text = post.houseNumber.toString()
+        RoadLaneText.text = post.road_lane.toString()
+        ColonyText.text = post.colony.toString()
+        AreaText.text = post.area.toString()
+        LandmarkText.text = post.landMark.toString()
+        CityText.text = post.city.toString()
+        PinCodeText.text = post.pincode.toString()
+        furnishingText.text = post.furnished.toString()
+        BuiltUpAreaText.text = post.builtUpArea.toString()
+        PreferredTenantText.text = post.preferredTenants.toString()
+        LiftIcon.setImageResource(if (post.hasLift == true) R.drawable.ic_tick else R.drawable.ic_cross)
+        GeneratorIcon.setImageResource(if (post.hasGenerator == true) R.drawable.ic_tick else R.drawable.ic_cross)
+        GasIcon.setImageResource(if (post.hasGasService == true) R.drawable.ic_tick else R.drawable.ic_cross)
+        SecurityGuardIcon.setImageResource(if (post.hasSecurityGuard == true) R.drawable.ic_tick else R.drawable.ic_cross)
+        ParkingIcon.setImageResource(if (post.hasParking == true) R.drawable.ic_tick else R.drawable.ic_cross)
+        ownerName.text = post.ownerName
+        tenantsServedNumber.text = post.tenantServed
+        postDateDay.text = getDateTime(post.postTime)
+        GreatThingsText.text = post.description.toString()
+        binding.stateText.text = post.state.toString()
+    }
+
+    private fun getDateTime(postTime: String?): CharSequence? {
+
+
+        val sdf = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+        val dateTime = Date(postTime!!.toLong())
+        return sdf.format(dateTime)
 
     }
 
@@ -136,7 +180,9 @@ class OwnerDetailFragment : Fragment() {
             append("${binding.ColonyText.text} Colony,")
             append("${binding.LandmarkText.text},")
             append("${binding.CityText.text},")
+            append("${binding.stateText.text},")
             append("pincode:${binding.PinCodeText.text}")
+
         }.toString()
     }
 
@@ -147,7 +193,7 @@ class OwnerDetailFragment : Fragment() {
     }
 
     private fun Initialization() {
-        // ViewPager for Images
+
         viewPager=binding.viewPager
 
         // Set charges
@@ -184,7 +230,7 @@ class OwnerDetailFragment : Fragment() {
         PreferredTenantText = binding.PreferredTenantText
 
         // Other Benefits
-        LiftIcon = binding.LiftIcon // agar true hai to ic_tick else ic_cross
+        LiftIcon = binding.liftIcon // agar true hai to ic_tick else ic_cross
         GeneratorIcon = binding.GeneratorIcon
         GasIcon = binding.GasIcon
         SecurityGuardIcon = binding.SecurityGuardIcon
@@ -193,12 +239,10 @@ class OwnerDetailFragment : Fragment() {
         // Owner Details
         ownerName = binding.ownerName
         tenantsServedNumber = binding.tenantsServedNumber
-        postDateDay = binding.postDateDay
-        postDateMonth = binding.postDateMonth
-        postDateYear = binding.postDateYear
+        postDateDay = binding.postTime
 
 
-        // Great Things About Property
+
         GreatThingsText = binding.GreatThingsText
     }
 
@@ -224,12 +268,22 @@ class OwnerDetailFragment : Fragment() {
         colorAnimator.start()
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun setupViewPager() {
-        photoAdapter = MyViewPagerAdapter(imageResIds)
+
+        photoAdapter = MyViewPagerAdapter()
+
+
+        post.imageList.values.forEach {
+            imageResIds.addAll(it)
+        }
+
+        photoAdapter.updateData(imageResIds)
         binding.viewPager.adapter = photoAdapter
         binding.viewPager.setPageTransformer(getTransformation())
         binding.viewPager.offscreenPageLimit = 3
         handler.post(autoSlideRunnable)
+
     }
 
     private fun getTransformation(): CompositePageTransformer {
@@ -271,6 +325,12 @@ class OwnerDetailFragment : Fragment() {
 
     private fun showViewChargesBottomSheet() {
         val bottomSheetFragment = ViewChargesBottomSheet()
+       val bundle = Bundle()
+        bundle.putString("rent",post.rent)
+        bundle.putString("deposit",post.deposit)
+        bundle.putString("parkingCharge",post.parkingCharge)
+        bundle.putString("maintenanceCharge",post.maintenanceCharge)
+        bottomSheetFragment.arguments = bundle
         bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 

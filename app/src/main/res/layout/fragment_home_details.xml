@@ -46,17 +46,16 @@
                     android:src="@drawable/ic_share"
                     app:tint="@color/expBgBlue"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    app:layout_constraintEnd_toStartOf="@id/favoriteButton"
+                    app:layout_constraintEnd_toStartOf="@id/bookMarkButton"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginEnd="18dp"/>
 
                 <ImageButton
-                    android:id="@+id/favoriteButton"
+                    android:id="@+id/bookMarkButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_favorite"
-                    app:tint="@color/expBgBlue"
+                    android:src="@drawable/bookmark_animation"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     app:layout_constraintEnd_toStartOf="@id/chatBtn"
                     app:layout_constraintTop_toTopOf="parent"
