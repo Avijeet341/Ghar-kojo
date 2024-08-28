@@ -14,7 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:textColor="@color/fox_color"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="#777777"
         android:textSize="12sp"
         android:textStyle="italic" />
 
@@ -63,12 +64,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_msg_you"
+            android:backgroundTint="@color/expBlue"
             android:paddingBottom="5dp"
             android:fontFamily="@font/montserrat_regular"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="5dp"
-            android:textColor="@color/fox_color"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:layout_toLeftOf="@+id/textView27"
             android:layout_marginLeft="50dp" />
@@ -78,6 +80,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/triangle_msg_you"
             android:paddingRight="10dp"
+            android:backgroundTint="@color/expBlue"
             android:textColor="#ffffff"
             android:textSize="16sp"
             android:paddingLeft="10dp"

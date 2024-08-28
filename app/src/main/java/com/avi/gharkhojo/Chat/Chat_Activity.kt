@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.avi.gharkhojo.Adapter.ChatUserListAdapter
 import com.avi.gharkhojo.Model.ChatUserListModel
 import com.avi.gharkhojo.Model.Message
+import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.ActivityChatBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -35,6 +37,8 @@ class Chat_Activity : AppCompatActivity() {
         binding = ActivityChatBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.expBlue)
+
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

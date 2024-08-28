@@ -6,7 +6,7 @@
     app:cardCornerRadius="20dp"
     app:cardElevation="12dp"
 
-    android:backgroundTint="@color/black"
+    android:backgroundTint="@color/expBlue"
     android:layout_margin="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +19,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/baseline_person_24"
-            app:civ_border_color="@color/fox_color"
+            app:civ_border_color="@color/white"
             app:civ_border_width="2dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,6 +31,7 @@
             android:text="Aditya SInghr rajput"
             android:textColor="@color/white_smoke"
             android:textSize="18sp"
+            android:fontFamily="@font/montserrat_bold"
             app:layout_constraintEnd_toStartOf="@+id/msgTime"
             app:layout_constraintStart_toEndOf="@+id/profile_pic"
             app:layout_constraintTop_toTopOf="parent"
@@ -48,7 +49,8 @@
             android:maxWidth="40dp"
             android:ems="30"
             android:lines="1"
-            android:textColor="@color/fox_color"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/dark_bg_color"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/msgTime"
@@ -64,7 +66,8 @@
             android:layout_height="wrap_content"
             android:text="02:30 PM"
             android:gravity="end"
-            android:textColor="@color/fox_color"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/dark_bg_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
