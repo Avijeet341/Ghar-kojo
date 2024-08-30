@@ -101,4 +101,12 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (bottomNavigation.getSelectedItemId() == R.id.nav_chat) {
+            bottomNavigation.setItemSelected(R.id.nav_home, true)
+
+        }
+    }
+
 }
