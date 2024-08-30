@@ -22,7 +22,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.avi.gharkhojo.Adapter.MyViewPagerAdapter
 import com.avi.gharkhojo.Fragments.ViewChargesBottomSheet
 import com.avi.gharkhojo.Model.Post
-import com.avi.gharkhojo.Model.Upload
 import com.avi.gharkhojo.OwnerActivity
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentOwnerDetailBinding
@@ -271,7 +270,7 @@ class OwnerDetailFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun setupViewPager() {
 
-        photoAdapter = MyViewPagerAdapter()
+        photoAdapter = MyViewPagerAdapter(null)
 
 
         post.imageList.values.forEach {

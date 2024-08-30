@@ -558,7 +558,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="123"
                             android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
@@ -588,7 +587,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="8,9"
                             android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
@@ -618,7 +616,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="Green Park"
                             android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
@@ -648,7 +645,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="Downtown"
                             android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
@@ -678,7 +674,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="Near Park"
                             android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
@@ -708,7 +703,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="Metropolis"
                             android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
@@ -737,7 +731,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="New York"
                             android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
@@ -767,7 +760,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="123456"
                             android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
@@ -972,7 +964,7 @@
                         android:id="@+id/LiftIcon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_cross" />
+                         />
                 </LinearLayout>
 
                 <View
@@ -1009,7 +1001,7 @@
                         android:id="@+id/GeneratorIcon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_cross" />
+                        />
                 </LinearLayout>
 
                 <View
@@ -1046,7 +1038,7 @@
                         android:id="@+id/GasIcon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_tick" />
+                        />
                 </LinearLayout>
 
                 <View
@@ -1083,7 +1075,7 @@
                         android:id="@+id/SecurityGuardIcon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_tick" />
+                         />
                 </LinearLayout>
 
                 <View
@@ -1119,7 +1111,7 @@
                         android:id="@+id/ParkingIcon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_tick" />
+                         />
                 </LinearLayout>
 
             </LinearLayout>
@@ -1226,38 +1218,12 @@
                     android:layout_height="wrap_content"
                     android:elevation="5dp"
                     android:fontFamily="@font/montserrat_regular"
-                    android:text="24"
                     android:textColor="@color/black"
                     android:textSize="17sp"
                     android:layout_marginStart="4dp"
                     app:layout_constraintStart_toEndOf="@+id/postDatePrefix"
                     app:layout_constraintTop_toTopOf="@+id/postDatePrefix" />
 
-                <TextView
-                    android:id="@+id/postDateMonth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="5dp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:text="June"
-                    android:textColor="@color/black"
-                    android:textSize="17sp"
-                    android:layout_marginStart="4dp"
-                    app:layout_constraintStart_toEndOf="@+id/postDateDay"
-                    app:layout_constraintTop_toTopOf="@+id/postDatePrefix" />
-
-                <TextView
-                    android:id="@+id/postDateYear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="5dp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:text="2024"
-                    android:textColor="@color/black"
-                    android:textSize="17sp"
-                    android:layout_marginStart="4dp"
-                    app:layout_constraintStart_toEndOf="@+id/postDateMonth"
-                    app:layout_constraintTop_toTopOf="@+id/postDatePrefix" />
 
                 <Button
                     android:id="@+id/feedbackButton"

@@ -22,6 +22,7 @@ import com.avi.gharkhojo.Adapter.PhotoAdapter
 import com.avi.gharkhojo.Model.Post
 import com.avi.gharkhojo.Model.PostDetails
 import com.avi.gharkhojo.Model.PostDetails.clearAll
+import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentRoomPhotosBinding
 import com.google.firebase.Firebase
@@ -197,6 +198,7 @@ class RoomPhotosFragment : Fragment() {
 
                 val post = PostDetails.saveData()
                 post.userId = FirebaseAuth.getInstance().currentUser!!.uid
+                post.ownerImage = UserData.profilePictureUrl
 
                 CoroutineScope(Dispatchers.Main).launch {
                             val isUploadSuccessful = uploadPost(post)

@@ -14,11 +14,15 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
 class OwnerActivity : BaseActivity() {
     private lateinit var navController: NavController
     private lateinit var bottomNavigation: ChipNavigationBar
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

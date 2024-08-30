@@ -17,14 +17,14 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
-                app:contentInsetEnd="0dp"
-                app:contentInsetStart="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="13dp"
                 android:background="@drawable/rounded_bottom_corners"
-                android:elevation="4dp"
                 android:backgroundTint="#007FFF"
+                android:elevation="4dp"
+                app:contentInsetEnd="0dp"
+                app:contentInsetStart="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -62,10 +62,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
+                        android:elevation="5dp"
                         android:fontFamily="@font/montserrat_bold"
                         android:textColor="@color/white"
                         android:textSize="16sp"
-                        android:elevation="5dp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@id/greetingText1"
                         app:layout_constraintTop_toTopOf="@id/greetingText1" />
@@ -89,10 +89,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
                         android:layout_marginTop="2dp"
+                        android:elevation="5dp"
                         android:fontFamily="@font/montserrat_regular"
                         android:text="Searching in"
                         android:textColor="@color/white"
-                        android:elevation="5dp"
                         android:textSize="16sp"
                         app:layout_constraintStart_toEndOf="@id/greetingText3"
                         app:layout_constraintTop_toTopOf="@id/greetingText1" />
@@ -100,6 +100,7 @@
                     <!-- Search View -->
                     <androidx.appcompat.widget.SearchView
                         android:id="@+id/search_view"
+                        style="@style/CustomSearchViewStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="13dp"
@@ -112,9 +113,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/filterButton"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/greetingText4"
-                        style="@style/CustomSearchViewStyle"
-                        />
+                        app:layout_constraintTop_toBottomOf="@id/greetingText4" />
 
                     <!-- Filter Button -->
                     <ImageButton
@@ -123,8 +122,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="7dp"
                         android:layout_marginEnd="5dp"
-                        android:contentDescription="@string/filter"
                         android:background="@drawable/whitebutton"
+                        android:contentDescription="@string/filter"
                         android:elevation="6dp"
                         android:padding="4dp"
                         android:src="@drawable/filter"
@@ -141,9 +140,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="10dp"
+                        android:elevation="5dp"
                         android:fontFamily="@font/montserrat_regular"
                         android:text="Location:"
-                        android:elevation="5dp"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -155,10 +154,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
+                        android:elevation="5dp"
                         android:fontFamily="@font/montserrat_bold"
                         android:text="Jaydev Vihar"
                         android:textColor="@color/white"
-                        android:elevation="5dp"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
@@ -181,9 +180,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
+                        android:elevation="5dp"
                         android:fontFamily="@font/montserrat_bold"
                         android:text="Bhubneswar"
-                        android:elevation="5dp"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -223,7 +222,7 @@
                         app:cardBackgroundColor="@color/expBgBlue"
                         app:cardCornerRadius="50dp"
                         app:layout_constraintEnd_toEndOf="@+id/notificationIcon"
-                        app:layout_constraintTop_toTopOf="@+id/notificationIcon" >
+                        app:layout_constraintTop_toTopOf="@+id/notificationIcon">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -252,9 +251,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:orientation="horizontal"
-                        tools:listitem="@layout/tool_item"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintTop_toBottomOf="@id/locationText1" />
+                        app:layout_constraintTop_toBottomOf="@id/locationText1"
+                        tools:listitem="@layout/tool_item" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -268,9 +267,23 @@
                 android:background="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toolbar"
+                app:layout_constraintVertical_bias="1.0"
                 tools:listitem="@layout/grid_item" />
+
+            <ProgressBar
+                android:id="@+id/loadDataProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="136dp"
+                style="@style/loadData"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

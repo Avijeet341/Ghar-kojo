@@ -43,4 +43,6 @@ class BookmarkAdapter(
     }
 
     override fun getItemCount(): Int = houses.size
+
+
 }

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -18,13 +19,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Adapter.GridAdapter
 import com.avi.gharkhojo.Adapter.HousingTypeAdapter
-import com.avi.gharkhojo.Model.GridItem
 import com.avi.gharkhojo.Model.HousingType
+import com.avi.gharkhojo.Model.Post
 import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.OwnerActivity
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentHomeBinding
 import com.bumptech.glide.RequestManager
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -34,6 +40,8 @@ class Home : Fragment() {
     private val binding get() = _binding!!
     private lateinit var filterAnimation: android.view.animation.Animation
     @Inject lateinit var requestManager: RequestManager
+    private var databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Posts")
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +59,8 @@ class Home : Fragment() {
         setupGridView()
         setupSearchView()
         setupFilterButtonAnimation()
+
+        observeDataChanges()
 
     }
 
@@ -109,32 +119,43 @@ class Home : Fragment() {
     private fun setupGridView() {
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
-            adapter = GridAdapter(createGridList()) { gridItem, _ ->
-                val action = HomeDirections.actionHome2ToHomeDetails(gridItem)
+            adapter = GridAdapter { post->
+                val action = HomeDirections.actionHome2ToHomeDetails()
+                var bundle = Bundle()
+                bundle.putParcelable("post",post)
+                action.arguments.putAll(bundle)
+
                 findNavController().navigate(action)
+
             }
         }
     }
 
-    private fun createGridList(): ArrayList<GridItem> {
-        return arrayListOf(
-            GridItem(R.drawable.home1, "15000", "3"),
-            GridItem(R.drawable.home2, "16000", "3"),
-            GridItem(R.drawable.home3, "5000", "3"),
-            GridItem(R.drawable.home4, "5000", "3"),
-            GridItem(R.drawable.home5, "5000", "3"),
-            GridItem(R.drawable.home6, "90000", "3"),
-            GridItem(R.drawable.home7, "5000", "3"),
-            GridItem(R.drawable.home8, "5000", "3"),
-            GridItem(R.drawable.home9, "5000", "3"),
-            GridItem(R.drawable.home10, "5000", "3"),
-            GridItem(R.drawable.home11, "24000", "2"),
-            GridItem(R.drawable.home12, "25000", "2")
-        )
+    private fun observeDataChanges() {
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val mutableList: MutableList<Post> = mutableListOf()
+                    for (dataSnapshot in snapshot.children) {
+                        for (data in dataSnapshot.children) {
+                            val post = data.getValue(Post::class.java)
+                            if (post != null) {
+                                mutableList.add(post)
+                            }
+                        }
+                    }
+                    (binding.recyclerView.adapter as? GridAdapter)?.updateData(mutableList)
+                }
+                binding.loadDataProgress.visibility = View.GONE
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, "Failed to load data: ${error.message}", Toast.LENGTH_SHORT).show()
+                binding.loadDataProgress.visibility = View.GONE
+            }
+        })
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+
+
 }

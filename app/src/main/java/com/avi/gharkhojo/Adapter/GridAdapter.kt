@@ -4,20 +4,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Model.GridItem
+import com.avi.gharkhojo.Model.Post
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.GridItemBinding
 import com.bumptech.glide.Glide
 
 class GridAdapter(
-    private val gridItemList: ArrayList<GridItem>,
-    private val listener: (GridItem, Int) -> Unit
+    private val listener: (Post) -> Unit
 ) : RecyclerView.Adapter<GridAdapter.ViewHolder>() {
 
+    private var gridItemList: ArrayList<Post> = arrayListOf()
     inner class ViewHolder(private var gridItemBinding: GridItemBinding) : RecyclerView.ViewHolder(gridItemBinding.root) {
-        fun bindItem(gridItem: GridItem) {
+        fun bindItem(gridItem: Post) {
             // Load the main image
             Glide.with(gridItemBinding.image.context)
-                .load(gridItem.imageResId)
+                .load(gridItem.coverImage)
                 .into(gridItemBinding.image)
 
             // Load the display picture
@@ -26,18 +27,19 @@ class GridAdapter(
                 .into(gridItemBinding.displayPicture)
 
             // Set the rent text with the resource string
-            gridItemBinding.rent.text = gridItemBinding.root.context.getString(R.string.rent_format, formatRent(gridItem.rent))
+            gridItemBinding.rent.text = gridItemBinding.root.context.getString(R.string.rent_format, formatRent(gridItem.rent!!))
+            gridItemBinding.location.text = "${gridItem.area} , ${gridItem.city}"
 
             // Set the BHK description text dynamically using resource string
-            gridItemBinding.bhkDescription.text = gridItemBinding.root.context.getString(R.string.bhk_description, gridItem.bhk)
+            gridItemBinding.bhkDescription.text = gridItemBinding.root.context.getString(R.string.bhk_description
+            ,"${gridItem.noOfBedRoom!!+gridItem.noOfKitchen!!+1}")
         }
 
         private fun formatRent(rent: String): String {
-            return if (rent.endsWith("000")) {
-                "${rent.dropLast(3)}k"
-            } else {
-                rent
-            }
+            var updatedRent = rent.replace(",","").replace("₹","")
+
+
+            return String.format("₹ %.2f k",updatedRent.toDouble()/1000)
         }
     }
 
@@ -53,7 +55,12 @@ class GridAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItem(gridItemList[position])
         holder.itemView.setOnClickListener {
-            listener(gridItemList[position], position)
+            listener(gridItemList[position])
         }
+    }
+    fun updateData(newGridItemList: List<Post>) {
+        gridItemList.clear()
+        gridItemList.addAll(newGridItemList)
+        notifyDataSetChanged()
     }
 }
