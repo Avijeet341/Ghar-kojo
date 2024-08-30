@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Model.Post
-import com.avi.gharkhojo.Model.Upload
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.OwnerUploadsItemBinding
 import com.bumptech.glide.Glide

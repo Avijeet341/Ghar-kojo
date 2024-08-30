@@ -33,9 +33,6 @@
         android:name="com.avi.gharkhojo.Fragments.HomeDetails"
         android:label="fragment_home_details"
         tools:layout="@layout/fragment_home_details">
-        <argument
-            android:name="selectedGridItem"
-            app:argType="com.avi.gharkhojo.Model.GridItem" />
         <action
             android:id="@+id/action_homeDetails_to_tabLayoutFragment"
             app:destination="@id/tabLayoutFragment" />

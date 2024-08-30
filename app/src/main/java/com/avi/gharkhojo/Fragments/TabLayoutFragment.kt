@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
@@ -21,8 +22,8 @@ import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.avi.gharkhojo.Adapter.ImageAdapter
-import com.avi.gharkhojo.Model.FilterMode
 import com.avi.gharkhojo.Model.ImageItem
+import com.avi.gharkhojo.Model.Post
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentTabLayoutBinding
 import com.google.android.material.chip.Chip
@@ -33,9 +34,10 @@ class TabLayoutFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var imageAdapter: ImageAdapter
-    private var currentFilter = FilterMode.All
+    private var currentFilter:String? = null
+    private var post: Post? = null
 
-    private val filterCategories = listOf("All","Hall" ,"LivingRoom", "Office", "Bedroom", "Walk-in Robe")
+    private val filterCategories: ArrayList<String>? = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +46,14 @@ class TabLayoutFragment : Fragment() {
     ): View {
         _binding = FragmentTabLayoutBinding.inflate(inflater, container, false)
         imageAdapter = ImageAdapter()
+        post = arguments?.getParcelable("post")!!
+        if(post==null){
+            Toast.makeText(context, "Post is null", Toast.LENGTH_SHORT).show()
+        }else{
+           filterCategories?.addAll(post?.imageList?.keys!!.filter { post!!.imageList[it]?.size!=0 })
+            filterCategories?.add(0, "All")
+            currentFilter = "All"
+        }
         return binding.root
     }
 
@@ -52,6 +62,12 @@ class TabLayoutFragment : Fragment() {
         setupToolbar()
         setupFilterChips()
         setupRecyclerView()
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                getParentFragmentManager().popBackStack()
+            }
+
+        })
     }
 
     private fun setupToolbar() {
@@ -69,7 +85,7 @@ class TabLayoutFragment : Fragment() {
         val chipStyle = R.style.CustomChipStyle
         val chipTextAppearance = R.style.CustomChipTextAppearance
 
-        filterCategories.forEachIndexed { index, category ->
+        filterCategories?.forEachIndexed { index, category ->
             val chip = Chip(requireContext(), null, chipStyle).apply {
                 id = View.generateViewId()
                 text = category
@@ -97,7 +113,7 @@ class TabLayoutFragment : Fragment() {
 
                 setOnClickListener {
                     isChecked = true
-                    currentFilter = FilterMode.entries.toTypedArray()[index]
+                    currentFilter = category
                     updateImageList()
                     animateChipSelection(this)
                 }
@@ -111,6 +127,7 @@ class TabLayoutFragment : Fragment() {
             animateChipSelection(it)
         }
     }
+
 
 
     private fun animateChipSelection(selectedChip: Chip) {
@@ -160,12 +177,8 @@ class TabLayoutFragment : Fragment() {
         if (!::imageAdapter.isInitialized) return
 
         val filteredList = when (currentFilter) {
-            FilterMode.All -> getAllImages()
-            FilterMode.Hall -> listOf(ImageItem("Hall", HallImages))
-            FilterMode.LivingRoom -> listOf(ImageItem("Living Room", LivingRoomImages))
-            FilterMode.Office -> listOf(ImageItem("Office", OfficeImages))
-            FilterMode.Bedroom -> listOf(ImageItem("Bedroom", BedroomImages))
-            FilterMode.WalkInRobe -> listOf(ImageItem("Walk-in Robe", WalkInRobeImages))
+            "All"-> getAllImages()
+            else-> getAllImages().filter { it.title == currentFilter }
         }
         val flattenedList = filteredList.flatMap { item ->
             listOf(ImageItem(item.title, emptyList())) + item.images.map { ImageItem("", listOf(it)) }
@@ -174,13 +187,16 @@ class TabLayoutFragment : Fragment() {
     }
 
     private fun getAllImages(): List<ImageItem> {
-        return listOf(
-            ImageItem("Hall", HallImages),
-            ImageItem("Living Room", LivingRoomImages),
-            ImageItem("Office", OfficeImages),
-            ImageItem("Bedroom", BedroomImages),
-            ImageItem("Walk-in Robe", WalkInRobeImages),
-        )
+        val images = mutableListOf<ImageItem>()
+        if(post==null){
+            return images
+        }
+        for((key,value) in post?.imageList!!){
+            if(value.size!=0){
+                images.add(ImageItem(key,value))
+            }
+        }
+        return images
     }
 
     override fun onDestroyView() {
@@ -188,12 +204,5 @@ class TabLayoutFragment : Fragment() {
         _binding = null
     }
 
-    companion object {
-        val WalkInRobeImages = listOf(R.drawable.home11)
-        val LivingRoomImages = listOf(R.drawable.home6, R.drawable.home8, R.drawable.home9, R.drawable.home3)
-        val BedroomImages = listOf(R.drawable.home2, R.drawable.home4, R.drawable.home7)
-        val OfficeImages = listOf(R.drawable.home1, R.drawable.home5)
-        val HallImages = listOf(R.drawable.home10,R.drawable.home12)
-    }
 }
 
