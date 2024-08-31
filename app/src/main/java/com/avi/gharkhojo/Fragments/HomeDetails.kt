@@ -130,7 +130,7 @@ class HomeDetails : Fragment() {
         kitchenNumber.text =(post?.noOfKitchen?:0).toString()
         floorNumber.text =(post?.floorPosition?:0).toString()
         balconyNumber.text =(post?.noOfBalcony?:0).toString()
-        areaNumber.text =(post?.area?:0).toString()
+        areaNumber.text = (post?.builtUpArea?:0).toString()
         nameText.text = post?.ownerName
 //        descriptionText.text = post?.description
         price.text = post?.rent

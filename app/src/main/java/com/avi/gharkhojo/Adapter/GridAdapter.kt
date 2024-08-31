@@ -3,11 +3,12 @@ package com.avi.gharkhojo.Adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.avi.gharkhojo.Model.GridItem
 import com.avi.gharkhojo.Model.Post
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.GridItemBinding
 import com.bumptech.glide.Glide
+import java.text.NumberFormat
+import java.util.Locale
 
 class GridAdapter(
     private val listener: (Post) -> Unit
@@ -36,10 +37,19 @@ class GridAdapter(
         }
 
         private fun formatRent(rent: String): String {
-            var updatedRent = rent.replace(",","").replace("₹","")
+            val updatedRent = rent.replace(",", "").replace("₹", "").toDouble()
+            val rentInThousands = updatedRent / 1000
 
+            // Get currency instance for INR
+            val currencyFormatter = NumberFormat.getCurrencyInstance(Locale("en", "IN"))
 
-            return String.format("₹ %.2f k",updatedRent.toDouble()/1000)
+            return if (rentInThousands >= 1) {
+                currencyFormatter.maximumFractionDigits = 0
+                "${currencyFormatter.format(rentInThousands)}k"
+            } else {
+                currencyFormatter.maximumFractionDigits = 2
+                currencyFormatter.format(updatedRent)
+            }
         }
     }
 

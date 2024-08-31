@@ -15,12 +15,12 @@
           <targets>
             <Target type="DEFAULT_BOOT">
               <handle>
-                <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Mithilesh\.android\avd\Pixel_6_Pro_API_31.avd" />
+                <DeviceId pluginId="PhysicalDevice" identifier="serial=ZD222G7GFT" />
               </handle>
             </Target>
             <Target type="DEFAULT_BOOT">
               <handle>
-                <DeviceId pluginId="PhysicalDevice" identifier="serial=ZD2222QP26" />
+                <DeviceId pluginId="PhysicalDevice" identifier="serial=8625df0c" />
               </handle>
             </Target>
           </targets>
