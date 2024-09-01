@@ -49,7 +49,7 @@
                     app:layout_constraintEnd_toStartOf="@id/bookMarkButton"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginEnd="18dp"/>
+                    android:layout_marginEnd="@dimen/_14sdp"/>
 
                 <ImageButton
                     android:id="@+id/bookMarkButton"
@@ -60,7 +60,7 @@
                     app:layout_constraintEnd_toStartOf="@id/chatBtn"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginEnd="18dp"/>
+                    android:layout_marginEnd="@dimen/_14sdp"/>
 
                 <ImageButton
                     android:id="@+id/chatBtn"
@@ -72,7 +72,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginEnd="16dp"/>
+                    android:layout_marginEnd="@dimen/_14sdp"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -130,8 +130,8 @@
 
                         <ImageView
                             android:id="@+id/bedroomIcon"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
                             android:contentDescription="Bedroom icon"
                             android:src="@drawable/ic_bedroom" />
 
@@ -140,10 +140,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
+                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_regular"
                             android:text="3"
                             android:textColor="@color/Black"
-                            android:textSize="14sp" />
+                            />
 
                         <TextView
                             android:id="@+id/bedroomText"
@@ -153,7 +154,7 @@
                             android:fontFamily="@font/montserrat_regular"
                             android:text="Bedroom"
                             android:textColor="@color/Black"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/_12ssp"/>
                     </LinearLayout>
 
 
@@ -166,8 +167,8 @@
 
                         <ImageView
                             android:id="@+id/bathroomIcon"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
                             android:contentDescription="Bathroom icon"
                             android:src="@drawable/ic_bathroom" />
 
@@ -179,7 +180,7 @@
                             android:fontFamily="@font/montserrat_regular"
                             android:text="2"
                             android:textColor="@color/Black"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/_12ssp" />
 
                         <TextView
                             android:id="@+id/bathroomText"
@@ -189,7 +190,7 @@
                             android:fontFamily="@font/montserrat_regular"
                             android:text="Bathroom"
                             android:textColor="@color/Black"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/_12ssp"  />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -213,8 +214,8 @@
 
                         <ImageView
                             android:id="@+id/kitchenIcon"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
                             android:contentDescription="Kitchen icon"
                             android:src="@drawable/ic_kitchen" />
 
@@ -226,7 +227,7 @@
                             android:fontFamily="@font/montserrat_regular"
                             android:text="1"
                             android:textColor="@color/Black"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/_12ssp"  />
 
                         <TextView
                             android:id="@+id/kitchenText"
@@ -236,7 +237,7 @@
                             android:fontFamily="@font/montserrat_regular"
                             android:text="Kitchen"
                             android:textColor="@color/Black"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/_12ssp"  />
                     </LinearLayout>
 
 
@@ -249,8 +250,8 @@
 
                         <ImageView
                             android:id="@+id/floorIcon"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
                             android:contentDescription="Floor icon"
                             android:src="@drawable/ic_floor" />
 
@@ -262,7 +263,7 @@
                             android:fontFamily="@font/montserrat_regular"
                             android:text="2"
                             android:textColor="@color/Black"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/_12ssp"  />
 
                         <TextView
                             android:id="@+id/floorText"
@@ -272,7 +273,7 @@
                             android:fontFamily="@font/montserrat_regular"
                             android:text="Floor"
                             android:textColor="@color/Black"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/_12ssp"  />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -296,8 +297,8 @@
 
                         <ImageView
                             android:id="@+id/balconyIcon"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
                             android:contentDescription="Balcony icon"
                             android:src="@drawable/ic_balcony" />
 
@@ -309,7 +310,7 @@
                             android:fontFamily="@font/montserrat_regular"
                             android:text="2"
                             android:textColor="@color/Black"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/_12ssp"  />
 
                         <TextView
                             android:id="@+id/balconyText"
@@ -319,7 +320,7 @@
                             android:fontFamily="@font/montserrat_regular"
                             android:text="Balcony"
                             android:textColor="@color/Black"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/_12ssp"  />
                     </LinearLayout>
 
 
@@ -332,8 +333,8 @@
 
                         <ImageView
                             android:id="@+id/areaIcon"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
                             android:contentDescription="Area icon"
                             android:src="@drawable/ic_area" />
 
@@ -345,7 +346,7 @@
                             android:fontFamily="@font/montserrat_regular"
                             android:text="1500"
                             android:textColor="@color/Black"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/_12ssp"  />
 
                         <TextView
                             android:id="@+id/areaText"
@@ -353,9 +354,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="Sq Ft"
+                            android:text="Sq.ft"
                             android:textColor="@color/Black"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/_12ssp"  />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -375,7 +376,7 @@
 
             android:text="₹3,899"
             android:textColor="#0A8ED9"
-            android:textSize="26sp"
+            android:textSize="@dimen/_20ssp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viewPager" />
@@ -392,7 +393,7 @@
 
             android:text="/Month"
             android:textColor="#000000"
-            android:textSize="26sp"
+            android:textSize="@dimen/_20ssp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/price"
             app:layout_constraintTop_toBottomOf="@+id/viewPager" />
@@ -407,7 +408,7 @@
             android:background="@drawable/gradient_blue_background"
             android:elevation="5dp"
             android:fontFamily="@font/montserrat_regular"
-            android:padding="12dp"
+            android:padding="@dimen/_12sdp"
             android:text="@string/view_charges"
             android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="@+id/viewPager"
@@ -420,6 +421,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/bg_edit_text"
             android:elevation="5dp"
+            android:textSize="@dimen/_12ssp"
             android:fontFamily="@font/montserrat_regular"
             android:padding="10dp"
             android:text="@string/pricing_got_you_puzzled"
@@ -434,6 +436,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/bg_edit_text"
             android:elevation="5dp"
+            android:textSize="@dimen/_12ssp"
             android:fontFamily="@font/montserrat_regular"
             android:padding="10dp"
             android:text="@string/negotiate_rent"
@@ -446,13 +449,16 @@
             android:id="@+id/PropertyFeatures"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minHeight="@dimen/_40sdp"
+            android:maxWidth="@dimen/_40sdp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
             android:orientation="horizontal"
+            android:minWidth="@dimen/_120sdp"
             android:background="@drawable/bg_edit_text"
             android:backgroundTint="@color/expBgBlue"
-            android:elevation="2dp"
-            android:padding="12dp"
+            android:elevation="@dimen/_2sdp"
+           android:padding="7dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/negotiateRent">
 
@@ -462,28 +468,39 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="3"
+                android:paddingStart="@dimen/_1sdp"
+                android:minHeight="@dimen/_30sdp"
+                android:gravity="center"
                 android:textColor="@color/messangerBlue"
-                android:textSize="14sp"
+                android:textSize="@dimen/_12ssp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/propertyBHK"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minHeight="@dimen/_30sdp"
                 android:fontFamily="@font/montserrat_bold"
-                android:text=" BHK "
+                android:text=" Bhk "
+                android:paddingStart="@dimen/_1sdp"
+                android:gravity="center"
+
                 android:textColor="@color/messangerBlue"
-                android:textSize="14sp"
+                android:textSize="@dimen/_12ssp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/propertyType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center|end"
+                android:minHeight="@dimen/_30sdp"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Apartment"
+
+                android:paddingStart="@dimen/_1sdp"
                 android:textColor="@color/messangerBlue"
-                android:textSize="14sp"
+                android:textSize="@dimen/_12ssp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -495,14 +512,14 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="10dp"
-            android:backgroundTint="@color/expBlue"
             android:background="@drawable/bg_edit_text"
-            app:cardElevation="5dp"
+            android:backgroundTint="@color/expBlue"
             android:padding="7dp"
             app:cardCornerRadius="13dp"
+            app:cardElevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/PropertyFeatures">
+            app:layout_constraintTop_toBottomOf="@+id/mapButton">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -515,10 +532,10 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_margin="8dp"
-                    app:tint="@color/expBgBlue"
                     android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Copy address"
                     android:src="@drawable/ic_copy"
-                    android:contentDescription="Copy address" />
+                    app:tint="@color/expBgBlue" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -535,7 +552,7 @@
                         android:paddingBottom="10dp"
                         android:text="Property Location"
                         android:textColor="@color/expBgBlue"
-                        android:textSize="18sp" />
+                        android:textSize="@dimen/_16ssp" />
 
 
                     <LinearLayout
@@ -548,6 +565,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="House No:"
                             android:textColor="@color/expBgBlue" />
@@ -557,8 +575,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="123"
                             android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
@@ -578,6 +596,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="@string/road_lain_no"
                             android:textColor="@color/expBgBlue" />
@@ -587,8 +606,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="8,9"
                             android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
@@ -608,6 +627,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="Colony:"
                             android:textColor="@color/expBgBlue" />
@@ -617,8 +637,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="Green Park"
                             android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
@@ -638,6 +658,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="Area:"
                             android:textColor="@color/expBgBlue" />
@@ -647,8 +668,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="Downtown"
                             android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
@@ -670,6 +691,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="Landmark:"
+                            android:textSize="@dimen/_12ssp"
                             android:textColor="@color/expBgBlue" />
 
                         <TextView
@@ -677,8 +699,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="Near Park"
                             android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
@@ -700,6 +722,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="City:"
+                            android:textSize="@dimen/_12ssp"
                             android:textColor="@color/expBgBlue" />
 
                         <TextView
@@ -707,8 +730,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="Metropolis"
                             android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
@@ -729,6 +752,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="State:"
+                            android:textSize="@dimen/_12ssp"
                             android:textColor="@color/expBgBlue" />
 
                         <TextView
@@ -736,8 +760,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="New York"
                             android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
@@ -759,6 +783,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="PinCode:"
+                            android:textSize="@dimen/_12ssp"
                             android:textColor="@color/expBgBlue" />
 
                         <TextView
@@ -766,8 +791,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:text="123456"
                             android:textColor="@color/expBgBlue" />
                     </LinearLayout>
 
@@ -808,6 +833,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:elevation="5dp"
+                        android:textSize="@dimen/_12ssp"
                         android:fontFamily="@font/montserrat_bold"
                         android:text="Furnishing :"
                         android:textColor="#000000" />
@@ -818,6 +844,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:elevation="5dp"
+                        android:textSize="@dimen/_12ssp"
                         android:fontFamily="@font/montserrat_regular"
                         android:text="Unfurnished"
                         android:textColor="#000000" />
@@ -842,6 +869,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:elevation="5dp"
+                        android:textSize="@dimen/_12ssp"
                         android:fontFamily="@font/montserrat_bold"
                         android:text="Built up Area :"
                         android:textColor="#000000" />
@@ -857,6 +885,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:elevation="5dp"
+                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_regular"
                             android:text="1400"
                             android:textColor="#000000" />
@@ -867,6 +896,7 @@
                             android:elevation="5dp"
                             android:fontFamily="@font/montserrat_regular"
                             android:text=" sq.ft."
+                            android:textSize="@dimen/_12ssp"
                             android:textColor="#000000"
                             android:layout_marginStart="4dp" />
                     </LinearLayout>
@@ -892,6 +922,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:elevation="5dp"
+                        android:textSize="@dimen/_12ssp"
                         android:fontFamily="@font/montserrat_bold"
                         android:text="Preferred tenant type :"
                         android:textColor="#000000" />
@@ -904,6 +935,7 @@
                         android:elevation="5dp"
                         android:fontFamily="@font/montserrat_regular"
                         android:padding="2dp"
+                        android:textSize="@dimen/_12ssp"
                         android:text="Family, Bachelor and Company"
                         android:textColor="#000000" />
                 </LinearLayout>
@@ -942,7 +974,7 @@
                     android:gravity="center"
                     android:text="Other Benefits"
                     android:textColor="@color/Black"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/_16ssp"
                     android:textStyle="bold" />
 
                 <!-- Lift Service -->
@@ -953,8 +985,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/icon_lift" />
 
@@ -964,15 +996,16 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
+                        android:textSize="@dimen/_12ssp"
                         android:fontFamily="@font/montserrat_regular"
                         android:text="Lift Service"
                         android:textColor="@color/Black" />
 
                     <ImageView
                         android:id="@+id/LiftIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_cross" />
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                         />
                 </LinearLayout>
 
                 <View
@@ -990,8 +1023,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/icon_generator" />
 
@@ -1001,15 +1034,16 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
+                        android:textSize="@dimen/_12ssp"
                         android:fontFamily="@font/montserrat_regular"
                         android:text="Generator Service"
                         android:textColor="@color/Black" />
 
                     <ImageView
                         android:id="@+id/GeneratorIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_cross" />
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        />
                 </LinearLayout>
 
                 <View
@@ -1027,8 +1061,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/icon_gas" />
 
@@ -1038,15 +1072,16 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
+                        android:textSize="@dimen/_12ssp"
                         android:fontFamily="@font/montserrat_regular"
                         android:text="Gas Service"
                         android:textColor="@color/Black" />
 
                     <ImageView
                         android:id="@+id/GasIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_tick" />
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        />
                 </LinearLayout>
 
                 <View
@@ -1064,8 +1099,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/icon_security" />
 
@@ -1075,15 +1110,16 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
+                        android:textSize="@dimen/_12ssp"
                         android:fontFamily="@font/montserrat_regular"
                         android:text="Security Guard"
                         android:textColor="@color/Black" />
 
                     <ImageView
                         android:id="@+id/SecurityGuardIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_tick" />
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                         />
                 </LinearLayout>
 
                 <View
@@ -1100,8 +1136,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/icon_parking" />
 
@@ -1111,15 +1147,16 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
+                        android:textSize="@dimen/_12ssp"
                         android:fontFamily="@font/montserrat_regular"
                         android:text="Parking"
                         android:textColor="@color/Black" />
 
                     <ImageView
                         android:id="@+id/ParkingIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_tick" />
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                         />
                 </LinearLayout>
 
             </LinearLayout>
@@ -1170,7 +1207,7 @@
                     android:fontFamily="@font/montserrat_bold"
                     android:text="Owner"
                     android:textColor="@color/expBlue"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/_12ssp"
                     app:layout_constraintEnd_toEndOf="@+id/ownerName"
                     app:layout_constraintStart_toStartOf="@+id/ownerName"
                     app:layout_constraintTop_toBottomOf="@id/ownerName" />
@@ -1193,7 +1230,7 @@
                         android:fontFamily="@font/montserrat_bold"
                         android:text="426"
                         android:textColor="@color/expBlue"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/_12ssp" />
 
                     <TextView
                         android:id="@+id/tenantsServedText"
@@ -1204,7 +1241,7 @@
                         android:fontFamily="@font/montserrat_bold"
                         android:text="tenants served"
                         android:textColor="@color/expBlue"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/_12ssp" />
 
                 </LinearLayout>
 
@@ -1226,45 +1263,19 @@
                     android:layout_height="wrap_content"
                     android:elevation="5dp"
                     android:fontFamily="@font/montserrat_regular"
-                    android:text="24"
                     android:textColor="@color/black"
                     android:textSize="17sp"
                     android:layout_marginStart="4dp"
                     app:layout_constraintStart_toEndOf="@+id/postDatePrefix"
                     app:layout_constraintTop_toTopOf="@+id/postDatePrefix" />
 
-                <TextView
-                    android:id="@+id/postDateMonth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="5dp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:text="June"
-                    android:textColor="@color/black"
-                    android:textSize="17sp"
-                    android:layout_marginStart="4dp"
-                    app:layout_constraintStart_toEndOf="@+id/postDateDay"
-                    app:layout_constraintTop_toTopOf="@+id/postDatePrefix" />
-
-                <TextView
-                    android:id="@+id/postDateYear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="5dp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:text="2024"
-                    android:textColor="@color/black"
-                    android:textSize="17sp"
-                    android:layout_marginStart="4dp"
-                    app:layout_constraintStart_toEndOf="@+id/postDateMonth"
-                    app:layout_constraintTop_toTopOf="@+id/postDatePrefix" />
 
                 <Button
                     android:id="@+id/feedbackButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginEnd="@dimen/_3sdp"
                     android:background="@drawable/chat_now_bg"
                     android:backgroundTint="@color/expBlue"
                     android:drawableLeft="@drawable/comment"
@@ -1283,12 +1294,12 @@
                     android:id="@+id/newTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="7dp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="Share your experience"
                     android:textColor="@color/Pink"
-                    android:textSize="11sp"
+                    android:textSize="@dimen/_9ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/feedbackButton" />
 
@@ -1311,12 +1322,12 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="horizontal"
-                android:padding="16dp">
+                android:padding="@dimen/_16sdp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profileImage"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="@dimen/_48sdp"
+                    android:layout_height="@dimen/_48sdp"
                     android:src="@drawable/vk" />
 
                 <LinearLayout
@@ -1339,13 +1350,13 @@
                             android:fontFamily="@font/montserrat_bold"
                             android:text="Daniel Foster"
                             android:textColor="#000000"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/_12ssp"
                             android:textStyle="bold" />
 
                         <ImageView
                             android:id="@+id/verifiedBadge"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
                             android:layout_marginStart="4dp"
                             android:src="@drawable/ic_verified" />
 
@@ -1358,33 +1369,34 @@
                         android:fontFamily="@font/montserrat_regular"
                         android:text="Housing Prime Center"
                         android:textColor="#666666"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/_11ssp" />
 
                 </LinearLayout>
 
                 <FrameLayout
                     android:id="@+id/messageButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_width="@dimen/_36sdp"
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+
                     android:background="@drawable/circular_button_background">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="@dimen/_21sdp"
+                        android:layout_height="@dimen/_21sdp"
                         android:layout_gravity="center"
                         android:src="@drawable/messenger" />
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/callButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="@dimen/_36sdp"
+                    android:layout_height="@dimen/_36sdp"
                     android:background="@drawable/circular_button_background">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="@dimen/_21sdp"
+                        android:layout_height="@dimen/_21sdp"
                         android:layout_gravity="center"
                         android:src="@drawable/phone_call" />
                 </FrameLayout>
@@ -1426,7 +1438,7 @@
                     android:gravity="center_horizontal"
                     android:text="Great things about this property"
                     android:textColor="#000000"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/_15ssp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -1437,6 +1449,7 @@
                     android:elevation="5dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:padding="4dp"
+                    android:textSize="@dimen/_12ssp"
                     android:text="New flat, spacious room, cooperative society"
                     android:textColor="@color/expBlue" />
 
@@ -1447,6 +1460,8 @@
             android:id="@+id/mapButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="40dp"
+            android:minHeight="40dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="10dp"
             android:text="See on Map"
@@ -1454,9 +1469,10 @@
             android:background="@drawable/bg_edit_text"
             android:textAllCaps="false"
             android:textColor="@color/messangerBlue"
-            android:elevation="2dp"
-            android:textSize="14sp"
-             android:padding="7dp"
+            android:elevation="@dimen/_2sdp"
+            android:textSize="@dimen/_12ssp"
+             android:padding="8dp"
+            android:paddingBottom="6dp"
             android:textStyle="bold"
             app:icon="@drawable/placeholder"
             app:iconGravity="textStart"

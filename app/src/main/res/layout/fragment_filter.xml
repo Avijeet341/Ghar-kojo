@@ -1,11 +1,1042 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white_smoke"
     tools:context=".Fragments.FilterFragment">
 
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/expBlue"
+        android:padding="@dimen/_10sdp"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="Filters"
+            app:titleTextAppearance="@style/CustomToolbarTitleTextAppearance"
+            app:titleTextColor="@color/white" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white_smoke"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/rounded_blue_button"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Sort By"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_18ssp"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/sort_by_radio_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/sort_low_to_high"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:buttonTint="@color/white"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Cost : Low to High"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12ssp" />
+
+                    <RadioButton
+                        android:id="@+id/sort_high_to_low"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/white"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Cost : High to Low"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12ssp" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Area"
+                android:textColor="@color/expBlue"
+                android:textSize="@dimen/_18ssp"
+                android:textStyle="bold" />
+            <!---Entry chip-->
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/area_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+                <!-- Chips will be added here dynamically -->
+            </com.google.android.material.chip.ChipGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/area_input"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_edittext_background"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="Enter area name"
+                    android:inputType="text"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/unchecked_track"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/add_area_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="3dp"
+                    android:background="@drawable/rounded_blue_button"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Add"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12ssp" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Property Type"
+                android:textColor="@color/expBlue"
+                android:textSize="@dimen/_18ssp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/property_type_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/yeonsung_regular"
+                    android:text="Any"
+
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp"
+                    app:chipStrokeColor="#FFFFFF"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/yeonsung_regular"
+                    android:text="Home"
+                    android:textSize="@dimen/_12ssp"
+                    app:chipCornerRadius="7dp"
+                    app:chipStrokeColor="#FFFFFF"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/yeonsung_regular"
+                    android:text="Apartment"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp"
+                    app:chipStrokeColor="#FFFFFF"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/yeonsung_regular"
+                    android:text="Flat"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp"
+                    app:chipStrokeColor="#FFFFFF"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/yeonsung_regular"
+                    android:text="Dormitory"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp"
+                    app:chipStrokeColor="#FFFFFF"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/yeonsung_regular"
+                    android:text="Luxury"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp"
+                    app:chipStrokeColor="#FFFFFF"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/yeonsung_regular"
+                    android:text="Commercial"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp"
+                    app:chipStrokeColor="#FFFFFF"
+                    app:chipStrokeWidth="1dp" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Type of Tenant"
+                android:textColor="@color/expBlue"
+                android:textSize="@dimen/_18ssp"
+                android:textStyle="bold" />
+
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/tenant_type_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="Any"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="Family"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="Only Girls"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="Only Boys"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="Bachelors"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Budget"
+                android:textColor="@color/expBlue"
+                android:textSize="@dimen/_18ssp"
+                android:textStyle="bold" />
+
+            <com.avi.gharkhojo.CustomSlider.HistogramRangeSlider
+                android:id="@+id/histogramRangeSlider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_150sdp"
+                android:padding="@dimen/_4sdp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Minimum"
+                        android:textColor="#757575"
+                        android:textSize="@dimen/_12ssp" />
+
+                    <TextView
+                        android:id="@+id/minPriceTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_background"
+                        android:padding="@dimen/_14sdp"
+                        android:text="₹840"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_16ssp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Maximum"
+                        android:textColor="#757575"
+                        android:textSize="@dimen/_12ssp" />
+
+                    <TextView
+                        android:id="@+id/maxPriceTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_background"
+                        android:padding="@dimen/_14sdp"
+                        android:text="₹19,000+"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_16ssp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="BedRoom"
+                android:textColor="@color/expBlue"
+                android:textSize="@dimen/_18ssp"
+                android:textStyle="bold" />
+
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/bedrooms_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:chipSpacingHorizontal="2dp"
+
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Any"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="1"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="2"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="3"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+
+                    android:text="4"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="4+"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Washrooms"
+                android:textColor="@color/expBlue"
+                android:textSize="@dimen/_18ssp"
+
+                android:textStyle="bold"
+                app:chipSpacingHorizontal="2dp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/washrooms_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:chipSpacingHorizontal="2dp"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Any"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="1"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="2"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="3"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+
+                    android:text="4"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="4+"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Balcony"
+                android:textColor="@color/expBlue"
+                android:textSize="@dimen/_18ssp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/balcony_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:chipSpacingHorizontal="2dp"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Any"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="1"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="2"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="3"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+
+                    android:text="4"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="4+"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Kitchen"
+                android:textColor="@color/expBlue"
+                android:textSize="@dimen/_18ssp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/kitchen_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:chipSpacingHorizontal="2dp"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Any"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="1"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="2"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="3"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+
+                    android:text="4"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="4+"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Floor Position"
+                android:textColor="@color/expBlue"
+                android:textSize="@dimen/_18ssp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/floor_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Any"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Ground"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+
+                    android:text="1st"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="2nd"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="3rd"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="4th"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="4th +"
+                    android:textSize="@dimen/_13ssp"
+                    app:chipCornerRadius="7dp" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Built up area"
+                    android:textColor="@color/expBlue"
+                    android:textSize="@dimen/_18ssp"
+                    android:textStyle="bold" />
+
+                <com.avi.gharkhojo.CustomSlider.HistogramRangeSlider
+                    android:id="@+id/histogramRangeSliderArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp"
+                    android:padding="4dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="Minimum"
+                            android:textColor="#757575"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rounded_background"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_16sdp">
+
+                            <TextView
+                                android:id="@+id/minAreaTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:gravity="end"
+                                android:minWidth="50dp"
+                                android:paddingEnd="4dp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:text="Sq.ft"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="Maximum"
+                            android:textColor="#757575"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rounded_background"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_16sdp">
+
+                            <TextView
+                                android:id="@+id/maxAreaTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:gravity="end"
+                                android:minWidth="70dp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+
+                            <TextView
+                                android:id="@+id/maxAreaUnitTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:text="Sq.ft"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Other Benefit"
+                android:textColor="@color/expBlue"
+                android:textSize="@dimen/_18ssp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/lift_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Lift Service"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13ssp"
+                android:theme="@style/CustomSwitchStyle"
+                android:thumb="@drawable/thumb"
+                app:switchPadding="@dimen/_12sdp"
+                app:track="@drawable/track"
+                app:useMaterialThemeColors="false" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/generator_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_16sdp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Generator Service"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13ssp"
+                android:thumb="@drawable/thumb"
+                app:switchPadding="@dimen/_12sdp"
+                app:track="@drawable/track"
+                app:useMaterialThemeColors="false" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/gas_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_16sdp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Gas Service"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13ssp"
+                android:theme="@style/CustomSwitchStyle"
+                android:thumb="@drawable/thumb"
+                app:switchPadding="@dimen/_12sdp"
+                app:track="@drawable/track"
+                app:useMaterialThemeColors="false" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/security_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_16sdp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Security Gaurd"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/_13ssp"
+                android:theme="@style/CustomSwitchStyle"
+                android:thumb="@drawable/thumb"
+                app:switchPadding="@dimen/_12sdp"
+                app:track="@drawable/track"
+                app:useMaterialThemeColors="false" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/parking_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_16sdp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Parking"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13ssp"
+                android:theme="@style/CustomSwitchStyle"
+                android:thumb="@drawable/thumb"
+                app:buttonTint="@color/expBlue"
+                app:switchPadding="@dimen/_12sdp"
+                app:track="@drawable/track"
+                app:useMaterialThemeColors="false" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/clear_filter_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_white_button"
+                    android:text="Clear Filter"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/search_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_blue_button"
+                    android:text="Search"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/_14sdp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

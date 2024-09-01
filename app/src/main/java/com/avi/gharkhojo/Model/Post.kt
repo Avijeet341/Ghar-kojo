@@ -5,6 +5,7 @@ import android.os.Parcelable
 
 data class Post(
     var ownerName: String? = null,
+    var ownerImage: String? = null,
     var propertyType: String? = null,
     var preferredTenants: String? = null,
     var email: String? = null,
@@ -57,6 +58,7 @@ data class Post(
 
     constructor(parcel: Parcel) : this(
         ownerName = parcel.readString(),
+        ownerImage = parcel.readString(),
         propertyType = parcel.readString(),
         preferredTenants = parcel.readString(),
         email = parcel.readString(),
@@ -100,6 +102,7 @@ data class Post(
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(ownerName)
+        dest.writeString(ownerImage)
         dest.writeString(propertyType)
         dest.writeString(preferredTenants)
         dest.writeString(email)

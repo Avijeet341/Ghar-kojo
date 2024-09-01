@@ -3,6 +3,8 @@ package com.avi.gharkhojo.Chat
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.window.OnBackInvokedDispatcher
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.avi.gharkhojo.Adapter.ChatUserListAdapter
 import com.avi.gharkhojo.Model.ChatUserListModel
@@ -51,6 +54,9 @@ class Chat_Activity : AppCompatActivity() {
         setupRecyclerView()
         setupDatabaseReference()
         fetchUsers()
+
+        binding.toolbar.setNavigationOnClickListener {
+        }
     }
 
     private fun setupRecyclerView() {
@@ -106,6 +112,10 @@ class Chat_Activity : AppCompatActivity() {
                         lastMessageTimestamp = lastMessage?.timeStamp
                         this.lastMessage = lastMessage?.message
                     }
+                    if(chatUserListModel[userIndex].lastMessage == null ||
+                        chatUserListModel[userIndex].lastMessage == ""){
+                        chatUserListModel.removeAt(userIndex)
+                    }
                     chatUserListModel.sortByDescending { it.lastMessageTimestamp ?: 0L }
                     chatUserListAdapter.notifyDataSetChanged()
                     binding.recyclerView2.scrollToPosition(0)
@@ -118,5 +128,7 @@ class Chat_Activity : AppCompatActivity() {
         messageRef.addValueEventListener(messageListener)
         messageListenerMap[chatId] = messageListener
     }
+
+
 
 }

@@ -4,10 +4,13 @@ import android.animation.ValueAnimator
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.AnimatedStateListDrawable
-import android.graphics.drawable.AnimatedVectorDrawable
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -20,16 +23,27 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
-import com.avi.gharkhojo.Adapter.MyViewPagerAdapter2
+import com.avi.gharkhojo.Adapter.MyViewPagerAdapter
+import com.avi.gharkhojo.Chat.ChatRoom
+import com.avi.gharkhojo.Fragments.HomeDetailsDirections.Companion.actionHomeDetailsToTabLayoutFragment
 import com.avi.gharkhojo.MainActivity
+import com.avi.gharkhojo.Model.Post
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentHomeDetailsBinding
+import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import java.text.SimpleDateFormat
+import java.time.Instant
+import java.util.Date
+import java.util.Locale
 import kotlin.math.abs
 
 class HomeDetails : Fragment() {
@@ -80,47 +94,109 @@ class HomeDetails : Fragment() {
     private lateinit var feedbackButton: Button
     private lateinit var GreatThingsText: TextView
 
-    private lateinit var photoAdapter: MyViewPagerAdapter2
-    private val imageResIds = listOf(
-        R.drawable.home1,
-        R.drawable.home2,
-        R.drawable.home3,
-        R.drawable.home4,
-        R.drawable.home5,
-        R.drawable.home6,
-        R.drawable.home7,
-        R.drawable.home8,
-        R.drawable.home9,
-        R.drawable.home10,
-        R.drawable.home11,
-        R.drawable.home12,
-    )
+    private var post: Post? = null
+    private lateinit var photoAdapter: MyViewPagerAdapter
 
     private val handler = Handler(Looper.getMainLooper())
     private val autoSlideRunnable = object : Runnable {
         override fun run() {
             val currentItem = binding.viewPager.currentItem
-            val nextItem = (currentItem + 1) % imageResIds.size
+            val nextItem = (currentItem + 1) % post?.imageList?.map { it.value }?.flatten()?.size!!
             binding.viewPager.setCurrentItem(nextItem, true)
             handler.postDelayed(this, 3000)
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeDetailsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-       // hideBottomNavBar()
         Initialization()
         setupViewPager()
         setupCopyButton()
         setupBookmarkButton()
+        post = arguments?.getParcelable("post")!!
+        loadData()
+        return binding.root
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun loadData() {
+        photoAdapter.updateData(post?.imageList?.map { it.value }?.flatten() as ArrayList<String>)
+        bedroomNumber.text =(post?.noOfBedRoom?:0).toString()
+        bathroomNumber.text =(post?.noOfBathroom?:0).toString()
+        kitchenNumber.text =(post?.noOfKitchen?:0).toString()
+        floorNumber.text =(post?.floorPosition?:0).toString()
+        balconyNumber.text =(post?.noOfBalcony?:0).toString()
+        areaNumber.text = (post?.builtUpArea?:0).toString()
+        nameText.text = post?.ownerName
+//        descriptionText.text = post?.description
+        price.text = post?.rent
+        BHKNumber.text = "${post?.noOfBedRoom!!+post?.noOfBathroom!!+post?.noOfKitchen!!+1}"
+        propertyType.text = post?.propertyType
+        ownerName.text = post?.ownerName
+        tenantsServedNumber.text = post?.tenantServed.toString()
+        postDateDay.text = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+            .format(Date.from(Instant.ofEpochMilli(post?.postTime?.toLong()?:0)))
+
+        houseNoText.text = post?.houseNumber.toString()
+        RoadLaneText.text = post?.road_lane.toString()
+        ColonyText.text = post?.colony.toString()
+        AreaText.text = post?.area.toString()
+        LandmarkText.text = post?.landMark.toString()
+        CityText.text = post?.city.toString()
+        binding.StateText.text = post?.state
+        PinCodeText.text = post?.pincode.toString()
+        furnishingText.text = post?.furnished
+        BuiltUpAreaText.text = post?.builtUpArea
+        PreferredTenantText.text = post?.preferredTenants
+
+       LiftIcon.setImageResource(if (post?.hasLift == true) R.drawable.ic_tick else R.drawable.ic_cross)
+        GeneratorIcon.setImageResource(if (post?.hasGenerator == true) R.drawable.ic_tick else R.drawable.ic_cross)
+        GasIcon.setImageResource(if (post?.hasGasService == true) R.drawable.ic_tick else R.drawable.ic_cross)
+        SecurityGuardIcon.setImageResource(if (post?.hasSecurityGuard == true) R.drawable.ic_tick else R.drawable.ic_cross)
+        ParkingIcon.setImageResource(if (post?.hasParking == true) R.drawable.ic_tick else R.drawable.ic_cross)
+
+        Glide.with(requireContext()).load(post?.ownerImage)
+            .placeholder(R.drawable.vk)
+            .into(binding.profileImage)
+
+        binding.mapButton.setOnClickListener{
+            navigateToGoogleMaps(post?.latitude?:0.0,post?.longitude?:0.0)
+        }
+
+        chatBtn.setOnClickListener{
+
+            openChatRoom()
+        }
+        messageButton.setOnClickListener{
+            openChatRoom()
+        }
+
+        callButton.setOnClickListener{
+            makeCall(post?.phoneNumber?:"")
+        }
+
+
+
+    }
+
+    private fun openChatRoom() {
+        if(post?.userId!= FirebaseAuth.getInstance().currentUser?.uid) {
+            var intent: Intent = Intent(context, ChatRoom::class.java)
+            intent.putExtra(ChatRoom.IMG_ARG, post?.ownerImage)
+            intent.putExtra(ChatRoom.NAME_ARG, post?.ownerName)
+            intent.putExtra(ChatRoom.UID_ARG, post?.userId)
+            context?.startActivity(intent)
+        }else{
+            Toast.makeText(context, "You can't chat with yourself", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         view.post {
             gradientSweepTextColorAnimation()
@@ -195,8 +271,6 @@ class HomeDetails : Fragment() {
         ownerName = binding.ownerName
         tenantsServedNumber = binding.tenantsServedNumber
         postDateDay = binding.postDateDay
-        postDateMonth = binding.postDateMonth
-        postDateYear = binding.postDateYear
         feedbackButton=binding.feedbackButton
 
         // Great Things About Property
@@ -289,7 +363,7 @@ class HomeDetails : Fragment() {
     }
 
     private fun setupViewPager() {
-        photoAdapter = MyViewPagerAdapter2(imageResIds) {
+        photoAdapter = MyViewPagerAdapter {
             navigateToTabLayoutFragment()
         }
         binding.viewPager.adapter = photoAdapter
@@ -299,9 +373,10 @@ class HomeDetails : Fragment() {
     }
 
     private fun navigateToTabLayoutFragment() {
-        findNavController().navigate(R.id.action_homeDetails_to_tabLayoutFragment)
+            val bundle = Bundle()
+        bundle.putParcelable("post", post)
+        findNavController().navigate(R.id.action_homeDetails_to_tabLayoutFragment, bundle)
     }
-
 
     private fun getTransformation(): CompositePageTransformer {
         return CompositePageTransformer().apply {
@@ -342,8 +417,37 @@ class HomeDetails : Fragment() {
 
     private fun showViewChargesBottomSheet() {
         val bottomSheet = ViewChargesUserBottomSheetFragment.newInstance()
+        bottomSheet.arguments = Bundle().apply {
+            putString("rent", binding.price.text.toString())
+            putString("parkingCharge", if (post?.isParkingChargeIncluded == true) "0" else post?.parkingCharge)
+            putString("maintenanceCharge", post?.maintenanceCharge)
+            putString("deposit", post?.deposit)
+        }
         bottomSheet.show(childFragmentManager, ViewChargesUserBottomSheetFragment.TAG)
     }
+
+    private fun navigateToGoogleMaps(latitude: Double, longitude: Double) {
+        val geoUri = "geo:$latitude,$longitude"
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(geoUri))
+        intent.setPackage("com.google.android.apps.maps") // Ensure it opens in Google Maps if installed
+
+        if (intent.resolveActivity(requireContext().packageManager) != null) {
+            startActivity(intent)
+        } else {
+            Toast.makeText(requireContext(), "Google Maps is not installed", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun makeCall(phoneNumber: String) {
+        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.CALL_PHONE), 1)
+        } else {
+            val intent = Intent(Intent.ACTION_CALL)
+            intent.data = Uri.parse("tel:$phoneNumber")
+            startActivity(intent)
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

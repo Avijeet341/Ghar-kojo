@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="unchecked_thumb">#8c8c8c</color>
+    <color name="cheked_thumb">#FFFFFF</color>
+    <color name="unchecked_track">#cdcdcd</color>
+    <color name="checked_track">#007FFF</color>
     <color name="bookmark_unbookmarked">#E7F1FE</color>
     <color name="bookmark_bookmarked">#FFD580</color>
     <color name="expBlue">#007FFF</color>

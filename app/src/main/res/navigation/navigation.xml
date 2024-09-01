@@ -13,6 +13,10 @@
         <action
             android:id="@+id/action_home2_to_homeDetails"
             app:destination="@id/homeDetails" />
+
+        <action
+            android:id="@+id/action_home2_to_filterFragment"
+            app:destination="@id/filterFragment" />
     </fragment>
 
 
@@ -33,9 +37,6 @@
         android:name="com.avi.gharkhojo.Fragments.HomeDetails"
         android:label="fragment_home_details"
         tools:layout="@layout/fragment_home_details">
-        <argument
-            android:name="selectedGridItem"
-            app:argType="com.avi.gharkhojo.Model.GridItem" />
         <action
             android:id="@+id/action_homeDetails_to_tabLayoutFragment"
             app:destination="@id/tabLayoutFragment" />
@@ -55,6 +56,11 @@
             android:id="@+id/action_bookmarkFragment_to_homeDetails"
             app:destination="@id/homeDetails" />
     </fragment>
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.avi.gharkhojo.Fragments.FilterFragment"
+        android:label="fragment_filter"
+        tools:layout="@layout/fragment_filter" />
 
 
 </navigation>
