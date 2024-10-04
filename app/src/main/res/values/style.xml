@@ -109,11 +109,16 @@
         <item name="queryHint">Search...</item>
         <item name="searchHintIcon">@drawable/custom_search_hint_icon</item>
     </style>
-
+    <style name="CustomChipStyle2" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/chip_background_color</item>
+        <item name="android:textColor">@color/chip_text_color</item>
+        <item name="chipMinHeight">40dp</item>
+        <item name="android:textAppearance">@style/CustomChipTextAppearance</item>
+    </style>
     <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="chipBackgroundColor">@color/chip_background_color</item>
         <item name="android:textColor">@color/chip_text_color</item>
-
+         <item name="android:gravity">center</item>
         <item name="chipMinHeight">40dp</item>
         <item name="chipCornerRadius">8dp</item>
         <item name="android:paddingStart">12dp</item>

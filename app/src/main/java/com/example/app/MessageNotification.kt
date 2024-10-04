@@ -1,6 +1,6 @@
 package com.example.app
 
- class MessageNotification(){
+ class MessageNotification{
      lateinit var username:String
      lateinit var message:String
      lateinit var profileImg:String
@@ -9,7 +9,7 @@ package com.example.app
 
      constructor(
          username:String, message:String,
-         profileImg:String, receiverUid:String, sentId:String):this(){
+         profileImg:String, receiverUid:String, sentId:String){
              this.username=username
          this.message=message
          this.profileImg=profileImg
