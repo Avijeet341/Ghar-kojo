@@ -29,7 +29,6 @@ import com.google.android.material.chip.Chip
 class TabLayoutFragment : Fragment() {
     private var _binding: FragmentTabLayoutBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var imageAdapter: ImageAdapter
     private var currentFilter:String? = null
     private var post: Post? = null
