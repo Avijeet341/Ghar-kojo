@@ -55,6 +55,7 @@
         <action
             android:id="@+id/action_bookmarkFragment_to_homeDetails"
             app:destination="@id/homeDetails" />
+
     </fragment>
     <fragment
         android:id="@+id/filterFragment"

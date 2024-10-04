@@ -41,9 +41,23 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/user_bookmarked_item" />
+            />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/no_item_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No Bookmark added!"
+        android:textAlignment="center"
+        android:textColor="@color/LightGray"
+        android:textSize="@dimen/_22ssp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout" />
 
     <ProgressBar
         android:id="@+id/postLoading"
