@@ -99,7 +99,8 @@ class HomeDetails : Fragment() {
     private lateinit var feedbackButton: Button
     private lateinit var GreatThingsText: TextView
     var isBookmarked = false
-    private val databaseReference: DatabaseReference? by lazy{FirebaseDatabase.getInstance().reference.child("BookMark")}
+    private val databaseReference: DatabaseReference? by lazy{FirebaseDatabase.getInstance().reference.child("BookMark")
+        .child("${FirebaseAuth.getInstance().currentUser?.uid}")}
 
     private var post: Post? = null
     private lateinit var photoAdapter: MyViewPagerAdapter

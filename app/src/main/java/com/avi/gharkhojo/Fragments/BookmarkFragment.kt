@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,7 @@ import com.avi.gharkhojo.Model.GridItem
 import com.avi.gharkhojo.Model.Post
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentBookmarkBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -24,10 +26,12 @@ class BookmarkFragment : Fragment() {
 
     private var _binding: FragmentBookmarkBinding? = null
     private val binding get() = _binding!!
-    private val databaseRef: DatabaseReference by lazy{FirebaseDatabase.getInstance().reference.child("BookMark")}
+    private val databaseRef: DatabaseReference by lazy{FirebaseDatabase.getInstance().reference.child("BookMark")
+        .child("${FirebaseAuth.getInstance().currentUser?.uid}")}
     private val houses = ArrayList<Post>()
     private lateinit var postLoading:ProgressBar
     private lateinit var adapter: BookmarkAdapter
+    private lateinit var noItemMsg: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +39,7 @@ class BookmarkFragment : Fragment() {
     ): View {
         _binding = FragmentBookmarkBinding.inflate(inflater, container, false)
         postLoading=binding.postLoading
+        noItemMsg = binding.noItemMsg
         return binding.root
     }
 
@@ -60,6 +65,7 @@ class BookmarkFragment : Fragment() {
 
     private fun fetchBookmarks() {
         postLoading.visibility = View.VISIBLE
+        noItemMsg.visibility = View.GONE
         databaseRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 houses.clear()
@@ -70,6 +76,11 @@ class BookmarkFragment : Fragment() {
                 }
                 adapter.updateData(houses)
                 postLoading.visibility = View.GONE
+                if (houses.isEmpty()) {
+                    noItemMsg.visibility = View.VISIBLE
+                } else {
+                    noItemMsg.visibility = View.GONE
+                }
 
 
 
@@ -78,6 +89,7 @@ class BookmarkFragment : Fragment() {
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(context, "Error fetching data: ${error.message}", Toast.LENGTH_SHORT).show()
                 binding.postLoading.visibility = View.GONE
+                binding.noItemMsg.visibility = View.VISIBLE
             }
         })
     }
