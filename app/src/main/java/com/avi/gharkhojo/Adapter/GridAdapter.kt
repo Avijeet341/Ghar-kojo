@@ -3,11 +3,12 @@ package com.avi.gharkhojo.Adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.avi.gharkhojo.Model.GridItem
 import com.avi.gharkhojo.Model.Post
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.GridItemBinding
 import com.bumptech.glide.Glide
+import java.text.NumberFormat
+import java.util.Locale
 
 class GridAdapter(
     private val listener: (Post) -> Unit
@@ -16,7 +17,7 @@ class GridAdapter(
     private var gridItemList: ArrayList<Post> = arrayListOf()
     inner class ViewHolder(private var gridItemBinding: GridItemBinding) : RecyclerView.ViewHolder(gridItemBinding.root) {
         fun bindItem(gridItem: Post) {
-            // Load the main image
+
             Glide.with(gridItemBinding.image.context)
                 .load(gridItem.coverImage)
                 .into(gridItemBinding.image)
@@ -36,10 +37,19 @@ class GridAdapter(
         }
 
         private fun formatRent(rent: String): String {
-            var updatedRent = rent.replace(",","").replace("₹","")
+            val updatedRent = rent.replace(",", "").replace("₹", "").toDouble()
+            val rentInThousands = updatedRent / 1000
 
 
-            return String.format("₹ %.2f k",updatedRent.toDouble()/1000)
+            val currencyFormatter = NumberFormat.getCurrencyInstance(Locale("en", "IN"))
+
+            return if (rentInThousands >= 1) {
+                currencyFormatter.maximumFractionDigits = 0
+                "${currencyFormatter.format(rentInThousands)}k"
+            } else {
+                currencyFormatter.maximumFractionDigits = 2
+                currencyFormatter.format(updatedRent)
+            }
         }
     }
 

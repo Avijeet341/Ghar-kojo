@@ -141,7 +141,7 @@ class HomeDetails : Fragment() {
         balconyNumber.text =(post?.noOfBalcony?:0).toString()
         areaNumber.text =(post?.builtUpArea?:0).toString()
         nameText.text = post?.ownerName
-//        descriptionText.text = post?.description
+        //descriptionText.text = post?.description
         price.text = post?.rent
         BHKNumber.text = "${post?.noOfBedRoom!!+post?.noOfBathroom!!+post?.noOfKitchen!!+1}"
         propertyType.text = post?.propertyType

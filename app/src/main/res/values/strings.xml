@@ -1,4 +1,6 @@
 <resources>
+    <string name="rent_format">Rent: %s</string>
+    <string name="bhk_description">%s BHK</string>
     <string name="default_web_client_id" translatable="false">267557886464-iiunpsvao8ugtqf6e5lrh6cpodif91cl.apps.googleusercontent.com</string>
     <string name="app_name">GharKhojo</string>
     <string name="home">Home</string>
@@ -57,8 +59,7 @@
     <string name="contact_owner">Contact Owner</string>
     <string name="new_flat_spacious_room_cooperative_society">New flat, spacious room, cooperative society</string>
     <string name="grid_item_clicked">Clicked on GridItem: %1$s</string>
-    <string name="rent_format">Rent: %1$s</string>
-    <string name="bhk_description">%1$s BHK</string>
+
     <string name="email_verification_quote">Verification email has been sent to your email address. Please verify your email address to continue.</string>
     <string name="filter">Filter</string>
     <string name="property_type_selection">Property Type selection</string>
