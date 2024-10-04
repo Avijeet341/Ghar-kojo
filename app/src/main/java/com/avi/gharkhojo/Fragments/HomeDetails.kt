@@ -40,6 +40,11 @@ import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentHomeDetailsBinding
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Date
@@ -93,6 +98,8 @@ class HomeDetails : Fragment() {
     private lateinit var postDateYear: TextView
     private lateinit var feedbackButton: Button
     private lateinit var GreatThingsText: TextView
+    var isBookmarked = false
+    private val databaseReference: DatabaseReference? by lazy{FirebaseDatabase.getInstance().reference.child("BookMark")}
 
     private var post: Post? = null
     private lateinit var photoAdapter: MyViewPagerAdapter
@@ -114,6 +121,7 @@ class HomeDetails : Fragment() {
     ): View {
         _binding = FragmentHomeDetailsBinding.inflate(inflater, container, false)
         Initialization()
+        isBookMarked()
         setupViewPager()
         setupCopyButton()
         setupBookmarkButton()
@@ -130,7 +138,7 @@ class HomeDetails : Fragment() {
         kitchenNumber.text =(post?.noOfKitchen?:0).toString()
         floorNumber.text =(post?.floorPosition?:0).toString()
         balconyNumber.text =(post?.noOfBalcony?:0).toString()
-        areaNumber.text =(post?.area?:0).toString()
+        areaNumber.text =(post?.builtUpArea?:0).toString()
         nameText.text = post?.ownerName
 //        descriptionText.text = post?.description
         price.text = post?.rent
@@ -162,11 +170,12 @@ class HomeDetails : Fragment() {
         Glide.with(requireContext()).load(post?.ownerImage)
             .placeholder(R.drawable.vk)
             .into(binding.profileImage)
-
         binding.mapButton.setOnClickListener{
             navigateToGoogleMaps(post?.latitude?:0.0,post?.longitude?:0.0)
         }
-
+        backButton.setOnClickListener{
+            onDestroyView()
+        }
         chatBtn.setOnClickListener{
 
             openChatRoom()
@@ -276,35 +285,30 @@ class HomeDetails : Fragment() {
         // Great Things About Property
         GreatThingsText = binding.GreatThingsText
     }
-    private fun hideBottomNavBar() {
-        (activity as? MainActivity)?.hideBottomNavBar()
-    }
-    private fun showBottomNavBar() {
-        (activity as? MainActivity)?.showBottomNavBar()
-    }
 
     private fun setupBookmarkButton() {
-        var isBookmarked = false
         val unbookmarkedColor = ContextCompat.getColor(requireContext(), R.color.bookmark_unbookmarked)
         val bookmarkedColor = ContextCompat.getColor(requireContext(), R.color.bookmark_bookmarked)
 
 
         bookMark.setImageResource(R.drawable.bookmark_animation)
-        bookMark.setColorFilter(unbookmarkedColor)
 
         bookMark.setOnClickListener {
-            isBookmarked = !isBookmarked
 
             if (isBookmarked) {
                 // Bookmark
-                bookMark.setColorFilter(bookmarkedColor)
+                binding.bookMarkButton.setColorFilter(bookmarkedColor)
                 Toast.makeText(context, "Bookmarked", Toast.LENGTH_SHORT).show()
+                databaseReference?.child(post?.postTime?:"")?.setValue(post)
             } else {
                 // Unbookmark
                 bookMark.setColorFilter(unbookmarkedColor)
                 bookMark.setImageResource(R.drawable.bookmark_animation)
                 Toast.makeText(context, "Bookmark Removed", Toast.LENGTH_SHORT).show()
+
+                databaseReference?.child(post?.postTime?:"")?.removeValue()
             }
+            isBookmarked!=isBookmarked
 
 
             (bookMark.drawable as? AnimatedStateListDrawable)?.let { drawable ->
@@ -448,6 +452,25 @@ class HomeDetails : Fragment() {
         }
     }
 
+    fun isBookMarked(){
+        databaseReference?.addValueEventListener(object: ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                        if(snapshot.child(post?.postTime.toString()).exists()){
+                            isBookmarked = false
+                            bookMark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.bookmark_bookmarked))
+                        }else{
+                            isBookmarked = true
+                            bookMark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.bookmark_unbookmarked))
+                        }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
