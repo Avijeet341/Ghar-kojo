@@ -27,7 +27,6 @@ import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentTabLayoutBinding
 import com.google.android.material.chip.Chip
 class TabLayoutFragment : Fragment() {
-
     private var _binding: FragmentTabLayoutBinding? = null
     private val binding get() = _binding!!
 
