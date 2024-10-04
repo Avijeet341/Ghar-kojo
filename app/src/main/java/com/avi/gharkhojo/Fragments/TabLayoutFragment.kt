@@ -4,7 +4,6 @@
 *
 *
 * */
-
 package com.avi.gharkhojo.Fragments
 
 import android.animation.ValueAnimator
