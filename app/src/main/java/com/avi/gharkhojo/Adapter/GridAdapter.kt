@@ -17,7 +17,7 @@ class GridAdapter(
     private var gridItemList: ArrayList<Post> = arrayListOf()
     inner class ViewHolder(private var gridItemBinding: GridItemBinding) : RecyclerView.ViewHolder(gridItemBinding.root) {
         fun bindItem(gridItem: Post) {
-            // Load the main image
+
             Glide.with(gridItemBinding.image.context)
                 .load(gridItem.coverImage)
                 .into(gridItemBinding.image)
@@ -40,7 +40,7 @@ class GridAdapter(
             val updatedRent = rent.replace(",", "").replace("₹", "").toDouble()
             val rentInThousands = updatedRent / 1000
 
-            // Get currency instance for INR
+
             val currencyFormatter = NumberFormat.getCurrencyInstance(Locale("en", "IN"))
 
             return if (rentInThousands >= 1) {
