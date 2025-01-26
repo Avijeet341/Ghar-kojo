@@ -445,66 +445,123 @@
             app:layout_constraintTop_toBottomOf="@id/pricingPuzzled" />
 
 
+        <!-- ========== BHK + Map FAB Section ========== -->
         <LinearLayout
-            android:id="@+id/PropertyFeatures"
-            android:layout_width="wrap_content"
+            android:id="@+id/bhk_map_container"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/_40sdp"
-            android:maxWidth="@dimen/_40sdp"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:minWidth="@dimen/_120sdp"
-            android:background="@drawable/bg_edit_text"
-            android:backgroundTint="@color/expBgBlue"
-            android:elevation="@dimen/_2sdp"
-           android:padding="7dp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/negotiateRent"
             app:layout_constraintTop_toBottomOf="@+id/negotiateRent">
 
-            <TextView
-                android:id="@+id/BHKNumber"
+            <!-- BHK Chip -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/propertyFeatures"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="3"
-                android:paddingStart="@dimen/_1sdp"
-                android:minHeight="@dimen/_30sdp"
-                android:gravity="center"
-                android:textColor="@color/messangerBlue"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold" />
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/expBgBlue"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="2dp"
+                app:strokeColor="@color/messangerBlue"
+                app:strokeWidth="1dp">
 
-            <TextView
-                android:id="@+id/propertyBHK"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp">
+
+                    <!-- BHK Badge -->
+                    <TextView
+                        android:id="@+id/BHKNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:includeFontPadding="false"
+                        android:text="5"
+                        android:textColor="@color/messangerBlue"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/propertyBHK"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="BHK"
+                        android:textColor="@color/messangerBlue"
+                        android:textSize="14sp" />
+
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="16dp"
+                        android:layout_marginHorizontal="12dp"
+                        android:alpha="0.5"
+                        android:background="@color/messangerBlue" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_marginEnd="4dp"
+                            android:src="@drawable/apartment"
+                            app:tint="@color/messangerBlue" />
+
+                        <TextView
+                            android:id="@+id/propertyType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="Flat"
+                            android:textColor="@color/messangerBlue"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Spacer -->
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <!-- Rectangular Map Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/mapButton"
+                style="@style/Widget.Material3.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/_30sdp"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="@color/messangerBlue"
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="20dp"
+                android:text="Map"
+                android:textColor="@color/white"
                 android:fontFamily="@font/montserrat_bold"
-                android:text=" Bhk "
-                android:paddingStart="@dimen/_1sdp"
-                android:gravity="center"
-
-                android:textColor="@color/messangerBlue"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/propertyType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center|end"
-                android:minHeight="@dimen/_30sdp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Apartment"
-
-                android:paddingStart="@dimen/_1sdp"
-                android:textColor="@color/messangerBlue"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold" />
-
+                android:textSize="14sp"
+                app:cornerRadius="12dp"
+                app:elevation="@dimen/_4sdp"
+                app:icon="@drawable/pin"
+                app:iconTint="@color/white"
+                app:iconPadding="8dp"
+                app:iconGravity="start"/>
         </LinearLayout>
-
         <androidx.cardview.widget.CardView
             android:id="@+id/propertyLocation"
             android:layout_width="match_parent"
@@ -519,7 +576,7 @@
             app:cardElevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mapButton">
+            app:layout_constraintTop_toBottomOf="@+id/bhk_map_container">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -565,19 +622,19 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="House No:"
-                            android:textColor="@color/expBgBlue" />
+                            android:textColor="@color/expBgBlue"
+                            android:textSize="@dimen/_12ssp" />
 
                         <TextView
                             android:id="@+id/houseNoText"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:textColor="@color/expBgBlue" />
+                            android:textColor="@color/expBgBlue"
+                            android:textSize="@dimen/_12ssp" />
                     </LinearLayout>
 
                     <View
@@ -596,19 +653,19 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="@string/road_lain_no"
-                            android:textColor="@color/expBgBlue" />
+                            android:textColor="@color/expBgBlue"
+                            android:textSize="@dimen/_12ssp" />
 
                         <TextView
                             android:id="@+id/RoadLaneText"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:textColor="@color/expBgBlue" />
+                            android:textColor="@color/expBgBlue"
+                            android:textSize="@dimen/_12ssp" />
                     </LinearLayout>
 
                     <View
@@ -627,19 +684,19 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="Colony:"
-                            android:textColor="@color/expBgBlue" />
+                            android:textColor="@color/expBgBlue"
+                            android:textSize="@dimen/_12ssp" />
 
                         <TextView
                             android:id="@+id/ColonyText"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:textColor="@color/expBgBlue" />
+                            android:textColor="@color/expBgBlue"
+                            android:textSize="@dimen/_12ssp" />
                     </LinearLayout>
 
                     <View
@@ -658,19 +715,19 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="Area:"
-                            android:textColor="@color/expBgBlue" />
+                            android:textColor="@color/expBgBlue"
+                            android:textSize="@dimen/_12ssp" />
 
                         <TextView
                             android:id="@+id/AreaText"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:textColor="@color/expBgBlue" />
+                            android:textColor="@color/expBgBlue"
+                            android:textSize="@dimen/_12ssp" />
                     </LinearLayout>
 
                     <View
@@ -691,17 +748,17 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="Landmark:"
-                            android:textSize="@dimen/_12ssp"
-                            android:textColor="@color/expBgBlue" />
+                            android:textColor="@color/expBgBlue"
+                            android:textSize="@dimen/_12ssp" />
 
                         <TextView
                             android:id="@+id/LandmarkText"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:textColor="@color/expBgBlue" />
+                            android:textColor="@color/expBgBlue"
+                            android:textSize="@dimen/_12ssp" />
                     </LinearLayout>
 
                     <View
@@ -722,17 +779,17 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="City:"
-                            android:textSize="@dimen/_12ssp"
-                            android:textColor="@color/expBgBlue" />
+                            android:textColor="@color/expBgBlue"
+                            android:textSize="@dimen/_12ssp" />
 
                         <TextView
                             android:id="@+id/CityText"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:textColor="@color/expBgBlue" />
+                            android:textColor="@color/expBgBlue"
+                            android:textSize="@dimen/_12ssp" />
                     </LinearLayout>
 
                     <View
@@ -752,17 +809,17 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="State:"
-                            android:textSize="@dimen/_12ssp"
-                            android:textColor="@color/expBgBlue" />
+                            android:textColor="@color/expBgBlue"
+                            android:textSize="@dimen/_12ssp" />
 
                         <TextView
                             android:id="@+id/StateText"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:textColor="@color/expBgBlue" />
+                            android:textColor="@color/expBgBlue"
+                            android:textSize="@dimen/_12ssp" />
                     </LinearLayout>
 
                     <View
@@ -783,17 +840,17 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/montserrat_bold"
                             android:text="PinCode:"
-                            android:textSize="@dimen/_12ssp"
-                            android:textColor="@color/expBgBlue" />
+                            android:textColor="@color/expBgBlue"
+                            android:textSize="@dimen/_12ssp" />
 
                         <TextView
                             android:id="@+id/PinCodeText"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:textColor="@color/expBgBlue" />
+                            android:textColor="@color/expBgBlue"
+                            android:textSize="@dimen/_12ssp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -1463,34 +1520,6 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/mapButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="40dp"
-            android:minHeight="40dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="10dp"
-            android:text="See on Map"
-            android:drawableEnd="@drawable/ic_next"
-            android:background="@drawable/bg_edit_text"
-            android:textAllCaps="false"
-            android:textColor="@color/messangerBlue"
-            android:elevation="@dimen/_2sdp"
-            android:textSize="@dimen/_12ssp"
-             android:padding="8dp"
-            android:paddingBottom="6dp"
-            android:textStyle="bold"
-            app:icon="@drawable/placeholder"
-            app:iconGravity="textStart"
-            app:iconTint="#007AFF"
-            app:iconSize="24dp"
-            app:iconPadding="8dp"
-            app:cornerRadius="20dp"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            app:backgroundTint="@color/expBgBlue"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/negotiateRent" />
 
 
 <!--        <Button-->

@@ -101,4 +101,9 @@
 
     <!-- Toolbar text color (if needed) -->
     <color name="toolbar_text_color">#FFFFFF</color>
+
+
+    <color name="primary_blue">#0A8ED9</color>
+    <color name="primary_blue_10">#1A0A8ED9</color>
+    <color name="primary_blue_30">#4D0A8ED9</color>
 </resources>
