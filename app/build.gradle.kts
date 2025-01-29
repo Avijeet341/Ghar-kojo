@@ -13,6 +13,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId = "com.avi.gharkhojo"
         minSdk = 24
         targetSdk = 34

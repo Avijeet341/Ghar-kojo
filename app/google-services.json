@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "267557886464-sto7qghk7u0o07be22ktuu33s9f5o4ad.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.avi.gharkhojo",
+            "certificate_hash": "c6ef77c5c5512356ccd82cfd52c49c885b95282d"
+          }
+        },
+        {
           "client_id": "267557886464-iiunpsvao8ugtqf6e5lrh6cpodif91cl.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -164,11 +164,29 @@ class HomeDetails : Fragment() {
         BuiltUpAreaText.text = post?.builtUpArea
         PreferredTenantText.text = post?.preferredTenants
 
+
+        // Set property type image
+        post?.propertyType?.let { type ->
+            val drawableRes = when (type) {
+                "House" -> R.drawable.home
+                "Apartment" -> R.drawable.apartment
+                "Flat" -> R.drawable.building
+                "Dormitory" -> R.drawable.dormitory
+                "Luxury" -> R.drawable.luxury
+                "Commercial" -> R.drawable.commercial_property
+                else -> R.drawable.apartment // Default fallback
+            }
+            binding.bhkTypeImage.setImageResource(drawableRes)
+        }
+
+
         LiftIcon.setImageResource(if (post?.hasLift == true) R.drawable.ic_tick else R.drawable.ic_cross)
         GeneratorIcon.setImageResource(if (post?.hasGenerator == true) R.drawable.ic_tick else R.drawable.ic_cross)
         GasIcon.setImageResource(if (post?.hasGasService == true) R.drawable.ic_tick else R.drawable.ic_cross)
         SecurityGuardIcon.setImageResource(if (post?.hasSecurityGuard == true) R.drawable.ic_tick else R.drawable.ic_cross)
         ParkingIcon.setImageResource(if (post?.hasParking == true) R.drawable.ic_tick else R.drawable.ic_cross)
+
+
 
         Glide.with(requireContext()).load(post?.ownerImage)
             .placeholder(R.drawable.vk)
@@ -287,30 +305,77 @@ class HomeDetails : Fragment() {
     }
 
     private fun setupBookmarkButton() {
-        val unbookmarkedColor = ContextCompat.getColor(requireContext(), R.color.bookmark_unbookmarked)
-        val bookmarkedColor = ContextCompat.getColor(requireContext(), R.color.bookmark_bookmarked)
+        // Set the initial icon and state
+        updateBookmarkState()
 
-        bookMark.setImageResource(R.drawable.bookmark_animation)
-
+        // Handle bookmark button clicks
         bookMark.setOnClickListener {
-            if (isBookmarked) {
-                // Bookmark
-                binding.bookMarkButton.setColorFilter(bookmarkedColor)
-                Toast.makeText(context, "Bookmarked", Toast.LENGTH_SHORT).show()
-                databaseReference?.child(post?.postTime ?: "")?.setValue(post)
-            } else {
-                // Unbookmark
-                bookMark.setColorFilter(unbookmarkedColor)
-                bookMark.setImageResource(R.drawable.bookmark_animation)
-                Toast.makeText(context, "Bookmark Removed", Toast.LENGTH_SHORT).show()
-                databaseReference?.child(post?.postTime ?: "")?.removeValue()
-            }
-            isBookmarked = !isBookmarked
-
-            (bookMark.drawable as? AnimatedStateListDrawable)?.let { drawable ->
-                drawable.setState(if (isBookmarked) intArrayOf(android.R.attr.state_checked) else intArrayOf())
-            }
+            isBookmarked = !isBookmarked // Toggle the bookmark state
+            animateBookmarkButton()      // Add a smooth bounce animation
+            updateBookmarkState()        // Update the button's icon and color
+            handleBookmarkAction()       // Perform the appropriate bookmark action (save/remove)
         }
+    }
+
+    // Updates the bookmark button's appearance (icon and color) based on the current state
+    private fun updateBookmarkState() {
+        if (isBookmarked) {
+            // Set the bookmarked icon (filled bookmark)
+            bookMark.setImageResource(R.drawable.ic_bookmark_filled)
+        } else {
+            // Set the unbookmarked icon (outline or favorite)
+            bookMark.setImageResource(R.drawable.ic_favorite)
+        }
+    }
+
+    // Animates the bookmark button with a bounce effect for a better user experience
+    private fun animateBookmarkButton() {
+        bookMark.animate()
+            .scaleX(1.2f) // Scale up slightly
+            .scaleY(1.2f)
+            .setDuration(150)
+            .withEndAction {
+                bookMark.animate()
+                    .scaleX(1f) // Return to original size
+                    .scaleY(1f)
+                    .setDuration(150)
+                    .start()
+            }
+            .start()
+    }
+
+    // Performs the database action for bookmarking/unbookmarking
+    private fun handleBookmarkAction() {
+        if (isBookmarked) {
+            // Save the post as bookmarked in the database
+            databaseReference?.child(post?.postTime ?: "")?.setValue(post)
+            Toast.makeText(context, "Bookmarked", Toast.LENGTH_SHORT).show()
+        } else {
+            // Remove the bookmark from the database
+            databaseReference?.child(post?.postTime ?: "")?.removeValue()
+            Toast.makeText(context, "Bookmark Removed", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    fun isBookMarked() {
+        databaseReference?.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // Check if the post exists in the database
+                val postExists = snapshot.child(post?.postTime.toString()).exists()
+
+                // Update the `isBookmarked` state based on the existence of the post
+                isBookmarked = postExists
+
+                // Update the UI (color and icon)
+                updateBookmarkState()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle database errors (log or show a Toast to the user)
+                Toast.makeText(context, "Error fetching bookmark state: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun setupCopyButton() {
@@ -452,23 +517,8 @@ class HomeDetails : Fragment() {
         }
     }
 
-    fun isBookMarked() {
-        databaseReference?.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.child(post?.postTime.toString()).exists()) {
-                    isBookmarked = false
-                    bookMark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.bookmark_bookmarked))
-                } else {
-                    isBookmarked = true
-                    bookMark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.bookmark_unbookmarked))
-                }
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
-    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
