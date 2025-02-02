@@ -102,7 +102,7 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.51.1")
 
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
-
+    implementation ("com.google.android.gms:play-services-location:21.3.0")
 
 
 }

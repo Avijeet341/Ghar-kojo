@@ -1,7 +1,11 @@
 package com.avi.gharkhojo.Fragments
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.os.Bundle
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +13,7 @@ import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -24,12 +29,14 @@ import com.avi.gharkhojo.OwnerActivity
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentHomeBinding
 import com.bumptech.glide.RequestManager
+import com.google.android.gms.location.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -37,11 +44,22 @@ class Home : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var filterAnimation: android.view.animation.Animation
+
     @Inject
     lateinit var requestManager: RequestManager
+
     private var databaseReference: DatabaseReference =
         FirebaseDatabase.getInstance().reference.child("Posts")
     private lateinit var gridAdapter: GridAdapter
+
+    // Location related properties
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
+    private val locationRequest = LocationRequest.create().apply {
+        priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        interval = 10000 // Update interval in milliseconds
+        fastestInterval = 5000
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,8 +77,65 @@ class Home : Fragment() {
         setupGridView()
         setupSearchView()
         setupFilterButtonAnimation()
-
+        setupLocation()
         observeDataChanges()
+    }
+
+    private fun setupLocation() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                locationResult.lastLocation?.let { location ->
+                    updateLocationUI(location.latitude, location.longitude)
+                }
+            }
+        }
+
+        requestLocationUpdates()
+    }
+
+    private fun requestLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
+            return
+        }
+
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            Looper.getMainLooper()
+        )
+    }
+
+    private fun updateLocationUI(latitude: Double, longitude: Double) {
+        try {
+            val geocoder = Geocoder(requireContext(), Locale.getDefault())
+            val addresses = geocoder.getFromLocation(latitude, longitude, 1)
+
+            addresses?.firstOrNull()?.let { address ->
+                // Try to get the subLocality (neighborhood) first
+                val locality = address.subLocality ?:
+                address.locality ?:
+                address.subAdminArea
+
+                // Update the UI on the main thread
+                activity?.runOnUiThread {
+                    binding.locationText1.text = locality
+                    binding.locationText3.text = address.locality ?: address.adminArea
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun setupFilterButtonAnimation() {
@@ -116,7 +191,7 @@ class Home : Fragment() {
         val adapter = HousingTypeAdapter(housingTypes) {
             val intent = Intent(requireContext(), OwnerActivity::class.java)
             startActivity(intent)
-            this.requireActivity().finish()
+            requireActivity().finish()
         }
         recyclerView.adapter = adapter
     }
@@ -128,7 +203,6 @@ class Home : Fragment() {
                 putParcelable("post", post)
             }
             action.arguments.putAll(bundle)
-
             findNavController().navigate(action)
         }
 
@@ -141,7 +215,6 @@ class Home : Fragment() {
     private fun observeDataChanges() {
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                // Null check before accessing binding
                 if (_binding == null) return
 
                 if (snapshot.exists()) {
@@ -156,7 +229,6 @@ class Home : Fragment() {
                     }
                     gridAdapter.updateData(mutableList)
                 }
-                // No need for progress bar now.
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -170,8 +242,31 @@ class Home : Fragment() {
         })
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            LOCATION_PERMISSION_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    requestLocationUpdates()
+                }
+            }
+            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        if (::fusedLocationClient.isInitialized && ::locationCallback.isInitialized) {
+            fusedLocationClient.removeLocationUpdates(locationCallback)
+        }
         _binding = null
+    }
+
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
     }
 }
