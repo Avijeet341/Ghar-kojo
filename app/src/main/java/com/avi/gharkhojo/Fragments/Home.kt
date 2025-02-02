@@ -37,13 +37,16 @@ class Home : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var filterAnimation: android.view.animation.Animation
-    @Inject lateinit var requestManager: RequestManager
-    private var databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Posts")
+    @Inject
+    lateinit var requestManager: RequestManager
+    private var databaseReference: DatabaseReference =
+        FirebaseDatabase.getInstance().reference.child("Posts")
+    private lateinit var gridAdapter: GridAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -61,7 +64,8 @@ class Home : Fragment() {
     }
 
     private fun setupFilterButtonAnimation() {
-        filterAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.filter_button_animation)
+        filterAnimation =
+            AnimationUtils.loadAnimation(requireContext(), R.anim.filter_button_animation)
 
         binding.filterButton.setOnClickListener {
             it.startAnimation(filterAnimation)
@@ -70,12 +74,14 @@ class Home : Fragment() {
     }
 
     private fun setupSearchView() {
-        val searchView = binding.toolbar.findViewById<SearchView>(R.id.search_view)
-
-        // Change text color
-        val searchText = searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+        val searchView =
+            binding.toolbar.findViewById<SearchView>(R.id.search_view)
+        val searchText =
+            searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
         searchText.setTextColor(ContextCompat.getColor(requireContext(), R.color.expBlue))
-        searchText.setHintTextColor(ContextCompat.getColor(requireContext(), R.color.expBlue))
+        searchText.setHintTextColor(
+            ContextCompat.getColor(requireContext(), R.color.expBlue)
+        )
     }
 
     private fun setupUserProfile() {
@@ -84,12 +90,18 @@ class Home : Fragment() {
         } ?: run {
             binding.userImage.setImageResource(R.drawable.vibe)
         }
-        binding.username.text = UserData.username ?: getString(R.string.default_username)
+        binding.username.text =
+            UserData.username ?: getString(R.string.default_username)
     }
 
     private fun setupToolbar() {
-        val recyclerView: RecyclerView = binding.toolbar.findViewById(R.id.housingTypeRecyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val recyclerView: RecyclerView =
+            binding.toolbar.findViewById(R.id.housingTypeRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
 
         val housingTypes = listOf(
             HousingType(R.drawable.ic_baseline_add_24, "Add Property"),
@@ -110,17 +122,19 @@ class Home : Fragment() {
     }
 
     private fun setupGridView() {
+        gridAdapter = GridAdapter { post ->
+            val action = HomeDirections.actionHome2ToHomeDetails()
+            val bundle = Bundle().apply {
+                putParcelable("post", post)
+            }
+            action.arguments.putAll(bundle)
+
+            findNavController().navigate(action)
+        }
+
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
-            adapter = GridAdapter { post ->
-                val action = HomeDirections.actionHome2ToHomeDetails()
-                val bundle = Bundle().apply {
-                    putParcelable("post", post)
-                }
-                action.arguments.putAll(bundle)
-
-                findNavController().navigate(action)
-            }
+            adapter = gridAdapter
         }
     }
 
@@ -128,9 +142,8 @@ class Home : Fragment() {
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // Null check before accessing binding
-                if (_binding == null) {
-                    return
-                }
+                if (_binding == null) return
+
                 if (snapshot.exists()) {
                     val mutableList: MutableList<Post> = mutableListOf()
                     for (dataSnapshot in snapshot.children) {
@@ -141,18 +154,18 @@ class Home : Fragment() {
                             }
                         }
                     }
-                    (binding.recyclerView.adapter as? GridAdapter)?.updateData(mutableList)
+                    gridAdapter.updateData(mutableList)
                 }
-                binding.loadDataProgress.visibility = View.GONE
+                // No need for progress bar now.
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Null check before accessing binding
-                if (_binding == null) {
-                    return
-                }
-                Toast.makeText(context, "Failed to load data: ${error.message}", Toast.LENGTH_SHORT).show()
-                binding.loadDataProgress.visibility = View.GONE
+                if (_binding == null) return
+                Toast.makeText(
+                    context,
+                    "Failed to load data: ${error.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
