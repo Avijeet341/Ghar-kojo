@@ -30,14 +30,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/info_container"
                 app:layout_constraintDimensionRatio="2:3">
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/shimmer_placeholder_bg"/>
             </FrameLayout>
 
-            <!-- Placeholder for text/info using percent width constraints -->
+            <!-- Placeholder for text/info using ConstraintLayout percent width -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/info_container"
                 android:layout_width="match_parent"
@@ -66,7 +65,7 @@
                     android:layout_height="14dp"
                     android:background="@color/shimmer_placeholder_bg"
                     app:layout_constraintWidth_percent="0.4"
-                    app:layout_constraintTop_toBottomOf="@+id/placeholder_text1"
+                    app:layout_constraintTop_toBottomOf="@id/placeholder_text1"
                     app:layout_constraintStart_toStartOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 

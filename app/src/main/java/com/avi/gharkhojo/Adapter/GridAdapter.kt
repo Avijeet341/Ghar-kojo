@@ -22,7 +22,7 @@ class GridAdapter(
 
     private var gridItemList: ArrayList<Post> = arrayListOf()
     var isLoading: Boolean = true
-    // The number of skeleton items to show
+    // Number of skeleton items during loading
     private val skeletonItemCount = 6
 
     inner class ViewHolder(private var gridItemBinding: GridItemBinding) :
@@ -32,7 +32,7 @@ class GridAdapter(
                 .load(gridItem.coverImage)
                 .into(gridItemBinding.image)
 
-            // Load the display picture (use network image if available)
+            // Load the display picture (or replace with remote image)
             Glide.with(gridItemBinding.displayPicture.context)
                 .load(R.drawable.kk)
                 .into(gridItemBinding.displayPicture)
@@ -71,13 +71,13 @@ class GridAdapter(
     inner class ShimmerViewHolder(private val shimmerBinding: ShimmerGridItemBinding) :
         RecyclerView.ViewHolder(shimmerBinding.root) {
         init {
-            // Programmatically configure shimmer properties if desired
+            // Configure a customized shimmer effect.
             val shimmerLayout = shimmerBinding.root as? ShimmerFrameLayout
             shimmerLayout?.setShimmer(
-                Shimmer.AlphaHighlightBuilder()
-                    .setDuration(1500)
-                    .setBaseAlpha(0.7f)
-                    .setHighlightAlpha(0.6f)
+                Shimmer.AlphaHighlightBuilder()  // Uses an alpha-based effect
+                    .setDuration(1000)           // Faster animation duration for a snappier effect
+                    .setBaseAlpha(0.6f)          // Base view alpha
+                    .setHighlightAlpha(1f)       // Alpha for the moving highlight
                     .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
                     .setAutoStart(true)
                     .build()
@@ -94,12 +94,11 @@ class GridAdapter(
         viewType: Int
     ): RecyclerView.ViewHolder {
         return if (viewType == VIEW_TYPE_NORMAL) {
-            val binding =
-                GridItemBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
+            val binding = GridItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
             ViewHolder(binding)
         } else {
             val shimmerBinding = ShimmerGridItemBinding.inflate(
@@ -124,7 +123,7 @@ class GridAdapter(
                 listener(post)
             }
         }
-        // For shimmer view type, no additional binding is needed.
+        // For shimmer view type, no binding is needed—the effect runs automatically.
     }
 
     fun updateData(newGridItemList: List<Post>) {
