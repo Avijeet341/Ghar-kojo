@@ -8,6 +8,8 @@ import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.GridItemBinding
 import com.avi.gharkhojo.databinding.ShimmerGridItemBinding
 import com.bumptech.glide.Glide
+import com.facebook.shimmer.Shimmer
+import com.facebook.shimmer.ShimmerFrameLayout
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -30,12 +32,11 @@ class GridAdapter(
                 .load(gridItem.coverImage)
                 .into(gridItemBinding.image)
 
-            // Load the display picture
+            // Load the display picture (use network image if available)
             Glide.with(gridItemBinding.displayPicture.context)
                 .load(R.drawable.kk)
                 .into(gridItemBinding.displayPicture)
 
-            // Set the rent text with the resource string
             gridItemBinding.rent.text =
                 gridItemBinding.root.context.getString(
                     R.string.rent_format,
@@ -43,7 +44,6 @@ class GridAdapter(
                 )
             gridItemBinding.location.text = "${gridItem.area} , ${gridItem.city}"
 
-            // Set the BHK description text dynamically using resource string
             gridItemBinding.bhkDescription.text =
                 gridItemBinding.root.context.getString(
                     R.string.bhk_description,
@@ -52,10 +52,11 @@ class GridAdapter(
         }
 
         private fun formatRent(rent: String): String {
-            val updatedRent = rent.replace(",", "").replace("₹", "").toDouble()
+            val updatedRent = rent.replace(",", "")
+                .replace("₹", "").toDouble()
             val rentInThousands = updatedRent / 1000
-
-            val currencyFormatter = NumberFormat.getCurrencyInstance(Locale("en", "IN"))
+            val currencyFormatter =
+                NumberFormat.getCurrencyInstance(Locale("en", "IN"))
 
             return if (rentInThousands >= 1) {
                 currencyFormatter.maximumFractionDigits = 0
@@ -68,20 +69,43 @@ class GridAdapter(
     }
 
     inner class ShimmerViewHolder(private val shimmerBinding: ShimmerGridItemBinding) :
-        RecyclerView.ViewHolder(shimmerBinding.root)
+        RecyclerView.ViewHolder(shimmerBinding.root) {
+        init {
+            // Programmatically configure shimmer properties if desired
+            val shimmerLayout = shimmerBinding.root as? ShimmerFrameLayout
+            shimmerLayout?.setShimmer(
+                Shimmer.AlphaHighlightBuilder()
+                    .setDuration(1500)
+                    .setBaseAlpha(0.7f)
+                    .setHighlightAlpha(0.6f)
+                    .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
+                    .setAutoStart(true)
+                    .build()
+            )
+        }
+    }
 
     override fun getItemViewType(position: Int): Int {
         return if (isLoading) VIEW_TYPE_SHIMMER else VIEW_TYPE_NORMAL
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): RecyclerView.ViewHolder {
         return if (viewType == VIEW_TYPE_NORMAL) {
             val binding =
-                GridItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                GridItemBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
             ViewHolder(binding)
         } else {
             val shimmerBinding = ShimmerGridItemBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
+                LayoutInflater.from(parent.context),
+                parent,
+                false
             )
             ShimmerViewHolder(shimmerBinding)
         }
@@ -99,7 +123,8 @@ class GridAdapter(
             holder.itemView.setOnClickListener {
                 listener(post)
             }
-        } // For shimmer view type, no binding is needed because shimmer auto-runs.
+        }
+        // For shimmer view type, no additional binding is needed.
     }
 
     fun updateData(newGridItemList: List<Post>) {
