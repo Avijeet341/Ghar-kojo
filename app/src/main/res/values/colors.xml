@@ -5,6 +5,8 @@
     <color name="unchecked_track">#cdcdcd</color>
     <color name="checked_track">#007FFF</color>
     <color name="bookmark_unbookmarked">#E7F1FE</color>
+    <color name="shimmer_placeholder_bg">#CFE0F2</color>
+
 
     <color name="expBlue">#007FFF</color>
     <color name="expBgBlue">#E7F1FE</color>

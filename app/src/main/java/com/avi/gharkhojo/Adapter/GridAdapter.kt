@@ -6,42 +6,57 @@ import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Model.Post
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.GridItemBinding
+import com.avi.gharkhojo.databinding.ShimmerGridItemBinding
 import com.bumptech.glide.Glide
+import com.facebook.shimmer.Shimmer
+import com.facebook.shimmer.ShimmerFrameLayout
 import java.text.NumberFormat
 import java.util.Locale
 
 class GridAdapter(
     private val listener: (Post) -> Unit
-) : RecyclerView.Adapter<GridAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private val VIEW_TYPE_SHIMMER = 0
+    private val VIEW_TYPE_NORMAL = 1
 
     private var gridItemList: ArrayList<Post> = arrayListOf()
-    inner class ViewHolder(private var gridItemBinding: GridItemBinding) : RecyclerView.ViewHolder(gridItemBinding.root) {
-        fun bindItem(gridItem: Post) {
+    var isLoading: Boolean = true
+    // Number of skeleton items during loading
+    private val skeletonItemCount = 6
 
+    inner class ViewHolder(private var gridItemBinding: GridItemBinding) :
+        RecyclerView.ViewHolder(gridItemBinding.root) {
+        fun bindItem(gridItem: Post) {
             Glide.with(gridItemBinding.image.context)
                 .load(gridItem.coverImage)
                 .into(gridItemBinding.image)
 
-            // Load the display picture
+            // Load the display picture (or replace with remote image)
             Glide.with(gridItemBinding.displayPicture.context)
                 .load(R.drawable.kk)
                 .into(gridItemBinding.displayPicture)
 
-            // Set the rent text with the resource string
-            gridItemBinding.rent.text = gridItemBinding.root.context.getString(R.string.rent_format, formatRent(gridItem.rent!!))
+            gridItemBinding.rent.text =
+                gridItemBinding.root.context.getString(
+                    R.string.rent_format,
+                    formatRent(gridItem.rent!!)
+                )
             gridItemBinding.location.text = "${gridItem.area} , ${gridItem.city}"
 
-            // Set the BHK description text dynamically using resource string
-            gridItemBinding.bhkDescription.text = gridItemBinding.root.context.getString(R.string.bhk_description
-            ,"${gridItem.noOfBedRoom!!+gridItem.noOfKitchen!!+1}")
+            gridItemBinding.bhkDescription.text =
+                gridItemBinding.root.context.getString(
+                    R.string.bhk_description,
+                    "${gridItem.noOfBedRoom!! + gridItem.noOfKitchen!! + 1}"
+                )
         }
 
         private fun formatRent(rent: String): String {
-            val updatedRent = rent.replace(",", "").replace("₹", "").toDouble()
+            val updatedRent = rent.replace(",", "")
+                .replace("₹", "").toDouble()
             val rentInThousands = updatedRent / 1000
-
-
-            val currencyFormatter = NumberFormat.getCurrencyInstance(Locale("en", "IN"))
+            val currencyFormatter =
+                NumberFormat.getCurrencyInstance(Locale("en", "IN"))
 
             return if (rentInThousands >= 1) {
                 currencyFormatter.maximumFractionDigits = 0
@@ -53,22 +68,66 @@ class GridAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = GridItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(v)
+    inner class ShimmerViewHolder(private val shimmerBinding: ShimmerGridItemBinding) :
+        RecyclerView.ViewHolder(shimmerBinding.root) {
+        init {
+            // Configure a customized shimmer effect.
+            val shimmerLayout = shimmerBinding.root as? ShimmerFrameLayout
+            shimmerLayout?.setShimmer(
+                Shimmer.AlphaHighlightBuilder()  // Uses an alpha-based effect
+                    .setDuration(1000)           // Faster animation duration for a snappier effect
+                    .setBaseAlpha(0.6f)          // Base view alpha
+                    .setHighlightAlpha(1f)       // Alpha for the moving highlight
+                    .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
+                    .setAutoStart(true)
+                    .build()
+            )
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (isLoading) VIEW_TYPE_SHIMMER else VIEW_TYPE_NORMAL
+    }
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): RecyclerView.ViewHolder {
+        return if (viewType == VIEW_TYPE_NORMAL) {
+            val binding = GridItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+            ViewHolder(binding)
+        } else {
+            val shimmerBinding = ShimmerGridItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+            ShimmerViewHolder(shimmerBinding)
+        }
     }
 
     override fun getItemCount(): Int {
-        return gridItemList.size
+        return if (isLoading) skeletonItemCount else gridItemList.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindItem(gridItemList[position])
-        holder.itemView.setOnClickListener {
-            listener(gridItemList[position])
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder.itemViewType == VIEW_TYPE_NORMAL) {
+            val viewHolder = holder as ViewHolder
+            val post = gridItemList[position]
+            viewHolder.bindItem(post)
+            holder.itemView.setOnClickListener {
+                listener(post)
+            }
         }
+        // For shimmer view type, no binding is needed—the effect runs automatically.
     }
+
     fun updateData(newGridItemList: List<Post>) {
+        isLoading = false
         gridItemList.clear()
         gridItemList.addAll(newGridItemList)
         notifyDataSetChanged()
