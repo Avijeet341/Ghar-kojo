@@ -57,7 +57,7 @@ import java.util.Locale
 @AndroidEntryPoint
 class Home : Fragment() {
 
-    // View Binding.
+
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -70,11 +70,11 @@ class Home : Fragment() {
         FirebaseDatabase.getInstance().reference.child("Posts")
     private lateinit var gridAdapter: GridAdapter
 
-    // Location-related properties.
+
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
 
-    // Create a location request for high accuracy.
+
     private val locationRequest: LocationRequest = LocationRequest.create().apply {
         priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         interval = 10_000     // 10 seconds.
@@ -82,15 +82,15 @@ class Home : Fragment() {
     }
 
     companion object {
-        // Cached location display strings and coordinates.
-        var savedLocality: String? = null   // For binding.locationText1.
-        var savedCity: String? = null         // For binding.locationText3.
+
+        var savedLocality: String? = null
+        var savedCity: String? = null
         var savedLatitude: Double? = null
         var savedLongitude: Double? = null
 
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
 
-        // Clear cached values if needed.
+
         fun clearSavedLocation() {
             savedLocality = null
             savedCity = null
@@ -99,11 +99,10 @@ class Home : Fragment() {
         }
     }
 
-    // Using the new Activity Result API for resolving location settings.
     private val locationAccuracyLauncher: ActivityResultLauncher<IntentSenderRequest> =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                // User accepted location settings—request a location update.
+
                 requestLocationUpdates()
             } else {
                 Toast.makeText(
@@ -130,22 +129,19 @@ class Home : Fragment() {
         setupSearchView()
         setupFilterButtonAnimation()
 
-        // If cached location exists, update UI immediately.
+
         if (savedLocality != null && savedCity != null) {
             binding.locationText1.text = savedLocality
             binding.locationText3.text = savedCity
         } else {
-            // Attempt to fetch location immediately.
+
             getLastKnownLocationOrRequestSettings()
         }
 
         observeDataChanges()
     }
 
-    /**
-     * Attempts to get the last-known location. If unavailable (which can happen the very first time),
-     * uses getCurrentLocation() to obtain a fresh location. If both fail, falls back to checking location settings.
-     */
+
     private fun getLastKnownLocationOrRequestSettings() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         if (ActivityCompat.checkSelfPermission(
@@ -160,19 +156,19 @@ class Home : Fragment() {
             return
         }
 
-        // Try last-known location first.
+
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             if (location != null) {
                 geocodeLocation(location)
             } else {
-                // If last-known location is null, use getCurrentLocation().
+
                 fusedLocationClient.getCurrentLocation(
                     Priority.PRIORITY_HIGH_ACCURACY, null
                 ).addOnSuccessListener { currentLocation: Location? ->
                     if (currentLocation != null) {
                         geocodeLocation(currentLocation)
                     } else {
-                        // If still null, request location settings to trigger a fresh update.
+
                         requestLocationSettings()
                     }
                 }.addOnFailureListener {
@@ -184,10 +180,7 @@ class Home : Fragment() {
         }
     }
 
-    /**
-     * Checks the device's location settings. If high-accuracy is not enabled, shows the system
-     * "Location Accuracy" dialog using the new Activity Result API.
-     */
+
     private fun requestLocationSettings() {
         val builder = LocationSettingsRequest.Builder()
             .addLocationRequest(locationRequest)
@@ -218,16 +211,14 @@ class Home : Fragment() {
         }
     }
 
-    /**
-     * Requests a location update. In the callback, performs geocoding asynchronously.
-     */
+
     private fun requestLocationUpdates() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult.lastLocation?.let { location ->
                     geocodeLocation(location)
-                    // Since we need only one fix per session, stop further updates.
+
                     fusedLocationClient.removeLocationUpdates(this)
                 }
             }
@@ -250,10 +241,7 @@ class Home : Fragment() {
         )
     }
 
-    /**
-     * Performs geocoding for the provided location off the main thread.
-     * Once complete, caches the result, updates the UI, and shows a toast.
-     */
+
     private fun geocodeLocation(location: Location) {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
@@ -270,11 +258,11 @@ class Home : Fragment() {
                     savedLatitude = location.latitude
                     savedLongitude = location.longitude
 
-                    // Update UI.
+
                     binding.locationText1.text = savedLocality
                     binding.locationText3.text = savedCity
 
-                    // Show a toast after the location is fetched.
+
                     Toast.makeText(requireContext(), "Location fetched", Toast.LENGTH_SHORT).show()
                 } else {
                     binding.locationText1.text = "N/A"
@@ -287,7 +275,8 @@ class Home : Fragment() {
     }
 
     private fun setupFilterButtonAnimation() {
-        filterAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.filter_button_animation)
+        filterAnimation =
+            AnimationUtils.loadAnimation(requireContext(), R.anim.filter_button_animation)
         binding.filterButton.setOnClickListener {
             it.startAnimation(filterAnimation)
             findNavController().navigate(R.id.action_home2_to_filterFragment)
@@ -312,7 +301,8 @@ class Home : Fragment() {
     }
 
     private fun setupToolbar() {
-        val recyclerView = binding.toolbar.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.housingTypeRecyclerView)
+        val recyclerView =
+            binding.toolbar.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.housingTypeRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL,
@@ -362,6 +352,7 @@ class Home : Fragment() {
                     gridAdapter.updateData(mutableList)
                 }
             }
+
             override fun onCancelled(error: DatabaseError) {
                 if (_binding == null) return
                 Toast.makeText(
