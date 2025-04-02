@@ -1,60 +1,74 @@
 package com.avi.gharkhojo.Fragments.OwnerFragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.ImageButton
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.avi.gharkhojo.Adapter.InterestedUsersAdapter
+import com.avi.gharkhojo.Model.InterestedUser
 import com.avi.gharkhojo.R
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class InterestedFragment : Fragment(R.layout.fragment_interest) {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [InterestedFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class InterestedFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var progressBar: View
+    private lateinit var emptyStateLayout: View
+    private lateinit var backButton: ImageButton
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private val interestedUsersAdapter = InterestedUsersAdapter()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        recyclerView = view.findViewById(R.id.recyclerView)
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
+        progressBar = view.findViewById(R.id.progressBar)
+        emptyStateLayout = view.findViewById(R.id.emptyStateLayout)
+        backButton = view.findViewById(R.id.backButton)
+
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = interestedUsersAdapter
+
+        // Check if sample data is not empty
+        val sampleUsers = getSampleInterestedUsers()
+        if (sampleUsers.isEmpty()) {
+            showEmptyState()
+        } else {
+            interestedUsersAdapter.submitList(sampleUsers)
+            showRecyclerView()
+        }
+
+        swipeRefreshLayout.setOnRefreshListener {
+            // Refresh data (Replace with real API call)
+            swipeRefreshLayout.isRefreshing = false
+        }
+
+        backButton.setOnClickListener {
+            activity?.onBackPressed()
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_interest, container, false)
+    private fun getSampleInterestedUsers(): List<InterestedUser> {
+        // Sample data. Replace with real API data
+        return listOf(
+            InterestedUser("1", "John Doe", "9876543210", "john.doe@example.com", R.drawable.vibe, "2025-01-20"),
+            InterestedUser("2", "Jane Smith", "9876543211", "jane.smith@example.com", R.drawable.vibe, "2025-01-19")
+        )
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment InterestFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            InterestedFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun showRecyclerView() {
+        recyclerView.visibility = View.VISIBLE
+        emptyStateLayout.visibility = View.GONE
+        progressBar.visibility = View.GONE
+    }
+
+    private fun showEmptyState() {
+        recyclerView.visibility = View.GONE
+        emptyStateLayout.visibility = View.VISIBLE
+        progressBar.visibility = View.GONE
     }
 }

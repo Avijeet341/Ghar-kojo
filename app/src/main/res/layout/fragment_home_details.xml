@@ -1322,7 +1322,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="horizontal"
-                android:padding="@dimen/_16sdp">
+                android:padding="@dimen/_8sdp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profileImage"
@@ -1333,9 +1333,10 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="@dimen/_8sdp"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -1348,7 +1349,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_bold"
-                            android:text="Daniel Foster"
+                            android:text="Avijeet Swain"
                             android:textColor="#000000"
                             android:textSize="@dimen/_12ssp"
                             android:textStyle="bold" />
@@ -1373,33 +1374,39 @@
 
                 </LinearLayout>
 
-                <FrameLayout
-                    android:id="@+id/messageButton"
-                    android:layout_width="@dimen/_36sdp"
-                    android:layout_height="@dimen/_36sdp"
-                    android:layout_marginEnd="@dimen/_8sdp"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical">
 
-                    android:background="@drawable/circular_button_background">
+                    <FrameLayout
+                        android:id="@+id/messageButton"
+                        android:layout_width="@dimen/_36sdp"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:background="@drawable/circular_button_background">
 
-                    <ImageView
-                        android:layout_width="@dimen/_21sdp"
-                        android:layout_height="@dimen/_21sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/messenger" />
-                </FrameLayout>
+                        <ImageView
+                            android:layout_width="@dimen/_21sdp"
+                            android:layout_height="@dimen/_21sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/messenger" />
+                    </FrameLayout>
 
-                <FrameLayout
-                    android:id="@+id/callButton"
-                    android:layout_width="@dimen/_36sdp"
-                    android:layout_height="@dimen/_36sdp"
-                    android:background="@drawable/circular_button_background">
+                    <FrameLayout
+                        android:id="@+id/callButton"
+                        android:layout_width="@dimen/_36sdp"
+                        android:layout_height="@dimen/_36sdp"
+                        android:background="@drawable/circular_button_background">
 
-                    <ImageView
-                        android:layout_width="@dimen/_21sdp"
-                        android:layout_height="@dimen/_21sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/phone_call" />
-                </FrameLayout>
+                        <ImageView
+                            android:layout_width="@dimen/_21sdp"
+                            android:layout_height="@dimen/_21sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/phone_call" />
+                    </FrameLayout>
+                </LinearLayout>
 
             </LinearLayout>
 

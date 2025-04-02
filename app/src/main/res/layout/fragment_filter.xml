@@ -145,7 +145,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Property Type"
                 android:textColor="@color/expBlue"
-                android:textSize="@dimen/_18ssp"
+                android:textSize="@dimen/_16ssp"
                 android:textStyle="bold" />
 
             <com.google.android.material.chip.ChipGroup
@@ -162,18 +162,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/yeonsung_regular"
                     android:text="Any"
-
-                    android:textSize="@dimen/_13ssp"
-                    app:chipCornerRadius="7dp"
-                    app:chipStrokeColor="#FFFFFF"
-                    app:chipStrokeWidth="1dp" />
-
-                <com.google.android.material.chip.Chip
-                    style="@style/CustomChipStyle2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/yeonsung_regular"
-                    android:text="Home"
                     android:textSize="@dimen/_12ssp"
                     app:chipCornerRadius="7dp"
                     app:chipStrokeColor="#FFFFFF"
@@ -184,8 +172,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/yeonsung_regular"
+                    android:text="Home"
+                    app:chipCornerRadius="7dp"
+                    app:chipStrokeColor="#FFFFFF"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/CustomChipStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/yeonsung_regular"
                     android:text="Apartment"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp"
                     app:chipStrokeColor="#FFFFFF"
                     app:chipStrokeWidth="1dp" />
@@ -207,7 +204,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/yeonsung_regular"
                     android:text="Dormitory"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp"
                     app:chipStrokeColor="#FFFFFF"
                     app:chipStrokeWidth="1dp" />
@@ -218,7 +214,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/yeonsung_regular"
                     android:text="Luxury"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp"
                     app:chipStrokeColor="#FFFFFF"
                     app:chipStrokeWidth="1dp" />
@@ -229,7 +224,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/yeonsung_regular"
                     android:text="Commercial"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp"
                     app:chipStrokeColor="#FFFFFF"
                     app:chipStrokeWidth="1dp" />
@@ -242,7 +236,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Type of Tenant"
                 android:textColor="@color/expBlue"
-                android:textSize="@dimen/_18ssp"
+                android:textSize="@dimen/_16ssp"
                 android:textStyle="bold" />
 
 
@@ -260,7 +254,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_regular"
                     android:text="Any"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -269,7 +262,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_regular"
                     android:text="Family"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -278,7 +270,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_regular"
                     android:text="Only Girls"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -287,7 +278,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_regular"
                     android:text="Only Boys"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -296,7 +286,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_regular"
                     android:text="Bachelors"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
             </com.google.android.material.chip.ChipGroup>
@@ -308,7 +297,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Budget"
                 android:textColor="@color/expBlue"
-                android:textSize="@dimen/_18ssp"
+                android:textSize="@dimen/_16ssp"
                 android:textStyle="bold" />
 
             <com.avi.gharkhojo.CustomSlider.HistogramRangeSlider
@@ -387,7 +376,7 @@
                 android:layout_marginTop="16dp"
                 android:text="BedRoom"
                 android:textColor="@color/expBlue"
-                android:textSize="@dimen/_18ssp"
+                android:textSize="@dimen/_16ssp"
                 android:textStyle="bold" />
 
 
@@ -397,7 +386,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:chipSpacingHorizontal="2dp"
-
                 app:selectionRequired="true"
                 app:singleSelection="true">
 
@@ -408,7 +396,6 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="Any"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -418,7 +405,6 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="1"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -428,7 +414,6 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="2"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -438,7 +423,6 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="3"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -447,9 +431,7 @@
                     android:layout_height="wrap_content"
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
-
                     android:text="4"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -459,7 +441,6 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="4+"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
             </com.google.android.material.chip.ChipGroup>
@@ -470,7 +451,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Washrooms"
                 android:textColor="@color/expBlue"
-                android:textSize="@dimen/_18ssp"
+                android:textSize="@dimen/_16ssp"
 
                 android:textStyle="bold"
                 app:chipSpacingHorizontal="2dp" />
@@ -491,7 +472,6 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="Any"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -501,7 +481,6 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="1"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -511,7 +490,6 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="2"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -521,7 +499,6 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="3"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -530,9 +507,7 @@
                     android:layout_height="wrap_content"
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
-
                     android:text="4"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -542,7 +517,6 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="4+"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
             </com.google.android.material.chip.ChipGroup>
 
@@ -552,7 +526,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Balcony"
                 android:textColor="@color/expBlue"
-                android:textSize="@dimen/_18ssp"
+                android:textSize="@dimen/_16ssp"
                 android:textStyle="bold" />
 
             <com.google.android.material.chip.ChipGroup
@@ -571,7 +545,6 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="Any"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -581,7 +554,6 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="1"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -591,7 +563,6 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="2"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -601,7 +572,6 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="3"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -610,9 +580,7 @@
                     android:layout_height="wrap_content"
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
-
                     android:text="4"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -622,9 +590,7 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="4+"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
-
             </com.google.android.material.chip.ChipGroup>
 
             <TextView
@@ -633,7 +599,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Kitchen"
                 android:textColor="@color/expBlue"
-                android:textSize="@dimen/_18ssp"
+                android:textSize="@dimen/_16ssp"
                 android:textStyle="bold" />
 
             <com.google.android.material.chip.ChipGroup
@@ -652,7 +618,6 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="Any"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -662,7 +627,6 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="1"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -672,7 +636,6 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="2"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -682,7 +645,6 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="3"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -691,9 +653,7 @@
                     android:layout_height="wrap_content"
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
-
                     android:text="4"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -703,9 +663,7 @@
                     android:elevation="0dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="4+"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
-
             </com.google.android.material.chip.ChipGroup>
 
             <TextView
@@ -714,7 +672,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Floor Position"
                 android:textColor="@color/expBlue"
-                android:textSize="@dimen/_18ssp"
+                android:textSize="@dimen/_16ssp"
                 android:textStyle="bold" />
 
             <com.google.android.material.chip.ChipGroup
@@ -722,6 +680,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:selectionRequired="true"
+                android:layout_marginTop="16dp"
                 app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
@@ -730,7 +689,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="Any"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -739,7 +697,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="Ground"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -747,9 +704,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_regular"
-
                     android:text="1st"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -758,7 +713,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="2nd"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -767,7 +721,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="3rd"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -776,7 +729,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="4th"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
                 <com.google.android.material.chip.Chip
@@ -785,7 +737,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_regular"
                     android:text="4th +"
-                    android:textSize="@dimen/_13ssp"
                     app:chipCornerRadius="7dp" />
 
             </com.google.android.material.chip.ChipGroup>
@@ -802,7 +753,7 @@
                     android:layout_marginBottom="8dp"
                     android:text="Built up area"
                     android:textColor="@color/expBlue"
-                    android:textSize="@dimen/_18ssp"
+                    android:textSize="@dimen/_16ssp"
                     android:textStyle="bold" />
 
                 <com.avi.gharkhojo.CustomSlider.HistogramRangeSlider
@@ -916,7 +867,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Other Benefit"
                 android:textColor="@color/expBlue"
-                android:textSize="@dimen/_18ssp"
+                android:textSize="@dimen/_16ssp"
                 android:textStyle="bold" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
@@ -928,8 +879,8 @@
                 android:fontFamily="@font/montserrat_regular"
                 android:text="Lift Service"
                 android:textStyle="bold"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_13ssp"
+                android:textColor="@color/gray_600"
+                android:textSize="@dimen/_12ssp"
                 android:theme="@style/CustomSwitchStyle"
                 android:thumb="@drawable/thumb"
                 app:switchPadding="@dimen/_12sdp"
@@ -944,8 +895,8 @@
                 android:fontFamily="@font/montserrat_regular"
                 android:text="Generator Service"
                 android:textStyle="bold"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_13ssp"
+                android:textColor="@color/gray_600"
+                android:textSize="@dimen/_12ssp"
                 android:thumb="@drawable/thumb"
                 app:switchPadding="@dimen/_12sdp"
                 app:track="@drawable/track"
@@ -959,8 +910,8 @@
                 android:fontFamily="@font/montserrat_regular"
                 android:text="Gas Service"
                 android:textStyle="bold"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_13ssp"
+                android:textColor="@color/gray_600"
+                android:textSize="@dimen/_12ssp"
                 android:theme="@style/CustomSwitchStyle"
                 android:thumb="@drawable/thumb"
                 app:switchPadding="@dimen/_12sdp"
@@ -974,9 +925,9 @@
                 android:layout_marginBottom="@dimen/_16sdp"
                 android:fontFamily="@font/montserrat_regular"
                 android:text="Security Gaurd"
-                android:textColor="@color/black"
+                android:textColor="@color/gray_600"
                 android:textStyle="bold"
-                android:textSize="@dimen/_13ssp"
+                android:textSize="@dimen/_12ssp"
                 android:theme="@style/CustomSwitchStyle"
                 android:thumb="@drawable/thumb"
                 app:switchPadding="@dimen/_12sdp"
@@ -991,8 +942,8 @@
                 android:fontFamily="@font/montserrat_regular"
                 android:text="Parking"
                 android:textStyle="bold"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_13ssp"
+                android:textColor="@color/gray_600"
+                android:textSize="@dimen/_12ssp"
                 android:theme="@style/CustomSwitchStyle"
                 android:thumb="@drawable/thumb"
                 app:buttonTint="@color/expBlue"
