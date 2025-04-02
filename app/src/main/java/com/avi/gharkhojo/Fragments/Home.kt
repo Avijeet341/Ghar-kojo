@@ -2,6 +2,7 @@ package com.avi.gharkhojo.Fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Arrays
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -101,11 +103,14 @@ class Home : Fragment() {
             HousingType(R.drawable.commercial_property, "Commercial")
         )
 
-        val adapter = HousingTypeAdapter(housingTypes) {
+        val adapter = HousingTypeAdapter(housingTypes, {
             val intent = Intent(requireContext(), OwnerActivity::class.java)
             startActivity(intent)
             this.requireActivity().finish()
-        }
+        },
+            { housingType ->
+                observeDataChanges(housingType)
+            })
         recyclerView.adapter = adapter
     }
 
@@ -124,7 +129,8 @@ class Home : Fragment() {
         }
     }
 
-    private fun observeDataChanges() {
+    private fun observeDataChanges(filter: MutableList<String>? = null) {
+        Log.d("h", filter.toString())
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // Null check before accessing binding
@@ -137,7 +143,16 @@ class Home : Fragment() {
                         for (data in dataSnapshot.children) {
                             val post = data.getValue(Post::class.java)
                             if (post != null) {
-                                mutableList.add(post)
+                                if (filter != null) {
+                                    if (filter.contains(post.propertyType)) {
+                                        mutableList.add(post)
+                                    }
+                                }
+                                if(filter==null || filter.isEmpty()){
+                                    mutableList.add(post)
+                                }
+
+
                             }
                         }
                     }
