@@ -17,6 +17,7 @@ class HistogramRangeSlider @JvmOverloads constructor(
 
     interface OnRangeChangeListener {
         fun onRangeChanged(minPrice: Float, maxPrice: Float)
+
     }
 
     var onRangeChangeListener: OnRangeChangeListener? = null

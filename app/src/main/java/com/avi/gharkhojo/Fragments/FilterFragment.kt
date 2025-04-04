@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.avi.gharkhojo.CustomSlider.HistogramRangeSlider
+import com.avi.gharkhojo.Model.Post
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentFilterBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import java.text.NumberFormat
 import java.util.Locale
+import kotlin.text.*
 
 class FilterFragment : Fragment(), HistogramRangeSlider.OnRangeChangeListener {
 
@@ -21,7 +23,7 @@ class FilterFragment : Fragment(), HistogramRangeSlider.OnRangeChangeListener {
 
     private val maxAllowedPrice = 50000f
     private val currencyFormat = NumberFormat.getCurrencyInstance(Locale("en", "IN"))
-
+    private val post:Post = Post()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,16 +49,16 @@ class FilterFragment : Fragment(), HistogramRangeSlider.OnRangeChangeListener {
             715f, 800f, 890f, 985f, 1000f, 985f, 890f, 800f, 715f, 635f,
             560f, 490f, 425f, 365f, 310f, 260f, 215f, 175f, 140f, 110f,
             85f, 64f, 48f, 35f, 25f, 18f, 12f, 8f, 5f, 3f,
-            // Extended tail
             2f, 2f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f
         )
         binding.histogramRangeSlider.setHistogramData(sampleData)
-        binding.histogramRangeSlider.setValueRange(1500f, 50000f)
+        binding.histogramRangeSlider.setValueRange(1500f, 500000f)
     }
 
     private fun setupHistogramRangeSliderArea() {
         binding.histogramRangeSliderArea.onRangeChangeListener = object : HistogramRangeSlider.OnRangeChangeListener {
             override fun onRangeChanged(minValue: Float, maxValue: Float) {
+                post.builtUpArea = "$minValue-$maxValue"
                 val formattedMinArea = String.format("%,d", minValue.toInt())
                 val formattedMaxArea = String.format("%,d", maxValue.toInt())
 
@@ -70,6 +72,8 @@ class FilterFragment : Fragment(), HistogramRangeSlider.OnRangeChangeListener {
                     binding.maxAreaUnitTextView.text = "Sq.ft"
                 }
             }
+
+
         }
 
         // Sample data for built-up area slider
@@ -80,11 +84,12 @@ class FilterFragment : Fragment(), HistogramRangeSlider.OnRangeChangeListener {
             1600f, 1400f, 1200f, 1000f, 900f, 800f, 700f, 600f, 500f, 400f
         )
         binding.histogramRangeSliderArea.setHistogramData(areaData)
-        binding.histogramRangeSliderArea.setValueRange(800f, 3000f)
+        binding.histogramRangeSliderArea.setValueRange(80f, 40000f)
     }
 
     private fun setupButtons() {
         binding.clearFilterButton.setOnClickListener {
+
             clearAllFilters()
         }
 
@@ -137,44 +142,124 @@ class FilterFragment : Fragment(), HistogramRangeSlider.OnRangeChangeListener {
         binding.parkingService.isChecked = false
 
         binding.sortByRadioGroup.clearCheck()
+
+        post.propertyType = null
+        post.preferredTenants = null
+        post.noOfBedRoom = null
+        post.noOfBathroom = null
+        post.noOfBalcony = null
+        post.floorPosition = null
+        post.hasLift = null
+        post.hasGenerator = null
+        post.hasGasService = null
+        post.hasSecurityGuard = null
+        post.hasParking = null
+        post.builtUpArea = null
+        post.rent = null
+
     }
 
     private fun applyFilters() {
         val sortOption = when (binding.sortByRadioGroup.checkedRadioButtonId) {
-            R.id.sort_low_to_high -> "Cost: Low to High"
-            R.id.sort_high_to_low -> "Cost: High to Low"
+            R.id.sort_low_to_high -> "l-h"
+            R.id.sort_high_to_low -> "h-l"
             else -> null
         }
-        val propertyType = getSelectedChipText(binding.propertyTypeChipGroup)
-        val tenantType = getSelectedChipText(binding.tenantTypeChipGroup)
-        val bedrooms = getSelectedChipText(binding.bedroomsChipGroup)
-        val washrooms = getSelectedChipText(binding.washroomsChipGroup)
-        val balcony = getSelectedChipText(binding.balconyChipGroup)
-        val floor = getSelectedChipText(binding.floorChipGroup)
-        val areas = getAreaChips()
+        post.propertyType = if(getSelectedChipText(binding.propertyTypeChipGroup) == null){
+             "Any"
 
-        val budgetRange = binding.histogramRangeSlider.getSelectedRange()
-        val areaRange = binding.histogramRangeSliderArea.getSelectedRange()
+        }else if(getSelectedChipText(binding.propertyTypeChipGroup) == "Home"){
+            "House"
+        }
+        else{
+            getSelectedChipText(binding.propertyTypeChipGroup)
+        }
 
-        val services = mutableListOf<String>()
-        if (binding.liftService.isChecked) services.add("Lift")
-        if (binding.generatorService.isChecked) services.add("Generator")
-        if (binding.gasService.isChecked) services.add("Gas")
-        if (binding.securityService.isChecked) services.add("Security Guard")
-        if (binding.parkingService.isChecked) services.add("Parking")
+        post.preferredTenants = if(getSelectedChipText(binding.tenantTypeChipGroup)==null){
+            "Any"
+        }else{
+            getSelectedChipText(binding.tenantTypeChipGroup)
+        }
+        post.noOfBedRoom = if(getSelectedChipText(binding.bedroomsChipGroup)=="4+"){
+            1000
+        }
+        else if(getSelectedChipText(binding.bedroomsChipGroup)!="Any" && getSelectedChipText(binding.bedroomsChipGroup) != null){
+            getSelectedChipText(binding.bedroomsChipGroup)?.toInt()
+        }
+        else{
+            -1
+        }
+        post.noOfBathroom = if(getSelectedChipText(binding.washroomsChipGroup)=="4+"){
+            1000
+        }
+        else if(getSelectedChipText(binding.washroomsChipGroup)!="Any" && getSelectedChipText(binding.washroomsChipGroup) != null){
+            getSelectedChipText(binding.washroomsChipGroup)?.toInt()
+        }
+        else{
+            -1
+        }
+        post.noOfBalcony = if(getSelectedChipText(binding.balconyChipGroup)=="4+"){
+            1000
+        }
+        else if(getSelectedChipText(binding.balconyChipGroup)!="Any" && getSelectedChipText(binding.balconyChipGroup) != null){
+            getSelectedChipText(binding.balconyChipGroup)?.toInt()
+        }
+        else{
+            -1
+        }
+        post.noOfKitchen = if(getSelectedChipText(binding.kitchenChipGroup)=="4+"){
+            1000
+        }
+        else if(getSelectedChipText(binding.kitchenChipGroup)!="Any" && getSelectedChipText(binding.kitchenChipGroup) != null){
+            getSelectedChipText(binding.kitchenChipGroup)?.toInt()
+        }
+        else{
+            -1
+        }
+        post.floorPosition = (if(getSelectedChipText(binding.floorChipGroup)!="Any" && getSelectedChipText(binding.floorChipGroup) != null){
+            if(getSelectedChipText(binding.floorChipGroup)=="1st"){
+                "1"
+            }else if(getSelectedChipText(binding.floorChipGroup)=="2nd"){
+                "2"
+            }else if(getSelectedChipText(binding.floorChipGroup)=="3rd"){
+                "3"
+            } else if(getSelectedChipText(binding.floorChipGroup)=="4th") {
+                "4"
+            } else if(getSelectedChipText(binding.floorChipGroup)=="Ground"){
+                "0"
+            } else if(getSelectedChipText(binding.floorChipGroup) == "4th +"){
+                "1000"
+            } else{
+                "-1"
+            }
+        } else {
+            "-1"
+        }).toString()
+//        val areas = getAreaChips()
+//
+//        val budgetRange = binding.histogramRangeSlider.getSelectedRange()
+//        val areaRange = binding.histogramRangeSliderArea.getSelectedRange()
 
-        println("Filters applied:")
-        println("Sort: $sortOption")
-        println("Property Type: $propertyType")
-        println("Tenant Type: $tenantType")
-        println("Bedrooms: $bedrooms")
-        println("Washrooms: $washrooms")
-        println("Balcony: $balcony")
-        println("Floor: $floor")
-        println("Areas: $areas")
-        println("Budget Range: ₹${budgetRange.first.toInt()} - ₹${budgetRange.second.toInt()}")
-        println("Area Range: ${areaRange.first.toInt()} Sq.ft - ${areaRange.second.toInt()} Sq.ft")
-        println("Services: $services")
+//        val services = mutableListOf<String>()
+        if (binding.liftService.isChecked) post.hasLift = true
+        if (binding.generatorService.isChecked) post.hasGenerator = true
+        if (binding.gasService.isChecked) post.hasGasService = true
+        if (binding.securityService.isChecked) post.hasSecurityGuard = true
+        if (binding.parkingService.isChecked) post.hasParking = true
+
+
+//        println("Areas: $areas")
+//        println("Budget Range: ₹${budgetRange.first.toInt()} - ₹${budgetRange.second.toInt()}")
+//        println("Area Range: ${areaRange.first.toInt()} Sq.ft - ${areaRange.second.toInt()} Sq.ft")
+//        println("Services: $services")
+
+        val filterBundle = Bundle().apply {
+            putParcelable("filterPost", post)
+            putString("sortOption", sortOption)
+            putStringArrayList("areas", ArrayList(getAreaChips()))
+        }
+        parentFragmentManager.setFragmentResult("filterResult", filterBundle)
+        parentFragmentManager.popBackStack()
     }
 
     private fun getSelectedChipText(chipGroup: ChipGroup): String? {
@@ -189,11 +274,12 @@ class FilterFragment : Fragment(), HistogramRangeSlider.OnRangeChangeListener {
     private fun getAreaChips(): List<String> {
         return (0 until binding.areaChipGroup.childCount)
             .map { binding.areaChipGroup.getChildAt(it) as Chip }
-            .map { it.text.toString() }
+            .map { it.text.toString().uppercase() }
     }
 
     override fun onRangeChanged(minPrice: Float, maxPrice: Float) {
         currencyFormat.maximumFractionDigits = 0
+        post.rent = "${minPrice}-${maxPrice}"
         val formattedMinPrice = currencyFormat.format(minPrice.toInt())
         val formattedMaxPrice = if (maxPrice >= maxAllowedPrice) {
             "${currencyFormat.format(maxPrice.toInt())}+"
@@ -204,6 +290,8 @@ class FilterFragment : Fragment(), HistogramRangeSlider.OnRangeChangeListener {
         binding.minPriceTextView.text = formattedMinPrice
         binding.maxPriceTextView.text = formattedMaxPrice
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
