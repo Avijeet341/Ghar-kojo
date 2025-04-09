@@ -11,13 +11,17 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Adapter.GridAdapter
 import com.avi.gharkhojo.Adapter.HousingTypeAdapter
+import com.avi.gharkhojo.Model.DataSharing
 import com.avi.gharkhojo.Model.HousingType
 import com.avi.gharkhojo.Model.Post
 import com.avi.gharkhojo.Model.UserData
@@ -37,6 +41,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class Home : Fragment() {
+    private var searchedText: String  = ""
     private var sortOption: String? = null
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -45,6 +50,8 @@ class Home : Fragment() {
     private var databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Posts")
     private var areasList:ArrayList<String> = ArrayList();
     private var filterPost: Post? = null
+    private var mutableList: MutableList<Post> = mutableListOf()
+    private val dataSharing:DataSharing by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,6 +70,11 @@ class Home : Fragment() {
         setupSearchView()
         setupFilterButtonAnimation()
         observeDataChanges()
+        if(dataSharing.searchedText.value?.isNotEmpty() == true){
+
+            binding.searchView.setQuery(dataSharing.searchedText.value, false)
+            onSearch(dataSharing.searchedText.value)
+        }
 
         parentFragmentManager.setFragmentResultListener("filterResult", this) { _, result ->
              filterPost = result.getParcelable<Post>("filterPost")
@@ -90,6 +102,11 @@ class Home : Fragment() {
         val searchText = searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
         searchText.setTextColor(ContextCompat.getColor(requireContext(), R.color.expBlue))
         searchText.setHintTextColor(ContextCompat.getColor(requireContext(), R.color.expBlue))
+
+        searchText.doOnTextChanged({ text, _, _, _ ->
+            dataSharing.searchedText.value = text.toString().trim()
+            onSearch(dataSharing.searchedText.value)
+        })
     }
 
     private fun setupUserProfile() {
@@ -98,7 +115,12 @@ class Home : Fragment() {
         } ?: run {
             binding.userImage.setImageResource(R.drawable.vibe)
         }
+
         binding.username.text = UserData.username ?: getString(R.string.default_username)
+
+        binding.userImage.setOnClickListener {
+            findNavController().navigate(R.id.action_home2_to_profile)
+        }
     }
 
     private fun setupToolbar() {
@@ -143,6 +165,7 @@ class Home : Fragment() {
 
     private fun observeDataChanges(filter: MutableList<String>? = null) {
         Log.d("h", filter.toString())
+        mutableList.clear()
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // Null check before accessing binding
@@ -150,7 +173,7 @@ class Home : Fragment() {
                     return
                 }
                 if (snapshot.exists()) {
-                    val mutableList: MutableList<Post> = mutableListOf()
+
                     for (dataSnapshot in snapshot.children) {
                         for (data in dataSnapshot.children) {
                             val post = data.getValue(Post::class.java)
@@ -164,20 +187,20 @@ class Home : Fragment() {
                                 if(filter.isNullOrEmpty()){
                                     if(filterPost!=null){
 
-                                        Log.d("preferTent", filterPost!!.preferredTenants.toString())
-                                        Log.d("propertyType",filterPost!!.propertyType.toString())
-                                        Log.d("bedroom",filterPost?.noOfBedRoom.toString())
-                                        Log.d("bathroom",filterPost?.noOfBathroom.toString())
-                                        Log.d("balcony",filterPost?.noOfBalcony.toString())
-                                        Log.d("floor",filterPost?.floorPosition.toString())
-                                        Log.d("filter",filterPost?.hasLift.toString())
-                                        Log.d("filter",filterPost?.hasGenerator.toString())
-                                        Log.d("filter",filterPost?.hasGasService.toString())
-                                        Log.d("filter",filterPost?.hasSecurityGuard.toString())
-                                        Log.d("filter",filterPost?.hasParking.toString())
-
-                                        Log.d("builtUpArea",filterPost?.builtUpArea.toString())
-                                        Log.d("rent",filterPost?.rent.toString())
+//                                        Log.d("preferTent", filterPost!!.preferredTenants.toString())
+//                                        Log.d("propertyType",filterPost!!.propertyType.toString())
+//                                        Log.d("bedroom",filterPost?.noOfBedRoom.toString())
+//                                        Log.d("bathroom",filterPost?.noOfBathroom.toString())
+//                                        Log.d("balcony",filterPost?.noOfBalcony.toString())
+//                                        Log.d("floor",filterPost?.floorPosition.toString())
+//                                        Log.d("filter",filterPost?.hasLift.toString())
+//                                        Log.d("filter",filterPost?.hasGenerator.toString())
+//                                        Log.d("filter",filterPost?.hasGasService.toString())
+//                                        Log.d("filter",filterPost?.hasSecurityGuard.toString())
+//                                        Log.d("filter",filterPost?.hasParking.toString())
+//
+//                                        Log.d("builtUpArea",filterPost?.builtUpArea.toString())
+//                                        Log.d("rent",filterPost?.rent.toString())
 
 
                                         var postBuiltUpArea = currencyToFloat(post.builtUpArea!!)
@@ -207,7 +230,7 @@ class Home : Fragment() {
                                             && ((filterPost?.hasParking == null) || ((filterPost?.hasParking == true) && (post.hasParking == true)))
                                             && (areasList.isEmpty() || areasList.contains(post.area!!.uppercase()))){
 
-                                                Log.d("postRent", postRent.toString())
+//                                                Log.d("postRent", postRent.toString())
 
                                                 mutableList.add(post)
                                             }
@@ -242,6 +265,46 @@ class Home : Fragment() {
                 binding.loadDataProgress.visibility = View.GONE
             }
         })
+    }
+    private fun onSearch(search:String?) {
+
+
+
+        if(search.isNullOrEmpty()){
+            mutableList.clear()
+            observeDataChanges()
+        }
+        else{
+
+           if(mutableList.isNotEmpty()){
+
+               var searchList: MutableList<Post> = mutableListOf()
+               mutableList.forEach{
+                   if((it.city!!.contains(search, ignoreCase = true)
+                       || it.area!!.contains(search, ignoreCase = true)
+                       || it.propertyType!!.contains(search, ignoreCase = true)
+                       || it.preferredTenants!!.contains(search, ignoreCase = true)
+                       || it.furnished!!.contains(search, ignoreCase = true)
+                       || it.colony!!.contains(search,ignoreCase = true)
+                       || it.state!!.contains(search, ignoreCase = true)
+                       || "${it.noOfBedRoom} BHK ${it.propertyType}".contains(search, ignoreCase = true)) &&
+                       !searchList.contains(it)){
+
+                           searchList.add(it)
+
+                   }else{
+                       searchList.remove(it)
+                   }
+               }
+               dataSharing.searchedData = MutableLiveData(searchList)
+               dataSharing.searchedData.value?.let {
+                   (binding.recyclerView.adapter as? GridAdapter)?.updateData(
+                       it
+                   )
+               }
+
+           }
+        }
     }
     fun currencyToFloat(currencyString: String): Float {
         val cleanString = currencyString.replace("[^\\d.]".toRegex(), "")

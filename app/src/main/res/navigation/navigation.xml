@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_home2_to_filterFragment"
             app:destination="@id/filterFragment" />
+        <action
+            android:id="@+id/action_home2_to_profile"
+            app:destination="@id/profile" />
     </fragment>
 
 
