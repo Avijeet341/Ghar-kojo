@@ -33,7 +33,7 @@ class GridAdapter(
 
             // Set the BHK description text dynamically using resource string
             gridItemBinding.bhkDescription.text = gridItemBinding.root.context.getString(R.string.bhk_description
-            ,"${gridItem.noOfBedRoom!!+gridItem.noOfKitchen!!+1}")
+            ,"${gridItem.noOfBedRoom!!}")
         }
 
         private fun formatRent(rent: String): String {

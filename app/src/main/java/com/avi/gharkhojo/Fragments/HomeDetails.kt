@@ -159,7 +159,7 @@ class HomeDetails : Fragment() {
         nameText.text = post?.ownerName
         //descriptionText.text = post?.description
         price.text = post?.rent
-        BHKNumber.text = "${post?.noOfBedRoom!!+post?.noOfBathroom!!+post?.noOfKitchen!!+1}"
+        BHKNumber.text = "${post?.noOfBedRoom!!}"
         propertyType.text = post?.propertyType
         ownerName.text = post?.ownerName
         tenantsServedNumber.text = post?.tenantServed.toString()
