@@ -29,11 +29,13 @@ import com.avi.gharkhojo.OwnerActivity
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentHomeBinding
 import com.bumptech.glide.RequestManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
 import java.util.Arrays
@@ -70,16 +72,13 @@ class Home : Fragment() {
         setupSearchView()
         setupFilterButtonAnimation()
         observeDataChanges()
-        if(dataSharing.searchedText.value?.isNotEmpty() == true){
 
-            binding.searchView.setQuery(dataSharing.searchedText.value, false)
-            onSearch(dataSharing.searchedText.value)
-        }
 
         parentFragmentManager.setFragmentResultListener("filterResult", this) { _, result ->
              filterPost = result.getParcelable<Post>("filterPost")
              sortOption = result.getString("sortOption")
             areasList = result.getStringArrayList("areas")?: ArrayList()
+
             observeDataChanges()
         }
 
@@ -120,6 +119,8 @@ class Home : Fragment() {
 
         binding.userImage.setOnClickListener {
             findNavController().navigate(R.id.action_home2_to_profile)
+            val bottomNav = activity?.findViewById<ChipNavigationBar>(R.id.bottom_nav_bar)
+            bottomNav?.setItemSelected(R.id.nav_profile, true)
         }
     }
 
@@ -228,11 +229,13 @@ class Home : Fragment() {
                                             && ((filterPost?.hasGasService == null) || ((filterPost?.hasGasService == true) && (post.hasGasService == true)))
                                             && ((filterPost?.hasSecurityGuard == null) || ((filterPost?.hasSecurityGuard == true) && (post.hasSecurityGuard == true)))
                                             && ((filterPost?.hasParking == null) || ((filterPost?.hasParking == true) && (post.hasParking == true)))
-                                            && (areasList.isEmpty() || areasList.contains(post.area!!.uppercase()))){
+                                            && (areasList.isEmpty() || areasList.contains(post.area!!.uppercase()))
+                                            ){
 
 //                                                Log.d("postRent", postRent.toString())
-
-                                                mutableList.add(post)
+                                                if(!mutableList.contains(post)){
+                                                    mutableList.add(post)
+                                                }
                                             }
                                     }else{
                                         mutableList.add(post)
@@ -241,7 +244,7 @@ class Home : Fragment() {
                                     if(!sortOption.isNullOrEmpty() && sortOption == "l-h"){
                                         mutableList.sortBy { currencyToFloat(it.rent!!) }
                                     }
-                                    else{
+                                    if(!sortOption.isNullOrEmpty() && sortOption == "h-l"){
                                         mutableList.sortByDescending { currencyToFloat(it.rent!!) }
                                     }
 
@@ -252,6 +255,12 @@ class Home : Fragment() {
                         }
                     }
                     (binding.recyclerView.adapter as? GridAdapter)?.updateData(mutableList)
+
+                    if(dataSharing.searchedText.value?.isNotEmpty() == true){
+
+                        binding.searchView.setQuery(dataSharing.searchedText.value, false)
+                        onSearch(dataSharing.searchedText.value)
+                    }
                 }
                 binding.loadDataProgress.visibility = View.GONE
             }
@@ -272,6 +281,7 @@ class Home : Fragment() {
 
         if(search.isNullOrEmpty()){
             mutableList.clear()
+            dataSharing.searchedData.value?.clear()
             observeDataChanges()
         }
         else{

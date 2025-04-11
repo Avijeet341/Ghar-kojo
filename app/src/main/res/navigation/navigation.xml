@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_homeDetails_to_tabLayoutFragment"
             app:destination="@id/tabLayoutFragment" />
+        <action
+            android:id="@+id/action_homeDetails_to_profile"
+            app:destination="@id/profile" />
     </fragment>
 
     <fragment

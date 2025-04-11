@@ -4,6 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
  class DataSharing:ViewModel(){
-     var searchedData = MutableLiveData<List<Post>>()
+     var searchedData = MutableLiveData<MutableList<Post>>()
      var searchedText = MutableLiveData<String>()
  }

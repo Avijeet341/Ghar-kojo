@@ -55,8 +55,6 @@ class Chat_Activity : AppCompatActivity() {
         setupDatabaseReference()
         fetchUsers()
 
-        binding.toolbar.setNavigationOnClickListener {
-        }
     }
 
     private fun setupRecyclerView() {
