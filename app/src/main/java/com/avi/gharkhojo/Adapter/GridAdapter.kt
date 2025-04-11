@@ -22,7 +22,7 @@ class GridAdapter(
                 .load(gridItem.coverImage)
                 .into(gridItemBinding.image)
 
-            // Load the display picture
+
             Glide.with(gridItemBinding.displayPicture.context)
                 .load(R.drawable.kk)
                 .into(gridItemBinding.displayPicture)
