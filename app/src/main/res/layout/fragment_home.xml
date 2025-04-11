@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".Fragments.Home">
-
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -46,7 +46,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="10dp"
-
                         android:backgroundTint="@color/expBlue"
                         android:elevation="5dp"
                         android:fontFamily="@font/montserrat_regular"
@@ -157,7 +156,7 @@
                         android:layout_marginStart="15dp"
                         android:elevation="5dp"
                         android:fontFamily="@font/montserrat_bold"
-                        android:text="Jaydev Vihar"
+                        android:text="nil"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -183,7 +182,7 @@
                         android:layout_marginStart="4dp"
                         android:elevation="5dp"
                         android:fontFamily="@font/montserrat_bold"
-                        android:text="Bhubneswar"
+                        android:text="nil"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -191,9 +190,6 @@
                         app:layout_constraintTop_toBottomOf="@id/locationLabel" />
 
                     <!-- User Image -->
-
-                    <!-- Housing Types RecyclerView -->
-
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/userImage"
                         android:layout_width="56dp"
@@ -224,11 +220,9 @@
                         app:cardCornerRadius="50dp"
                         app:layout_constraintEnd_toEndOf="@+id/notificationIcon"
                         app:layout_constraintTop_toTopOf="@+id/notificationIcon">
-
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
-
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -255,9 +249,7 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintTop_toBottomOf="@id/locationText1"
                         tools:listitem="@layout/tool_item" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
             </com.google.android.material.appbar.MaterialToolbar>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -274,19 +266,7 @@
                 app:layout_constraintVertical_bias="1.0"
                 tools:listitem="@layout/grid_item" />
 
-            <ProgressBar
-                android:id="@+id/loadDataProgress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="136dp"
-                style="@style/loadData"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.core.widget.NestedScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+

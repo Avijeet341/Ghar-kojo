@@ -49,11 +49,11 @@ class Profile : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-      var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     var UserCollection:CollectionReference = FirebaseFirestore.getInstance().collection("users")
 
-     var firebaseUser:FirebaseUser? = firebaseAuth.currentUser
+    var firebaseUser:FirebaseUser? = firebaseAuth.currentUser
     private lateinit var pickImage: ActivityResultLauncher<String>
     private lateinit var cropImage: ActivityResultLauncher<Intent>
     var databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child("users")
@@ -108,7 +108,7 @@ class Profile : Fragment() {
                             .error(R.drawable.background2)
                             .centerCrop()
 
-                      UserCollection.document(otherId).get().addOnSuccessListener {
+                        UserCollection.document(otherId).get().addOnSuccessListener {
                             if(it.exists()) {
                                 val userDetails = it.toObject(UserDetails::class.java)
                                 binding.textViewPhone.text = userDetails?.phn_no
@@ -124,7 +124,7 @@ class Profile : Fragment() {
                         }
 
                         break
-                        }
+                    }
                 }
             }
 

@@ -166,7 +166,7 @@ class FilterFragment : Fragment(), HistogramRangeSlider.OnRangeChangeListener {
             else -> null
         }
         post.propertyType = if(getSelectedChipText(binding.propertyTypeChipGroup) == null){
-             "Any"
+            "Any"
 
         }else if(getSelectedChipText(binding.propertyTypeChipGroup) == "Home"){
             "House"

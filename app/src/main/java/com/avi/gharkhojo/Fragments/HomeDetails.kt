@@ -1,6 +1,7 @@
 package com.avi.gharkhojo.Fragments
 
 import android.animation.ValueAnimator
+import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -14,7 +15,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +28,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -37,9 +36,7 @@ import com.avi.gharkhojo.Adapter.MyViewPagerAdapter
 import com.avi.gharkhojo.Chat.ChatRoom
 import com.avi.gharkhojo.Fragments.HomeDetailsDirections.Companion.actionHomeDetailsToTabLayoutFragment
 import com.avi.gharkhojo.MainActivity
-import com.avi.gharkhojo.Model.ChatUserListModel
 import com.avi.gharkhojo.Model.Post
-import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentHomeDetailsBinding
 import com.bumptech.glide.Glide
@@ -49,12 +46,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.values
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Date
@@ -80,8 +71,8 @@ class HomeDetails : Fragment() {
     private lateinit var areaNumber: TextView
     private lateinit var nameText: TextView
     private lateinit var descriptionText: TextView
-    private lateinit var messageButton:FrameLayout
-    private lateinit var callButton:FrameLayout
+    private lateinit var messageButton: FrameLayout
+    private lateinit var callButton: FrameLayout
     private lateinit var negotiateRent: TextView
     private lateinit var BHKNumber: TextView
     private lateinit var propertyType: TextView
@@ -109,8 +100,10 @@ class HomeDetails : Fragment() {
     private lateinit var feedbackButton: Button
     private lateinit var GreatThingsText: TextView
     var isBookmarked = false
-    private val databaseReference: DatabaseReference? by lazy{FirebaseDatabase.getInstance().reference.child("BookMark")
-        .child("${FirebaseAuth.getInstance().currentUser?.uid}")}
+    private val databaseReference: DatabaseReference? by lazy {
+        FirebaseDatabase.getInstance().reference.child("BookMark")
+            .child("${FirebaseAuth.getInstance().currentUser?.uid}")
+    }
 
     private var post: Post? = null
     private lateinit var photoAdapter: MyViewPagerAdapter
@@ -119,13 +112,7 @@ class HomeDetails : Fragment() {
     private val autoSlideRunnable = object : Runnable {
         override fun run() {
             val currentItem = binding.viewPager.currentItem
-            val nextItem = (currentItem + 1) % post?.imageList?.map { it.value }?.flatten()?.size.let{
-                if(it==null || it == 0){
-                    1
-                }else{
-                    it
-                }
-            }
+            val nextItem = (currentItem + 1) % post?.imageList?.map { it.value }?.flatten()?.size!!
             binding.viewPager.setCurrentItem(nextItem, true)
             handler.postDelayed(this, 3000)
         }
@@ -150,21 +137,20 @@ class HomeDetails : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun loadData() {
         photoAdapter.updateData(post?.imageList?.map { it.value }?.flatten() as ArrayList<String>)
-        bedroomNumber.text =(post?.noOfBedRoom?:0).toString()
-        bathroomNumber.text =(post?.noOfBathroom?:0).toString()
-        kitchenNumber.text =(post?.noOfKitchen?:0).toString()
-        floorNumber.text =(post?.floorPosition?:0).toString()
-        balconyNumber.text =(post?.noOfBalcony?:0).toString()
-        areaNumber.text =(post?.builtUpArea?:0).toString()
+        bedroomNumber.text = (post?.noOfBedRoom ?: 0).toString()
+        bathroomNumber.text = (post?.noOfBathroom ?: 0).toString()
+        kitchenNumber.text = (post?.noOfKitchen ?: 0).toString()
+        floorNumber.text = (post?.floorPosition ?: 0).toString()
+        balconyNumber.text = (post?.noOfBalcony ?: 0).toString()
+        areaNumber.text = (post?.builtUpArea ?: 0).toString()
         nameText.text = post?.ownerName
-        //descriptionText.text = post?.description
         price.text = post?.rent
         BHKNumber.text = "${post?.noOfBedRoom!!}"
         propertyType.text = post?.propertyType
         ownerName.text = post?.ownerName
         tenantsServedNumber.text = post?.tenantServed.toString()
         postDateDay.text = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
-            .format(Date.from(Instant.ofEpochMilli(post?.postTime?.toLong()?:0)))
+            .format(Date.from(Instant.ofEpochMilli(post?.postTime?.toLong() ?: 0)))
 
         houseNoText.text = post?.houseNumber.toString()
         RoadLaneText.text = post?.road_lane.toString()
@@ -178,54 +164,52 @@ class HomeDetails : Fragment() {
         BuiltUpAreaText.text = post?.builtUpArea
         PreferredTenantText.text = post?.preferredTenants
 
-       LiftIcon.setImageResource(if (post?.hasLift == true) R.drawable.ic_tick else R.drawable.ic_cross)
+
+        // Set property type image
+        post?.propertyType?.let { type ->
+            val drawableRes = when (type) {
+                "House" -> R.drawable.home
+                "Apartment" -> R.drawable.apartment
+                "Flat" -> R.drawable.building
+                "Dormitory" -> R.drawable.dormitory
+                "Luxury" -> R.drawable.luxury
+                "Commercial" -> R.drawable.commercial_property
+                else -> R.drawable.apartment // Default fallback
+            }
+            binding.bhkTypeImage.setImageResource(drawableRes)
+        }
+
+
+        LiftIcon.setImageResource(if (post?.hasLift == true) R.drawable.ic_tick else R.drawable.ic_cross)
         GeneratorIcon.setImageResource(if (post?.hasGenerator == true) R.drawable.ic_tick else R.drawable.ic_cross)
         GasIcon.setImageResource(if (post?.hasGasService == true) R.drawable.ic_tick else R.drawable.ic_cross)
         SecurityGuardIcon.setImageResource(if (post?.hasSecurityGuard == true) R.drawable.ic_tick else R.drawable.ic_cross)
         ParkingIcon.setImageResource(if (post?.hasParking == true) R.drawable.ic_tick else R.drawable.ic_cross)
 
-        var databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child("users")
-        databaseReference.addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for(dataSnapshot in snapshot.children){
-                    val userData = dataSnapshot.getValue(ChatUserListModel::class.java)
-                    if(userData?.userId.equals(post?.userId)){
-                       val img: Flow<String?> =
-                           databaseReference.child(dataSnapshot.key.toString()).child("userimage").values<String>()
-                       lifecycleScope.launch {
-
-                            Glide.with(requireContext()).load(img.first()!!)
-                                .placeholder(R.drawable.vk)
-                                .into(binding.profileImage)
-                        }
 
 
-                    }
-                }
-            }
+        Glide.with(requireContext()).load(post?.ownerImage)
+            .placeholder(R.drawable.vk)
+            .into(binding.profileImage)
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
-
-        binding.mapButton.setOnClickListener{
-            navigateToGoogleMaps(post?.latitude?:0.0,post?.longitude?:0.0)
+        binding.mapButton.setOnClickListener {
+            navigateToGoogleMaps(post?.latitude ?: 0.0, post?.longitude ?: 0.0)
         }
-        backButton.setOnClickListener{
+
+        backButton.setOnClickListener {
             onDestroyView()
         }
-        chatBtn.setOnClickListener{
 
-            openChatRoom()
-        }
-        messageButton.setOnClickListener{
+        chatBtn.setOnClickListener {
             openChatRoom()
         }
 
-        callButton.setOnClickListener{
-            makeCall(post?.phoneNumber?:"")
+        messageButton.setOnClickListener {
+            openChatRoom()
+        }
+
+        callButton.setOnClickListener {
+            makeCall(post?.phoneNumber ?: "")
         }
 
         binding.profileImage.setOnClickListener{
@@ -240,18 +224,16 @@ class HomeDetails : Fragment() {
             bundle.putString("uid",post?.userId)
             findNavController().navigate(R.id.action_homeDetails_to_profile,bundle)
         }
-
-
     }
 
     private fun openChatRoom() {
-        if(post?.userId!= FirebaseAuth.getInstance().currentUser?.uid) {
-            var intent: Intent = Intent(context, ChatRoom::class.java)
+        if (post?.userId != FirebaseAuth.getInstance().currentUser?.uid) {
+            val intent = Intent(context, ChatRoom::class.java)
             intent.putExtra(ChatRoom.IMG_ARG, post?.ownerImage)
             intent.putExtra(ChatRoom.NAME_ARG, post?.ownerName)
             intent.putExtra(ChatRoom.UID_ARG, post?.userId)
             context?.startActivity(intent)
-        }else{
+        } else {
             Toast.makeText(context, "You can't chat with yourself", Toast.LENGTH_SHORT).show()
         }
     }
@@ -266,24 +248,21 @@ class HomeDetails : Fragment() {
         binding.viewCharges.setOnClickListener {
             showViewChargesBottomSheet()
         }
-
     }
 
     private fun Initialization() {
-
-        //ToolBar
+        // ToolBar
         bookMark = binding.bookMarkButton
         shareButton = binding.shareButton
         chatBtn = binding.chatBtn
         backButton = binding.backButton
 
-
         // ViewPager for Images
-        viewPager=binding.viewPager
+        viewPager = binding.viewPager
 
         // Set charges
         price = binding.price
-        viewCharges=binding.viewCharges
+        viewCharges = binding.viewCharges
 
         // CarView for House Contents
         bedroomNumber = binding.bedroomNumber
@@ -314,7 +293,7 @@ class HomeDetails : Fragment() {
         LandmarkText = binding.LandmarkText
         CityText = binding.CityText
         PinCodeText = binding.PinCodeText
-        copyButton=binding.copyButton
+        copyButton = binding.copyButton
 
         // Built-Up Area, Furnishing, and Preferred Tenant
         furnishingText = binding.furnishingText
@@ -322,7 +301,7 @@ class HomeDetails : Fragment() {
         PreferredTenantText = binding.PreferredTenantText
 
         // Other Benefits
-        LiftIcon = binding.LiftIcon // agar true hai to ic_tick else ic_cross
+        LiftIcon = binding.LiftIcon
         GeneratorIcon = binding.GeneratorIcon
         GasIcon = binding.GasIcon
         SecurityGuardIcon = binding.SecurityGuardIcon
@@ -332,41 +311,84 @@ class HomeDetails : Fragment() {
         ownerName = binding.ownerName
         tenantsServedNumber = binding.tenantsServedNumber
         postDateDay = binding.postDateDay
-        feedbackButton=binding.feedbackButton
+        feedbackButton = binding.feedbackButton
 
         // Great Things About Property
         GreatThingsText = binding.GreatThingsText
     }
 
     private fun setupBookmarkButton() {
-        val unbookmarkedColor = ContextCompat.getColor(requireContext(), R.color.bookmark_unbookmarked)
-        val bookmarkedColor = ContextCompat.getColor(requireContext(), R.color.bookmark_bookmarked)
+        // Set the initial icon and state
+        updateBookmarkState()
 
-
-        bookMark.setImageResource(R.drawable.bookmark_animation)
-
+        // Handle bookmark button clicks
         bookMark.setOnClickListener {
-
-            if (isBookmarked) {
-                // Bookmark
-                binding.bookMarkButton.setColorFilter(bookmarkedColor)
-                Toast.makeText(context, "Bookmarked", Toast.LENGTH_SHORT).show()
-                databaseReference?.child(post?.postTime?:"")?.setValue(post)
-            } else {
-                // Unbookmark
-                bookMark.setColorFilter(unbookmarkedColor)
-                bookMark.setImageResource(R.drawable.bookmark_animation)
-                Toast.makeText(context, "Bookmark Removed", Toast.LENGTH_SHORT).show()
-
-                databaseReference?.child(post?.postTime?:"")?.removeValue()
-            }
-            isBookmarked!=isBookmarked
-
-
-            (bookMark.drawable as? AnimatedStateListDrawable)?.let { drawable ->
-                drawable.setState(if (isBookmarked) intArrayOf(android.R.attr.state_checked) else intArrayOf())
-            }
+            isBookmarked = !isBookmarked // Toggle the bookmark state
+            animateBookmarkButton()      // Add a smooth bounce animation
+            updateBookmarkState()        // Update the button's icon and color
+            handleBookmarkAction()       // Perform the appropriate bookmark action (save/remove)
         }
+    }
+
+    // Updates the bookmark button's appearance (icon and color) based on the current state
+    private fun updateBookmarkState() {
+        if (isBookmarked) {
+            // Set the bookmarked icon (filled bookmark)
+            bookMark.setImageResource(R.drawable.ic_bookmark_filled)
+        } else {
+            // Set the unbookmarked icon (outline or favorite)
+            bookMark.setImageResource(R.drawable.ic_favorite)
+        }
+    }
+
+    // Animates the bookmark button with a bounce effect for a better user experience
+    private fun animateBookmarkButton() {
+        bookMark.animate()
+            .scaleX(1.2f) // Scale up slightly
+            .scaleY(1.2f)
+            .setDuration(150)
+            .withEndAction {
+                bookMark.animate()
+                    .scaleX(1f) // Return to original size
+                    .scaleY(1f)
+                    .setDuration(150)
+                    .start()
+            }
+            .start()
+    }
+
+    // Performs the database action for bookmarking/unbookmarking
+    private fun handleBookmarkAction() {
+        if (isBookmarked) {
+            // Save the post as bookmarked in the database
+            databaseReference?.child(post?.postTime ?: "")?.setValue(post)
+            Toast.makeText(context, "Bookmarked", Toast.LENGTH_SHORT).show()
+        } else {
+            // Remove the bookmark from the database
+            databaseReference?.child(post?.postTime ?: "")?.removeValue()
+            Toast.makeText(context, "Bookmark Removed", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    fun isBookMarked() {
+        databaseReference?.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // Check if the post exists in the database
+                val postExists = snapshot.child(post?.postTime.toString()).exists()
+
+                // Update the `isBookmarked` state based on the existence of the post
+                isBookmarked = postExists
+
+                // Update the UI (color and icon)
+                updateBookmarkState()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle database errors (log or show a Toast to the user)
+                Toast.makeText(context, "Error fetching bookmark state: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun setupCopyButton() {
@@ -393,8 +415,6 @@ class HomeDetails : Fragment() {
         val clip = ClipData.newPlainText("address", text)
         clipboard.setPrimaryClip(clip)
     }
-
-
 
     private fun gradientSweepTextColorAnimation() {
         val colors = intArrayOf(
@@ -429,7 +449,7 @@ class HomeDetails : Fragment() {
     }
 
     private fun navigateToTabLayoutFragment() {
-            val bundle = Bundle()
+        val bundle = Bundle()
         bundle.putParcelable("post", post)
         findNavController().navigate(R.id.action_homeDetails_to_tabLayoutFragment, bundle)
     }
@@ -482,15 +502,21 @@ class HomeDetails : Fragment() {
         bottomSheet.show(childFragmentManager, ViewChargesUserBottomSheetFragment.TAG)
     }
 
-    private fun navigateToGoogleMaps(latitude: Double, longitude: Double) {
-        val geoUri = "geo:$latitude,$longitude"
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(geoUri))
-        intent.setPackage("com.google.android.apps.maps") // Ensure it opens in Google Maps if installed
+    fun navigateToGoogleMaps(latitude: Double, longitude: Double) {
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            if (latitude == 0.0 && longitude == 0.0) {
+                val address = buildAddress()
+                data = Uri.parse("geo:0,0?q=${Uri.encode(address)}")
+            } else {
+                data = Uri.parse("geo:$latitude,$longitude")
+            }
+            setPackage("com.google.android.apps.maps")
+        }
 
-        if (intent.resolveActivity(requireContext().packageManager) != null) {
+        try {
             startActivity(intent)
-        } else {
-            Toast.makeText(requireContext(), "Google Maps is not installed", Toast.LENGTH_SHORT).show()
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(requireContext(), "Error opening Google Maps", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -504,30 +530,12 @@ class HomeDetails : Fragment() {
         }
     }
 
-    fun isBookMarked(){
-        databaseReference?.addValueEventListener(object: ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
 
-                        if(snapshot.child(post?.postTime.toString()).exists()){
-                            isBookmarked = false
-                            bookMark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.bookmark_bookmarked))
-                        }else{
-                            isBookmarked = true
-                            bookMark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.bookmark_unbookmarked))
-                        }
-                }
 
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-            })
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        //showBottomNavBar()
         handler.removeCallbacks(autoSlideRunnable)
-
+        _binding = null
     }
 }
