@@ -1331,6 +1331,7 @@
                     android:src="@drawable/vk" />
 
                 <LinearLayout
+                    android:id="@+id/profile_details"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8sdp"
