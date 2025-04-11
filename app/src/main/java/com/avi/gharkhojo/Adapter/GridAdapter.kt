@@ -18,6 +18,7 @@ class GridAdapter(
     inner class ViewHolder(private var gridItemBinding: GridItemBinding) : RecyclerView.ViewHolder(gridItemBinding.root) {
         fun bindItem(gridItem: Post) {
 
+
             Glide.with(gridItemBinding.image.context)
                 .load(gridItem.coverImage)
                 .into(gridItemBinding.image)
