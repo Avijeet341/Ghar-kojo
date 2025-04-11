@@ -11,8 +11,11 @@ import com.avi.gharkhojo.R
 
 class HousingTypeAdapter(
     private val housingTypes: List<HousingType>,
-    private val onAddPropertyClick: () -> Unit
+    private val onAddPropertyClick: () -> Unit,
+    private val onItemClick: (MutableList<String>?) -> Unit
 ) : RecyclerView.Adapter<HousingTypeAdapter.ViewHolder>() {
+
+    var housingTypeList:MutableList<String>? = arrayListOf()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageButton: ImageButton = view.findViewById(R.id.imageButton)
@@ -31,10 +34,35 @@ class HousingTypeAdapter(
 
 
         holder.imageButton.setOnClickListener {
-            if (housingType.name == "Add Property") {
-                onAddPropertyClick()
+            when{
+                holder.textView.text == "Add Property" -> onAddPropertyClick()
+                else ->{
+
+
+                    housingType.clicked = !housingType.clicked
+                    if(!housingType.clicked){
+                        holder.imageButton.setImageResource(housingType.icon)
+
+
+                        housingTypeList?.remove(holder.textView.text.toString())
+
+                    }
+                    else{
+                        holder.imageButton.setImageResource(R.drawable.ic_tick)
+                        housingTypeList?.add( holder.textView.text.toString())
+
+                    }
+
+                    onItemClick(housingTypeList)
+
+                }
+
             }
+
+
         }
+
+
     }
 
     override fun getItemCount() = housingTypes.size

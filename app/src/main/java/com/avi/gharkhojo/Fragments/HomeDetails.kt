@@ -211,6 +211,19 @@ class HomeDetails : Fragment() {
         callButton.setOnClickListener {
             makeCall(post?.phoneNumber ?: "")
         }
+
+        binding.profileImage.setOnClickListener{
+            var bundle:Bundle = Bundle()
+
+            bundle.putString("uid",post?.userId)
+            findNavController().navigate(R.id.action_homeDetails_to_profile,bundle)
+        }
+        binding.profileDetails.setOnClickListener{
+            var bundle:Bundle = Bundle()
+
+            bundle.putString("uid",post?.userId)
+            findNavController().navigate(R.id.action_homeDetails_to_profile,bundle)
+        }
     }
 
     private fun openChatRoom() {

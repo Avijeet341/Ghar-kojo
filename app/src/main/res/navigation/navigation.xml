@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_home2_to_filterFragment"
             app:destination="@id/filterFragment" />
+        <action
+            android:id="@+id/action_home2_to_profile"
+            app:destination="@id/profile" />
     </fragment>
 
 
@@ -40,6 +43,9 @@
         <action
             android:id="@+id/action_homeDetails_to_tabLayoutFragment"
             app:destination="@id/tabLayoutFragment" />
+        <action
+            android:id="@+id/action_homeDetails_to_profile"
+            app:destination="@id/profile" />
     </fragment>
 
     <fragment
