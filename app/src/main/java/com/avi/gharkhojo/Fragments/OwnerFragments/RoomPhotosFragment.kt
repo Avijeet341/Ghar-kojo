@@ -14,6 +14,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.CompositePageTransformer
@@ -194,7 +195,17 @@ class RoomPhotosFragment : Fragment() {
                 binding.uploadProgressBar.visibility = View.VISIBLE
                 binding.pickPhotosButton.isEnabled = false
                 binding.uploadButton.isEnabled = false
+                binding.uploadButton.isActivated = false
                 binding.deleteSelected.isEnabled = false
+                binding.deleteSelected.isVisible = false
+                binding.selectedRoomTypeContainer.visibility = View.GONE
+                binding.spinnerContainer.isEnabled = false
+                binding.spinnerContainer.isActivated = false
+                binding.selectedRoomTypeTextView.text = ""
+                binding.spinnerContainer.editText?.setText("")
+                selectedRoomType = null
+
+
 
                 val post = PostDetails.saveData()
                 post.userId = FirebaseAuth.getInstance().currentUser!!.uid
@@ -229,7 +240,13 @@ class RoomPhotosFragment : Fragment() {
                             binding.uploadProgressBar.visibility = View.GONE
                             binding.pickPhotosButton.isEnabled = true
                             binding.uploadButton.isEnabled = true
+                            binding.uploadButton.isActivated = true
                             binding.deleteSelected.isEnabled = true
+                            binding.deleteSelected.isVisible = true
+                            binding.selectedRoomTypeContainer.visibility = View.VISIBLE
+                           binding.spinnerContainer.isEnabled = true
+                           binding.spinnerContainer.isActivated = true
+
                 }
             }
             else{
