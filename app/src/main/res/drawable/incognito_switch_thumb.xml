@@ -1,0 +1,13 @@
+<!-- res/drawable/incognito_switch_thumb.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#FFFFFF" />
+            <size android:width="24dp" android:height="24dp" />
+        </shape>
+    </item>
+    <item android:drawable="@drawable/incognito_icon"
+        android:width="14dp"
+        android:height="14dp"
+        android:gravity="center" />
+</layer-list>

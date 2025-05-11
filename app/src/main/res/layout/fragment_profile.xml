@@ -121,6 +121,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="6dp"
                         android:textSize="18sp" />
+
                 </LinearLayout>
 
                 <View
