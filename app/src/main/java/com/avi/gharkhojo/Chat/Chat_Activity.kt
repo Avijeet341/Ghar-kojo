@@ -79,7 +79,11 @@ class Chat_Activity : AppCompatActivity() {
                 messageListenerMap.clear()
 
                 snapshot.children.mapNotNull { it.getValue(ChatUserListModel::class.java) }
-                    .filter { it.userId != firebaseUser?.uid && userIdSet.add(it.userId!!) }
+                    .filter {
+                    val uid = it.userId
+                    uid != null && uid != firebaseUser?.uid && userIdSet.add(uid)
+                }
+
                     .forEach { userData ->
                         val chatId = firebaseUser?.uid + userData.userId
                         chatUserListModel.add(userData)
