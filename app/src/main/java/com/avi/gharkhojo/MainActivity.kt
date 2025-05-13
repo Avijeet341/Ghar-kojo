@@ -33,6 +33,8 @@ class MainActivity : BaseActivity() {
         setupNavigation()
         setupTabBar()
         handleOnBackPressed()
+
+
     }
 
     fun hideBottomNavBar() {

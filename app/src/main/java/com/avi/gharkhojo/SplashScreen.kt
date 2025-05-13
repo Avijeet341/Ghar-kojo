@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.StrictMode
+import android.util.Log
 import android.view.WindowManager
 import android.widget.VideoView
 import androidx.activity.enableEdgeToEdge
@@ -12,8 +14,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.avi.gharkhojo.Model.UserSignupLoginManager
+import com.avi.gharkhojo.notifications.MyFirebaseMessagingService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.UnstableApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,12 +48,30 @@ class SplashScreen : AppCompatActivity() {
                     reloadUser(user)
                     UserSignupLoginManager.getInstance(this@SplashScreen).setUp()
                     handleUserReload(user)
+                    FirebaseMessaging.getInstance().token
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                Log.d("Token", it.result)
+                                var token: String = it.result
+                                FirebaseDatabase.getInstance().reference.child("Tokens")
+                                    .child(user.uid).child("token").setValue(token)
+
+                                return@addOnCompleteListener
+                            }
+
+                        }
+
                 } catch (e: Exception) {
 
                     navigateToLogin()
                 }
             } ?: run { navigateToLogin() }
+
         }
+
+        // for notification:
+        var policy: StrictMode.ThreadPolicy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
     }
 
     private fun setupStatusBar() {

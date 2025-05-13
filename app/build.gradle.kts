@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.Packaging
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -12,6 +14,14 @@ android {
     namespace = "com.avi.gharkhojo"
     compileSdk = 34
 
+    packaging {
+        resources {
+            excludes += setOf(
+                "META-INF/INDEX.LIST",
+                "META-INF/DEPENDENCIES"
+            )
+        }
+    }
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
         applicationId = "com.avi.gharkhojo"
@@ -72,6 +82,7 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.9.1")
     implementation("com.google.android.gms:play-services-location:21.3.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("com.google.firebase:firebase-messaging:24.1.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation("com.vanniktech:android-image-cropper:4.5.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
@@ -103,10 +114,25 @@ dependencies {
 
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
     implementation ("com.google.android.gms:play-services-location:21.3.0")
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.34.0")
+    implementation("com.android.volley:volley:1.2.1")
 
+
+    implementation("io.grpc:grpc-okhttp:1.72.0")
+    implementation ("io.grpc:grpc-protobuf-lite:1.62.2")
+    implementation ("io.grpc:grpc-stub:1.62.2")
+    implementation ("io.grpc:grpc-api:1.70.0")
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
 
 
 }
+
+configurations.all {
+    resolutionStrategy {
+        force ("com.google.guava:guava:31.1-android")
+    }
+}
+
 
 kapt {
     correctErrorTypes = true

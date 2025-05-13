@@ -18,6 +18,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -62,6 +63,10 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+import androidx.core.view.isVisible
+import com.avi.gharkhojo.Model.UserData
+import com.avi.gharkhojo.Model.UserDetails
+import com.avi.gharkhojo.notifications.SendNotification
 
 class ChatRoom : AppCompatActivity() {
 
@@ -75,6 +80,7 @@ class ChatRoom : AppCompatActivity() {
     var storage: FirebaseStorage? = null
     var dialog: ProgressDialog? = null
     var receiverUid: String? = null
+    var userToken: String = ""
 
     private lateinit var currentPhotoPath: String
 
@@ -103,6 +109,18 @@ class ChatRoom : AppCompatActivity() {
             val statusBar = insets.getInsets(WindowInsetsCompat.Type.statusBars())
             val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
 
+            FirebaseDatabase.getInstance().reference.child("Tokens")
+                .child(receiverUid ?: "").child("token").addListenerForSingleValueEvent(object:ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        userToken = snapshot.getValue(String::class.java).toString()
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
+
 
 
 
@@ -129,6 +147,10 @@ class ChatRoom : AppCompatActivity() {
             senderRoom = senderUid + receiverUid
             receiverRoom = receiverUid + senderUid
         }
+        Log.d("data", "sid: ${senderUid.toString()}")
+        Log.d("data", "rid: ${receiverUid.toString()}")
+        Log.d("data", "name: ${name.toString()}")
+        Log.d("data", "image: ${img.toString()}")
 
         Glide.with(this).load(img).placeholder(R.drawable.baseline_person_24).into(chatBinding.profileImage)
         chatBinding.name.text = name
@@ -216,7 +238,7 @@ class ChatRoom : AppCompatActivity() {
                 val date = Date()
                 val message = Message(sendMsgText, firebaseUser!!.uid, date.time)
                 var reply:String? = null
-                if(chatBinding.replyLayout.visibility==View.VISIBLE){
+                if(chatBinding.replyLayout.isVisible){
                     reply = chatBinding.txtQuotedMsg.text.toString()
                     message.repliedMsgPosition = reply_pos
                     message.replyToId = replyToId
@@ -234,6 +256,7 @@ class ChatRoom : AppCompatActivity() {
                     val lastMsgObj = HashMap<String, Any>()
                     lastMsgObj["lastMsg"] = message.message!!
                     lastMsgObj["lastMsgTime"] = date.time
+                    sendNotification(senderUid, receiverUid, message.message!!)
                     databaseReference.child("chats").child(senderRoom!!).updateChildren(lastMsgObj)
                     databaseReference.child("chats").child(receiverRoom!!).updateChildren(lastMsgObj)
                     databaseReference.child("chats").child(senderRoom!!).child("message").child(randomKey!!)
@@ -289,6 +312,7 @@ class ChatRoom : AppCompatActivity() {
             supportActionBar?.setDisplayShowTitleEnabled(false)
         }
     }
+
 
 
 
@@ -378,12 +402,15 @@ class ChatRoom : AppCompatActivity() {
                             this.message = "photos"
                             isImage = true
                             img_id = imgId
+
                         }
                         chatBinding.inputMsg.setText("")
                         val randomKey = databaseReference.push().key
                         val lastMsgObj = HashMap<String, Any>().apply {
                             put("lastMsg", message.message!!)
                             put("lastMsgTime", date.time)
+                            sendNotification(senderUid, receiverUid,message.message!! )
+
                         }
                         databaseReference.child("chats").child(senderRoom!!)
                             .updateChildren(lastMsgObj)
@@ -400,6 +427,26 @@ class ChatRoom : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun sendNotification(
+        suid: String?,
+        ruid: String?,
+        msg: String
+    ) {
+        databaseReference.child("Presence").child(receiverRoom!!)
+            .child(receiverUid!!).get().addOnSuccessListener {
+                if (it.exists() && it.getValue(String::class.java) == "Offline"
+                    && suid!=ruid){
+                    var notificationSender:SendNotification = SendNotification(userToken, UserData.username?:"UnKnown",msg,
+                        suid?:"",
+                        UserData.profilePictureUrl?:"",
+                        if(msg.equals("photos")) msg else "",
+                        this)
+                    notificationSender.sendNotifications()
+                }
+            }
+
     }
 
     override fun onRequestPermissionsResult(
