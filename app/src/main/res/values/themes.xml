@@ -28,10 +28,10 @@
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
-    <style name="DialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
-        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
-    </style>
+<!--    <style name="DialogAnimation">-->
+<!--        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>-->
+<!--        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>-->
+<!--    </style>-->
 
 
     <style name="Theme.DarkOwner" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -59,5 +59,6 @@
         <item name="android:indeterminateTint">@color/accent_color</item>
         <item name="android:progressTint">@color/accent_color</item>
     </style>
+
 
 </resources>

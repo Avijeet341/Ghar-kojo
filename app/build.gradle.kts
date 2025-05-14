@@ -123,6 +123,7 @@ dependencies {
     implementation ("io.grpc:grpc-stub:1.62.2")
     implementation ("io.grpc:grpc-api:1.70.0")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
+    implementation("jp.wasabeef:blurry:4.0.1")
 
 
 }

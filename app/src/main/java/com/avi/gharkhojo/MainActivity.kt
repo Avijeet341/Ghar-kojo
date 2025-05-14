@@ -1,16 +1,18 @@
 package com.avi.gharkhojo
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
+import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -18,6 +20,7 @@ import com.avi.gharkhojo.Chat.Chat_Activity
 import com.avi.gharkhojo.databinding.ActivityMainBinding
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import dagger.hilt.android.AndroidEntryPoint
+import jp.wasabeef.blurry.Blurry
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
@@ -33,8 +36,6 @@ class MainActivity : BaseActivity() {
         setupNavigation()
         setupTabBar()
         handleOnBackPressed()
-
-
     }
 
     fun hideBottomNavBar() {
@@ -58,7 +59,6 @@ class MainActivity : BaseActivity() {
             when (id) {
                 R.id.nav_home -> navController.navigate(R.id.home2)
                 R.id.nav_chat -> startActivity(Intent(this, Chat_Activity::class.java))
-                    //
                 R.id.nav_bookMark -> {
                     navController.navigate(R.id.bookmarkFragment)
                 }
@@ -80,35 +80,74 @@ class MainActivity : BaseActivity() {
         })
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18s")
     private fun showExitConfirmationDialog() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_custom, null)
-        val dialog = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+        // Create a container for our dialog backdrop
+        val backdropView = View(this).apply {
+            layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            setBackgroundColor(Color.parseColor("#59000000"))  // Semi-transparent black
+        }
+
+        // Add backdrop to the screen
+        val rootView = mainBinding.root as ViewGroup
+        rootView.addView(backdropView)
+
+        // Get the root view for blurring - cast to ViewGroup explicitly
+        val blurTarget = window.decorView.findViewById<ViewGroup>(android.R.id.content)
+
+        // Apply the blur effect
+        Blurry.with(this)
+            .radius(3)  // Blur intensity (you can adjust)
+            .sampling(2)  // Performance/quality balance (1-8, higher is faster)
+            .color(Color.parseColor("#15FFFFFF"))  // Light white tint
+            .async()  // Run on background thread
+            .animate(500)  // Animation duration
+            .onto(blurTarget)
+
+        // Create and show the dialog
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_custom, null)
+        val dialog = AlertDialog.Builder(this)
             .setView(dialogView)
             .setCancelable(false)
             .create()
 
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        // Set background to transparent
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // Set animation
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+        // Set button click listeners
+        dialogView.findViewById<TextView>(R.id.dialogButtonNo).apply {
+            setOnClickListener {
+                // Clean up blur and backdrop
+                Blurry.delete(blurTarget)
+                rootView.removeView(backdropView)
+                dialog.dismiss()
+            }
+        }
+
+        dialogView.findViewById<TextView>(R.id.dialogButtonYes).apply {
+            setOnClickListener {
+                // Clean up blur and backdrop
+                Blurry.delete(blurTarget)
+                rootView.removeView(backdropView)
+                finishAffinity()
+            }
+        }
+
+        // Clean up when dialog is dismissed
+        dialog.setOnDismissListener {
+            Blurry.delete(blurTarget)
+            rootView.removeView(backdropView)
+        }
+
         dialog.show()
-
-        dialogView.findViewById<TextView>(R.id.dialogTitle).text = "Exit"
-        dialogView.findViewById<TextView>(R.id.dialogMessage).text = "Are you sure you want to exit the app?"
-
-        dialogView.findViewById<Button>(R.id.dialogButtonYes).setOnClickListener {
-            finishAffinity()
-        }
-
-        dialogView.findViewById<Button>(R.id.dialogButtonNo).setOnClickListener {
-            dialog.dismiss()
-        }
     }
-
     override fun onResume() {
         super.onResume()
         if (bottomNavigation.getSelectedItemId() == R.id.nav_chat) {
             bottomNavigation.setItemSelected(R.id.nav_home, true)
-
         }
     }
-
 }
