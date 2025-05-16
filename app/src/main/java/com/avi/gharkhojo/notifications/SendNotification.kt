@@ -22,14 +22,11 @@ class SendNotification(
     var context: Context
 ) {
 
-    val postUrl: String = "https://fcm.googleapis.com/v1/projects/gharkhojo-61e80/messages:send"
 
     @OptIn(UnstableApi::class)
     fun sendNotifications(){
 
         var requestQueue:RequestQueue = Volley.newRequestQueue(context)
-        var mainObj: JSONObject = JSONObject()
-
         try {
             val mainObj = JSONObject()
             val messageObject = JSONObject()
@@ -51,7 +48,7 @@ class SendNotification(
             mainObj.put("message", messageObject)
 
             val request = object : JsonObjectRequest(
-                Request.Method.POST, postUrl, mainObj,
+                Request.Method.POST, NotificationConstant.POST_URL.value, mainObj,
                 Response.Listener { response ->
                     Log.d("SendNotification", "Success: $response")
                 },

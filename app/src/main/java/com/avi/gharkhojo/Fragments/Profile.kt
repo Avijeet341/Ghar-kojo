@@ -35,11 +35,13 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import com.yalantis.ucrop.UCrop
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.tasks.await
 import java.io.File
 import java.util.*
 import javax.inject.Inject
@@ -244,24 +246,16 @@ class Profile : Fragment() {
     }
 
     private fun signOut() {
-        firebaseAuth.signOut()
-        UserData.clear()
-        UserSignupLoginManager.instance = null
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .build()
-
-        val googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
-        googleSignInClient.signOut().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Toast.makeText(requireContext(), getString(R.string.sign_out_success), Toast.LENGTH_SHORT).show()
-                startActivity(Intent(requireActivity(), LoginActivity::class.java))
-                requireActivity().finish()
-            } else {
-                Toast.makeText(requireContext(), getString(R.string.sign_out_failed), Toast.LENGTH_SHORT).show()
+        FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener {
+            if(it.isSuccessful)
+            {
+                signOutUser()
+            }
+            else{
+                Toast.makeText(requireContext(), it.exception?.message, Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 
     private fun showProfileEditBottomSheet() {
@@ -278,5 +272,27 @@ class Profile : Fragment() {
         _binding = null
         var bottomNav = activity?.findViewById<ChipNavigationBar>(R.id.bottom_nav_bar)
         bottomNav?.visibility = View.VISIBLE
+    }
+}
+
+private fun Profile.signOutUser() {
+    firebaseAuth.signOut()
+    UserData.clear()
+    UserSignupLoginManager.instance = null
+
+
+    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        .requestEmail()
+        .build()
+
+    val googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+    googleSignInClient.signOut().addOnCompleteListener { task ->
+        if (task.isSuccessful) {
+            Toast.makeText(requireContext(), getString(R.string.sign_out_success), Toast.LENGTH_SHORT).show()
+            startActivity(Intent(requireActivity(), LoginActivity::class.java))
+            requireActivity().finish()
+        } else {
+            Toast.makeText(requireContext(), getString(R.string.sign_out_failed), Toast.LENGTH_SHORT).show()
+        }
     }
 }

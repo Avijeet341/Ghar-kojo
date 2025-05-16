@@ -7,14 +7,17 @@ import android.os.Bundle
 import android.os.StrictMode
 import android.util.Log
 import android.view.WindowManager
+import android.widget.Toast
 import android.widget.VideoView
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.avi.gharkhojo.Chat.ChatRoom
 import com.avi.gharkhojo.Model.UserSignupLoginManager
 import com.avi.gharkhojo.notifications.MyFirebaseMessagingService
+import com.avi.gharkhojo.notifications.NotificationConstant
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
@@ -39,7 +42,7 @@ class SplashScreen : AppCompatActivity() {
 
         setupStatusBar()
         setupEdgeToEdge()
-        setupVideoView()
+//        setupVideoView()
 
         CoroutineScope(Dispatchers.IO).launch {
             firebaseUser?.let { user ->
@@ -60,6 +63,7 @@ class SplashScreen : AppCompatActivity() {
                             }
 
                         }
+
 
                 } catch (e: Exception) {
 
@@ -104,6 +108,18 @@ class SplashScreen : AppCompatActivity() {
     private fun handleUserReload(user: FirebaseUser) {
         if (user.isEmailVerified) {
 
+            if (intent.getBooleanExtra(NotificationConstant.MESSAGE_NOTIFICATION.value, false)) {
+                Toast.makeText(this, "Message Notification", Toast.LENGTH_SHORT).show()
+
+
+                val intent = Intent(this, ChatRoom::class.java)
+                intent.putExtra(ChatRoom.IMG_ARG, intent.getStringExtra(ChatRoom.IMG_ARG))
+                intent.putExtra(ChatRoom.NAME_ARG, intent.getStringExtra(ChatRoom.NAME_ARG))
+                intent.putExtra(ChatRoom.UID_ARG, intent.getStringExtra(ChatRoom.UID_ARG))
+                startActivity(intent)
+                finish()
+                return
+            }
             navigateToLastUsedActivity()
         } else {
 

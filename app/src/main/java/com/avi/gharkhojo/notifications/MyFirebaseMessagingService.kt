@@ -13,11 +13,13 @@ import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.os.Vibrator
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.avi.gharkhojo.Chat.ChatRoom
 import com.avi.gharkhojo.Chat.Chat_Activity
 import com.avi.gharkhojo.MainActivity
 import com.avi.gharkhojo.R
+import com.avi.gharkhojo.SplashScreen
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -44,21 +46,31 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
             r?.setLooping(false)
         }
-        var v: Vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
         var pattern: LongArray = longArrayOf(100,300,300,300)
 
         var builder: NotificationCompat.Builder = NotificationCompat.Builder(this,
             NotificationConstant.CHANNEL_ID.value)
         builder.setSmallIcon(R.drawable.baseline_person_24)
 
-        var resultIntent: Intent = Intent(this, ChatRoom::class.java).apply {
-            putExtra(ChatRoom.UID_ARG, uid)
-            putExtra(ChatRoom.NAME_ARG, name)
-            putExtra(ChatRoom.IMG_ARG, img)
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        }
+        var isAppRunning = isAppInForeground(applicationContext)
+        var resultIntent: Intent =( if(isAppRunning) {
+                Intent(this, ChatRoom::class.java)
+            }else{
+                Intent(this, SplashScreen::class.java)
+            }).apply {
+                    putExtra(ChatRoom.UID_ARG, uid)
+                    putExtra(ChatRoom.NAME_ARG, name)
+                    putExtra(ChatRoom.IMG_ARG, img)
+                    putExtra(NotificationConstant.MESSAGE_NOTIFICATION.value,true)
+                    flags = if(isAppRunning){
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    }else{
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                }
 
-        var pendingIntent: PendingIntent = PendingIntent.getActivity(this,0,resultIntent,PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+
+        var pendingIntent: PendingIntent = PendingIntent.getActivity(this,0,resultIntent,PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
 
 
         Glide.with(applicationContext)
@@ -100,5 +112,21 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
     }
 
-    
+    private fun isAppInForeground(context: Context): Boolean {
+        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as android.app.ActivityManager
+        val appProcesses = activityManager.runningAppProcesses ?: return false
+
+        val packageName = context.packageName
+        for (appProcess in appProcesses) {
+            if (appProcess.importance == android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND &&
+                appProcess.processName == packageName) {
+                return true
+            }
+        }
+        return false
+    }
+
+
+
+
 }

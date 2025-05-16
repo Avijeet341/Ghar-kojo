@@ -79,9 +79,9 @@ class SignUpViewModel : ViewModel() {
         databaseReference.child("users").push().setValue(ChatUserListModel(userName,profilePic,userId,FirebaseAuth.getInstance().currentUser?.email))
         if (userId != null) {
             val userData = mapOf(
-                "name" to userName,
+                "username" to userName,
                 "address" to "",
-                "phone" to ""
+                "phn_no" to ""
             )
             firestore.collection("users").document(userId).set(userData)
         }
