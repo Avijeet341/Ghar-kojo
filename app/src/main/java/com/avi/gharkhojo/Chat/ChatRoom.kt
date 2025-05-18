@@ -57,15 +57,12 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
-import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.inject.Inject
 import androidx.core.view.isVisible
 import com.avi.gharkhojo.Model.UserData
-import com.avi.gharkhojo.Model.UserDetails
 import com.avi.gharkhojo.notifications.SendNotification
 
 class ChatRoom : AppCompatActivity() {

@@ -392,21 +392,6 @@ class Home : Fragment() {
                                 if(filter.isNullOrEmpty()){
                                     if(filterPost!=null){
 
-//                                        Log.d("preferTent", filterPost!!.preferredTenants.toString())
-//                                        Log.d("propertyType",filterPost!!.propertyType.toString())
-//                                        Log.d("bedroom",filterPost?.noOfBedRoom.toString())
-//                                        Log.d("bathroom",filterPost?.noOfBathroom.toString())
-//                                        Log.d("balcony",filterPost?.noOfBalcony.toString())
-//                                        Log.d("floor",filterPost?.floorPosition.toString())
-//                                        Log.d("filter",filterPost?.hasLift.toString())
-//                                        Log.d("filter",filterPost?.hasGenerator.toString())
-//                                        Log.d("filter",filterPost?.hasGasService.toString())
-//                                        Log.d("filter",filterPost?.hasSecurityGuard.toString())
-//                                        Log.d("filter",filterPost?.hasParking.toString())
-//
-//                                        Log.d("builtUpArea",filterPost?.builtUpArea.toString())
-//                                        Log.d("rent",filterPost?.rent.toString())
-
 
                                         var postBuiltUpArea = currencyToFloat(post.builtUpArea!!)
                                         var filterFloorPosition = filterPost!!.floorPosition?.toInt()

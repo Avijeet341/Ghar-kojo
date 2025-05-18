@@ -35,7 +35,11 @@
         android:id="@+id/ownerProfileFragment"
         android:name="com.avi.gharkhojo.Fragments.OwnerFragments.OwnerProfileFragment"
         android:label="fragment_owner_profile"
-        tools:layout="@layout/fragment_owner_profile" />
+        tools:layout="@layout/fragment_owner_profile" >
+        <action
+            android:id="@+id/action_ownerProfileFragment_to_uploadsFragment"
+            app:destination="@id/uploadsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/propertyDetailsFragment"

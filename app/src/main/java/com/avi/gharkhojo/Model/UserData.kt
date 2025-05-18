@@ -16,6 +16,10 @@ data object UserData{
     var colony:String? = null
     var LandMark:String? = null
     var uid: String? = null
+    var postCount:Int = 0
+    var followersCount:Int = 0
+    var tenentsCount: Int = 0
+
 
     fun clear() {
         username = null
