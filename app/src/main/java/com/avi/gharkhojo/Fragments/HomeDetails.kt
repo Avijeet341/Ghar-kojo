@@ -216,13 +216,13 @@ class HomeDetails : Fragment() {
             var bundle:Bundle = Bundle()
 
             bundle.putString("uid",post?.userId)
-            findNavController().navigate(R.id.action_homeDetails_to_profile,bundle)
+            findNavController().navigate(R.id.homeDetails_to_ownerProfileFragment,bundle)
         }
         binding.profileDetails.setOnClickListener{
             var bundle:Bundle = Bundle()
 
             bundle.putString("uid",post?.userId)
-            findNavController().navigate(R.id.action_homeDetails_to_profile,bundle)
+            findNavController().navigate(R.id.homeDetails_to_ownerProfileFragment,bundle)
         }
     }
 

@@ -10,9 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -36,21 +38,17 @@ class MainActivity : BaseActivity() {
         setupNavigation()
         setupTabBar()
         handleOnBackPressed()
+
     }
 
-    fun hideBottomNavBar() {
-        bottomNavigation.visibility = View.GONE
-    }
 
-    fun showBottomNavBar() {
-        bottomNavigation.visibility = View.VISIBLE
-    }
 
     private fun setupNavigation() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         bottomNavigation = findViewById(R.id.bottom_nav_bar)
         bottomNavigation.setMenuResource(R.menu.nav_menu)
+
     }
 
     private fun setupTabBar() {
@@ -63,6 +61,7 @@ class MainActivity : BaseActivity() {
                     navController.navigate(R.id.bookmarkFragment)
                 }
                 R.id.nav_profile -> navController.navigate(R.id.profile)
+
             }
         }
     }

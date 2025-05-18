@@ -53,7 +53,7 @@ class Profile : Fragment() {
     private val binding get() = _binding!!
     var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    var UserCollection:CollectionReference = FirebaseFirestore.getInstance().collection("users")
+
 
     var firebaseUser:FirebaseUser? = firebaseAuth.currentUser
     private lateinit var pickImage: ActivityResultLauncher<String>
@@ -72,20 +72,7 @@ class Profile : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var otherId = arguments?.getString("uid")
-        val bottomNav = activity?.findViewById<ChipNavigationBar>(R.id.bottom_nav_bar)
-        if((!otherId.isNullOrEmpty()) && otherId != firebaseUser?.uid){
-            loadOtherUserProfile(otherId)
-            binding.fabEditProfile.visibility = View.GONE
-            binding.buttonSignOut.visibility = View.GONE
-            bottomNav?.visibility = View.GONE
-            return
-        }else{
-            binding.fabEditProfile.visibility = View.VISIBLE
-            binding.buttonSignOut.visibility = View.VISIBLE
-            bottomNav?.visibility = View.VISIBLE
-            bottomNav?.setItemSelected(R.id.nav_profile, true)
-        }
+
 
         loadUserData()
         loadProfileImage()
@@ -95,47 +82,6 @@ class Profile : Fragment() {
 
     }
 
-    private fun loadOtherUserProfile(otherId: String) {
-
-        databaseReference.addListenerForSingleValueEvent(object: ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for(dataSnapshot in snapshot.children){
-                    val userData = dataSnapshot.getValue(ChatUserListModel::class.java)
-                    if(userData?.userId == otherId){
-                        binding.textViewUsername.text = userData.username
-                        binding.textViewEmail.text = userData.userEmail
-                        Glide.with(this@Profile)
-                            .load(userData.userimage)
-                            .placeholder(R.drawable.india)
-                            .error(R.drawable.background2)
-                            .centerCrop()
-
-                        UserCollection.document(otherId).get().addOnSuccessListener {
-                            if(it.exists()) {
-                                val userDetails = it.toObject(UserDetails::class.java)
-                                binding.textViewPhone.text = userDetails?.phn_no
-                                binding.textRoadNo.text = userDetails?.Road_Lane
-                                binding.textViewCity.text = userDetails?.City
-                                binding.textViewState.text = userDetails?.State
-                                binding.textViewPincode.text = userDetails?.Pincode
-                                binding.textViewArea.text = userDetails?.Area
-                                binding.textViewLandmark.text = userDetails?.LandMark
-                                binding.textViewHouseNo.text = userDetails?.HouseNo
-                                binding.textViewColony.text = userDetails?.colony
-                            }
-                        }
-
-                        break
-                    }
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
-    }
 
     private fun loadProfileImage() {
 

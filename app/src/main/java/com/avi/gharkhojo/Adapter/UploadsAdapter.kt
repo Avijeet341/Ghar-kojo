@@ -1,18 +1,27 @@
 package com.avi.gharkhojo.Adapter
 
+import android.app.Dialog
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Model.Post
 import com.avi.gharkhojo.R
+import com.avi.gharkhojo.databinding.DeleteDialogBinding
 import com.avi.gharkhojo.databinding.OwnerUploadsItemBinding
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.NonDisposableHandle.parent
 
-class UploadsAdapter(private val onItemClick: (Post) -> Unit) :
+class UploadsAdapter(private val onItemClick: (Post) -> Unit,private val onDelete: (Post,dialog:Dialog?) -> Unit) :
     RecyclerView.Adapter<UploadsAdapter.UploadViewHolder>() {
-        private val uploads = ArrayList<Post>()
+    private val uploads = ArrayList<Post>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UploadViewHolder {
+
+
+
         val binding = OwnerUploadsItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
@@ -48,11 +57,32 @@ class UploadsAdapter(private val onItemClick: (Post) -> Unit) :
             binding.housePricePeriod.text = "/Month"
             binding.houseBedrooms.text = post.noOfBedRoom.toString()
             binding.houseBathrooms.text = post.noOfBathroom.toString()
-            binding.houseArea.text ="${post.builtUpArea} sq.ft."
+            binding.houseArea.text = "${post.builtUpArea} sq.ft."
 
             binding.root.setOnClickListener {
                 onItemClick(post)
             }
+            if(post.userId!=FirebaseAuth.getInstance().currentUser?.uid){
+                binding.btnDelete.visibility = View.GONE
+            }
+            binding.btnDelete.setOnClickListener {
+                val dialogBinding = DeleteDialogBinding.inflate(LayoutInflater.from(binding.root.context))
+                val dialog = AlertDialog.Builder(binding.root.context)
+                    .setView(dialogBinding.root)
+                    .setCancelable(false)
+                    .create()
+
+                dialogBinding.dialogButtonNo.setOnClickListener {
+                    dialog.dismiss()
+                }
+
+                dialogBinding.dialogButtonYes.setOnClickListener {
+                    onDelete(post, dialog)
+                }
+
+                dialog.show()
+            }
+
         }
     }
 }

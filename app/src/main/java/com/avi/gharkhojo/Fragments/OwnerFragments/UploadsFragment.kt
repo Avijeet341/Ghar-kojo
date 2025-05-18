@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.avi.gharkhojo.Adapter.UploadsAdapter
 import com.avi.gharkhojo.Model.Post
+import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentUploadsBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,7 +31,7 @@ class UploadsFragment : Fragment() {
     private lateinit var binding: FragmentUploadsBinding
     private lateinit var uploadsAdapter: UploadsAdapter
     private var databaseReference: DatabaseReference? = FirebaseDatabase.getInstance().reference.child("Posts")
-        .child(FirebaseAuth.getInstance().currentUser?.uid!!)
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,18 +44,58 @@ class UploadsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-            loadData()
+           val otherId: String? =  arguments?.getString("uid")?: FirebaseAuth.getInstance().uid
+        val bottomNav = activity?.findViewById<ChipNavigationBar>(R.id.bottom_nav_bar)
+        if((!otherId.isNullOrEmpty()) && otherId != FirebaseAuth.getInstance().uid){
+            bottomNav?.visibility = View.GONE
+        }
+            loadData(otherId.toString())
 
     }
 
-    private fun loadData(){
-        uploadsAdapter = UploadsAdapter { post ->
-            val action = UploadsFragmentDirections.actionUploadsFragmentToOwnerDetailFragment()
+    private fun loadData(uid:String){
+        uploadsAdapter = UploadsAdapter( { post ->
+
+            val navController = findNavController()
             var bundle = Bundle()
             bundle.putParcelable("post",post)
-            action.arguments.putAll(bundle)
-            findNavController().navigate(action)
+            if (post.userId == FirebaseAuth.getInstance().uid) {
+                navController.navigate(R.id.action_uploadsFragment_to_ownerDetailFragment,bundle)
+            } else {
+                navController.navigate(R.id.UploadsFragmentToOwnerDetailFragment,bundle)
+            }
+
+
+
+
+        }) { post, dialog ->
+            binding.postLoading.visibility = View.VISIBLE
+            CoroutineScope(Dispatchers.IO).launch {
+                dialog?.dismiss()
+
+                databaseReference?.child(uid)?.get()?.addOnCompleteListener {
+                    if(it.isSuccessful){
+                        for(dataSnapshot in it.result.children){
+                            val tempPost = dataSnapshot.getValue(Post::class.java)
+                            if(tempPost?.equals(post) == true){
+                                databaseReference?.child(uid)?.child(dataSnapshot.key.toString())?.removeValue()?.addOnCompleteListener {
+                                    if(it.isSuccessful){
+                                        Toast.makeText(context, "Post Deleted Successfully", Toast.LENGTH_SHORT).show()
+                                        binding.postLoading.visibility = View.GONE
+                                        loadData(uid)
+                                    }
+                                    else{
+                                        Toast.makeText(context, "Post Deletion Failed", Toast.LENGTH_SHORT).show()
+                                        binding.postLoading.visibility = View.GONE
+                                    }
+                                    }
+                                break
+                            }
+                        }
+                    }
+                }
+
+            }
         }
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -61,13 +103,13 @@ class UploadsFragment : Fragment() {
         }
         CoroutineScope(Dispatchers.Main).launch {
             binding.postLoading.visibility = View.VISIBLE
-            fetchAndUploadData()
+            fetchAndUploadData(uid)
         }
     }
 
-    suspend fun fetchAndUploadData() = withContext(Dispatchers.IO) {
+    suspend fun fetchAndUploadData(uid: String) = withContext(Dispatchers.IO) {
         try {
-           databaseReference?.addValueEventListener(object : ValueEventListener {
+           databaseReference?.child(uid)?.addValueEventListener(object : ValueEventListener {
                override fun onDataChange(snapshot: DataSnapshot) {
                    if (snapshot != null && snapshot.exists()) {
                        val tempList = mutableListOf<Post>()
@@ -98,6 +140,10 @@ class UploadsFragment : Fragment() {
             binding.postLoading.visibility = View.GONE
             Log.e("fetchAndUploadData", "Error fetching data", e)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
 

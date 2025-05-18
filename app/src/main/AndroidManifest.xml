@@ -77,7 +77,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:theme="@style/Base.Theme.GharKhojo" />
+             />
 
         <provider
             android:name="androidx.core.content.FileProvider"

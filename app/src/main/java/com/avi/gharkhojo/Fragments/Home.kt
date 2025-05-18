@@ -126,6 +126,7 @@ class Home : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        activity?.findViewById<ChipNavigationBar>(R.id.bottom_nav_bar)?.visibility = View.VISIBLE
         return binding.root
     }
 
@@ -344,11 +345,12 @@ class Home : Fragment() {
             HousingType(R.drawable.luxury, "Luxury"),
             HousingType(R.drawable.commercial_property, "Commercial")
         )
-        val adapter = HousingTypeAdapter(housingTypes, {
-            val intent = Intent(requireContext(), OwnerActivity::class.java)
-            startActivity(intent)
-            this.requireActivity().finish()
-        },
+        val adapter = HousingTypeAdapter(
+            housingTypes, {
+                val intent = Intent(requireContext(), OwnerActivity::class.java)
+                startActivity(intent)
+                this.requireActivity().finish()
+            },
             { housingType ->
                 observeDataChanges(housingType)
             })

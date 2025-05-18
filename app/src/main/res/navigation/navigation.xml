@@ -44,8 +44,8 @@
             android:id="@+id/action_homeDetails_to_tabLayoutFragment"
             app:destination="@id/tabLayoutFragment" />
         <action
-            android:id="@+id/action_homeDetails_to_profile"
-            app:destination="@id/profile" />
+            android:id="@+id/homeDetails_to_ownerProfileFragment"
+            app:destination="@id/owner_profile_fragment" />
     </fragment>
 
     <fragment
@@ -69,5 +69,32 @@
         android:label="fragment_filter"
         tools:layout="@layout/fragment_filter" />
 
+
+    <fragment
+        android:id="@+id/owner_profile_fragment"
+        android:name="com.avi.gharkhojo.Fragments.OwnerFragments.OwnerProfileFragment"
+        android:label="fragment_owner_profile"
+        tools:layout="@layout/fragment_owner_profile" >
+
+        <action
+            android:id="@+id/owner_profile_fragment_to_uploads_Fragment"
+            app:destination="@id/uploads_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/uploads_Fragment"
+        android:name="com.avi.gharkhojo.Fragments.OwnerFragments.UploadsFragment"
+        android:label="fragment_uploads"
+        tools:layout="@layout/fragment_uploads" >
+        <action
+            android:id="@+id/UploadsFragmentToOwnerDetailFragment"
+            app:destination="@id/owner_details_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/owner_details_fragment"
+        android:name="com.avi.gharkhojo.Fragments.OwnerFragments.OwnerDetailFragment"
+        android:label="fragment_owner_details"
+        tools:layout="@layout/fragment_owner_detail" >
+    </fragment>
 
 </navigation>
