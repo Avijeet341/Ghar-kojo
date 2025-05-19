@@ -180,5 +180,6 @@ object PostDetails {
         imageList.forEach {
             it.value.clear()
         }
+        coverImage = null
     }
 }

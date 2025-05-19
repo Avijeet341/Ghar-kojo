@@ -1,10 +1,12 @@
 package com.avi.gharkhojo.Adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Model.Post
 import com.avi.gharkhojo.R
+import com.avi.gharkhojo.databinding.FragmentHomeBinding
 import com.avi.gharkhojo.databinding.GridItemBinding
 import com.avi.gharkhojo.databinding.ShimmerGridItemBinding
 import com.bumptech.glide.Glide
@@ -16,14 +18,14 @@ import java.util.Locale
 class GridAdapter(
     private val listener: (Post) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
+    var shimmerLayout: ShimmerFrameLayout?=null
     private val VIEW_TYPE_SHIMMER = 0
     private val VIEW_TYPE_NORMAL = 1
 
-    private var gridItemList: ArrayList<Post> = arrayListOf()
+     var gridItemList: ArrayList<Post> = arrayListOf()
     var isLoading: Boolean = true
     // Number of skeleton items during loading
-    private val skeletonItemCount = 6
+    var skeletonItemCount = 6
 
     inner class ViewHolder(private var gridItemBinding: GridItemBinding) :
         RecyclerView.ViewHolder(gridItemBinding.root) {
@@ -68,11 +70,11 @@ class GridAdapter(
         }
     }
 
-    inner class ShimmerViewHolder(private val shimmerBinding: ShimmerGridItemBinding) :
+    inner class ShimmerViewHolder(shimmerBinding: ShimmerGridItemBinding) :
         RecyclerView.ViewHolder(shimmerBinding.root) {
         init {
             // Configure a customized shimmer effect.
-            val shimmerLayout = shimmerBinding.root as? ShimmerFrameLayout
+           shimmerLayout  = shimmerBinding.root as? ShimmerFrameLayout
             shimmerLayout?.setShimmer(
                 Shimmer.AlphaHighlightBuilder()  // Uses an alpha-based effect
                     .setDuration(1000)           // Faster animation duration for a snappier effect
@@ -130,6 +132,7 @@ class GridAdapter(
         isLoading = false
         gridItemList.clear()
         gridItemList.addAll(newGridItemList)
+
         notifyDataSetChanged()
     }
 }

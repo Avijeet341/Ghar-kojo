@@ -1,19 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-<!--    <style name="Base.Theme.GharKhojoo" parent="Theme.AppCompat.DayNight.NoActionBar">-->
-<!--        &lt;!&ndash; Customize your light theme here. &ndash;&gt;-->
-<!--        &lt;!&ndash; <item name="colorPrimary">@color/my_light_primary</item> &ndash;&gt;-->
-<!--        <item name="android:statusBarColor">@color/expBlue</item>-->
-<!--        <item name="colorPrimary">@color/expBlue</item>-->
-<!--    </style>-->
+    <style name="Base.Theme.GharKhojoo" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:statusBarColor">@color/expBlue</item>
+        <item name="colorPrimary">@color/expBlue</item>
+    </style>
 
 
-<!--    <style name="Base.Theme.GharKhojo" parent="Theme.MaterialComponents.DayNight.NoActionBar">-->
-<!--        &lt;!&ndash; Customize your theme here &ndash;&gt;-->
-<!--        <item name="android:statusBarColor">@color/expBlue</item>-->
-<!--        <item name="colorPrimary">@color/expBlue</item>-->
-<!--        &lt;!&ndash; Add other customizations as needed &ndash;&gt;-->
-<!--    </style>-->
+    <style name="Base.Theme.GharKhojo" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here -->
+        <item name="android:statusBarColor">@color/expBlue</item>
+        <item name="colorPrimary">@color/expBlue</item>
+        <!-- Add other customizations as needed -->
+    </style>
     <style name="Theme.GharKhojo" parent="Base.Theme.GharKhojo" />
 
     <style name="GharKhojo" parent="Theme.Material3.DayNight.NoActionBar">

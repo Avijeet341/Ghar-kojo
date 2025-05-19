@@ -40,6 +40,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import kotlin.math.abs
+import androidx.core.net.toUri
 
 class RoomPhotosFragment : Fragment() {
 
@@ -277,7 +278,8 @@ class RoomPhotosFragment : Fragment() {
                 }
             }
             async {
-                storageReference.child(post.postTime.toString()).child("coverImage").putFile(Uri.parse(post.coverImage)).await()
+                storageReference.child(post.postTime.toString()).child("coverImage").putFile(post.coverImage?.toUri()
+                    ?: "".toUri()).await()
             }.await()
 
             uploadTasks.awaitAll()
@@ -376,5 +378,8 @@ class RoomPhotosFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        activity?.findViewById<ChipNavigationBar>(R.id.bottom_nav_bar_owner)?.visibility = View.VISIBLE
+        clearAll()
+
     }
 }

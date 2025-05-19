@@ -20,6 +20,7 @@ import com.avi.gharkhojo.databinding.FragmentPropertyDetailsBinding
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
+import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import java.text.NumberFormat
 import java.util.Currency
 
@@ -276,6 +277,11 @@ class PropertyDetailsFragment : Fragment() {
         kitchenCount = 0
         tvKitchenCount.text = kitchenCount.toString()
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        activity?.findViewById<ChipNavigationBar>(R.id.bottom_nav_bar_owner)?.visibility = View.VISIBLE
     }
 
 }

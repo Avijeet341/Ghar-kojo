@@ -13,12 +13,15 @@ import com.avi.gharkhojo.Adapter.UploadsAdapter
 import com.avi.gharkhojo.Model.Post
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentUploadsBinding
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.storage
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +34,8 @@ class UploadsFragment : Fragment() {
     private lateinit var binding: FragmentUploadsBinding
     private lateinit var uploadsAdapter: UploadsAdapter
     private var databaseReference: DatabaseReference? = FirebaseDatabase.getInstance().reference.child("Posts")
+    private var storageReference = Firebase.storage.reference.child("Posts/${FirebaseAuth.getInstance().currentUser!!.uid}")
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,24 +79,50 @@ class UploadsFragment : Fragment() {
                 dialog?.dismiss()
 
                 databaseReference?.child(uid)?.get()?.addOnCompleteListener {
-                    if(it.isSuccessful){
-                        for(dataSnapshot in it.result.children){
-                            val tempPost = dataSnapshot.getValue(Post::class.java)
-                            if(tempPost?.equals(post) == true){
-                                databaseReference?.child(uid)?.child(dataSnapshot.key.toString())?.removeValue()?.addOnCompleteListener {
-                                    if(it.isSuccessful){
-                                        Toast.makeText(context, "Post Deleted Successfully", Toast.LENGTH_SHORT).show()
-                                        binding.postLoading.visibility = View.GONE
-                                        loadData(uid)
-                                    }
-                                    else{
-                                        Toast.makeText(context, "Post Deletion Failed", Toast.LENGTH_SHORT).show()
-                                        binding.postLoading.visibility = View.GONE
-                                    }
-                                    }
-                                break
+                    if(it.result.exists()) {
+                        if (it.isSuccessful) {
+                            for (dataSnapshot in it.result.children) {
+                                val tempPost = dataSnapshot.getValue(Post::class.java)
+                                if (tempPost?.equals(post) == true) {
+                                    databaseReference?.child(uid)
+                                        ?.child(dataSnapshot.key.toString())?.removeValue()
+                                        ?.addOnCompleteListener {
+                                            if (it.isSuccessful) {
+
+                                                storageReference.child(post.postTime!!)
+                                                    .delete().addOnCompleteListener {
+                                                        if(it.isSuccessful){
+                                                            Toast.makeText(
+                                                                context,
+                                                                "Post Deleted Successfully",
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
+                                                            binding.postLoading.visibility = View.GONE
+                                                            loadData(uid)
+                                                        }else{
+                                                            Toast.makeText(
+                                                                context,
+                                                                "Post Deletion Failed",
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
+                                                        }
+                                                    }
+
+                                            } else {
+                                                Toast.makeText(
+                                                    context,
+                                                    "Post Deletion Failed",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                                binding.postLoading.visibility = View.GONE
+                                            }
+                                        }
+                                    break
+                                }
                             }
                         }
+                    }else{
+                        binding.postLoading.visibility = View.GONE
                     }
                 }
 
@@ -109,10 +140,16 @@ class UploadsFragment : Fragment() {
 
     suspend fun fetchAndUploadData(uid: String) = withContext(Dispatchers.IO) {
         try {
+            val tempList = mutableListOf<Post>()
            databaseReference?.child(uid)?.addValueEventListener(object : ValueEventListener {
                override fun onDataChange(snapshot: DataSnapshot) {
+                   binding.postLoading.visibility = View.VISIBLE
+                   tempList.clear()
+                   uploadsAdapter.updateData(tempList)
+
                    if (snapshot != null && snapshot.exists()) {
-                       val tempList = mutableListOf<Post>()
+
+                       binding.noUploadLayout.visibility = View.GONE
                        for (dataSnapshot in snapshot.children) {
                            val post = dataSnapshot.getValue(Post::class.java)
                            if (post != null) {
@@ -125,12 +162,14 @@ class UploadsFragment : Fragment() {
                            Log.d("size", "Fetched upload list size: ${tempList.size}")
                    } else {
                        binding.postLoading.visibility = View.GONE
+                       binding.noUploadLayout.visibility = View.VISIBLE
                        Log.d("fetchAndUploadData", "Snapshot is null or empty")
                    }
                }
 
                override fun onCancelled(error: DatabaseError) {
                  binding.postLoading.visibility = View.GONE
+                   binding.noUploadLayout.visibility = View.VISIBLE
                    Toast.makeText(context, "Failed to load data: ${error.message}", Toast.LENGTH_SHORT).show()
                }
 

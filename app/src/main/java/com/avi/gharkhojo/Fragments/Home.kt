@@ -29,6 +29,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Adapter.GridAdapter
 import com.avi.gharkhojo.Adapter.HousingTypeAdapter
 import com.avi.gharkhojo.Model.DataSharing
@@ -372,13 +373,14 @@ class Home : Fragment() {
 
     private fun observeDataChanges(filter: MutableList<String>? = null) {
         Log.d("h", filter.toString())
-        mutableList.clear()
+
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // Null check before accessing binding
                 if (_binding == null) {
                     return
                 }
+                mutableList.clear()
                 if (snapshot.exists()) {
 
                     for (dataSnapshot in snapshot.children) {
@@ -445,6 +447,8 @@ class Home : Fragment() {
                             }
                         }
                     }
+
+                    binding.noPostLayout.visibility = View.GONE
                     (binding.recyclerView.adapter as? GridAdapter)?.updateData(mutableList)
 
                     if(dataSharing.searchedText.value?.isNotEmpty() == true){
@@ -452,6 +456,10 @@ class Home : Fragment() {
                         binding.searchView.setQuery(dataSharing.searchedText.value, false)
                         onSearch(dataSharing.searchedText.value)
                     }
+                }
+                else{
+                    (binding.recyclerView.adapter as? GridAdapter)?.updateData(mutableListOf())
+                    binding.noPostLayout.visibility = View.VISIBLE
                 }
             }
 
@@ -465,7 +473,6 @@ class Home : Fragment() {
         })
     }
     private fun onSearch(search:String?) {
-
 
 
         if(search.isNullOrEmpty()){
