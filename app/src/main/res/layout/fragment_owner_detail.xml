@@ -15,23 +15,52 @@
 
         <TextView
             android:id="@+id/yourPropertyTextView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Your Property"
-            android:textSize="20sp"
-            android:textColor="#FFEB3B"
-            android:textStyle="bold"
-            android:drawableEnd="@drawable/edit_svgrepo_com"
-            android:drawableStart="@drawable/ic_back_arrow"
-            android:drawableTint="#FFEB3B"
             android:layout_gravity="center"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:padding="26dp"
             android:background="@drawable/rounded_bottom_corners"
-            android:backgroundTint="#2C2C2C"
-            android:gravity="center"/>
+            android:backgroundTint="@android:color/transparent"
+            android:gravity="center"
+            android:padding="26dp"
+            android:text="Your Property"
+            android:textColor="#FFEB3B"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/edit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/viewPager"
+            app:layout_constraintStart_toEndOf="@+id/yourPropertyTextView"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:drawableTop="@drawable/edit_svgrepo_com"
+        android:drawableTint="@color/gold"
+        android:text=""
+        android:gravity="center"
+        android:padding="16dp"
+        />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/viewPager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toStartOf="@+id/yourPropertyTextView"
+            android:drawableTop="@drawable/ic_back_arrow"
+            android:drawableTint="@color/gold"
+            android:text=""
+            android:gravity="center"
+            android:padding="16dp"
+
+            />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
@@ -49,9 +78,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:orientation="horizontal"
             android:background="@drawable/bg_edit_text"
             android:backgroundTint="#2C2C2C"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viewPager">
 
@@ -105,9 +134,9 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="10dp"
+            app:cardBackgroundColor="#2C2C2C"
             app:cardCornerRadius="16dp"
             app:cardElevation="8dp"
-            app:cardBackgroundColor="#2C2C2C"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/priceContainer">
@@ -365,10 +394,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
-            android:orientation="horizontal"
             android:background="@drawable/bg_edit_text"
             android:backgroundTint="#2C2C2C"
             android:elevation="2dp"
+            android:orientation="horizontal"
             android:padding="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/propertyFeaturesCard">
@@ -433,11 +462,11 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="10dp"
-            android:backgroundTint="#2C2C2C"
             android:background="@drawable/bg_edit_text"
-            app:cardElevation="5dp"
+            android:backgroundTint="#2C2C2C"
             android:padding="7dp"
             app:cardCornerRadius="13dp"
+            app:cardElevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/PropertyFeatures">
@@ -454,8 +483,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_margin="8dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_copy"
                     android:contentDescription="Copy address"
+                    android:src="@drawable/ic_copy"
                     app:tint="#FFEB3B" />
 
                 <LinearLayout
@@ -474,7 +503,7 @@
                         android:textColor="#FFEB3B"
                         android:textSize="18sp" />
 
-                     <LinearLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -503,7 +532,7 @@
                         android:layout_height="1dp"
                         android:background="#FFEB3B" />
 
-                     <LinearLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -531,7 +560,7 @@
                         android:layout_height="1dp"
                         android:background="#FFEB3B" />
 
-                     <LinearLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -559,7 +588,7 @@
                         android:layout_height="1dp"
                         android:background="#FFEB3B" />
 
-                     <LinearLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -587,7 +616,7 @@
                         android:layout_height="1dp"
                         android:background="#FFEB3B" />
 
-                     <LinearLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -615,7 +644,7 @@
                         android:layout_height="1dp"
                         android:background="#FFEB3B" />
 
-                     <LinearLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -643,7 +672,7 @@
                         android:layout_height="1dp"
                         android:background="#FFEB3B" />
 
-                     <LinearLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -671,7 +700,7 @@
                         android:layout_height="1dp"
                         android:background="#FFEB3B" />
 
-                     <LinearLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -707,9 +736,9 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="10dp"
             android:backgroundTint="#2C2C2C"
-            app:cardElevation="5dp"
             android:padding="7dp"
             app:cardCornerRadius="13dp"
+            app:cardElevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/propertyLocation">
@@ -785,11 +814,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
                             android:elevation="5dp"
                             android:fontFamily="@font/montserrat_regular"
                             android:text=" sq.ft."
-                            android:textColor="@color/white"
-                            android:layout_marginStart="4dp" />
+                            android:textColor="@color/white" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -841,9 +870,9 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_search"
             android:backgroundTint="#2C2C2C"
+            android:padding="10dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="5dp"
-            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="@+id/propertyDetailsCard"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/propertyDetailsCard">
@@ -876,8 +905,8 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:scaleType="centerCrop"
-                        app:tint="#FFEB3B"
-                        android:src="@drawable/icon_lift" />
+                        android:src="@drawable/icon_lift"
+                        app:tint="#FFEB3B" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -892,15 +921,15 @@
                     <ImageView
                         android:id="@+id/liftIcon"
                         android:layout_width="24dp"
-                        android:layout_height="24dp"/>
+                        android:layout_height="24dp" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/LightGray"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp" />
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/LightGray" />
 
 
                 <LinearLayout
@@ -913,8 +942,8 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:scaleType="centerCrop"
-                        app:tint="#FFEB3B"
-                        android:src="@drawable/icon_generator" />
+                        android:src="@drawable/icon_generator"
+                        app:tint="#FFEB3B" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -929,15 +958,15 @@
                     <ImageView
                         android:id="@+id/GeneratorIcon"
                         android:layout_width="24dp"
-                        android:layout_height="24dp"/>
+                        android:layout_height="24dp" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/LightGray"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp" />
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/LightGray" />
 
                 <!-- Gas Service -->
                 <LinearLayout
@@ -950,8 +979,8 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:scaleType="centerCrop"
-                        app:tint="#FFEB3B"
-                        android:src="@drawable/icon_gas" />
+                        android:src="@drawable/icon_gas"
+                        app:tint="#FFEB3B" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -966,15 +995,15 @@
                     <ImageView
                         android:id="@+id/GasIcon"
                         android:layout_width="24dp"
-                        android:layout_height="24dp"/>
+                        android:layout_height="24dp" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/LightGray"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp" />
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/LightGray" />
 
 
                 <LinearLayout
@@ -986,9 +1015,9 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        app:tint="#FFEB3B"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/icon_security" />
+                        android:src="@drawable/icon_security"
+                        app:tint="#FFEB3B" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -1003,15 +1032,15 @@
                     <ImageView
                         android:id="@+id/SecurityGuardIcon"
                         android:layout_width="24dp"
-                        android:layout_height="24dp"/>
+                        android:layout_height="24dp" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/LightGray"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp" />
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/LightGray" />
 
 
                 <LinearLayout
@@ -1022,9 +1051,9 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        app:tint="#FFEB3B"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/icon_parking" />
+                        android:src="@drawable/icon_parking"
+                        app:tint="#FFEB3B" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -1039,7 +1068,7 @@
                     <ImageView
                         android:id="@+id/ParkingIcon"
                         android:layout_width="24dp"
-                        android:layout_height="24dp"/>
+                        android:layout_height="24dp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -1125,12 +1154,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="@+id/tenantsServedContainer"
                     app:layout_constraintStart_toStartOf="@+id/tenantsServedContainer"
-                    app:layout_constraintTop_toBottomOf="@+id/tenantsServedContainer"
-                    >
+                    app:layout_constraintTop_toBottomOf="@+id/tenantsServedContainer">
+
                     <TextView
                         android:id="@+id/postDatePrefix"
                         android:layout_width="wrap_content"
@@ -1139,23 +1168,19 @@
                         android:fontFamily="@font/montserrat_regular"
                         android:text="Posted on"
                         android:textColor="@color/white"
-                        android:textSize="17sp"
-                        />
+                        android:textSize="17sp" />
 
                     <TextView
                         android:id="@+id/postTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
                         android:elevation="5dp"
                         android:fontFamily="@font/montserrat_regular"
                         android:text="24 jan 3034"
-                        android:layout_marginStart="3dp"
                         android:textColor="@color/white"
-                        android:textSize="17sp"
-                        />
+                        android:textSize="17sp" />
                 </LinearLayout>
-
-
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

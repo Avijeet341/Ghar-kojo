@@ -9,7 +9,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
-import android.graphics.drawable.AnimatedStateListDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -34,8 +33,6 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.avi.gharkhojo.Adapter.MyViewPagerAdapter
 import com.avi.gharkhojo.Chat.ChatRoom
-import com.avi.gharkhojo.Fragments.HomeDetailsDirections.Companion.actionHomeDetailsToTabLayoutFragment
-import com.avi.gharkhojo.MainActivity
 import com.avi.gharkhojo.Model.Post
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentHomeDetailsBinding
@@ -168,7 +165,7 @@ class HomeDetails : Fragment() {
         // Set property type image
         post?.propertyType?.let { type ->
             val drawableRes = when (type) {
-                "House" -> R.drawable.home
+                "House" -> R.drawable.home_icon
                 "Apartment" -> R.drawable.apartment
                 "Flat" -> R.drawable.building
                 "Dormitory" -> R.drawable.dormitory

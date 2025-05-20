@@ -32,7 +32,7 @@ class Chat_Activity : AppCompatActivity() {
     private lateinit var chatUserListAdapter: ChatUserListAdapter
     private val chatUserListModel = mutableListOf<ChatUserListModel>()
     private val messageListenerMap = mutableMapOf<String, ValueEventListener>()
-    private lateinit var databaseReference: DatabaseReference
+    private var databaseReference: DatabaseReference = firebaseDatabase.reference.child("users")
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +52,6 @@ class Chat_Activity : AppCompatActivity() {
         }
 
         setupRecyclerView()
-        setupDatabaseReference()
         fetchUsers()
 
     }
@@ -66,9 +65,6 @@ class Chat_Activity : AppCompatActivity() {
         }
     }
 
-    private fun setupDatabaseReference() {
-        databaseReference = firebaseDatabase.reference.child("users")
-    }
 
     private fun fetchUsers() {
         val userListListener = object : ValueEventListener {
@@ -89,7 +85,6 @@ class Chat_Activity : AppCompatActivity() {
                         chatUserListModel.add(userData)
                         addMessageListener(chatId)
                     }
-
                 chatUserListModel.sortByDescending { it.lastMessageTimestamp ?: 0L }
                 chatUserListAdapter.notifyDataSetChanged()
             }

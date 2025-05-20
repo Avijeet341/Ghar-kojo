@@ -14,7 +14,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     private fun saveLastUsedActivity() {
-        val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences("AppPreferences", MODE_PRIVATE)
         val className = javaClass.name
         with(sharedPref.edit()) {
             putString("lastUsedActivity", className)

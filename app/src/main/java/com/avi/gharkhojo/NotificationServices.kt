@@ -35,7 +35,7 @@ class NotificationServices:Service() {
                 .apply {
                     description = "Message Notification"
                 }
-            notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(notificationChannel)
 
         }

@@ -13,6 +13,7 @@ import com.avi.gharkhojo.Adapter.UploadsAdapter
 import com.avi.gharkhojo.Model.Post
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentUploadsBinding
+import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -25,6 +26,8 @@ import com.google.firebase.storage.storage
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -74,57 +77,14 @@ class UploadsFragment : Fragment() {
 
 
         }) { post, dialog ->
-            binding.postLoading.visibility = View.VISIBLE
-            CoroutineScope(Dispatchers.IO).launch {
+
+            CoroutineScope(Dispatchers.Main).launch {
                 dialog?.dismiss()
 
-                databaseReference?.child(uid)?.get()?.addOnCompleteListener {
-                    if(it.result.exists()) {
-                        if (it.isSuccessful) {
-                            for (dataSnapshot in it.result.children) {
-                                val tempPost = dataSnapshot.getValue(Post::class.java)
-                                if (tempPost?.equals(post) == true) {
-                                    databaseReference?.child(uid)
-                                        ?.child(dataSnapshot.key.toString())?.removeValue()
-                                        ?.addOnCompleteListener {
-                                            if (it.isSuccessful) {
+                binding.postLoading.visibility = View.VISIBLE
+                deletePost(post)
+                binding.postLoading.visibility = View.GONE
 
-                                                storageReference.child(post.postTime!!)
-                                                    .delete().addOnCompleteListener {
-                                                        if(it.isSuccessful){
-                                                            Toast.makeText(
-                                                                context,
-                                                                "Post Deleted Successfully",
-                                                                Toast.LENGTH_SHORT
-                                                            ).show()
-                                                            binding.postLoading.visibility = View.GONE
-                                                            loadData(uid)
-                                                        }else{
-                                                            Toast.makeText(
-                                                                context,
-                                                                "Post Deletion Failed",
-                                                                Toast.LENGTH_SHORT
-                                                            ).show()
-                                                        }
-                                                    }
-
-                                            } else {
-                                                Toast.makeText(
-                                                    context,
-                                                    "Post Deletion Failed",
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
-                                                binding.postLoading.visibility = View.GONE
-                                            }
-                                        }
-                                    break
-                                }
-                            }
-                        }
-                    }else{
-                        binding.postLoading.visibility = View.GONE
-                    }
-                }
 
             }
         }
@@ -137,6 +97,40 @@ class UploadsFragment : Fragment() {
             fetchAndUploadData(uid)
         }
     }
+    suspend fun deletePost(post: Post) = withContext(Dispatchers.IO) {
+        try {
+            for ((key, _) in post.imageList) {
+                val folderRef = storageReference.child(post.postTime!!).child(key)
+                val listResult = folderRef.listAll().await()
+
+                for (item in listResult.items) {
+                    item.delete().await()
+                }
+            }
+
+            storageReference.child(post.postTime!!).child("coverImage").delete().await()
+
+            val userPostsSnapshot = databaseReference?.child(post.userId.toString())?.get()?.await()
+            userPostsSnapshot?.children?.forEach { snapshot ->
+                val tempPost = snapshot.getValue(Post::class.java)
+                if (tempPost == post) {
+                    databaseReference?.child(post.userId.toString())?.child(snapshot.key!!)?.removeValue()?.await()
+
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, "Post Deleted", Toast.LENGTH_SHORT).show()
+                        loadData(post.userId.toString())
+                    }
+                    return@withContext
+                }
+            }
+
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(context, "Post Deletion Failed: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
     suspend fun fetchAndUploadData(uid: String) = withContext(Dispatchers.IO) {
         try {
@@ -169,7 +163,6 @@ class UploadsFragment : Fragment() {
 
                override fun onCancelled(error: DatabaseError) {
                  binding.postLoading.visibility = View.GONE
-                   binding.noUploadLayout.visibility = View.VISIBLE
                    Toast.makeText(context, "Failed to load data: ${error.message}", Toast.LENGTH_SHORT).show()
                }
 

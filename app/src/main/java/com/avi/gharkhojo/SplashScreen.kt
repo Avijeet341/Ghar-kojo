@@ -147,7 +147,7 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun getLastUsedActivityIntent(): Intent {
-        val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences("AppPreferences", MODE_PRIVATE)
         val lastUsedActivity = sharedPref.getString("lastUsedActivity", null)
 
         return when (lastUsedActivity) {

@@ -47,7 +47,7 @@ class ProfileBottomSheet() : BottomSheetDialogFragment() {
     ): View {
         _binding = FragmentProfileBottomSheetBinding.inflate(inflater, container, false)
         binding.buttonSave.isClickable = true
-        showDetails();
+        showDetails()
         return binding.root
     }
 
@@ -120,16 +120,16 @@ class ProfileBottomSheet() : BottomSheetDialogFragment() {
 
 
                 if (profileBinding != null) {
-                  profileBinding?.textViewUsername?.setText(userDetails.username)
-                    profileBinding?.textViewPhone?.setText(userDetails.phn_no)
-                    profileBinding?.textViewPincode?.setText(userDetails.Pincode)
-                    profileBinding?.textViewHouseNo?.setText(userDetails.HouseNo)
-                    profileBinding?.textViewCity?.setText(userDetails.City)
-                    profileBinding?.textViewState?.setText(userDetails.State)
-                    profileBinding?.textViewArea?.setText(userDetails.Area)
-                    profileBinding?.textViewLandmark?.setText(userDetails.LandMark)
-                    profileBinding?.textViewColony?.setText(userDetails.colony)
-                    profileBinding?.textRoadNo?.setText(userDetails.Road_Lane)
+                    profileBinding?.textViewUsername?.text = userDetails.username
+                    profileBinding?.textViewPhone?.text = userDetails.phn_no
+                    profileBinding?.textViewPincode?.text = userDetails.Pincode
+                    profileBinding?.textViewHouseNo?.text = userDetails.HouseNo
+                    profileBinding?.textViewCity?.text = userDetails.City
+                    profileBinding?.textViewState?.text = userDetails.State
+                    profileBinding?.textViewArea?.text = userDetails.Area
+                    profileBinding?.textViewLandmark?.text = userDetails.LandMark
+                    profileBinding?.textViewColony?.text = userDetails.colony
+                    profileBinding?.textRoadNo?.text = userDetails.Road_Lane
                 }
 
                 firestore.collection("users").document(user.uid).set(userDetails)

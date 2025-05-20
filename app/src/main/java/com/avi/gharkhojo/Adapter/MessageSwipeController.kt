@@ -18,7 +18,7 @@ import com.avi.gharkhojo.Model.SwipeControllerActions
 import com.avi.gharkhojo.R
 
 class MessageSwipeController(private val context: Context, private val swipeControllerActions: SwipeControllerActions) :
-    ItemTouchHelper.Callback() {
+    Callback() {
 
     private lateinit var imageDrawable: Drawable
     private lateinit var shareRound: Drawable
@@ -37,7 +37,7 @@ class MessageSwipeController(private val context: Context, private val swipeCont
         mView = viewHolder.itemView
         imageDrawable = context.getDrawable(R.drawable.ic_reply_black_24dp)!!
         shareRound = context.getDrawable(R.drawable.ic_round_shape)!!
-        return ItemTouchHelper.Callback.makeMovementFlags(ACTION_STATE_IDLE, RIGHT)
+        return makeMovementFlags(ACTION_STATE_IDLE, RIGHT)
     }
 
     override fun onMove(

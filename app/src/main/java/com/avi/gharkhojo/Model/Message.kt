@@ -12,7 +12,7 @@ class Message
     var repliedMsgPosition:Int?=null
     var replyToId:String? = null
     var timeStamp:Long= 0
-    constructor(){}
+    constructor()
     constructor(message: String?,senderId:String?,timeStamp:Long)
     {
         this.message = message

@@ -44,7 +44,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         var r: Ringtone? = RingtoneManager.getRingtone(applicationContext,notification)
         r?.play()
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
-            r?.setLooping(false)
+            r?.isLooping = false
         }
         var pattern: LongArray = longArrayOf(100,300,300,300)
 
@@ -113,7 +113,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     }
 
     private fun isAppInForeground(context: Context): Boolean {
-        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as android.app.ActivityManager
+        val activityManager = context.getSystemService(ACTIVITY_SERVICE) as android.app.ActivityManager
         val appProcesses = activityManager.runningAppProcesses ?: return false
 
         val packageName = context.packageName

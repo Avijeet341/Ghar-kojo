@@ -41,6 +41,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import kotlin.math.abs
 import androidx.core.net.toUri
+import androidx.media3.common.util.Log
 
 class RoomPhotosFragment : Fragment() {
 
@@ -167,7 +168,7 @@ class RoomPhotosFragment : Fragment() {
             if (selectedRoomType != null) {
                 var spinner = binding.spinnerContainer.editText as AutoCompleteTextView
                 if(spinner.text.toString() == "CoverImage"){
-                    openSingleImagePicker();
+                    openSingleImagePicker()
                 }else {
                     openImagePicker()
                 }
@@ -278,8 +279,21 @@ class RoomPhotosFragment : Fragment() {
                 }
             }
             async {
-                storageReference.child(post.postTime.toString()).child("coverImage").putFile(post.coverImage?.toUri()
-                    ?: "".toUri()).await()
+                val context = requireContext() // or activity reference
+                val uri = post.coverImage?.toUri()
+
+                if (uri != null) {
+                    val inputStream = context.contentResolver.openInputStream(uri)
+                    if (inputStream != null) {
+                        val storageRef = storageReference.child(post.postTime.toString()).child("coverImage")
+                        storageRef.putStream(inputStream).await()
+                    } else {
+                        Log.e("UploadError", "Failed to open input stream for URI: $uri")
+                    }
+                } else {
+                    Log.e("UploadError", "Cover image URI is null")
+                }
+
             }.await()
 
             uploadTasks.awaitAll()

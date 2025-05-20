@@ -12,7 +12,6 @@ import com.avi.gharkhojo.databinding.DeleteDialogBinding
 import com.avi.gharkhojo.databinding.OwnerUploadsItemBinding
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.NonDisposableHandle.parent
 
 class UploadsAdapter(private val onItemClick: (Post) -> Unit,private val onDelete: (Post,dialog:Dialog?) -> Unit) :
     RecyclerView.Adapter<UploadsAdapter.UploadViewHolder>() {
@@ -48,7 +47,7 @@ class UploadsAdapter(private val onItemClick: (Post) -> Unit,private val onDelet
         fun bind(post: Post) {
             Glide.with(binding.root.context)
                 .load(post.coverImage.orEmpty())
-                .error(R.drawable.home)
+                .error(R.drawable.home_icon)
                 .into(binding.houseImage)
 
             binding.houseTitle.text = post.propertyType.orEmpty()

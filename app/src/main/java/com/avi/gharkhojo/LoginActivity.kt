@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun startLoginBgAnimation() {
-        val animationDrawable = (loginBinding.LoginBgLayout.background as AnimationDrawable).apply {
+        (loginBinding.LoginBgLayout.background as AnimationDrawable).apply {
             setEnterFadeDuration(1000)
             setExitFadeDuration(2000)
             start()

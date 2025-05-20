@@ -68,6 +68,9 @@ class OwnerProfileFragment : Fragment() {
 
         databaseReference.child("users").addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
+                if(_binding==null){
+                    return
+                }
                 for(dataSnapshot in snapshot.children){
                     val userData = dataSnapshot.getValue(ChatUserListModel::class.java)
                     if(userData?.userId == otherId){

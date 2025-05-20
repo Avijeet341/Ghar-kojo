@@ -48,7 +48,7 @@ class SendNotification(
             mainObj.put("message", messageObject)
 
             val request = object : JsonObjectRequest(
-                Request.Method.POST, NotificationConstant.POST_URL.value, mainObj,
+                Method.POST, NotificationConstant.POST_URL.value, mainObj,
                 Response.Listener { response ->
                     Log.d("SendNotification", "Success: $response")
                 },

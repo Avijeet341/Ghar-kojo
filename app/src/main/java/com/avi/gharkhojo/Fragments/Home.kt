@@ -29,7 +29,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.avi.gharkhojo.Adapter.GridAdapter
 import com.avi.gharkhojo.Adapter.HousingTypeAdapter
 import com.avi.gharkhojo.Model.DataSharing
@@ -69,7 +68,7 @@ class Home : Fragment() {
     private val dataSharing: DataSharing by activityViewModels()
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private var areasList:ArrayList<String> = ArrayList();
+    private var areasList:ArrayList<String> = ArrayList()
     private lateinit var filterAnimation: Animation
     private var filterPost: Post? = null
     private var mutableList: MutableList<Post> = mutableListOf()
@@ -339,7 +338,7 @@ class Home : Fragment() {
         )
         val housingTypes = listOf(
             HousingType(R.drawable.ic_baseline_add_24, "Add Property"),
-            HousingType(R.drawable.home, "House"),
+            HousingType(R.drawable.home_icon, "House"),
             HousingType(R.drawable.apartment, "Apartment"),
             HousingType(R.drawable.building, "Flat"),
             HousingType(R.drawable.dormitory, "Dormitory"),

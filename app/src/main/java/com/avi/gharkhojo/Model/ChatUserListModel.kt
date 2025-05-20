@@ -9,8 +9,8 @@ package com.avi.gharkhojo.Model
      var userEmail:String? = null
      constructor(username:String?,userImage: String?,userId:String?,userEmail:String?):this()
     {
-        this.username=username;
-        this.userimage=userImage;
+        this.username=username
+        this.userimage=userImage
         this.userId = userId
         this.userEmail = userEmail
     }

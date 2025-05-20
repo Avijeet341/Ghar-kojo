@@ -30,8 +30,8 @@ class ImageFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_image, container, false)
 
         // Load images based on title and image count
-        val title = arguments?.getString(ARG_TITLE)
-        val imageCount = arguments?.getInt(ARG_IMAGE_COUNT)
+        arguments?.getString(ARG_TITLE)
+        arguments?.getInt(ARG_IMAGE_COUNT)
 
         // Load your images into the layout
 

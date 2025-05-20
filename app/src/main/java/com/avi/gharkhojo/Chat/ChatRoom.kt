@@ -314,15 +314,15 @@ class ChatRoom : AppCompatActivity() {
 
 
     private fun checkPermission(): Boolean {
-        val camera = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
-        val storage = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        val camera = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+        val storage = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
         return camera == PackageManager.PERMISSION_GRANTED && storage == PackageManager.PERMISSION_GRANTED
     }
 
     private fun requestPermission() {
         ActivityCompat.requestPermissions(
             this@ChatRoom,
-            arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.READ_EXTERNAL_STORAGE),
+            arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE),
             100
         )
     }
@@ -471,7 +471,7 @@ class ChatRoom : AppCompatActivity() {
 
     private fun showQuotedMessage(message: Message) {
         chatBinding.inputMsg.requestFocus()
-        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager?.showSoftInput(chatBinding.inputMsg, InputMethodManager.SHOW_IMPLICIT)
         chatBinding.txtQuotedMsg.text = message.message
         if(message.senderId!=firebaseUser!!.uid) {
