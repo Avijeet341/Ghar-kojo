@@ -5,36 +5,49 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#196690"
     tools:context=".SplashScreen">
 
-    <VideoView
-        android:id="@+id/videoViewSplash"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_animation"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:lottie_rawRes="@raw/splash_screen_animation"
+        app:lottie_loop="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-        <!-- Semi-transparent overlay for darkening the video -->
-        <View
-            android:id="@+id/overlay"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="#80000000"
         app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true" />
+
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginBottom="48dp"
+        android:elevation="12dp"
+        android:padding="8dp"
+        android:text="Find Your "
+        android:textColor="#2DDFF8"
+        android:textSize="@dimen/_14ssp"
+        android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <!-- Logo Image -->
-        <ImageView android:id="@+id/logoImageView"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:src="@drawable/ghar" android:contentDescription="@string/app_name"
-        app:layout_constraintTop_toTopOf="parent"
+    <TextView
+        android:id="@+id/aashiyana"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="44dp"
+        android:textColor="@color/gold"
+        android:textSize="@dimen/_24sdp"
+        android:textStyle="bold"
+        android:stateListAnimator="@anim/fade_in"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView13" />
 </androidx.constraintlayout.widget.ConstraintLayout>

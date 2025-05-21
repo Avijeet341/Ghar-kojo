@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.StrictMode
 import android.util.Log
 import android.view.WindowManager
@@ -16,6 +18,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.avi.gharkhojo.Chat.ChatRoom
 import com.avi.gharkhojo.Model.UserSignupLoginManager
+import com.avi.gharkhojo.databinding.ActivitySplashScreenBinding
 import com.avi.gharkhojo.notifications.MyFirebaseMessagingService
 import com.avi.gharkhojo.notifications.NotificationConstant
 import com.google.firebase.auth.FirebaseAuth
@@ -33,12 +36,15 @@ class SplashScreen : AppCompatActivity() {
 
     private val firebaseUser: FirebaseUser? by lazy { FirebaseAuth.getInstance().currentUser }
 
+    var _binding: ActivitySplashScreenBinding? = null
+    val binding get() = _binding!!
 
     @OptIn(UnstableApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_splash_screen)
+        _binding = ActivitySplashScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setupStatusBar()
         setupEdgeToEdge()
@@ -76,6 +82,26 @@ class SplashScreen : AppCompatActivity() {
         // for notification:
         var policy: StrictMode.ThreadPolicy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
+
+        binding.aashiyana.text = ""
+        var text = "Aashiyana"
+        var index = 0
+        val handler = Handler(Looper.getMainLooper())
+
+        val runnable = object : Runnable {
+            override fun run() {
+                if (index < text.length) {
+                    binding.aashiyana.append(text[index].toString())
+                    index++
+                    handler.postDelayed(this, 150)
+                } else {
+                    index = 0
+                    binding.aashiyana.text = ""
+                    handler.postDelayed(this, 150)
+                }
+            }
+        }
+        handler.post(runnable)
     }
 
     private fun setupStatusBar() {
@@ -94,12 +120,6 @@ class SplashScreen : AppCompatActivity() {
         }
     }
 
-    private fun setupVideoView() {
-        val videoView = findViewById<VideoView>(R.id.videoViewSplash)
-        val videoUri = Uri.parse("android.resource://$packageName/${R.raw.splash_video}")
-        videoView.setVideoURI(videoUri)
-        videoView.setOnPreparedListener { it.start() }
-    }
 
     private suspend fun reloadUser(user: FirebaseUser) {
         withContext(Dispatchers.IO) { user.reload().await() }
