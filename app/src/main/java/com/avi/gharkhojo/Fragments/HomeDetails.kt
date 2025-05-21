@@ -33,6 +33,7 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.avi.gharkhojo.Adapter.MyViewPagerAdapter
 import com.avi.gharkhojo.Chat.ChatRoom
+import com.avi.gharkhojo.Model.ChatUserListModel
 import com.avi.gharkhojo.Model.Post
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentHomeDetailsBinding
@@ -100,6 +101,9 @@ class HomeDetails : Fragment() {
     private val databaseReference: DatabaseReference? by lazy {
         FirebaseDatabase.getInstance().reference.child("BookMark")
             .child("${FirebaseAuth.getInstance().currentUser?.uid}")
+    }
+    private val databaseUserReference: DatabaseReference? by lazy {
+        FirebaseDatabase.getInstance().reference.child("users")
     }
 
     private var post: Post? = null
@@ -185,9 +189,31 @@ class HomeDetails : Fragment() {
 
 
 
-        Glide.with(requireContext()).load(post?.ownerImage)
-            .placeholder(R.drawable.vk)
-            .into(binding.profileImage)
+        databaseUserReference?.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    if(_binding==null){
+                        return
+                    }
+                    for(dataSnapshot in snapshot.children){
+                        val user = dataSnapshot.getValue(ChatUserListModel::class.java)
+                        if(user?.userId == post?.userId){
+                            Glide.with(requireContext()).load(user?.userimage)
+                                .placeholder(R.drawable.baseline_person_24)
+                                .error(R.drawable.baseline_person_24)
+                                .into(binding.profileImage)
+                            break
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
 
         binding.mapButton.setOnClickListener {
             navigateToGoogleMaps(post?.latitude ?: 0.0, post?.longitude ?: 0.0)

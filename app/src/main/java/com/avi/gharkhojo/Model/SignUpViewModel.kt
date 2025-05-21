@@ -13,6 +13,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class SignUpViewModel : ViewModel() {
 
@@ -76,17 +81,43 @@ class SignUpViewModel : ViewModel() {
         var userId:String? = FirebaseAuth.getInstance().currentUser?.uid
 
         UserData.username = name
-        databaseReference.child("users").push().setValue(ChatUserListModel(userName,profilePic,userId,FirebaseAuth.getInstance().currentUser?.email))
-        if (userId != null) {
-            val userData = mapOf(
-                "username" to userName,
-                "address" to "",
-                "phn_no" to ""
-            )
-            firestore.collection("users").document(userId).set(userData)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            if(!isUserExist()){
+                databaseReference.child("users").push().setValue(ChatUserListModel(userName,profilePic,userId,FirebaseAuth.getInstance().currentUser?.email)).await()
+                if (userId != null) {
+                    val userData = mapOf(
+                        "username" to userName,
+                        "address" to "",
+                        "phn_no" to ""
+                    )
+                    firestore.collection("users").document(userId).set(userData).await()
+                }
+            }
+
         }
 
 
+
+    }
+    private suspend fun isUserExist(): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
+                val snapshot = databaseReference.child("users").get().await()
+                var isExist = false
+                for (child in snapshot.children) {
+                    val userEmail = child.child("userEmail").getValue(String::class.java)
+                    val userId = child.child("userId").getValue(String::class.java)
+                    if (userEmail == firebaseAuth.currentUser?.email || userId == firebaseAuth.currentUser?.uid) {
+                        isExist = true
+                        break
+                    }
+                }
+                isExist
+            } catch (e: Exception) {
+                false
+            }
+        }
     }
 
     sealed class SignUpState {

@@ -12,6 +12,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -96,20 +97,25 @@ class LoginViewModel : ViewModel() {
             val userName = FirebaseAuth.getInstance().currentUser?.displayName.toString()
             val userId = FirebaseAuth.getInstance().currentUser?.uid
 
-            databaseReference.child("users").push().setValue(ChatUserListModel(userName, profilePic, userId, FirebaseAuth.getInstance().currentUser?.email))
-            if (userId != null) {
-                val userData = mapOf(
-                    "name" to userName,
-                    "address" to "",
-                    "phone" to ""
-                )
-                Toast.makeText(context, "Welcome $userName", Toast.LENGTH_SHORT).show()
-                FirebaseFirestore.getInstance().collection("users").document(userId).set(userData).await()
-                async {
-                    UserSignupLoginManager.getInstance(context).setUp()
-                }.await()
-                _loginState.postValue(LoginState.Success(UserData))
-            }
+                databaseReference.child("users").push()
+                    .setValue(ChatUserListModel(userName, profilePic, userId, FirebaseAuth.getInstance().currentUser?.email))
+                    .await()
+                if (userId != null) {
+                    val userData = mapOf(
+                        "name" to userName,
+                        "address" to "",
+                        "phone" to ""
+                    )
+                    Toast.makeText(context, "Welcome $userName", Toast.LENGTH_SHORT).show()
+                    FirebaseFirestore.getInstance().collection("users").document(userId).set(userData).await()
+                    async {
+                        UserSignupLoginManager.getInstance(context).setUp()
+                    }.await()
+                    _loginState.postValue(LoginState.Success(UserData))
+                }
+
+
+
         }
     }
 

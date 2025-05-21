@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.media3.common.util.Log
 import androidx.navigation.fragment.findNavController
 import com.avi.gharkhojo.Fragments.HomeDirections
 import com.avi.gharkhojo.Fragments.Profile
@@ -27,6 +28,10 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class OwnerProfileFragment : Fragment() {
 
@@ -53,17 +58,65 @@ class OwnerProfileFragment : Fragment() {
         val bottomNav = activity?.findViewById<ChipNavigationBar>(R.id.bottom_nav_bar)
         if((!otherId.isNullOrEmpty()) && otherId != firebaseUser?.uid){
             loadOtherUserProfile(otherId!!)
-            binding.editProfileButton.visibility = View.GONE
+            binding.followBtn.visibility = View.VISIBLE
+            binding.msgBtn.visibility = View.VISIBLE
             bottomNav?.visibility = View.GONE
+            setUpFollowInfo(otherId.toString())
         }else{
-            binding.editProfileButton.visibility = View.VISIBLE
+            binding.followBtn.visibility = View.GONE
+            binding.msgBtn.visibility = View.GONE
             bottomNav?.visibility = View.VISIBLE
             bottomNav?.setItemSelected(R.id.nav_profile, true)
             setupProfileInfo(firebaseUser!!.uid)
+            setUpFollowInfo(firebaseUser.uid)
+
         }
 
         setupButtons()
     }
+
+    private fun setUpFollowInfo(uid: String) {
+        CoroutineScope(Dispatchers.Main).launch{
+            databaseReference.child("users")
+                .addValueEventListener(object : ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (_binding == null) {
+                            return
+                        }
+                        if (snapshot.exists()) {
+                            var isAvailable: Boolean = false
+                            for (dataSnapshot in snapshot.children) {
+                                val userData = dataSnapshot.getValue(ChatUserListModel::class.java)
+                                if (userData?.userId == uid) {
+                                    var count: Long = 0
+                                    if(dataSnapshot.hasChild("followers"))
+                                    {
+                                        count = dataSnapshot.child("followers").childrenCount
+                                        isAvailable = dataSnapshot.child("followers").children.any { it.value == firebaseUser?.uid }
+                                    }
+                                    binding.followersCount.text = count.toString()
+                                    break
+                                }
+
+                            }
+                            if (isAvailable) {
+                                binding.followBtn.text = "Unfollow"
+                            } else {
+                                binding.followBtn.text = "Follow"
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
+                    }
+
+                })
+        }
+
+
+    }
+
     private fun loadOtherUserProfile(otherId: String) {
 
         databaseReference.child("users").addListenerForSingleValueEvent(object: ValueEventListener{
@@ -80,12 +133,17 @@ class OwnerProfileFragment : Fragment() {
                         binding.textViewEmail.text = userData.userEmail
                         Glide.with(this@OwnerProfileFragment)
                             .load(userData.userimage)
-                            .placeholder(R.drawable.india)
-                            .error(R.drawable.background2)
+                            .placeholder(R.drawable.baseline_person_24)
+                            .error(R.drawable.baseline_person_24)
                             .centerCrop()
+                            .into(binding.profileImage)
 
                         UserCollection.document(otherId).get().addOnSuccessListener {
                             if(it.exists()) {
+                                if(_binding == null || it == null){
+                                    return@addOnSuccessListener
+                                }
+
                                 val userDetails = it.toObject(UserDetails::class.java)
                                 binding.textViewPhone.text = userDetails?.phn_no
                                 binding.textRoadNo.text = userDetails?.Road_Lane
@@ -184,11 +242,50 @@ class OwnerProfileFragment : Fragment() {
     }
 
     private fun setupButtons() {
-        binding.editProfileButton.setOnClickListener {
+        binding.followBtn.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                binding.followBtn.isEnabled = false
+                databaseReference.child("users")
+                    .get().addOnCompleteListener { task ->
+                        if (task.isSuccessful && task.result.exists()) {
+                            for (dataSnapshot in task.result.children) {
+                                val chatUserList = dataSnapshot.getValue(ChatUserListModel::class.java)
+                                if (chatUserList?.userId == otherId) {
+
+                                    val followers = chatUserList?.followers?.toMutableList() ?: mutableListOf()
+
+                                    val currentUserId = firebaseUser?.uid ?: return@addOnCompleteListener
+
+                                    if (followers.contains(currentUserId)) {
+                                        followers.remove(currentUserId)
+                                        dataSnapshot.ref.child("followers").setValue(followers)
+                                            .addOnSuccessListener {
+                                                binding.followBtn.text = "Follow"
+                                                binding.followBtn.isEnabled = true
+
+                                            }
+                                    } else {
+                                        followers.add(currentUserId)
+                                        dataSnapshot.ref.child("followers").setValue(followers)
+                                            .addOnSuccessListener {
+                                                binding.followBtn.text = "Unfollow"
+                                                binding.followBtn.isEnabled = true
+
+                                            }
+                                    }
+
+                                    break
+                                }
+                            }
+                        }
+                    }.await()
+                binding.followBtn.isEnabled = true
+            }
 
         }
 
-        binding.shareProfileButton.setOnClickListener {
+
+        binding.msgBtn.setOnClickListener {
 
         }
         binding.posts.setOnClickListener {
