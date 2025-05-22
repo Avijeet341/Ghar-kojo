@@ -85,7 +85,7 @@ class ChatRoom : AppCompatActivity() {
     }
 
     private lateinit var chatAdapter: MessageAdapter
-    private lateinit var chatBinding: ActivityChatRoomBinding
+     lateinit var chatBinding: ActivityChatRoomBinding
     private var messages: ArrayList<Message> = ArrayList()
     var firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
     var databaseReference: DatabaseReference = firebaseDatabase.reference
@@ -190,7 +190,7 @@ class ChatRoom : AppCompatActivity() {
                 }
             })
 
-        chatAdapter = MessageAdapter(this, messages, senderRoom, receiverRoom,chatBinding.name.text.toString(),object:MessageAdapter.ScrollTo{
+        chatAdapter = MessageAdapter(this,this, messages, senderRoom, receiverRoom,chatBinding.name.text.toString(),object:MessageAdapter.ScrollTo{
             override fun ScrollToRepliedMessage(position: Int) {
                 recyclerView.scrollToPosition(position)
             }

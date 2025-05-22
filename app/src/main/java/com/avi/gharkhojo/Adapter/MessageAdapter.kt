@@ -1,11 +1,16 @@
 package com.avi.gharkhojo.Adapter
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.avi.gharkhojo.Chat.ChatRoom
@@ -15,23 +20,20 @@ import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.DeleteLayoutBinding
 import com.avi.gharkhojo.databinding.ReceiverMsgBinding
 import com.avi.gharkhojo.databinding.SenderMsgBinding
-import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import jp.wasabeef.blurry.Blurry
 import kotlinx.coroutines.Runnable
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 class MessageAdapter(
     var context:Context,
+    var chatRoom: ChatRoom,
     messages:ArrayList<Message>?,
     senderRoom:String?,
     receiverRoom:String?,
@@ -98,6 +100,8 @@ class MessageAdapter(
         val message = messages[position]
 
 
+
+
         if (holder.javaClass == SentMsgHolder::class.java) {
             val viewHolder = holder as SentMsgHolder
             viewHolder.binding.replyLayout.visibility = View.GONE
@@ -126,10 +130,12 @@ class MessageAdapter(
                     }
                 })
 
-//                Glide.with(context)
-//                    .load(message.imageUrl)
-//                    .placeholder(R.drawable.image_placeholder)
-//                    .into(viewHolder.binding.image)
+                viewHolder.binding.photos.setOnClickListener {
+                   showImageDialog(messages[position].imageUrl?.values?.toList()?:listOf(),viewHolder,position)
+
+                }
+
+
             }
 
                 viewHolder.binding.senderTextMsg.text = message.message
@@ -349,11 +355,11 @@ class MessageAdapter(
                         }
                     }
                 })
-//                Glide.with(context)
-//                    .load(message.imageUrl)
-//                    .placeholder(R.drawable.image_placeholder)
-//                    .into(viewHolder.binding.photos)
 
+                viewHolder.binding.photos.setOnClickListener {
+                    showImageDialog(messages[position].imageUrl?.values?.toList()?:listOf(),viewHolder,position)
+
+                }
 
             }
 
@@ -443,6 +449,63 @@ class MessageAdapter(
                 false
             }
         }
+    }
+
+    private fun showImageDialog(url: List<String>, holder: Any, position: Int) {
+        val backdropView = View(context).apply {
+            layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            setBackgroundColor(Color.parseColor("#59000000"))  // Semi-transparent black
+        }
+
+        var blurTarget: ViewGroup = chatRoom.window.decorView.findViewById<View>(android.R.id.content) as ViewGroup
+        Blurry.with(context)
+            .color(Color.parseColor("#15FFFFFF"))
+            .radius(5)
+            .sampling(3)
+            .async()
+            .animate(500)
+            .onto(blurTarget)
+        val rootView = chatRoom.chatBinding.root as ViewGroup
+        rootView.addView(backdropView)
+
+        var view = LayoutInflater.from(context).inflate(R.layout.chat_img_viewer,null)
+        var dialog: Dialog = AlertDialog.Builder(context)
+            .setView(view)
+            .setCancelable(true)
+            .create()
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setContentView(view)
+        dialog.setCancelable(true)
+        dialog.setCanceledOnTouchOutside(false)
+
+        dialog.window?.apply {
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            attributes.windowAnimations = R.style.DialogAnimation
+            setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        }
+
+        var viewPager2 =  view.findViewById<ViewPager2>(R.id.viewPager2)
+        viewPager2.setPageTransformer(AndroidUtils.getTransformation())
+        viewPager2.adapter = PhotoAdapter(url)
+        dialog.show()
+        dialog.setOnCancelListener {
+
+            Blurry.delete(blurTarget)
+            rootView.removeView(backdropView)
+            dialog.dismiss()
+        }
+        chatRoom.onBackPressedDispatcher.addCallback(object: OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                if(dialog.isShowing){
+                    Blurry.delete(blurTarget)
+                    rootView.removeView(backdropView)
+                    dialog.dismiss()
+                }else{
+                    chatRoom.finishAffinity()
+                }
+            }
+
+        })
     }
 
     private fun formatDate(timestamp: Long): String {
