@@ -1,10 +1,15 @@
 package com.avi.gharkhojo.Adapter
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.avi.gharkhojo.Chat.ChatRoom
+import com.avi.gharkhojo.Model.AndroidUtils
 import com.avi.gharkhojo.Model.Message
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.DeleteLayoutBinding
@@ -16,6 +21,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Runnable
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -73,6 +83,17 @@ class MessageAdapter(
 
     override fun getItemCount(): Int = messages.size
 
+    private fun autoSlider(viewPager2: ViewPager2,imgList: List<String>, handler: Handler): Runnable{
+        return object : Runnable{
+            override fun run() {
+                var currentItem = viewPager2.currentItem
+                var nextItem = (currentItem + 1) % imgList.size
+                viewPager2.currentItem = nextItem
+                handler.postDelayed(this,3000)
+            }
+
+        }
+    }
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val message = messages[position]
 
@@ -80,18 +101,35 @@ class MessageAdapter(
         if (holder.javaClass == SentMsgHolder::class.java) {
             val viewHolder = holder as SentMsgHolder
             viewHolder.binding.replyLayout.visibility = View.GONE
-            viewHolder.binding.image.visibility = View.GONE
+            viewHolder.binding.photos.visibility = View.GONE
             viewHolder.binding.mLinear.visibility = View.VISIBLE
             viewHolder.binding.senderTextMsg.visibility = View.VISIBLE
 
             if (message.isImage) {
-                viewHolder.binding.image.visibility = View.VISIBLE
+                viewHolder.binding.imgCounter.visibility = View.VISIBLE
+                viewHolder.binding.imgCounter.text = ""
+                viewHolder.binding.photos.visibility = View.VISIBLE
                 viewHolder.binding.mLinear.visibility = View.GONE
                 viewHolder.binding.senderTextMsg.visibility = View.GONE
-                Glide.with(context)
-                    .load(message.imageUrl)
-                    .placeholder(R.drawable.image_placeholder)
-                    .into(viewHolder.binding.image)
+                var photoAdapter = PhotoAdapter(message.imageUrl?.values?.toList()?:listOf())
+                viewHolder.binding.photoViewPager.adapter = photoAdapter
+                viewHolder.binding.photoViewPager.setPageTransformer(AndroidUtils.getTransformation())
+                var handler: Handler = Handler(Looper.getMainLooper())
+                handler.post(autoSlider(viewHolder.binding.photoViewPager,message.imageUrl?.values?.toList()?:listOf(),handler))
+                viewHolder.binding.photoViewPager.registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
+                    override fun onPageSelected(pos: Int) {
+                        if(photoAdapter.itemCount == 1){
+                            viewHolder.binding.imgCounter.visibility = View.GONE
+                        }else{
+                            viewHolder.binding.imgCounter.text = "${pos+1}/${photoAdapter.itemCount}"
+                        }
+                    }
+                })
+
+//                Glide.with(context)
+//                    .load(message.imageUrl)
+//                    .placeholder(R.drawable.image_placeholder)
+//                    .into(viewHolder.binding.image)
             }
 
                 viewHolder.binding.senderTextMsg.text = message.message
@@ -143,11 +181,10 @@ class MessageAdapter(
 
                     if(message.messageId!=null) {
                         Tasks.whenAllComplete(senderMsgDel, receiverMsgDel).addOnSuccessListener {
-                          message.img_id?.let {
-                                storageRef.child("chats").child(it).delete().addOnSuccessListener {
-
-                                }
-                            }
+                                    ChatRoom.DeleteFolders.deleteFolder(FirebaseStorage.getInstance().reference.child("chats").child(senderRoom.toString())
+                                        .child(message.timeStamp.toString()))
+                                    ChatRoom.DeleteFolders.deleteFolder(FirebaseStorage.getInstance().reference.child("chats").child(receiverRoom.toString())
+                                        .child(message.timeStamp.toString()))
 
                         }
 
@@ -230,9 +267,10 @@ class MessageAdapter(
 
                     if(message.messageId!=null) {
                         Tasks.whenAllComplete(senderMsgDel).addOnSuccessListener {
-                            message.img_id?.let {
-                                storageRef.child("chats").child(it).delete()
-                            }
+                                    ChatRoom.DeleteFolders.deleteFolder(FirebaseStorage.getInstance().reference.child("chats").child(senderRoom.toString())
+                                        .child(message.timeStamp.toString()))
+
+
                         }
 
                     }
@@ -285,18 +323,36 @@ class MessageAdapter(
             val viewHolder = holder as ReceiveMsgHolder
 
             viewHolder.binding.replyLayout.visibility = View.GONE
-            viewHolder.binding.image.visibility = View.GONE
+            viewHolder.binding.photos.visibility = View.GONE
             viewHolder.binding.mLinear.visibility = View.VISIBLE
             viewHolder.binding.receiverTxtMsg.visibility = View.VISIBLE
 
             if (message.isImage) {
-                viewHolder.binding.image.visibility = View.VISIBLE
+                viewHolder.binding.imgCounter.visibility = View.VISIBLE
+                viewHolder.binding.imgCounter.text = ""
+                viewHolder.binding.photos.visibility = View.VISIBLE
                 viewHolder.binding.mLinear.visibility = View.GONE
                 viewHolder.binding.receiverTxtMsg.visibility = View.GONE
-                Glide.with(context)
-                    .load(message.imageUrl)
-                    .placeholder(R.drawable.image_placeholder)
-                    .into(viewHolder.binding.image)
+
+                var photoAdapter = PhotoAdapter(message.imageUrl?.values?.toList()?:listOf())
+                viewHolder.binding.photoViewPager.adapter = photoAdapter
+                viewHolder.binding.photoViewPager.setPageTransformer(AndroidUtils.getTransformation())
+                var handler: Handler = Handler(Looper.getMainLooper())
+                handler.post(autoSlider(viewHolder.binding.photoViewPager,message.imageUrl?.values?.toList()?:listOf(),handler))
+                viewHolder.binding.photoViewPager.registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
+                    override fun onPageSelected(pos: Int) {
+                        if(photoAdapter.itemCount == 1){
+                            viewHolder.binding.imgCounter.visibility = View.GONE
+                        }else{
+                            viewHolder.binding.imgCounter.text = "${pos+1}/${photoAdapter.itemCount}"
+
+                        }
+                    }
+                })
+//                Glide.with(context)
+//                    .load(message.imageUrl)
+//                    .placeholder(R.drawable.image_placeholder)
+//                    .into(viewHolder.binding.photos)
 
 
             }
@@ -339,9 +395,9 @@ class MessageAdapter(
 
                     if(message.messageId!=null){
                         Tasks.whenAllComplete(senderMsgDel).addOnSuccessListener {
-                            message.img_id?.let {
-                                storageRef.child("chats").child(it).delete()
-                            }
+                                   ChatRoom.DeleteFolders.deleteFolder(FirebaseStorage.getInstance().reference.child("chats").child(senderRoom.toString())
+                                       .child(message.timeStamp.toString()))
+
                         }
                     }
 

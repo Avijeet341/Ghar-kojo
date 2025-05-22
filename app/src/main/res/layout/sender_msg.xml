@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="right"
     android:orientation="vertical"
     android:paddingBottom="5dp"
     android:paddingRight="10dp"
-    android:paddingTop="5dp" >
+    android:paddingTop="5dp">
 
 
     <TextView
@@ -91,12 +92,38 @@
 
     </RelativeLayout>
 
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="130dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/photos"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
         android:visibility="gone"
-        android:src="@drawable/image_placeholder"
-        android:layout_margin="5dp"
-        android:scaleType="centerCrop"
-        android:id="@+id/image"/>
+        android:layout_marginStart="12dp">
+
+        <TextView
+            android:id="@+id/imgCounter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="0/0"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp"
+            android:elevation="13dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/photoViewPager" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/photoViewPager"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/viewpager_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>

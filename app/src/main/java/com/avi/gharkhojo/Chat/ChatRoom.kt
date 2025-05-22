@@ -2,15 +2,9 @@ package com.avi.gharkhojo.Chat
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.ProgressDialog
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.media.Ringtone
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -28,13 +22,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationChannelCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.graphics.drawable.IconCompat
-import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -62,8 +51,16 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import androidx.core.view.isVisible
+import com.avi.gharkhojo.Model.ChatUserListModel
 import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.notifications.SendNotification
+import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import java.lang.Thread.sleep
 
 class ChatRoom : AppCompatActivity() {
 
@@ -149,8 +146,29 @@ class ChatRoom : AppCompatActivity() {
         Log.d("data", "name: ${name.toString()}")
         Log.d("data", "image: ${img.toString()}")
 
-        Glide.with(this).load(img).placeholder(R.drawable.baseline_person_24).into(chatBinding.profileImage)
-        chatBinding.name.text = name
+        databaseReference.child("users").addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    for(data in snapshot.children){
+                        var user = data.getValue(ChatUserListModel::class.java)
+                        if(user?.userId == receiverUid){
+                            Glide.with(this@ChatRoom).load(user?.userimage).placeholder(R.drawable.baseline_person_24)
+                                .error(R.drawable.baseline_person_24).into(chatBinding.profileImage)
+
+                            chatBinding.name.text = user?.username
+                            break
+                        }
+
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
 
         databaseReference.child("Presence").child(receiverRoom!!).child(receiverUid!!)
             .addValueEventListener(object : ValueEventListener {
@@ -172,7 +190,7 @@ class ChatRoom : AppCompatActivity() {
                 }
             })
 
-        chatAdapter = MessageAdapter(this, messages, senderRoom, receiverRoom,name,object:MessageAdapter.ScrollTo{
+        chatAdapter = MessageAdapter(this, messages, senderRoom, receiverRoom,chatBinding.name.text.toString(),object:MessageAdapter.ScrollTo{
             override fun ScrollToRepliedMessage(position: Int) {
                 recyclerView.scrollToPosition(position)
             }
@@ -268,6 +286,7 @@ class ChatRoom : AppCompatActivity() {
                 val intent = Intent()
                 intent.action = Intent.ACTION_GET_CONTENT
                 intent.type = "image/*"
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                 startActivityForResult(intent, 1)
             }
             chatBinding.camera.setOnClickListener {
@@ -369,8 +388,15 @@ class ChatRoom : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            val selectedImage: Uri? = data.data
-            uploadImage(selectedImage)
+            val totalImages = data.clipData?.itemCount
+            val selectedImage: MutableList<Uri>? = mutableListOf()
+            if(selectedImage!=null && totalImages!=null && totalImages>=1){
+                for(i in 0 until totalImages){
+                    selectedImage.add(data.clipData!!.getItemAt(i).uri)
+                }
+                uploadImage(selectedImage)
+            }
+
         } else if (requestCode == 2 && resultCode == RESULT_OK) {
             val file = File(currentPhotoPath)
             val selectedImage = FileProvider.getUriForFile(
@@ -378,35 +404,51 @@ class ChatRoom : AppCompatActivity() {
                 "com.avi.gharkhojo.fileprovider",
                 file
             )
-            uploadImage(selectedImage)
+            var imageUri = mutableListOf<Uri>(selectedImage)
+            uploadImage(imageUri)
         }
     }
 
-    private fun uploadImage(selectedImage: Uri?) {
+    private fun uploadImage(selectedImage: MutableList<Uri>?) {
         selectedImage?.let {
-            val calendar = Calendar.getInstance()
-            val imgId = calendar.timeInMillis.toString()
-            val ref = storage!!.reference.child("chats").child(imgId)
-            dialog?.show()
-            ref.putFile(it).addOnCompleteListener { task ->
-                dialog?.dismiss()
-                if (task.isSuccessful) {
-                    ref.downloadUrl.addOnSuccessListener { uri ->
-                        val filePath = uri.toString()
-                        val date = Date()
-                        val message = Message(null, firebaseUser!!.uid, date.time).apply {
-                            imageUrl = filePath
-                            this.message = "photos"
-                            isImage = true
-                            img_id = imgId
+            var imageUriMapping: MutableMap<String, Uri> = mutableMapOf()
+            var imageUrlMapping: MutableMap<String, String> = mutableMapOf()
+            Log.d("uri",it.size.toString())
+            it.forEachIndexed {index, uri->
+                val imgId = "img_${System.currentTimeMillis()}_${index}"
+                Log.d("imgId",imgId)
+                imageUriMapping[imgId] = uri
+            }
+            Log.d("uri map",imageUriMapping.values.size.toString())
+            CoroutineScope(Dispatchers.Main).launch {
+                dialog?.show()
+                val date = Date()
+                val message = Message("photos", firebaseUser!!.uid, date.time).apply {
+                    imageUrl = imageUrlMapping
+                    this.message = "photos"
+                    isImage = true
 
-                        }
+                }
+              var result: Boolean =   async {
+                    var ref = storage!!.reference.child("chats").child(senderRoom!!)
+                        .child(message.timeStamp.toString())
+                    for ((imgId, uri) in imageUriMapping) {
+                        val filePath = createImageUrl(ref,imgId,uri)
+                        imageUrlMapping[imgId] = filePath.toString()
+                    }
+                  Log.d("urls",imageUriMapping.values.toString())
+
+                  imageUrlMapping.values.size == imageUriMapping.values.size
+                }.await()
+                if(result){
+                    Log.d("result",result.toString())
+                    async {
                         chatBinding.inputMsg.setText("")
                         val randomKey = databaseReference.push().key
                         val lastMsgObj = HashMap<String, Any>().apply {
                             put("lastMsg", message.message!!)
                             put("lastMsgTime", date.time)
-                            sendNotification(senderUid, receiverUid,message.message!! )
+                            sendNotification(senderUid, receiverUid, message.message!!)
 
                         }
                         databaseReference.child("chats").child(senderRoom!!)
@@ -420,11 +462,52 @@ class ChatRoom : AppCompatActivity() {
                                     .child("message").child(randomKey)
                                     .setValue(message)
                             }
-                    }
+                    }.await()
+                    dialog?.dismiss()
                 }
+
             }
         }
     }
+
+    private suspend fun createImageUrl(ref: StorageReference, imgId: String, uri: Uri): String? {
+        return try {
+            val fileRef = ref.child(imgId)
+            fileRef.putFile(uri).await()
+            fileRef.downloadUrl.await().toString()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+
+    object DeleteFolders{
+        fun deleteChatFirebaseStorageImage(roomId: String,imgId:String) {
+            CoroutineScope(Dispatchers.IO).launch {
+                FirebaseStorage.getInstance().reference.child("chats").child(roomId)
+                    .child(imgId).delete().await()
+            }
+
+
+        }
+        fun deleteFolder(folderRef: StorageReference) {
+            folderRef.listAll()
+                .addOnSuccessListener { listResult ->
+                    for (item in listResult.items) {
+                        item.delete()
+                    }
+                    for (prefix in listResult.prefixes) {
+                        deleteFolder(prefix)
+                    }
+                }
+        }
+    }
+
+
+
+
+
 
     private fun sendNotification(
         suid: String?,
@@ -475,7 +558,7 @@ class ChatRoom : AppCompatActivity() {
         inputMethodManager?.showSoftInput(chatBinding.inputMsg, InputMethodManager.SHOW_IMPLICIT)
         chatBinding.txtQuotedMsg.text = message.message
         if(message.senderId!=firebaseUser!!.uid) {
-            chatBinding.quotedName.text = name
+            chatBinding.quotedName.text = chatBinding.name.text
         }
         else{
             chatBinding.quotedName.text = "You"

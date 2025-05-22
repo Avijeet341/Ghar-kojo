@@ -6,12 +6,12 @@ class Message
     var message:String? = null
     var isImage:Boolean = false
     var senderId:String? = null
-    var imageUrl:String? = null
-    var img_id:String? = null
+    var imageUrl: MutableMap<String, String>? = null
     var repliedMsg:String?=null
     var repliedMsgPosition:Int?=null
     var replyToId:String? = null
     var timeStamp:Long= 0
+
     constructor()
     constructor(message: String?,senderId:String?,timeStamp:Long)
     {
