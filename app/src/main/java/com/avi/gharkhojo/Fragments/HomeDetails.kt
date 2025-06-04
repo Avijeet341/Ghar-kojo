@@ -253,8 +253,6 @@ class HomeDetails : Fragment() {
     private fun openChatRoom() {
         if (post?.userId != FirebaseAuth.getInstance().currentUser?.uid) {
             val intent = Intent(context, ChatRoom::class.java)
-            intent.putExtra(ChatRoom.IMG_ARG, post?.ownerImage)
-            intent.putExtra(ChatRoom.NAME_ARG, post?.ownerName)
             intent.putExtra(ChatRoom.UID_ARG, post?.userId)
             context?.startActivity(intent)
         } else {

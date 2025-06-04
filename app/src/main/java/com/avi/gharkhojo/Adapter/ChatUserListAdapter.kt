@@ -71,8 +71,6 @@ class ChatUserListAdapter(private val chatUsers: List<ChatUserListModel>,private
 
 
                     var intent: Intent = Intent(context, ChatRoom::class.java)
-                    intent.putExtra(ChatRoom.IMG_ARG,chatUser.userimage)
-                    intent.putExtra(ChatRoom.NAME_ARG,chatUser.username)
                     intent.putExtra(ChatRoom.UID_ARG,chatUser.userId)
 
                     context.startActivity(intent)

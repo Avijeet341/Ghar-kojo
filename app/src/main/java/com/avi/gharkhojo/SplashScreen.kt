@@ -133,8 +133,6 @@ class SplashScreen : AppCompatActivity() {
 
 
                 val intent = Intent(this, ChatRoom::class.java)
-                intent.putExtra(ChatRoom.IMG_ARG, intent.getStringExtra(ChatRoom.IMG_ARG))
-                intent.putExtra(ChatRoom.NAME_ARG, intent.getStringExtra(ChatRoom.NAME_ARG))
                 intent.putExtra(ChatRoom.UID_ARG, intent.getStringExtra(ChatRoom.UID_ARG))
                 startActivity(intent)
                 finish()

@@ -59,8 +59,6 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
                 Intent(this, SplashScreen::class.java)
             }).apply {
                     putExtra(ChatRoom.UID_ARG, uid)
-                    putExtra(ChatRoom.NAME_ARG, name)
-                    putExtra(ChatRoom.IMG_ARG, img)
                     putExtra(NotificationConstant.MESSAGE_NOTIFICATION.value,true)
                     flags = if(isAppRunning){
                         Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP

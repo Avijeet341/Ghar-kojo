@@ -1,6 +1,7 @@
 package com.avi.gharkhojo.Fragments.OwnerFragments
 
 import android.R.attr.action
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.media3.common.util.Log
 import androidx.navigation.fragment.findNavController
+import com.avi.gharkhojo.Chat.ChatRoom
 import com.avi.gharkhojo.Fragments.HomeDirections
 import com.avi.gharkhojo.Fragments.Profile
 import com.avi.gharkhojo.Model.ChatUserListModel
@@ -242,6 +244,11 @@ class OwnerProfileFragment : Fragment() {
     }
 
     private fun setupButtons() {
+        binding.msgBtn.setOnClickListener {
+            startActivity(Intent(requireContext(), ChatRoom::class.java).also {
+                it.putExtra(ChatRoom.UID_ARG,otherId)
+            })
+        }
         binding.followBtn.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
                 binding.followBtn.isEnabled = false
@@ -284,10 +291,6 @@ class OwnerProfileFragment : Fragment() {
 
         }
 
-
-        binding.msgBtn.setOnClickListener {
-
-        }
         binding.posts.setOnClickListener {
             var bundle: Bundle = Bundle()
             bundle.putString("uid",otherId?:firebaseUser?.uid)

@@ -26,7 +26,10 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import jp.wasabeef.blurry.Blurry
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Runnable
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -110,30 +113,31 @@ class MessageAdapter(
             viewHolder.binding.senderTextMsg.visibility = View.VISIBLE
 
             if (message.isImage) {
-                viewHolder.binding.imgCounter.visibility = View.VISIBLE
-                viewHolder.binding.imgCounter.text = ""
-                viewHolder.binding.photos.visibility = View.VISIBLE
-                viewHolder.binding.mLinear.visibility = View.GONE
-                viewHolder.binding.senderTextMsg.visibility = View.GONE
-                var photoAdapter = PhotoAdapter(message.imageUrl?.values?.toList()?:listOf())
-                viewHolder.binding.photoViewPager.adapter = photoAdapter
-                viewHolder.binding.photoViewPager.setPageTransformer(AndroidUtils.getTransformation())
-                var handler: Handler = Handler(Looper.getMainLooper())
-                handler.post(autoSlider(viewHolder.binding.photoViewPager,message.imageUrl?.values?.toList()?:listOf(),handler))
-                viewHolder.binding.photoViewPager.registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
-                    override fun onPageSelected(pos: Int) {
-                        if(photoAdapter.itemCount == 1){
-                            viewHolder.binding.imgCounter.visibility = View.GONE
-                        }else{
-                            viewHolder.binding.imgCounter.text = "${pos+1}/${photoAdapter.itemCount}"
+                CoroutineScope(Dispatchers.Main).launch {
+                    viewHolder.binding.imgCounter.visibility = View.VISIBLE
+                    viewHolder.binding.imgCounter.text = ""
+                    viewHolder.binding.photos.visibility = View.VISIBLE
+                    viewHolder.binding.mLinear.visibility = View.GONE
+                    viewHolder.binding.senderTextMsg.visibility = View.GONE
+                    var photoAdapter = PhotoAdapter(message.imageUrl?.values?.toList()?:listOf())
+                    viewHolder.binding.photoViewPager.adapter = photoAdapter
+                    viewHolder.binding.photoViewPager.setPageTransformer(AndroidUtils.getTransformation())
+                    var handler: Handler = Handler(Looper.getMainLooper())
+                    handler.post(autoSlider(viewHolder.binding.photoViewPager,message.imageUrl?.values?.toList()?:listOf(),handler))
+                    viewHolder.binding.photoViewPager.registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
+                        override fun onPageSelected(pos: Int) {
+                            if(photoAdapter.itemCount == 1){
+                                viewHolder.binding.imgCounter.visibility = View.GONE
+                            }else{
+                                viewHolder.binding.imgCounter.text = "${pos+1}/${photoAdapter.itemCount}"
+                            }
                         }
-                    }
-                })
+                    })
 
-                viewHolder.binding.photos.setOnClickListener {
-                   showImageDialog(messages[position].imageUrl?.values?.toList()?:listOf(),viewHolder,position)
+                    viewHolder.binding.photos.setOnClickListener {
+                        showImageDialog(messages[position].imageUrl?.values?.toList()?:listOf(),viewHolder,position)
 
-                }
+                    } }
 
 
             }
@@ -334,31 +338,33 @@ class MessageAdapter(
             viewHolder.binding.receiverTxtMsg.visibility = View.VISIBLE
 
             if (message.isImage) {
-                viewHolder.binding.imgCounter.visibility = View.VISIBLE
-                viewHolder.binding.imgCounter.text = ""
-                viewHolder.binding.photos.visibility = View.VISIBLE
-                viewHolder.binding.mLinear.visibility = View.GONE
-                viewHolder.binding.receiverTxtMsg.visibility = View.GONE
+                CoroutineScope(Dispatchers.Main).launch{
+                    viewHolder.binding.imgCounter.visibility = View.VISIBLE
+                    viewHolder.binding.imgCounter.text = ""
+                    viewHolder.binding.photos.visibility = View.VISIBLE
+                    viewHolder.binding.mLinear.visibility = View.GONE
+                    viewHolder.binding.receiverTxtMsg.visibility = View.GONE
 
-                var photoAdapter = PhotoAdapter(message.imageUrl?.values?.toList()?:listOf())
-                viewHolder.binding.photoViewPager.adapter = photoAdapter
-                viewHolder.binding.photoViewPager.setPageTransformer(AndroidUtils.getTransformation())
-                var handler: Handler = Handler(Looper.getMainLooper())
-                handler.post(autoSlider(viewHolder.binding.photoViewPager,message.imageUrl?.values?.toList()?:listOf(),handler))
-                viewHolder.binding.photoViewPager.registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
-                    override fun onPageSelected(pos: Int) {
-                        if(photoAdapter.itemCount == 1){
-                            viewHolder.binding.imgCounter.visibility = View.GONE
-                        }else{
-                            viewHolder.binding.imgCounter.text = "${pos+1}/${photoAdapter.itemCount}"
+                    var photoAdapter = PhotoAdapter(message.imageUrl?.values?.toList()?:listOf())
+                    viewHolder.binding.photoViewPager.adapter = photoAdapter
+                    viewHolder.binding.photoViewPager.setPageTransformer(AndroidUtils.getTransformation())
+                    var handler: Handler = Handler(Looper.getMainLooper())
+                    handler.post(autoSlider(viewHolder.binding.photoViewPager,message.imageUrl?.values?.toList()?:listOf(),handler))
+                    viewHolder.binding.photoViewPager.registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
+                        override fun onPageSelected(pos: Int) {
+                            if(photoAdapter.itemCount == 1){
+                                viewHolder.binding.imgCounter.visibility = View.GONE
+                            }else{
+                                viewHolder.binding.imgCounter.text = "${pos+1}/${photoAdapter.itemCount}"
 
+                            }
                         }
+                    })
+
+                    viewHolder.binding.photos.setOnClickListener {
+                        showImageDialog(messages[position].imageUrl?.values?.toList()?:listOf(),viewHolder,position)
+
                     }
-                })
-
-                viewHolder.binding.photos.setOnClickListener {
-                    showImageDialog(messages[position].imageUrl?.values?.toList()?:listOf(),viewHolder,position)
-
                 }
 
             }
@@ -501,7 +507,7 @@ class MessageAdapter(
                     rootView.removeView(backdropView)
                     dialog.dismiss()
                 }else{
-                    chatRoom.finishAffinity()
+                    chatRoom.finish()
                 }
             }
 

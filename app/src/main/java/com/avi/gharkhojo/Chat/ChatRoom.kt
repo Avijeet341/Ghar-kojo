@@ -79,8 +79,6 @@ class ChatRoom : AppCompatActivity() {
     private lateinit var currentPhotoPath: String
 
     companion object {
-        var IMG_ARG = "image"
-        var NAME_ARG = "name"
         var UID_ARG = "uid"
     }
 
@@ -134,9 +132,7 @@ class ChatRoom : AppCompatActivity() {
         dialog!!.setCanceledOnTouchOutside(false)
 
         intent.extras?.let {
-            img = it.getString(IMG_ARG)
             receiverUid = it.getString(UID_ARG)
-            name = it.getString(NAME_ARG)
             senderUid = firebaseUser!!.uid
             senderRoom = senderUid + receiverUid
             receiverRoom = receiverUid + senderUid
@@ -152,10 +148,15 @@ class ChatRoom : AppCompatActivity() {
                     for(data in snapshot.children){
                         var user = data.getValue(ChatUserListModel::class.java)
                         if(user?.userId == receiverUid){
-                            Glide.with(this@ChatRoom).load(user?.userimage).placeholder(R.drawable.baseline_person_24)
-                                .error(R.drawable.baseline_person_24).into(chatBinding.profileImage)
+                            if (!this@ChatRoom.isDestroyed && !this@ChatRoom.isFinishing) {
+                                Glide.with(this@ChatRoom)
+                                    .load(user?.userimage)
+                                    .error(R.drawable.baseline_person_24)
+                                    .into(chatBinding.profileImage)
 
-                            chatBinding.name.text = user?.username
+                                chatBinding.name.text = user?.username
+                            }
+
                             break
                         }
 

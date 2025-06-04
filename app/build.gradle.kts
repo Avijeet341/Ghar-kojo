@@ -83,6 +83,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.3.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("com.google.firebase:firebase-messaging:24.1.1")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.9.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.9.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation("com.vanniktech:android-image-cropper:4.5.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
