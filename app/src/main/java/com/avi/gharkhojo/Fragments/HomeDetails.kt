@@ -36,9 +36,11 @@ import com.avi.gharkhojo.Chat.ChatRoom
 import com.avi.gharkhojo.Model.AndroidUtils
 import com.avi.gharkhojo.Model.ChatUserListModel
 import com.avi.gharkhojo.Model.Post
+import com.avi.gharkhojo.Model.UserData
 import com.avi.gharkhojo.R
 import com.avi.gharkhojo.databinding.FragmentHomeDetailsBinding
 import com.bumptech.glide.Glide
+import com.google.android.gms.common.wrappers.Wrappers.packageManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -131,9 +133,28 @@ class HomeDetails : Fragment() {
         setupViewPager()
         setupCopyButton()
         setupBookmarkButton()
+        setUpFeedBackButton()
         post = arguments?.getParcelable("post")!!
         loadData()
         return binding.root
+    }
+
+    private fun setUpFeedBackButton() {
+        feedbackButton.setOnClickListener {
+            if (post?.userId != FirebaseAuth.getInstance().currentUser?.uid) {
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.type = "message/rfc822"
+                intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(post?.email))
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback for your property.")
+                intent.putExtra(Intent.EXTRA_TEXT, "Hi, I am ${UserData.username} and I am interested in your property.")
+                try {
+                    startActivity(Intent.createChooser(intent, "Send email with..."))
+                } catch (ex: ActivityNotFoundException) {
+                    Toast.makeText(context, "No email app installed.", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -220,9 +241,6 @@ class HomeDetails : Fragment() {
             navigateToGoogleMaps(post?.latitude ?: 0.0, post?.longitude ?: 0.0)
         }
 
-        backButton.setOnClickListener {
-            onDestroyView()
-        }
 
         chatBtn.setOnClickListener {
             openChatRoom()
@@ -275,9 +293,7 @@ class HomeDetails : Fragment() {
     private fun Initialization() {
         // ToolBar
         bookMark = binding.bookMarkButton
-        shareButton = binding.shareButton
         chatBtn = binding.chatBtn
-        backButton = binding.backButton
 
         // ViewPager for Images
         viewPager = binding.viewPager
@@ -340,7 +356,7 @@ class HomeDetails : Fragment() {
     }
 
     private fun setupBookmarkButton() {
-        // Set the initial icon and state
+
         updateBookmarkState()
 
         // Handle bookmark button clicks
@@ -355,23 +371,22 @@ class HomeDetails : Fragment() {
     // Updates the bookmark button's appearance (icon and color) based on the current state
     private fun updateBookmarkState() {
         if (isBookmarked) {
-            // Set the bookmarked icon (filled bookmark)
+
             bookMark.setImageResource(R.drawable.ic_bookmark_filled)
         } else {
-            // Set the unbookmarked icon (outline or favorite)
+
             bookMark.setImageResource(R.drawable.ic_favorite)
         }
     }
 
-    // Animates the bookmark button with a bounce effect for a better user experience
     private fun animateBookmarkButton() {
         bookMark.animate()
-            .scaleX(1.2f) // Scale up slightly
+            .scaleX(1.2f)
             .scaleY(1.2f)
             .setDuration(150)
             .withEndAction {
                 bookMark.animate()
-                    .scaleX(1f) // Return to original size
+                    .scaleX(1f)
                     .scaleY(1f)
                     .setDuration(150)
                     .start()
@@ -379,14 +394,12 @@ class HomeDetails : Fragment() {
             .start()
     }
 
-    // Performs the database action for bookmarking/unbookmarking
     private fun handleBookmarkAction() {
         if (isBookmarked) {
-            // Save the post as bookmarked in the database
+            post?.post_InterestedTime = System.currentTimeMillis().toString()
             databaseReference?.child(post?.postTime ?: "")?.setValue(post)
             Toast.makeText(context, "Bookmarked", Toast.LENGTH_SHORT).show()
         } else {
-            // Remove the bookmark from the database
             databaseReference?.child(post?.postTime ?: "")?.removeValue()
             Toast.makeText(context, "Bookmark Removed", Toast.LENGTH_SHORT).show()
         }
@@ -396,18 +409,14 @@ class HomeDetails : Fragment() {
     fun isBookMarked() {
         databaseReference?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                // Check if the post exists in the database
                 val postExists = snapshot.child(post?.postTime.toString()).exists()
 
-                // Update the `isBookmarked` state based on the existence of the post
                 isBookmarked = postExists
 
-                // Update the UI (color and icon)
                 updateBookmarkState()
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Handle database errors (log or show a Toast to the user)
                 Toast.makeText(context, "Error fetching bookmark state: ${error.message}", Toast.LENGTH_SHORT).show()
             }
         })

@@ -12,6 +12,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.media3.common.util.Log
 import androidx.navigation.fragment.findNavController
 import com.avi.gharkhojo.Chat.ChatRoom
+import com.avi.gharkhojo.Fragments.Followers
 import com.avi.gharkhojo.Fragments.HomeDirections
 import com.avi.gharkhojo.Fragments.Profile
 import com.avi.gharkhojo.Model.ChatUserListModel
@@ -106,6 +107,7 @@ class OwnerProfileFragment : Fragment() {
                             } else {
                                 binding.followBtn.text = "Follow"
                             }
+                            setUpFollowersButton()
                         }
                     }
 
@@ -243,12 +245,30 @@ class OwnerProfileFragment : Fragment() {
         })
     }
 
+    fun setUpFollowersButton(){
+        val count = binding.followersCount.text.toString().trim().toInt()
+        if(count>0){
+            binding.followersCount.isClickable = true
+            binding.followersCount.isEnabled = true
+            binding.followersCount.setOnClickListener {
+                findNavController().navigate(R.id.action_ownerProfileFragment_to_followersFragment, Bundle().also {
+                    it.putString(Followers.UID, firebaseUser?.uid)
+                })
+                activity?.findViewById<ChipNavigationBar>(R.id.bottom_nav_bar_owner)?.visibility = View.GONE
+            }
+        }
+        else{
+            binding.followersCount.isClickable = false
+            binding.followersCount.isEnabled = false
+        }
+    }
     private fun setupButtons() {
         binding.msgBtn.setOnClickListener {
             startActivity(Intent(requireContext(), ChatRoom::class.java).also {
                 it.putExtra(ChatRoom.UID_ARG,otherId)
             })
         }
+
         binding.followBtn.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
                 binding.followBtn.isEnabled = false

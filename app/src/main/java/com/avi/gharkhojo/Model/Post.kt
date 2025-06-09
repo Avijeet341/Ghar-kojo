@@ -53,8 +53,11 @@ data class Post(
         "Hall" to ArrayList(),
         "Parking" to ArrayList(),
         "Extra" to ArrayList()
-    )
+    ),
+    var post_InterestedTime:String? = null
 ) : Parcelable {
+
+
 
     constructor(parcel: Parcel) : this(
         ownerName = parcel.readString(),
@@ -97,7 +100,8 @@ data class Post(
         road_lane = parcel.readString(),
         userId = parcel.readString(),
         noOfKitchen = parcel.readValue(Int::class.java.classLoader) as? Int,
-        imageList = readImageListFromParcel(parcel)
+        imageList = readImageListFromParcel(parcel),
+        post_InterestedTime = parcel.readString()
     )
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
@@ -142,6 +146,7 @@ data class Post(
         dest.writeString(userId)
         dest.writeValue(noOfKitchen)
         writeImageListToParcel(dest, imageList)
+        dest.writeString(post_InterestedTime)
     }
 
     override fun describeContents(): Int = 0
