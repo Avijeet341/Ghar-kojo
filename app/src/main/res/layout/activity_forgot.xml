@@ -9,24 +9,6 @@
     tools:context=".ForgotActivity">
 
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/shapeableImageskullView"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="10dp"
-        android:elevation="40dp"
-        android:padding="5dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/cry_women"
-        app:contentPaddingTop="230dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/foxbiro"
-        app:strokeColor="@color/white"
-        app:strokeWidth="4dp" />
-
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -36,9 +18,11 @@
         android:text="Don't Worry!"
         android:textColor="@color/white"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/shapeableImageskullView"
-        app:layout_constraintStart_toStartOf="@+id/shapeableImageskullView"
-        app:layout_constraintTop_toBottomOf="@+id/shapeableImageskullView" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.242" />
 
     <TextView
         android:id="@+id/textView2"

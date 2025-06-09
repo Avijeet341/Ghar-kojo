@@ -112,7 +112,7 @@ class OwnerProfileFragment : Fragment() {
                     }
 
                     override fun onCancelled(error: DatabaseError) {
-                        Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
                     }
 
                 })

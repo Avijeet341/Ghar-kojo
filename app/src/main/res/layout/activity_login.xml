@@ -16,22 +16,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/gradiant_list">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/shapeableImageView"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_marginTop="10dp"
-            android:elevation="40dp"
-            android:padding="5dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/fox3"
-            app:contentPaddingTop="40dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/foxbiro"
-            app:strokeColor="@color/white"
-            app:strokeWidth="4dp" />
 
         <TextView
             android:id="@+id/textView"
@@ -41,9 +25,12 @@
             android:text="Welcome Back"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/shapeableImageView"
-            app:layout_constraintStart_toStartOf="@+id/shapeableImageView"
-            app:layout_constraintTop_toBottomOf="@+id/shapeableImageView" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.199" />
 
         <TextView
             android:id="@+id/textView2"
