@@ -1,15 +1,33 @@
 package com.avi.gharkhojo.Fragments.OwnerFragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
+import androidx.media3.common.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avi.gharkhojo.Adapter.InterestedUsersAdapter
+import com.avi.gharkhojo.Chat.ChatRoom
+import com.avi.gharkhojo.Model.ChatUserListModel
 import com.avi.gharkhojo.Model.InterestedUser
+import com.avi.gharkhojo.Model.Post
+import com.avi.gharkhojo.Model.UserData
+import com.avi.gharkhojo.Model.UserDetails
 import com.avi.gharkhojo.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class InterestedFragment : Fragment(R.layout.fragment_interest) {
 
@@ -19,7 +37,12 @@ class InterestedFragment : Fragment(R.layout.fragment_interest) {
     private lateinit var emptyStateLayout: View
     private lateinit var backButton: ImageButton
 
-    private val interestedUsersAdapter = InterestedUsersAdapter()
+    private var firebaseDatabase: FirebaseDatabase? = FirebaseDatabase.getInstance()
+    private val interestedUsersAdapter = InterestedUsersAdapter{ user->
+        startActivity(Intent(context, ChatRoom::class.java).also {
+            it.putExtra(ChatRoom.UID_ARG,user.uid)
+        })
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,17 +56,11 @@ class InterestedFragment : Fragment(R.layout.fragment_interest) {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = interestedUsersAdapter
 
-        // Check if sample data is not empty
-        val sampleUsers = getSampleInterestedUsers()
-        if (sampleUsers.isEmpty()) {
-            showEmptyState()
-        } else {
-            interestedUsersAdapter.submitList(sampleUsers)
-            showRecyclerView()
-        }
+
+       getData()
+
 
         swipeRefreshLayout.setOnRefreshListener {
-            // Refresh data (Replace with real API call)
             swipeRefreshLayout.isRefreshing = false
         }
 
@@ -52,13 +69,76 @@ class InterestedFragment : Fragment(R.layout.fragment_interest) {
         }
     }
 
-    private fun getSampleInterestedUsers(): List<InterestedUser> {
-        // Sample data. Replace with real API data
-        return listOf(
-            InterestedUser("1", "John Doe", "9876543210", "john.doe@example.com", R.drawable.vibe, "2025-01-20"),
-            InterestedUser("2", "Jane Smith", "9876543211", "jane.smith@example.com", R.drawable.vibe, "2025-01-19")
-        )
+    private fun getData(){
+
+        firebaseDatabase!!.reference.child("BookMark")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        try {
+                            val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
+
+                            val userSnapshot = firebaseDatabase?.reference?.child("users")?.get()?.await()
+                            val userMap = mutableMapOf<String, ChatUserListModel>()
+                            userSnapshot?.children?.forEach { snap ->
+                                val user = snap.getValue(ChatUserListModel::class.java)
+                                user?.userId?.let { userMap[it] = user }
+                            }
+
+                            val newInterestUsersList = mutableListOf<InterestedUser>()
+
+                            if (snapshot.exists()) {
+                                for (userSnap in snapshot.children) {
+                                    val bookmarkedUserId = userSnap.key ?: continue
+                                    if (bookmarkedUserId == currentUserId) continue
+
+                                    for (postSnap in userSnap.children) {
+                                        val post = postSnap.getValue(Post::class.java) ?: continue
+
+                                        if (post.userId == currentUserId) {
+                                            val postTime = post.postTime ?: continue
+                                            val user = userMap[bookmarkedUserId] ?: continue
+
+                                            val interestedUser = InterestedUser(
+                                                postTime,
+                                                user.userId ?: "",
+                                                user.username ?: "Unknown",
+                                                user.userimage,
+                                                post.post_InterestedTime?:postSnap.key.toString(),
+                                                post.userId
+                                            )
+
+                                            newInterestUsersList.add(interestedUser)
+                                        }
+                                    }
+                                }
+                            }
+
+                            withContext(Dispatchers.Main) {
+
+                                if (newInterestUsersList.isEmpty()) {
+                                    showEmptyState()
+                                } else {
+                                    interestedUsersAdapter.updateList(newInterestUsersList)
+                                    showRecyclerView()
+                                }
+                            }
+                        } catch (e: Exception) {
+                            Log.e("BookmarkListener", "Exception: ${e.message}", e)
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("BookmarkListener", "Database error: ${error.message}")
+                }
+            })
+
+
+
+
     }
+
 
     private fun showRecyclerView() {
         recyclerView.visibility = View.VISIBLE
@@ -71,4 +151,5 @@ class InterestedFragment : Fragment(R.layout.fragment_interest) {
         emptyStateLayout.visibility = View.VISIBLE
         progressBar.visibility = View.GONE
     }
+
 }

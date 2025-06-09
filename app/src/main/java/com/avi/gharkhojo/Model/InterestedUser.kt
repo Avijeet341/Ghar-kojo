@@ -2,9 +2,9 @@ package com.avi.gharkhojo.Model
 
 data class InterestedUser(
     val id: String,
+    val uid: String,
     val name: String,
-    val phone: String,
-    val email: String,
-    val image: Int,
-    val interestedDate: String
+    val image: String?,
+    val interestedDate: String,
+    val post_uid: String?
 )

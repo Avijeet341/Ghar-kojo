@@ -39,6 +39,9 @@
         <action
             android:id="@+id/action_ownerProfileFragment_to_uploadsFragment"
             app:destination="@id/uploadsFragment" />
+        <action
+            android:id="@+id/action_ownerProfileFragment_to_followersFragment"
+            app:destination="@id/followersFragment" />
     </fragment>
 
     <fragment
@@ -70,4 +73,9 @@
         android:name="com.avi.gharkhojo.Fragments.OwnerFragments.OwnerDetailFragment"
         android:label="fragment_owner_detail"
         tools:layout="@layout/fragment_owner_detail" />
+    <fragment
+        android:id="@+id/followersFragment"
+        android:name="com.avi.gharkhojo.Fragments.Followers"
+        android:label="fragment_followers"
+        tools:layout="@layout/fragment_followers" />
 </navigation>
