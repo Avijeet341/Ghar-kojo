@@ -13,7 +13,7 @@ import java.sql.Time
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class InterestedUsersAdapter(val onMessageClick:(InterestedUser)->Unit) :
+class InterestedUsersAdapter(val onMessageClick:(InterestedUser)->Unit,val onClickListItem:(InterestedUser)->Unit) :
     ListAdapter<InterestedUser, InterestedUsersAdapter.InterestedUserViewHolder>(InterestedUserDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InterestedUserViewHolder {
@@ -27,6 +27,9 @@ class InterestedUsersAdapter(val onMessageClick:(InterestedUser)->Unit) :
         holder.bind(user)
         holder.binding.messageButton.setOnClickListener {
             onMessageClick(user)
+        }
+        holder.binding.profileInfo.setOnClickListener {
+            onClickListItem(user)
         }
     }
 

@@ -30,37 +30,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/edit_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/viewPager"
-            app:layout_constraintStart_toEndOf="@+id/yourPropertyTextView"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@android:color/transparent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:drawableTop="@drawable/edit_svgrepo_com"
-        android:drawableTint="@color/gold"
-        android:text=""
-        android:gravity="center"
-        android:padding="16dp"
-        />
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/viewPager"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@android:color/transparent"
-            app:layout_constraintEnd_toStartOf="@+id/yourPropertyTextView"
-            android:drawableTop="@drawable/ic_back_arrow"
-            android:drawableTint="@color/gold"
-            android:text=""
-            android:gravity="center"
-            android:padding="16dp"
-
-            />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"

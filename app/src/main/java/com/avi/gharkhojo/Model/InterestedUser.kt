@@ -6,5 +6,5 @@ data class InterestedUser(
     val name: String,
     val image: String?,
     val interestedDate: String,
-    val post_uid: String?
+    val post: Post?
 )

@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.media3.common.util.Log
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -38,11 +39,16 @@ class InterestedFragment : Fragment(R.layout.fragment_interest) {
     private lateinit var backButton: ImageButton
 
     private var firebaseDatabase: FirebaseDatabase? = FirebaseDatabase.getInstance()
-    private val interestedUsersAdapter = InterestedUsersAdapter{ user->
+    private val interestedUsersAdapter = InterestedUsersAdapter({ user->
         startActivity(Intent(context, ChatRoom::class.java).also {
             it.putExtra(ChatRoom.UID_ARG,user.uid)
         })
-    }
+    },{user->
+        findNavController().navigate(R.id.action_interestedFragment_to_ownerDetailFragment
+        , Bundle().also {
+            it.putParcelable("post",user.post)
+            })
+    })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -105,7 +111,7 @@ class InterestedFragment : Fragment(R.layout.fragment_interest) {
                                                 user.username ?: "Unknown",
                                                 user.userimage,
                                                 post.post_InterestedTime?:postSnap.key.toString(),
-                                                post.userId
+                                                post
                                             )
 
                                             newInterestUsersList.add(interestedUser)

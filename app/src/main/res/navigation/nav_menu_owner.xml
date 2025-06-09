@@ -18,7 +18,11 @@
         android:id="@+id/interestedFragment"
         android:name="com.avi.gharkhojo.Fragments.OwnerFragments.InterestedFragment"
         android:label="fragment_interest"
-        tools:layout="@layout/fragment_interest" />
+        tools:layout="@layout/fragment_interest" >
+        <action
+            android:id="@+id/action_interestedFragment_to_ownerDetailFragment"
+            app:destination="@id/ownerDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/uploadsFragment"

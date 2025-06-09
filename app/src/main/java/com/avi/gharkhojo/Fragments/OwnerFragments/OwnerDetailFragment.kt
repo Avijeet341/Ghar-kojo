@@ -115,11 +115,6 @@ class OwnerDetailFragment : Fragment() {
     }
 
     private fun setupData() {
-        if(post.userId!= FirebaseAuth.getInstance().uid){
-            binding.editBtn.visibility = View.GONE
-        }else{
-            binding.editBtn.visibility = View.VISIBLE
-        }
         price.text = post.rent
         bedroomNumber.text = post.noOfBedRoom.toString()
         bathroomNumber.text = post.noOfBathroom.toString()
@@ -128,7 +123,7 @@ class OwnerDetailFragment : Fragment() {
         balconyNumber.text = post.noOfBalcony.toString()
         areaNumber.text = "${post.builtUpArea}"
 
-        BHKNumber.text = "${(post.noOfBedRoom?.plus(post.noOfKitchen!!) ?: 0) + 1}"
+        BHKNumber.text = "${post.noOfBedRoom}"
         propertyType.text = post.propertyType
         houseNoText.text = post.houseNumber.toString()
         RoadLaneText.text = post.road_lane.toString()
